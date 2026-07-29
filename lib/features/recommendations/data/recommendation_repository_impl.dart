@@ -2,7 +2,6 @@ import '../../../core/errors/result.dart';
 import '../../../domain_engine/recommendation/recommendation_engine.dart';
 import '../../../shared/models/catalog_product.dart';
 import '../../../shared/models/furnishing_project.dart';
-import '../../../shared/models/room_analysis.dart';
 import '../../../shared/services/catalog_repository.dart';
 import '../domain/recommendation_repository.dart';
 
