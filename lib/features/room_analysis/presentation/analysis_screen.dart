@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../../core/constants/app_strings.dart';
+import '../../../core/constants/input_options.dart';
 import '../../../core/router/app_router.dart';
 import '../../../shared/models/models.dart';
 import '../../../shared/utils/formatters.dart';
+import '../../../shared/widgets/app_number_field.dart';
+import '../../../shared/widgets/multi_select_chips.dart';
 import '../../../shared/widgets/status_views.dart';
 import '../../room_input/presentation/flow_controller.dart';
 import '../../room_input/presentation/flow_state.dart';
@@ -25,14 +27,6 @@ class _AnalysisScreenState extends ConsumerState<AnalysisScreen> {
   final _budget = TextEditingController();
   final _styles = <String>{};
   final _essential = <String>{};
-
-  static const _itemOptions = {
-    'سرير': 'bed',
-    'كنب/كرسي': 'sofa',
-    'تخزين': 'storage',
-    'طاولة': 'table',
-  };
-  static const _styleOptions = {'مودرن': 'modern', 'مينمال': 'minimal', 'كلاسيك': 'classic'};
 
   @override
   void dispose() {
@@ -101,22 +95,33 @@ class _AnalysisScreenState extends ConsumerState<AnalysisScreen> {
         const SizedBox(height: 12),
         if (needDims)
           Row(children: [
-            Expanded(child: _num(_width, AppStrings.widthM)),
+            Expanded(
+                child: AppNumberField(controller: _width, label: AppStrings.widthM)),
             const SizedBox(width: 12),
-            Expanded(child: _num(_length, AppStrings.lengthM)),
+            Expanded(
+                child:
+                    AppNumberField(controller: _length, label: AppStrings.lengthM)),
           ]),
         if (needBudget) ...[
           const SizedBox(height: 12),
-          _num(_budget, AppStrings.budgetMax),
+          AppNumberField(controller: _budget, label: AppStrings.budgetMax),
         ],
         if (needItems) ...[
           const SizedBox(height: 12),
           const SectionHeader(AppStrings.essentialItems),
-          _chips(_itemOptions, _essential),
+          MultiSelectChips(
+            options: itemTypeOptions,
+            selected: _essential,
+            onToggle: (v, sel) => _toggle(_essential, v, sel),
+          ),
         ],
         const SizedBox(height: 12),
         const SectionHeader(AppStrings.preferredStyle),
-        _chips(_styleOptions, _styles),
+        MultiSelectChips(
+          options: styleOptions,
+          selected: _styles,
+          onToggle: (v, sel) => _toggle(_styles, v, sel),
+        ),
         const SizedBox(height: 24),
         FilledButton(
           onPressed: () => _continueWith(p),
@@ -240,22 +245,6 @@ class _AnalysisScreenState extends ConsumerState<AnalysisScreen> {
         ),
       );
 
-  Widget _num(TextEditingController c, String label) => TextField(
-        controller: c,
-        keyboardType: const TextInputType.numberWithOptions(decimal: true),
-        inputFormatters: [FilteringTextInputFormatter.allow(RegExp(r'[0-9.]'))],
-        decoration: InputDecoration(labelText: label),
-      );
-
-  Widget _chips(Map<String, String> options, Set<String> selected) => Wrap(
-        spacing: 8,
-        children: options.entries.map((e) {
-          return FilterChip(
-            label: Text(e.key),
-            selected: selected.contains(e.value),
-            onSelected: (v) => setState(
-                () => v ? selected.add(e.value) : selected.remove(e.value)),
-          );
-        }).toList(),
-      );
+  void _toggle(Set<String> set, String value, bool isSelected) =>
+      setState(() => isSelected ? set.add(value) : set.remove(value));
 }
