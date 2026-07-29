@@ -16,22 +16,26 @@ sealed class Failure extends Equatable {
 }
 
 class NetworkFailure extends Failure {
-  const NetworkFailure([super.message = 'تعذّر الاتصال بالشبكة.', {super.cause}]);
+  const NetworkFailure([String message = 'تعذّر الاتصال بالشبكة.', Object? cause])
+      : super(message, cause: cause);
 }
 
 class ValidationFailure extends Failure {
-  const ValidationFailure(super.message, {super.cause});
+  const ValidationFailure(String message, [Object? cause])
+      : super(message, cause: cause);
 }
 
 class AiParsingFailure extends Failure {
-  const AiParsingFailure(
-      [super.message = 'تعذّر فهم مخرجات التحليل.', {super.cause}]);
+  const AiParsingFailure([String message = 'تعذّر فهم مخرجات التحليل.', Object? cause])
+      : super(message, cause: cause);
 }
 
 class NotFoundFailure extends Failure {
-  const NotFoundFailure([super.message = 'العنصر غير موجود.', {super.cause}]);
+  const NotFoundFailure([String message = 'العنصر غير موجود.', Object? cause])
+      : super(message, cause: cause);
 }
 
 class UnknownFailure extends Failure {
-  const UnknownFailure([super.message = 'حدث خطأ غير متوقع.', {super.cause}]);
+  const UnknownFailure([String message = 'حدث خطأ غير متوقع.', Object? cause])
+      : super(message, cause: cause);
 }

@@ -61,8 +61,10 @@ class RecommendationEngine {
       items.map((e) => mapTypeToCategory(e.type)).toSet();
 
   bool _exceedsHardPriceLimit(CatalogProduct p, ScoringContext ctx) {
+    // استبعاد فوري لسعر غير منطقي للفئة (recommendation_engine.md).
+    // الهامش 2.5× يسمح ببقاء عناصر الباقة المميّزة مع قطع الأسعار الشاذّة.
     final ceiling = ctx.categoryCeilings[p.category];
-    if (ceiling != null && ceiling > 0) return p.price > ceiling * 1.6;
+    if (ceiling != null && ceiling > 0) return p.price > ceiling * 2.5;
     if (ctx.budget.hasBudget) return p.price > ctx.budget.maxTotal;
     return false;
   }
