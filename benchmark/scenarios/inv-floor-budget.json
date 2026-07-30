@@ -1,0 +1,51 @@
+{
+  "id": "inv-floor-budget",
+  "tier": "invariant",
+  "title": "ميزانية منخفضة لا تسمح بالقطع الغالية",
+  "source": "synthetic",
+  "input": {
+    "room": {
+      "width_m": 3,
+      "length_m": 3,
+      "room_type": "bedroom"
+    },
+    "budget": {
+      "currency": "SAR",
+      "max_total": 500,
+      "flexible": false
+    },
+    "style": {
+      "preferred": [
+        "minimal"
+      ]
+    },
+    "items": {
+      "essential": [
+        {
+          "type": "سرير"
+        }
+      ],
+      "optional": []
+    }
+  },
+  "expected_constraints": [
+    {
+      "type": "in_stock"
+    },
+    {
+      "type": "fits_room"
+    },
+    {
+      "type": "within_total_budget"
+    },
+    {
+      "type": "covers_category",
+      "category": "bed"
+    }
+  ],
+  "acceptance_criteria": {
+    "machine": [],
+    "human": [],
+    "pass_threshold": 1.0
+  }
+}

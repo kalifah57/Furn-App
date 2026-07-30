@@ -1,0 +1,45 @@
+{
+  "id": "inv-budget-below-floor",
+  "tier": "invariant",
+  "title": "ميزانية أقل من أرخص أساسي → لا توصيات واثقة",
+  "source": "synthetic",
+  "input": {
+    "room": {
+      "width_m": 3,
+      "length_m": 3,
+      "room_type": "bedroom"
+    },
+    "budget": {
+      "currency": "SAR",
+      "max_total": 200,
+      "flexible": false
+    },
+    "style": {
+      "preferred": []
+    },
+    "items": {
+      "essential": [
+        {
+          "type": "سرير"
+        },
+        {
+          "type": "كنب"
+        },
+        {
+          "type": "دولاب"
+        }
+      ],
+      "optional": []
+    }
+  },
+  "expected_constraints": [
+    {
+      "type": "no_recommendations"
+    }
+  ],
+  "acceptance_criteria": {
+    "machine": [],
+    "human": [],
+    "pass_threshold": 1.0
+  }
+}

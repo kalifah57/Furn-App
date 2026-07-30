@@ -1,0 +1,69 @@
+{
+  "id": "inv-coverage-majlis",
+  "tier": "invariant",
+  "title": "تغطية الفئات في مجلس ضيوف",
+  "source": "synthetic",
+  "input": {
+    "room": {
+      "width_m": 4,
+      "length_m": 5,
+      "room_type": "guest_room"
+    },
+    "budget": {
+      "currency": "SAR",
+      "max_total": 3500,
+      "flexible": false
+    },
+    "style": {
+      "preferred": [
+        "classic"
+      ],
+      "colors": [
+        "gold",
+        "beige"
+      ]
+    },
+    "items": {
+      "essential": [
+        {
+          "type": "كنب"
+        },
+        {
+          "type": "سجادة"
+        },
+        {
+          "type": "إضاءة"
+        }
+      ],
+      "optional": []
+    }
+  },
+  "expected_constraints": [
+    {
+      "type": "in_stock"
+    },
+    {
+      "type": "fits_room"
+    },
+    {
+      "type": "within_total_budget"
+    },
+    {
+      "type": "covers_category",
+      "category": "sofa"
+    },
+    {
+      "type": "covers_category",
+      "category": "rug"
+    },
+    {
+      "type": "covers_category",
+      "category": "lamp"
+    }
+  ],
+  "acceptance_criteria": {
+    "machine": [],
+    "human": [],
+    "pass_threshold": 1.0
+  }
+}

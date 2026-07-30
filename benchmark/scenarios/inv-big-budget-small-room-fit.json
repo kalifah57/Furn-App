@@ -1,0 +1,58 @@
+{
+  "id": "inv-big-budget-small-room-fit",
+  "tier": "invariant",
+  "title": "ميزانية كبيرة لا تكسر قيد المساحة",
+  "source": "synthetic",
+  "input": {
+    "room": {
+      "width_m": 2.5,
+      "length_m": 3,
+      "room_type": "bedroom"
+    },
+    "budget": {
+      "currency": "SAR",
+      "max_total": 8000,
+      "flexible": true
+    },
+    "style": {
+      "preferred": [
+        "classic"
+      ]
+    },
+    "items": {
+      "essential": [
+        {
+          "type": "سرير"
+        },
+        {
+          "type": "دولاب"
+        }
+      ],
+      "optional": []
+    }
+  },
+  "expected_constraints": [
+    {
+      "type": "in_stock"
+    },
+    {
+      "type": "fits_room"
+    },
+    {
+      "type": "within_total_budget"
+    },
+    {
+      "type": "covers_category",
+      "category": "bed"
+    },
+    {
+      "type": "covers_category",
+      "category": "storage"
+    }
+  ],
+  "acceptance_criteria": {
+    "machine": [],
+    "human": [],
+    "pass_threshold": 1.0
+  }
+}

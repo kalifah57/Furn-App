@@ -1,0 +1,55 @@
+{
+  "id": "inv-oversized-sofa-small-room",
+  "tier": "invariant",
+  "title": "كنب الزاوية لا يدخل غرفة صغيرة",
+  "source": "synthetic",
+  "input": {
+    "room": {
+      "width_m": 3,
+      "length_m": 3,
+      "room_type": "living_room"
+    },
+    "budget": {
+      "currency": "SAR",
+      "max_total": 3000,
+      "flexible": false
+    },
+    "style": {
+      "preferred": [
+        "modern"
+      ]
+    },
+    "items": {
+      "essential": [
+        {
+          "type": "كنب"
+        }
+      ],
+      "optional": []
+    }
+  },
+  "expected_constraints": [
+    {
+      "type": "in_stock"
+    },
+    {
+      "type": "fits_room"
+    },
+    {
+      "type": "within_total_budget"
+    },
+    {
+      "type": "covers_category",
+      "category": "sofa"
+    },
+    {
+      "type": "excludes_product",
+      "product_id": "sofa_corner_l"
+    }
+  ],
+  "acceptance_criteria": {
+    "machine": [],
+    "human": [],
+    "pass_threshold": 1.0
+  }
+}
