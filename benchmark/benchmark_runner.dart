@@ -38,7 +38,8 @@ void main() {
 
   var invPass = 0, invTotal = 0;
   final invFailing = <String>[];
-  final canonicalScores = <double>[];
+  final devScores = <double>[];
+  final testScores = <double>[];
 
   for (final s in scenarios) {
     final id = '${s['id']}';
@@ -57,8 +58,11 @@ void main() {
     } else {
       final review = reviews[id];
       final score = _caseScore(ev, review);
-      if (score != null) canonicalScores.add(score);
-      out.writeln('- `$id` (canonical) — hard ${ev.hardPass ? 'pass' : 'FAIL'} · '
+      if (score != null) {
+        ('${s['split']}' == 'test' ? testScores : devScores).add(score);
+      }
+      out.writeln('- `$id` (canonical · ${s['split'] ?? 'dev'}) — '
+          'hard ${ev.hardPass ? 'pass' : 'FAIL'} · '
           'machine ${(ev.machineMet * 100).round()}% · '
           '${review == null ? 'expert: pending' : 'stars ${review.stars}'} · '
           'score ${score == null ? 'pending' : score.toStringAsFixed(2)}');
@@ -68,26 +72,27 @@ void main() {
     }
   }
 
-  final benchScore = canonicalScores.isEmpty
-      ? null
-      : canonicalScores.reduce((a, b) => a + b) / canonicalScores.length;
+  final devScore = _mean(devScores);
+  final testScore = _mean(testScores);
 
   out
     ..writeln()
     ..writeln('## Summary')
     ..writeln('- Invariants: $invPass/$invTotal pass'
         '${invFailing.isEmpty ? '' : ' — FAILING: ${invFailing.join(', ')}'}')
-    ..writeln('- Canonical benchmark_score: '
-        '${benchScore == null ? 'no scored cases yet' : benchScore.toStringAsFixed(3)}'
-        ' (${canonicalScores.length} scored)');
+    ..writeln('- Dev benchmark_score (tune here): '
+        '${devScore == null ? 'no scored cases yet' : devScore.toStringAsFixed(3)}'
+        ' (${devScores.length} scored)')
+    ..writeln('- **Test benchmark_score (held-out, the gate): '
+        '${testScore == null ? 'no scored cases yet' : testScore.toStringAsFixed(3)}'
+        ' (${testScores.length} scored)**');
 
   final report = out.toString();
   stdout.write(report);
   Directory('$root/reports').createSync(recursive: true);
   File('$root/reports/benchmark_report.md').writeAsStringSync(report);
   stderr.writeln('\n[benchmark] invariants $invPass/$invTotal'
-      '${benchScore == null ? '' : ' · benchmark_score '
-          '${benchScore.toStringAsFixed(3)}'}');
+      '${testScore == null ? '' : ' · test_score ${testScore.toStringAsFixed(3)}'}');
   if (invFailing.isNotEmpty) exitCode = 1;
 }
 
@@ -189,6 +194,9 @@ class _Review {
   final double stars;
   final double humanMet;
 }
+
+double? _mean(List<double> xs) =>
+    xs.isEmpty ? null : xs.reduce((a, b) => a + b) / xs.length;
 
 List<CatalogProduct> _loadCatalog(String p) =>
     (jsonDecode(File(p).readAsStringSync()) as List)

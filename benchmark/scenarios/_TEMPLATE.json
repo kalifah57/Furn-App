@@ -1,6 +1,7 @@
 {
   "id": "cNNN-short-slug",
   "tier": "canonical",
+  "split": "dev",
   "title": "one-line summary of the real case",
   "source": "reddit:<permalink> | quora:<url> | interview:<id>",
   "raw_quote": "الصق كلام المستخدم الحقيقي حرفيًا هنا",

@@ -19,6 +19,7 @@ Every case carries the **four layers**:
 {
   "id": "c001-majlis-5000",
   "tier": "canonical",                 // "invariant" (objective) | "canonical" (real + expert)
+  "split": "dev",                      // canonical only: "dev" (tune here) | "test" (held-out gate); ~70/30, frozen
   "title": "one-line summary",
   "source": "reddit:<permalink> | quora:<url> | interview:<id> | synthetic",
   "raw_quote": "the person's ACTUAL words (verbatim, Arabic)",
