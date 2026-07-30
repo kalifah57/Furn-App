@@ -1,6 +1,6 @@
 # Implementation roadmap — from unverified foundation to public beta
 
-- **Status:** Proposed roadmap (v1) — pending approval
+- **Status:** Approved roadmap (v1)
 - **Date:** 2026-07-30
 - **Scope:** The full execution plan: week‑by‑week (Months 1–3), month‑by‑month (Months 4–9), milestones, dependencies, risks, deliverables, and **stop conditions**. Turns the 20 approved design docs into a sequenced build.
 - **Related:** every design doc, but especially `adr/0001-mvp-architecture-decisions.md`, `flutter_app.md`, `backend_architecture.md`, `catalog_data_sources.md`, `ai_layer.md`, `measurement_engine.md`, `furnishing_project_model.md`.
