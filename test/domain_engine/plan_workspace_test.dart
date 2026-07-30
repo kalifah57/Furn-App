@@ -88,4 +88,23 @@ void main() {
     final d = PlanWorkspace.diff(before, after);
     expect(d.deltaTotal, isNot(0));
   });
+
+  test('snapshot + restore reproduces a saved plan (revert)', () {
+    final w = ws();
+    w.pin('bed_b');
+    final saved = w.snapshot();
+    final savedPlan = w.build();
+
+    // drift away from the saved state
+    w.unpin('bed_b');
+    w.reject('bed_b');
+    w.setBudget(9000);
+
+    // revert
+    w.restore(saved);
+    final restored = w.build();
+
+    expect(restored.total, savedPlan.total);
+    expect(restored.items.any((i) => i.item.productId == 'bed_b'), isTrue);
+  });
 }

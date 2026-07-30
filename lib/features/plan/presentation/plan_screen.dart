@@ -68,6 +68,8 @@ class _PlanViewState extends State<_PlanView> {
             padding: const EdgeInsets.fromLTRB(16, 16, 16, 8),
             children: [
               _confidenceCard(context, plan),
+              const SizedBox(height: 8),
+              _versionsBar(context),
               const SizedBox(height: 12),
               _assurances(context, plan.assurances),
               _changeBanner(context),
@@ -143,6 +145,11 @@ class _PlanViewState extends State<_PlanView> {
                 ],
               ),
             ),
+            IconButton(
+              icon: const Icon(Icons.info_outline),
+              tooltip: 'من أين تأتي الجاهزية؟',
+              onPressed: () => _openConfidenceBreakdown(context, plan),
+            ),
           ],
         ),
       ),
@@ -159,31 +166,39 @@ class _PlanViewState extends State<_PlanView> {
       spacing: 8,
       runSpacing: 8,
       children: [
-        _badge(context, a.essentialsComplete, 'مكتملة'),
-        _badge(context, a.withinBudget, 'ضمن الميزانية'),
-        _badge(context, a.fitsRoom, 'تناسب الغرفة'),
-        _badge(context, a.allAvailable, 'متوفّرة'),
+        _badge(context, a.essentialsComplete, 'مكتملة',
+            'كل القطع الأساسية التي طلبتها موجودة في خطتك.'),
+        _badge(context, a.withinBudget, 'ضمن الميزانية',
+            'إجمالي الخطة ضمن الميزانية التي حدّدتها.'),
+        _badge(context, a.fitsRoom, 'تناسب الغرفة',
+            'كل قطعة تدخل فعليًا في أبعاد غرفتك.'),
+        _badge(context, a.allAvailable, 'متوفّرة',
+            'كل القطع متوفّرة للشراء الآن.'),
       ],
     );
   }
 
-  Widget _badge(BuildContext context, bool ok, String label) {
+  Widget _badge(BuildContext context, bool ok, String label, String explain) {
     final color = ok ? Colors.green : Colors.orange;
-    return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
-      decoration: BoxDecoration(
-        color: color.withOpacity(0.12),
-        borderRadius: BorderRadius.circular(999),
-        border: Border.all(color: color.withOpacity(0.5)),
+    return GestureDetector(
+      onTap: () => ScaffoldMessenger.of(context)
+          .showSnackBar(SnackBar(content: Text(explain))),
+      child: Container(
+        padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
+        decoration: BoxDecoration(
+          color: color.withOpacity(0.12),
+          borderRadius: BorderRadius.circular(999),
+          border: Border.all(color: color.withOpacity(0.5)),
+        ),
+        child: Row(mainAxisSize: MainAxisSize.min, children: [
+          Icon(ok ? Icons.check_circle : Icons.error_outline,
+              size: 16, color: color),
+          const SizedBox(width: 6),
+          Text(label,
+              style: TextStyle(
+                  color: color, fontWeight: FontWeight.w600, fontSize: 13)),
+        ]),
       ),
-      child: Row(mainAxisSize: MainAxisSize.min, children: [
-        Icon(ok ? Icons.check_circle : Icons.error_outline,
-            size: 16, color: color),
-        const SizedBox(width: 6),
-        Text(label,
-            style: TextStyle(
-                color: color, fontWeight: FontWeight.w600, fontSize: 13)),
-      ]),
     );
   }
 
@@ -486,6 +501,167 @@ class _PlanViewState extends State<_PlanView> {
               onPressed: () => Navigator.of(dialogContext).pop(),
               child: const Text('تم')),
         ],
+      ),
+    );
+  }
+
+  // ---- versions: save · compare · revert (build-sequence step 9) ----------
+
+  Widget _versionsBar(BuildContext context) {
+    return Row(children: [
+      OutlinedButton.icon(
+        onPressed: () {
+          c.saveSnapshot();
+          ScaffoldMessenger.of(context).showSnackBar(
+              const SnackBar(content: Text('حُفظت نسخة من خطتك')));
+        },
+        icon: const Icon(Icons.save_outlined, size: 18),
+        label: const Text('احفظ نسخة'),
+      ),
+      const SizedBox(width: 8),
+      OutlinedButton.icon(
+        onPressed: c.snapshots.isEmpty ? null : () => _openVersions(context),
+        icon: const Icon(Icons.history, size: 18),
+        label: Text('النسخ (${c.snapshots.length})'),
+      ),
+    ]);
+  }
+
+  void _openVersions(BuildContext context) {
+    showModalBottomSheet<void>(
+      context: context,
+      builder: (sheetContext) => SafeArea(
+        child: ListView(
+          shrinkWrap: true,
+          padding: const EdgeInsets.all(16),
+          children: [
+            Text('النسخ المحفوظة',
+                style: Theme.of(sheetContext)
+                    .textTheme
+                    .titleMedium
+                    ?.copyWith(fontWeight: FontWeight.bold)),
+            const SizedBox(height: 8),
+            for (var i = 0; i < c.snapshots.length; i++)
+              _versionTile(sheetContext, i, c.snapshots[i]),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _versionTile(BuildContext sheetContext, int i, Plan snap) {
+    final theme = Theme.of(sheetContext);
+    return Card(
+      child: Padding(
+        padding: const EdgeInsets.all(12),
+        child: Row(children: [
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text('نسخة ${i + 1}',
+                    style: theme.textTheme.titleSmall
+                        ?.copyWith(fontWeight: FontWeight.bold)),
+                Text(
+                    '${snap.itemCount} قطع · ${formatSar(snap.total)} · جاهزية ${snap.confidence}%',
+                    style: theme.textTheme.bodySmall),
+              ],
+            ),
+          ),
+          TextButton(
+            onPressed: () {
+              final d = c.compareWith(i);
+              Navigator.of(sheetContext).pop();
+              _showCompare(i, d);
+            },
+            child: const Text('قارن'),
+          ),
+          FilledButton.tonal(
+            onPressed: () {
+              c.revertTo(i);
+              Navigator.of(sheetContext).pop();
+            },
+            child: const Text('استرجع'),
+          ),
+        ]),
+      ),
+    );
+  }
+
+  void _showCompare(int i, PlanDiff d) {
+    final msg = _changeMessage(d) ?? 'لا فرق عن هذه النسخة.';
+    showDialog<void>(
+      context: context,
+      builder: (dialogContext) => AlertDialog(
+        title: Text('مقارنة بالنسخة ${i + 1}'),
+        content: Text(msg),
+        actions: [
+          TextButton(
+              onPressed: () => Navigator.of(dialogContext).pop(),
+              child: const Text('تم')),
+        ],
+      ),
+    );
+  }
+
+  void _openConfidenceBreakdown(BuildContext context, Plan plan) {
+    final a = plan.assurances;
+    final rows = <(String, int, bool)>[
+      ('اكتمال الأساسيات', 40, a.essentialsComplete),
+      ('ضمن الميزانية', 25, a.withinBudget),
+      ('تناسب الغرفة', 20, a.fitsRoom),
+      ('توفّر القطع', 10, a.allAvailable),
+      ('اختياراتك المثبّتة', 5, plan.pinnedCount > 0),
+    ];
+    showModalBottomSheet<void>(
+      context: context,
+      builder: (sheetContext) => SafeArea(
+        child: Padding(
+          padding: const EdgeInsets.all(16),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text('من أين تأتي جاهزيتك؟',
+                  style: Theme.of(sheetContext)
+                      .textTheme
+                      .titleMedium
+                      ?.copyWith(fontWeight: FontWeight.bold)),
+              const SizedBox(height: 12),
+              for (final r in rows)
+                Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 6),
+                  child: Row(children: [
+                    Icon(
+                        r.$3
+                            ? Icons.check_circle
+                            : Icons.radio_button_unchecked,
+                        size: 20,
+                        color: r.$3
+                            ? Colors.green
+                            : Theme.of(sheetContext).colorScheme.outline),
+                    const SizedBox(width: 10),
+                    Expanded(child: Text(r.$1)),
+                    Text('${r.$3 ? r.$2 : 0} / ${r.$2}',
+                        style: TextStyle(
+                            color: r.$3
+                                ? Colors.green
+                                : Theme.of(sheetContext).colorScheme.outline,
+                            fontWeight: FontWeight.w600)),
+                  ]),
+                ),
+              const Divider(height: 24),
+              Row(children: [
+                const Expanded(
+                    child: Text('الإجمالي',
+                        style: TextStyle(fontWeight: FontWeight.bold))),
+                Text('${plan.confidence}%',
+                    style: const TextStyle(
+                        fontWeight: FontWeight.bold, fontSize: 18)),
+              ]),
+            ],
+          ),
+        ),
       ),
     );
   }

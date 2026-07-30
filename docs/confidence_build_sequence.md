@@ -51,7 +51,7 @@
 ## 9 — Compare versions + revert
 **Answer:** People explore boldly only when they can't break anything — and bold exploration forms conviction.
 **Apply:** "Snapshot `Plan` on each finalize/save; add a Compare view using `PlanWorkspace.diff`; allow revert to a snapshot."
-**Status:** ✅ `diff` · ⏳ snapshot history + compare/revert UI.
+**Status:** ✅ done — `WorkspaceState` snapshot/restore + save/compare/revert UI.
 
 ## 10 — Confidence signal + Finalize + share
 **Answer:** A real (never fake) signal that rises with true progress, then a moment of arrival — and family buy-in turns social risk into social proof.

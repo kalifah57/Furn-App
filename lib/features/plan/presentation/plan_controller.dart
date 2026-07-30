@@ -44,7 +44,30 @@ class PlanController extends ChangeNotifier {
   late Plan plan;
   PlanDiff? lastChange;
 
+  final List<Plan> _snapshots = [];
+  final List<WorkspaceState> _states = [];
+
   FurnishingProject get project => _ws.project;
+
+  /// Saved versions, newest last (for compare + revert).
+  List<Plan> get snapshots => List.unmodifiable(_snapshots);
+
+  void saveSnapshot() {
+    _snapshots.add(plan);
+    _states.add(_ws.snapshot());
+    notifyListeners();
+  }
+
+  void revertTo(int index) {
+    if (index < 0 || index >= _states.length) return;
+    _ws.restore(_states[index]);
+    plan = _ws.build();
+    lastChange = null;
+    notifyListeners();
+  }
+
+  /// How the current plan differs from a saved version.
+  PlanDiff compareWith(int index) => PlanWorkspace.diff(_snapshots[index], plan);
 
   void _apply(void Function() op) {
     final before = plan;

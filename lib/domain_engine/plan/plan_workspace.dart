@@ -52,6 +52,26 @@ class PlanWorkspace {
   void finalizePlan() => _finalized = true;
   void reopen() => _finalized = false;
 
+  /// Capture the full editable state — enough to reproduce this exact plan.
+  WorkspaceState snapshot() => WorkspaceState(
+        pinned: {..._pinned},
+        rejected: {..._rejected},
+        budgetMax: project.budget.maxTotal,
+        finalized: _finalized,
+      );
+
+  /// Restore a captured state (powers "revert to a saved version").
+  void restore(WorkspaceState s) {
+    _pinned
+      ..clear()
+      ..addAll(s.pinned);
+    _rejected
+      ..clear()
+      ..addAll(s.rejected);
+    setBudget(s.budgetMax);
+    _finalized = s.finalized;
+  }
+
   /// Alternatives the user can swap to in a category: available products of that
   /// category the user hasn't rejected, cheapest-first (transparent).
   List<CatalogProduct> alternativesFor(RecommendationCategory category) {
@@ -185,4 +205,19 @@ class PlanWorkspace {
     if (engaged) s += 5; // the user shaped it (ownership)
     return s > 100 ? 100 : s;
   }
+}
+
+/// A capture of everything the user has changed — enough to reproduce a Plan.
+class WorkspaceState {
+  const WorkspaceState({
+    required this.pinned,
+    required this.rejected,
+    required this.budgetMax,
+    required this.finalized,
+  });
+
+  final Set<String> pinned;
+  final Set<String> rejected;
+  final double budgetMax;
+  final bool finalized;
 }
