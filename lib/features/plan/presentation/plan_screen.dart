@@ -470,8 +470,12 @@ class _PlanViewState extends State<_PlanView> {
                   ),
                 ])
               : FilledButton.icon(
-                  onPressed:
-                      plan.items.isEmpty ? null : () => c.finalizePlan(),
+                  onPressed: plan.items.isEmpty
+                      ? null
+                      : () {
+                          c.finalizePlan();
+                          _openArrival();
+                        },
                   icon: const Icon(Icons.verified_outlined),
                   label: const Text('هذه هي خطتي — أنا مطمئن'),
                 ),
@@ -502,6 +506,56 @@ class _PlanViewState extends State<_PlanView> {
               child: const Text('تم')),
         ],
       ),
+    );
+  }
+
+  /// The arrival moment — the product's emotional payoff ("you've got this").
+  void _openArrival() {
+    final plan = c.plan;
+    showDialog<void>(
+      context: context,
+      builder: (dialogContext) {
+        final theme = Theme.of(dialogContext);
+        return AlertDialog(
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Container(
+                width: 72,
+                height: 72,
+                decoration: BoxDecoration(
+                    color: Colors.green.withOpacity(0.12),
+                    shape: BoxShape.circle),
+                child: const Icon(Icons.verified, color: Colors.green, size: 40),
+              ),
+              const SizedBox(height: 16),
+              Text('خطتك جاهزة — أنت مطمئن الآن',
+                  textAlign: TextAlign.center,
+                  style: theme.textTheme.titleLarge
+                      ?.copyWith(fontWeight: FontWeight.bold)),
+              const SizedBox(height: 8),
+              Text(
+                  'جاهزية ${plan.confidence}% · ${plan.itemCount} قطع · ${formatSar(plan.total)}',
+                  textAlign: TextAlign.center,
+                  style: theme.textTheme.bodyMedium
+                      ?.copyWith(color: theme.colorScheme.onSurfaceVariant)),
+            ],
+          ),
+          actions: [
+            TextButton(
+                onPressed: () => Navigator.of(dialogContext).pop(),
+                child: const Text('تم')),
+            FilledButton.icon(
+              onPressed: () {
+                Navigator.of(dialogContext).pop();
+                _openShare(plan);
+              },
+              icon: const Icon(Icons.ios_share),
+              label: const Text('شارك'),
+            ),
+          ],
+        );
+      },
     );
   }
 
