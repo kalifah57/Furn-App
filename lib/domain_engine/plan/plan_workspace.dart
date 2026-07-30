@@ -1,0 +1,188 @@
+import '../../shared/models/models.dart';
+import '../recommendation/category_mapper.dart';
+import '../recommendation/recommendation_engine.dart';
+import 'plan.dart';
+
+/// The confidence loop — pure Dart, no Flutter.
+///
+/// Wraps the deterministic [RecommendationEngine] as the **seed**, then lets the
+/// user shape a [Plan] they trust: pin what they love, reject what they don't,
+/// swap, and slide the budget — with the plan re-balancing and deriving its own
+/// assurances + confidence. This is the product; the recommendation is only its
+/// starting point.
+class PlanWorkspace {
+  PlanWorkspace({
+    required this.project,
+    required this.catalog,
+    RecommendationEngine engine = const RecommendationEngine(),
+  }) : _engine = engine;
+
+  FurnishingProject project;
+  final List<CatalogProduct> catalog;
+  final RecommendationEngine _engine;
+
+  final Set<String> _pinned = {}; // productIds the user locked
+  final Set<String> _rejected = {}; // productIds the user refused
+  bool _finalized = false;
+
+  // ---- user intent (the system owns the consequences) --------------------
+
+  void pin(String productId) {
+    _pinned.add(productId);
+    _rejected.remove(productId);
+  }
+
+  void unpin(String productId) => _pinned.remove(productId);
+
+  void reject(String productId) {
+    _rejected.add(productId);
+    _pinned.remove(productId);
+  }
+
+  /// Swap = refuse the current pick and lock the chosen alternative.
+  void swap({required String outProductId, required String inProductId}) {
+    reject(outProductId);
+    pin(inProductId);
+  }
+
+  void setBudget(double maxTotal) {
+    project = project.copyWith(budget: project.budget.copyWith(maxTotal: maxTotal));
+  }
+
+  void finalizePlan() => _finalized = true;
+  void reopen() => _finalized = false;
+
+  /// Alternatives the user can swap to in a category: available products of that
+  /// category the user hasn't rejected, cheapest-first (transparent).
+  List<CatalogProduct> alternativesFor(RecommendationCategory category) {
+    final list = _effectiveCatalog()
+        .where((p) => p.category == category && p.isAvailable)
+        .toList()
+      ..sort((a, b) => a.price.compareTo(b.price));
+    return list;
+  }
+
+  // ---- build the current plan --------------------------------------------
+
+  /// Re-derives the plan: seed from the engine (minus rejects), enforce the
+  /// user's pins, then compute assurances + confidence.
+  Plan build() {
+    final byId = {for (final p in catalog) p.productId: p};
+    final recs = _engine.generate(project, _effectiveCatalog());
+
+    final items = <PlanItem>[];
+    final pinnedCats = <RecommendationCategory>{};
+    final seen = <String>{};
+
+    // 1) the user's locked choices come first and own their category.
+    for (final pid in _pinned) {
+      final p = byId[pid];
+      if (p == null) continue;
+      items.add(PlanItem(item: _fromProduct(p, pinned: true), status: PlanItemStatus.pinned));
+      pinnedCats.add(p.category);
+      seen.add(pid);
+    }
+    // 2) engine suggestions fill the rest, skipping any category a pin covers.
+    for (final ri in recs.individualItems) {
+      final pid = ri.productId;
+      if (pid != null && seen.contains(pid)) continue;
+      if (pinnedCats.contains(ri.category)) continue;
+      items.add(PlanItem(item: ri));
+      if (pid != null) seen.add(pid);
+    }
+
+    final total = items.fold<double>(0, (s, e) => s + e.item.price);
+    final covered = items.map((e) => e.item.category).toSet();
+    final missing = _missingEssentials(covered);
+    final assurances = _assurances(items, byId, total, missing);
+    final confidence = _confidence(assurances, _pinned.isNotEmpty);
+
+    return Plan(
+      items: items,
+      total: total,
+      assurances: assurances,
+      confidence: confidence,
+      missingCategories: missing,
+      isFinalized: _finalized,
+    );
+  }
+
+  /// The difference between two snapshots (for compare + "what changed").
+  static PlanDiff diff(Plan before, Plan after) {
+    final b = <String, RecommendedItem>{
+      for (final i in before.items) i.item.productId ?? i.item.name: i.item,
+    };
+    final a = <String, RecommendedItem>{
+      for (final i in after.items) i.item.productId ?? i.item.name: i.item,
+    };
+    final added = a.entries.where((e) => !b.containsKey(e.key)).map((e) => e.value).toList();
+    final removed = b.entries.where((e) => !a.containsKey(e.key)).map((e) => e.value).toList();
+    return PlanDiff(added: added, removed: removed, deltaTotal: after.total - before.total);
+  }
+
+  // ---- internals ----------------------------------------------------------
+
+  List<CatalogProduct> _effectiveCatalog() =>
+      catalog.where((p) => !_rejected.contains(p.productId)).toList();
+
+  RecommendedItem _fromProduct(CatalogProduct p, {required bool pinned}) => RecommendedItem(
+        name: p.title,
+        category: p.category,
+        price: p.price,
+        reason: pinned ? 'ثبّتها بنفسك — نحترم اختيارك' : 'خيار مقترح',
+        priority: ItemPriority.essential,
+        productId: p.productId,
+        score: 100,
+      );
+
+  List<RecommendationCategory> _missingEssentials(Set<RecommendationCategory> covered) {
+    final essentials =
+        project.items.essential.map((e) => mapTypeToCategory(e.type)).toSet();
+    return essentials.difference(covered).toList();
+  }
+
+  Assurances _assurances(
+    List<PlanItem> items,
+    Map<String, CatalogProduct> byId,
+    double total,
+    List<RecommendationCategory> missing,
+  ) {
+    final r = project.room;
+    var fits = true;
+    var available = true;
+
+    final canCheckFit = r.widthM > 0 && r.lengthM > 0;
+    final rw = r.widthM * 100, rl = r.lengthM * 100;
+    for (final it in items) {
+      final pid = it.item.productId;
+      final p = pid == null ? null : byId[pid];
+      if (p == null) continue;
+      if (!p.isAvailable) available = false;
+      if (canCheckFit) {
+        final ok = (p.widthCm <= rw && p.depthCm <= rl) ||
+            (p.depthCm <= rw && p.widthCm <= rl);
+        if (!ok) fits = false;
+      }
+    }
+
+    final within = !project.budget.hasBudget || total <= project.budget.maxTotal;
+    return Assurances(
+      fitsRoom: fits,
+      withinBudget: within,
+      allAvailable: available,
+      essentialsComplete: missing.isEmpty,
+    );
+  }
+
+  /// Transparent confidence — the sum of what is actually true about the plan,
+  /// plus a small nod to ownership. Never a fake 100%.
+  int _confidence(Assurances a, bool engaged) {
+    var s = 0;
+    if (a.essentialsComplete) s += 40; // nothing forgotten (the biggest driver)
+    if (a.withinBudget) s += 25; // no budget surprise
+    if (a.fitsRoom) s += 20; // it physically works
+    if (a.allAvailable) s += 10; // buyable
+    if (engaged) s += 5; // the user shaped it (ownership)
+    return s > 100 ? 100 : s;
+  }
+}
