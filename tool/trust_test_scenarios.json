@@ -1,0 +1,363 @@
+[
+  {
+    "id": "bd-modern-tight",
+    "title": "أول شقة — غرفة نوم صغيرة بميزانية محدودة",
+    "persona": "موظف شاب، أول سكن مستقل",
+    "expectation": "سرير مفرد/مزدوج ضمن السقف + دولاب صغير + مصباح، وباقة اقتصادية متوازنة تحت 1800 ريال.",
+    "project": {
+      "locale": "ar-SA",
+      "room": { "name": "غرفة النوم", "width_m": 3, "length_m": 3.5, "height_m": 2.8, "room_type": "bedroom" },
+      "budget": { "currency": "SAR", "max_total": 1800, "flexible": false },
+      "style": { "preferred": ["modern"], "colors": ["gray", "white"], "notes": "" },
+      "items": { "essential": [{ "type": "سرير" }, { "type": "دولاب" }], "optional": [{ "type": "مصباح" }] }
+    }
+  },
+  {
+    "id": "bd-tiny-verytight",
+    "title": "غرفة صغيرة جدًا وميزانية ضيّقة جدًا",
+    "persona": "طالبة جامعية في سكن",
+    "expectation": "السرير الأرخص (اقتصادي 320 أو مفرد 450) + كومودينو، مع تفضيل الأوفر لضيق الميزانية.",
+    "project": {
+      "room": { "name": "غرفة السكن", "width_m": 2.5, "length_m": 3, "height_m": 2.7, "room_type": "bedroom" },
+      "budget": { "currency": "SAR", "max_total": 900, "flexible": false },
+      "style": { "preferred": ["minimal"], "colors": ["white"] },
+      "items": { "essential": [{ "type": "سرير" }], "optional": [{ "type": "تخزين" }] }
+    }
+  },
+  {
+    "id": "bd-master-premium",
+    "title": "غرفة نوم رئيسية — عروسان بميزانية مريحة",
+    "persona": "زوجان جديدان",
+    "expectation": "سرير كوين فاخر + دولاب بابين + إضاءة + سجادة، وباقة مميّزة تستغل الميزانية.",
+    "project": {
+      "room": { "name": "غرفة النوم الرئيسية", "width_m": 4, "length_m": 5, "height_m": 3, "room_type": "bedroom" },
+      "budget": { "currency": "SAR", "max_total": 4000, "flexible": true },
+      "style": { "preferred": ["classic"], "colors": ["beige", "brown"] },
+      "items": { "essential": [{ "type": "سرير" }, { "type": "دولاب" }, { "type": "إضاءة" }], "optional": [{ "type": "سجادة" }] }
+    }
+  },
+  {
+    "id": "bd-nodim-moderate",
+    "title": "أبعاد الغرفة غير معروفة",
+    "persona": "مستخدم لا يعرف قياسات غرفته",
+    "expectation": "عند غياب الأبعاد تكون درجة الملاءمة المكانية محايدة؛ يعتمد الاختيار على الميزانية والنمط (سرير مزدوج + خزانة صغيرة).",
+    "project": {
+      "room": { "name": "غرفة النوم", "width_m": 0, "length_m": 0, "room_type": "bedroom" },
+      "budget": { "currency": "SAR", "max_total": 2000, "flexible": false },
+      "style": { "preferred": ["modern"] },
+      "items": { "essential": [{ "type": "سرير" }, { "type": "تخزين" }], "optional": [] }
+    }
+  },
+  {
+    "id": "bd-floor-lowbudget",
+    "title": "الميزانية أقل من سرير جيد",
+    "persona": "ميزانية 500 ريال لسرير",
+    "expectation": "يجب أن يظهر السرير الاقتصادي (320) أو المفرد (450) فقط؛ تُستبعَد الأسرّة الأغلى.",
+    "project": {
+      "room": { "width_m": 3, "length_m": 3, "room_type": "bedroom" },
+      "budget": { "currency": "SAR", "max_total": 500, "flexible": false },
+      "style": { "preferred": ["minimal"] },
+      "items": { "essential": [{ "type": "سرير" }], "optional": [] }
+    }
+  },
+  {
+    "id": "bd-color-pref",
+    "title": "تناسق الألوان مهم للمستخدم",
+    "persona": "مهتم بلون بيج/بني موحّد",
+    "expectation": "تُفضَّل القطع البيج/البني (سرير كوين بيج، كومودينو) مع بقاء الملاءمة والميزانية.",
+    "project": {
+      "room": { "width_m": 3.5, "length_m": 4, "room_type": "bedroom" },
+      "budget": { "currency": "SAR", "max_total": 2500, "flexible": false },
+      "style": { "preferred": ["modern"], "colors": ["beige", "brown"] },
+      "items": { "essential": [{ "type": "سرير" }, { "type": "تخزين" }], "optional": [] }
+    }
+  },
+  {
+    "id": "lv-modern-mid",
+    "title": "صالة عائلية متوسطة",
+    "persona": "أسرة صغيرة",
+    "expectation": "كنبة رمادية ثلاثية + طاولة قهوة + سجادة كبيرة عصرية + مصباح، وباقة متوازنة ضمن 3000.",
+    "project": {
+      "room": { "name": "الصالة", "width_m": 4, "length_m": 5, "room_type": "living_room" },
+      "budget": { "currency": "SAR", "max_total": 3000, "flexible": false },
+      "style": { "preferred": ["modern"], "colors": ["gray"] },
+      "items": { "essential": [{ "type": "كنب" }, { "type": "طاولة" }, { "type": "سجادة" }], "optional": [{ "type": "إضاءة" }] }
+    }
+  },
+  {
+    "id": "lv-small-tight",
+    "title": "صالة صغيرة بميزانية ضيّقة",
+    "persona": "شقة صغيرة",
+    "expectation": "كنب مقعدين أو كرسي مريح (520/290) لا الزاوية الكبيرة؛ يترك مجال حركة.",
+    "project": {
+      "room": { "width_m": 3, "length_m": 3.5, "room_type": "living_room" },
+      "budget": { "currency": "SAR", "max_total": 1500, "flexible": false },
+      "style": { "preferred": ["minimal"] },
+      "items": { "essential": [{ "type": "كنب" }], "optional": [] }
+    }
+  },
+  {
+    "id": "lv-large-premium",
+    "title": "فيلا — صالة كبيرة بميزانية عالية",
+    "persona": "منزل واسع",
+    "expectation": "كنب زاوية كبير (يدخل المساحة) + سجادة كبيرة + طاولة + مصباح، وباقة مميّزة.",
+    "project": {
+      "room": { "width_m": 5, "length_m": 6, "room_type": "living_room" },
+      "budget": { "currency": "SAR", "max_total": 6000, "flexible": true },
+      "style": { "preferred": ["modern"], "colors": ["blue"] },
+      "items": { "essential": [{ "type": "كنب" }, { "type": "سجادة" }, { "type": "طاولة" }, { "type": "إضاءة" }], "optional": [] }
+    }
+  },
+  {
+    "id": "lv-fit-stress",
+    "title": "يريد كنب زاوية لكن الصالة صغيرة",
+    "persona": "ذوق يفضّل الزاوية",
+    "expectation": "كنب الزاوية (260×160) لا يترك حركة كافية في 9 م²؛ يُفضَّل كنب أصغر — اختبار للملاءمة المكانية.",
+    "project": {
+      "room": { "width_m": 3, "length_m": 3, "room_type": "living_room" },
+      "budget": { "currency": "SAR", "max_total": 3000, "flexible": false },
+      "style": { "preferred": ["modern"] },
+      "items": { "essential": [{ "type": "كنب" }], "optional": [] }
+    }
+  },
+  {
+    "id": "lv-classic",
+    "title": "صالة بذوق كلاسيكي",
+    "persona": "يحب الطابع الكلاسيكي",
+    "expectation": "ثريا كلاسيكية + سجادة كلاسيكية حمراء/ذهبية + كنبة؛ مطابقة واضحة للنمط الكلاسيكي.",
+    "project": {
+      "room": { "width_m": 4, "length_m": 4.5, "room_type": "living_room" },
+      "budget": { "currency": "SAR", "max_total": 4000, "flexible": false },
+      "style": { "preferred": ["classic"], "colors": ["gold", "red"] },
+      "items": { "essential": [{ "type": "كنب" }, { "type": "إضاءة" }, { "type": "سجادة" }], "optional": [] }
+    }
+  },
+  {
+    "id": "lv-nostyle",
+    "title": "لا يعرف النمط المفضّل",
+    "persona": "غير محدّد الذوق",
+    "expectation": "بلا نمط محدّد يعتمد الاختيار على الملاءمة والميزانية — كنبة + طاولة قهوة.",
+    "project": {
+      "room": { "width_m": 4, "length_m": 4, "room_type": "living_room" },
+      "budget": { "currency": "SAR", "max_total": 2500, "flexible": false },
+      "style": { "preferred": [], "colors": [] },
+      "items": { "essential": [{ "type": "كنب" }, { "type": "طاولة" }], "optional": [] }
+    }
+  },
+  {
+    "id": "lv-availability",
+    "title": "يطلب طاولة طعام (غير متوفرة)",
+    "persona": "يريد طاولة للطعام",
+    "expectation": "طاولة الطعام غير متوفرة (out_of_stock) فتُستبعَد؛ يظهر بديل طاولة أو تنبيه — اختبار التوفّر.",
+    "project": {
+      "room": { "width_m": 4, "length_m": 5, "room_type": "living_room" },
+      "budget": { "currency": "SAR", "max_total": 3000, "flexible": false },
+      "style": { "preferred": ["classic"] },
+      "items": { "essential": [{ "type": "كنب" }, { "type": "طاولة" }], "optional": [] }
+    }
+  },
+  {
+    "id": "mj-classic",
+    "title": "مجلس ضيوف كلاسيكي",
+    "persona": "مجلس رجال تقليدي",
+    "expectation": "كنبة + سجادة كلاسيكية + ثريا؛ يناسب المجلس بطابع كلاسيكي.",
+    "project": {
+      "room": { "name": "المجلس", "width_m": 4, "length_m": 5, "room_type": "guest_room" },
+      "budget": { "currency": "SAR", "max_total": 3500, "flexible": false },
+      "style": { "preferred": ["classic"], "colors": ["gold", "beige"] },
+      "items": { "essential": [{ "type": "كنب" }, { "type": "سجادة" }, { "type": "إضاءة" }], "optional": [] }
+    }
+  },
+  {
+    "id": "mj-budget",
+    "title": "مجلس صغير بميزانية",
+    "persona": "مجلس صغير عملي",
+    "expectation": "كنب صغير + سجادة صغيرة بيج؛ ضمن 1200 ريال.",
+    "project": {
+      "room": { "width_m": 3, "length_m": 3, "room_type": "guest_room" },
+      "budget": { "currency": "SAR", "max_total": 1200, "flexible": false },
+      "style": { "preferred": ["modern"] },
+      "items": { "essential": [{ "type": "كنب" }, { "type": "سجادة" }], "optional": [] }
+    }
+  },
+  {
+    "id": "mj-mixed-style",
+    "title": "ذوق مختلط عصري/كلاسيكي",
+    "persona": "يجمع بين نمطين",
+    "expectation": "مزيج مقبول من القطع دون كسر أيّ نمط؛ يستفيد من الميزانية المرنة.",
+    "project": {
+      "room": { "width_m": 4, "length_m": 4.5, "room_type": "guest_room" },
+      "budget": { "currency": "SAR", "max_total": 5000, "flexible": true },
+      "style": { "preferred": ["modern", "classic"] },
+      "items": { "essential": [{ "type": "كنب" }, { "type": "سجادة" }, { "type": "طاولة" }, { "type": "إضاءة" }], "optional": [] }
+    }
+  },
+  {
+    "id": "st-studio",
+    "title": "استوديو متعدّد الأغراض",
+    "persona": "سكن استوديو",
+    "expectation": "كنبة + طاولة + خزانة صغيرة وفق توزيع الغرف العامة (other).",
+    "project": {
+      "room": { "width_m": 4, "length_m": 4, "room_type": "other" },
+      "budget": { "currency": "SAR", "max_total": 3000, "flexible": false },
+      "style": { "preferred": ["modern"] },
+      "items": { "essential": [{ "type": "كنب" }, { "type": "طاولة" }, { "type": "تخزين" }], "optional": [] }
+    }
+  },
+  {
+    "id": "ot-minimal",
+    "title": "غرفة إضافية بسيطة",
+    "persona": "غرفة متعدّدة الاستخدام",
+    "expectation": "خزانة صغيرة بيضاء + مصباح + سجادة صغيرة.",
+    "project": {
+      "room": { "width_m": 3.5, "length_m": 3.5, "room_type": "other" },
+      "budget": { "currency": "SAR", "max_total": 2000, "flexible": false },
+      "style": { "preferred": ["minimal"], "colors": ["white"] },
+      "items": { "essential": [{ "type": "تخزين" }, { "type": "إضاءة" }], "optional": [{ "type": "سجادة" }] }
+    }
+  },
+  {
+    "id": "lv-nobudget",
+    "title": "لم يحدّد ميزانية",
+    "persona": "لا يعرف كم يريد أن ينفق",
+    "expectation": "بلا ميزانية تكون درجة الميزانية محايدة؛ التوصية بالملاءمة والنمط دون تجاوز غير منطقي.",
+    "project": {
+      "room": { "width_m": 4, "length_m": 5, "room_type": "living_room" },
+      "budget": { "currency": "SAR", "max_total": 0, "flexible": false },
+      "style": { "preferred": ["modern"] },
+      "items": { "essential": [{ "type": "كنب" }, { "type": "طاولة" }], "optional": [] }
+    }
+  },
+  {
+    "id": "bd-huge-budget",
+    "title": "ميزانية مفتوحة",
+    "persona": "لا قيود على الميزانية",
+    "expectation": "أفضل القطع في كل فئة (كوين فاخر، دولاب بابين، إضاءة، سجادة، كرسي) وباقة مميّزة أعلى.",
+    "project": {
+      "room": { "width_m": 4, "length_m": 5, "room_type": "bedroom" },
+      "budget": { "currency": "SAR", "max_total": 10000, "flexible": true },
+      "style": { "preferred": ["classic"] },
+      "items": { "essential": [{ "type": "سرير" }, { "type": "دولاب" }, { "type": "إضاءة" }, { "type": "سجادة" }], "optional": [{ "type": "كرسي" }] }
+    }
+  },
+  {
+    "id": "lv-toosmall-corner",
+    "title": "غرفة صغيرة جدًا مع رغبة بكنب زاوية",
+    "persona": "حالة حدّية للمساحة",
+    "expectation": "كنب الزاوية لا يدخل؛ قد لا يترك أي كنب مساحة كافية → أصغر قطعة أو تنبيه «لا مطابقة كافية».",
+    "project": {
+      "room": { "width_m": 2, "length_m": 2.5, "room_type": "living_room" },
+      "budget": { "currency": "SAR", "max_total": 3000, "flexible": false },
+      "style": { "preferred": ["modern"] },
+      "items": { "essential": [{ "type": "كنب" }], "optional": [] }
+    }
+  },
+  {
+    "id": "bd-cantcover",
+    "title": "ميزانية 200 لأساسيات كثيرة",
+    "persona": "توقّعات أكبر من الميزانية",
+    "expectation": "200 ريال لا تغطّي سريرًا (أرخصه 320)؛ يجب أن يظهر تنبيه/تنازلات أو لا شيء ضمن السقف — اختبار الحد الأدنى.",
+    "project": {
+      "room": { "width_m": 3, "length_m": 3, "room_type": "bedroom" },
+      "budget": { "currency": "SAR", "max_total": 200, "flexible": false },
+      "style": { "preferred": [] },
+      "items": { "essential": [{ "type": "سرير" }, { "type": "كنب" }, { "type": "دولاب" }], "optional": [] }
+    }
+  },
+  {
+    "id": "bd-desk-synonym",
+    "title": "يريد مكتب دراسة",
+    "persona": "طالب يحتاج مكتبًا",
+    "expectation": "«مكتب» يُخطَّط إلى فئة طاولة؛ يظهر سرير + طاولة — اختبار المرادفات العربية.",
+    "project": {
+      "room": { "width_m": 3.5, "length_m": 4, "room_type": "bedroom" },
+      "budget": { "currency": "SAR", "max_total": 2500, "flexible": false },
+      "style": { "preferred": ["modern"] },
+      "items": { "essential": [{ "type": "سرير" }, { "type": "مكتب" }], "optional": [] }
+    }
+  },
+  {
+    "id": "lv-arabic-types",
+    "title": "طلب بالعربية: كنب وسجاد وإضاءة",
+    "persona": "إدخال عربي طبيعي",
+    "expectation": "مطابقة كل فئة عبر المرادفات العربية (سجاد→سجادة، إضاءة→مصباح/ثريا).",
+    "project": {
+      "room": { "width_m": 4, "length_m": 4.5, "room_type": "living_room" },
+      "budget": { "currency": "SAR", "max_total": 3000, "flexible": false },
+      "style": { "preferred": ["modern"] },
+      "items": { "essential": [{ "type": "كنب" }, { "type": "سجاد" }, { "type": "إضاءة" }], "optional": [] }
+    }
+  },
+  {
+    "id": "bd-budget-vs-fit",
+    "title": "ميزانية كبيرة لكن غرفة صغيرة",
+    "persona": "تعارض السعة مع المساحة",
+    "expectation": "رغم الميزانية، وزن الملاءمة أعلى في الغرف الصغيرة؛ يُفضَّل ما يدخل ويترك حركة على الأكبر حجمًا.",
+    "project": {
+      "room": { "width_m": 2.5, "length_m": 3, "room_type": "bedroom" },
+      "budget": { "currency": "SAR", "max_total": 8000, "flexible": true },
+      "style": { "preferred": ["classic"] },
+      "items": { "essential": [{ "type": "سرير" }, { "type": "دولاب" }], "optional": [] }
+    }
+  },
+  {
+    "id": "lv-unknown-style",
+    "title": "نمط غير موجود في الكتالوج (صناعي)",
+    "persona": "ذوق صناعي/industrial",
+    "expectation": "لا تطابق للنمط الصناعي → درجة نمط محايدة؛ الاختيار على الملاءمة/الميزانية.",
+    "project": {
+      "room": { "width_m": 4, "length_m": 5, "room_type": "living_room" },
+      "budget": { "currency": "SAR", "max_total": 3000, "flexible": false },
+      "style": { "preferred": ["industrial"] },
+      "items": { "essential": [{ "type": "كنب" }, { "type": "طاولة" }], "optional": [] }
+    }
+  },
+  {
+    "id": "bd-unmatched-color",
+    "title": "لون مفضّل غير متوفر (بنفسجي)",
+    "persona": "يفضّل لونًا نادرًا",
+    "expectation": "لا قطعة بنفسجية → لا رفع للون؛ يجب ألا ينهار الترتيب، يعتمد على بقية العوامل.",
+    "project": {
+      "room": { "width_m": 3.5, "length_m": 4, "room_type": "bedroom" },
+      "budget": { "currency": "SAR", "max_total": 2500, "flexible": false },
+      "style": { "preferred": ["modern"], "colors": ["purple"] },
+      "items": { "essential": [{ "type": "سرير" }, { "type": "تخزين" }], "optional": [] }
+    }
+  },
+  {
+    "id": "mj-optional-only",
+    "title": "عناصر اختيارية فقط",
+    "persona": "لا أساسيات محدّدة",
+    "expectation": "يوصي بعنصر واحد لكل فئة اختيارية؛ لا عناصر أساسية.",
+    "project": {
+      "room": { "width_m": 4, "length_m": 4, "room_type": "guest_room" },
+      "budget": { "currency": "SAR", "max_total": 2000, "flexible": false },
+      "style": { "preferred": ["modern"] },
+      "items": { "essential": [], "optional": [{ "type": "سجادة" }, { "type": "إضاءة" }, { "type": "طاولة" }] }
+    }
+  },
+  {
+    "id": "lv-no-items",
+    "title": "لم يحدّد أي قطع",
+    "persona": "يريد اقتراحًا عامًا",
+    "expectation": "مسار احتياطي — أعلى ست قطع عمومًا مناسبة للصالة ضمن الميزانية.",
+    "project": {
+      "room": { "width_m": 4, "length_m": 5, "room_type": "living_room" },
+      "budget": { "currency": "SAR", "max_total": 3000, "flexible": false },
+      "style": { "preferred": ["modern"] },
+      "items": { "essential": [], "optional": [] }
+    }
+  },
+  {
+    "id": "lv-classic-tightconflict",
+    "title": "ذوق كلاسيكي بميزانية ضيّقة",
+    "persona": "تعارض الذوق مع الميزانية",
+    "expectation": "القطع الكلاسيكية قد تتجاوز سقوف الفئات الضيّقة → تنازلات واضحة أو بدائل أرخص؛ اختبار التعارض.",
+    "project": {
+      "room": { "width_m": 4, "length_m": 4, "room_type": "living_room" },
+      "budget": { "currency": "SAR", "max_total": 600, "flexible": false },
+      "style": { "preferred": ["classic"], "colors": ["gold"] },
+      "items": { "essential": [{ "type": "كنب" }, { "type": "إضاءة" }, { "type": "سجادة" }], "optional": [] }
+    }
+  }
+]

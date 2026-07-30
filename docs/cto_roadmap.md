@@ -1,6 +1,6 @@
 # CTO roadmap — evidence-first, effort-minimal
 
-- **Status:** Proposed (CTO review) — supersedes `implementation_roadmap.md` on approval
+- **Status:** Approved (CTO) — supersedes `implementation_roadmap.md`. Execution started at S0.
 - **Date:** 2026-07-30
 - **Mandate:** Maximize the probability of launching a successful MVP with the **smallest possible engineering effort**. Challenge every assumption; reject anything unnecessary; explain every rejection.
 - **Supersedes:** `implementation_roadmap.md` (build-sequenced). This plan is **evidence-sequenced**.
