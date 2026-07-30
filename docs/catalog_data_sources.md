@@ -1,6 +1,6 @@
 # Catalog data sources — strategy & the one chosen path
 
-- **Status:** Recommended strategy (one path chosen) — pending approval
+- **Status:** Approved strategy (decision)
 - **Date:** 2026-07-30
 - **Scope:** Where catalog data actually *comes from* — retail APIs, affiliate APIs, furniture datasets, commerce feeds, manufacturer feeds — across **Saudi Arabia · GCC · Global**. Compares every class, then commits to **one** acquisition strategy. No implementation.
 - **Related:** `docs/catalog_strategy.md` (deliberately deferred sources — "ignore data sources"), `docs/product_information_model.md` (the 17 facets we must fill), `docs/backend_architecture.md` (§5 ingestion — the `sources` node, now scoped), `docs/ai_layer.md` (AI enrichment is advisory only), `docs/measurement_engine.md` (why dimensions are non-negotiable).
