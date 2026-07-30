@@ -1,5 +1,4 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:furn_app/domain_engine/plan/plan.dart';
 import 'package:furn_app/domain_engine/plan/plan_workspace.dart';
 import 'package:furn_app/shared/models/models.dart';
 

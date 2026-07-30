@@ -27,9 +27,11 @@ jobs:
       # The three verification steps run independently (if: always()) so a
       # single CI run surfaces analyze issues, test results, AND the full
       # compile result together.
+      # Errors + warnings fail the build; cosmetic info-lints (const, super
+      # params, doc-comment style) don't block the compile signal.
       - name: Analyze
         if: always()
-        run: flutter analyze
+        run: flutter analyze --no-fatal-infos
 
       - name: Test
         if: always()
