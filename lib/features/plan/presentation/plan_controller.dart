@@ -5,21 +5,26 @@ import '../../../core/di/providers.dart';
 import '../../../domain_engine/plan/plan.dart';
 import '../../../domain_engine/plan/plan_workspace.dart';
 import '../../../shared/models/models.dart';
+import '../../room_input/presentation/flow_controller.dart';
 
-/// المشروع الذي تُبنى عليه الخطة. الآن مشروع تجريبي لعرض حلقة الثقة؛
-/// يُستبدل لاحقًا بمشروع التدفّق (input → analysis) دون تغيير الشاشة.
+/// مشروع تجريبي للدخول المباشر إلى مساحة الخطة (من شاشة البداية).
+const _demoProject = FurnishingProject(
+  projectId: 'demo',
+  room: Room(
+      name: 'غرفة النوم', widthM: 3, lengthM: 3.5, roomType: RoomType.bedroom),
+  budget: Budget(maxTotal: 1800),
+  style: StylePreferences(preferred: ['modern'], colors: ['gray', 'white']),
+  items: RequestedItems(
+    essential: [RequestedItem(type: 'سرير'), RequestedItem(type: 'دولاب')],
+    optional: [RequestedItem(type: 'إضاءة')],
+  ),
+);
+
+/// المشروع الذي تُبنى عليه الخطة: مشروع التدفّق (input → analysis) إن اكتمل،
+/// وإلا المشروع التجريبي — دون تغيير الشاشة.
 final planProjectProvider = Provider<FurnishingProject>((ref) {
-  return const FurnishingProject(
-    projectId: 'demo',
-    room: Room(
-        name: 'غرفة النوم', widthM: 3, lengthM: 3.5, roomType: RoomType.bedroom),
-    budget: Budget(maxTotal: 1800),
-    style: StylePreferences(preferred: ['modern'], colors: ['gray', 'white']),
-    items: RequestedItems(
-      essential: [RequestedItem(type: 'سرير'), RequestedItem(type: 'دولاب')],
-      optional: [RequestedItem(type: 'إضاءة')],
-    ),
-  );
+  final flowProject = ref.watch(furnishingFlowControllerProvider).project;
+  return flowProject ?? _demoProject;
 });
 
 /// يحمّل الكتالوج ثم يبني [PlanController] فوق [PlanWorkspace] (نواة حلقة الثقة).

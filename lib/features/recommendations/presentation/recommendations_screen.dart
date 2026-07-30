@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 
 import '../../../core/constants/app_strings.dart';
+import '../../../core/router/app_router.dart';
 import '../../../shared/models/models.dart';
 import '../../../shared/utils/formatters.dart';
 import '../../../shared/widgets/status_views.dart';
@@ -39,20 +41,31 @@ class RecommendationsScreen extends ConsumerWidget {
         ),
         bottomNavigationBar: Padding(
           padding: const EdgeInsets.all(16),
-          child: FilledButton.icon(
-            icon: const Icon(Icons.bookmark_add_outlined),
-            label: const Text(AppStrings.saveProject),
-            onPressed: () async {
-              final res = await ref
-                  .read(furnishingFlowControllerProvider.notifier)
-                  .saveCurrent();
-              if (!context.mounted) return;
-              final msg = res.isOk
-                  ? AppStrings.projectSaved
-                  : (res.failureOrNull?.message ?? AppStrings.genericError);
-              ScaffoldMessenger.of(context)
-                  .showSnackBar(SnackBar(content: Text(msg)));
-            },
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              OutlinedButton.icon(
+                icon: const Icon(Icons.tune),
+                label: const Text('شكّل خطتك القابلة للتعديل'),
+                onPressed: () => context.go(Routes.plan),
+              ),
+              const SizedBox(height: 8),
+              FilledButton.icon(
+                icon: const Icon(Icons.bookmark_add_outlined),
+                label: const Text(AppStrings.saveProject),
+                onPressed: () async {
+                  final res = await ref
+                      .read(furnishingFlowControllerProvider.notifier)
+                      .saveCurrent();
+                  if (!context.mounted) return;
+                  final msg = res.isOk
+                      ? AppStrings.projectSaved
+                      : (res.failureOrNull?.message ?? AppStrings.genericError);
+                  ScaffoldMessenger.of(context)
+                      .showSnackBar(SnackBar(content: Text(msg)));
+                },
+              ),
+            ],
           ),
         ),
       ),
