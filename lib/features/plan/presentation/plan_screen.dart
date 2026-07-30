@@ -1,0 +1,492 @@
+import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+
+import '../../../domain_engine/plan/plan.dart';
+import '../../../shared/models/models.dart';
+import '../../../shared/utils/formatters.dart';
+import 'plan_controller.dart';
+
+/// شاشة الخطة — قلب التطبيق (product_thesis.md): «الخطة» التي يشكّلها المستخدم
+/// حتى يثق بها. تعرض حلقة الثقة: ثبّت/ارفض/بدّل/اضبط الميزانية → إعادة توازن فورية
+/// مع ضمانات وتفسير ومؤشّر جاهزية، ثم «هذه هي خطتي».
+class PlanScreen extends ConsumerWidget {
+  const PlanScreen({super.key});
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final async = ref.watch(planControllerProvider);
+    return Scaffold(
+      appBar: AppBar(title: const Text('خطتي')),
+      body: async.when(
+        loading: () => const Center(child: CircularProgressIndicator()),
+        error: (e, _) => Center(child: Padding(
+          padding: const EdgeInsets.all(24),
+          child: Text('تعذّر تحميل الكتالوج: $e', textAlign: TextAlign.center),
+        )),
+        data: (controller) => _PlanView(controller: controller),
+      ),
+    );
+  }
+}
+
+class _PlanView extends StatefulWidget {
+  const _PlanView({required this.controller});
+  final PlanController controller;
+
+  @override
+  State<_PlanView> createState() => _PlanViewState();
+}
+
+class _PlanViewState extends State<_PlanView> {
+  double? _budgetDraft;
+
+  PlanController get c => widget.controller;
+
+  @override
+  void initState() {
+    super.initState();
+    c.addListener(_onChange);
+  }
+
+  @override
+  void dispose() {
+    c.removeListener(_onChange);
+    super.dispose();
+  }
+
+  void _onChange() {
+    if (mounted) setState(() {});
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final plan = c.plan;
+    return Column(
+      children: [
+        Expanded(
+          child: ListView(
+            padding: const EdgeInsets.fromLTRB(16, 16, 16, 8),
+            children: [
+              _confidenceCard(context, plan),
+              const SizedBox(height: 12),
+              _assurances(context, plan.assurances),
+              _changeBanner(context),
+              const SizedBox(height: 12),
+              _budgetCard(context, plan),
+              if (plan.missingCategories.isNotEmpty) ...[
+                const SizedBox(height: 12),
+                _completeness(context, plan),
+              ],
+              const SizedBox(height: 20),
+              Text('قطع خطتك',
+                  style: Theme.of(context)
+                      .textTheme
+                      .titleMedium
+                      ?.copyWith(fontWeight: FontWeight.bold)),
+              const SizedBox(height: 8),
+              for (final item in plan.items) _itemCard(context, item),
+            ],
+          ),
+        ),
+        _bottomBar(context, plan),
+      ],
+    );
+  }
+
+  // ---- confidence ---------------------------------------------------------
+
+  Widget _confidenceCard(BuildContext context, Plan plan) {
+    final theme = Theme.of(context);
+    final color = _confColor(plan.confidence, theme.colorScheme);
+    return Card(
+      child: Padding(
+        padding: const EdgeInsets.all(16),
+        child: Row(
+          children: [
+            SizedBox(
+              width: 76,
+              height: 76,
+              child: Stack(
+                alignment: Alignment.center,
+                children: [
+                  SizedBox(
+                    width: 76,
+                    height: 76,
+                    child: CircularProgressIndicator(
+                      value: plan.confidence / 100,
+                      strokeWidth: 8,
+                      valueColor: AlwaysStoppedAnimation(color),
+                    ),
+                  ),
+                  Text('${plan.confidence}%',
+                      style: theme.textTheme.titleMedium
+                          ?.copyWith(fontWeight: FontWeight.bold)),
+                ],
+              ),
+            ),
+            const SizedBox(width: 16),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text('جاهزية خطتك',
+                      style: theme.textTheme.titleMedium
+                          ?.copyWith(fontWeight: FontWeight.bold)),
+                  const SizedBox(height: 4),
+                  Text(
+                    plan.confidence >= 80
+                        ? 'خطة متكاملة — أنت قريب من القرار.'
+                        : 'كل ما تعدّله يقرّبك أكثر من خطة تطمئن لها.',
+                    style: theme.textTheme.bodyMedium
+                        ?.copyWith(color: theme.colorScheme.onSurfaceVariant),
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Color _confColor(int v, ColorScheme s) =>
+      v >= 80 ? Colors.green : (v >= 50 ? Colors.orange : s.error);
+
+  // ---- assurances ---------------------------------------------------------
+
+  Widget _assurances(BuildContext context, Assurances a) {
+    return Wrap(
+      spacing: 8,
+      runSpacing: 8,
+      children: [
+        _badge(context, a.essentialsComplete, 'مكتملة'),
+        _badge(context, a.withinBudget, 'ضمن الميزانية'),
+        _badge(context, a.fitsRoom, 'تناسب الغرفة'),
+        _badge(context, a.allAvailable, 'متوفّرة'),
+      ],
+    );
+  }
+
+  Widget _badge(BuildContext context, bool ok, String label) {
+    final color = ok ? Colors.green : Colors.orange;
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
+      decoration: BoxDecoration(
+        color: color.withOpacity(0.12),
+        borderRadius: BorderRadius.circular(999),
+        border: Border.all(color: color.withOpacity(0.5)),
+      ),
+      child: Row(mainAxisSize: MainAxisSize.min, children: [
+        Icon(ok ? Icons.check_circle : Icons.error_outline,
+            size: 16, color: color),
+        const SizedBox(width: 6),
+        Text(label,
+            style: TextStyle(
+                color: color, fontWeight: FontWeight.w600, fontSize: 13)),
+      ]),
+    );
+  }
+
+  // ---- what changed -------------------------------------------------------
+
+  Widget _changeBanner(BuildContext context) {
+    final msg = _changeMessage(c.lastChange);
+    if (msg == null) return const SizedBox.shrink();
+    final theme = Theme.of(context);
+    return Padding(
+      padding: const EdgeInsets.only(top: 12),
+      child: Container(
+        padding: const EdgeInsets.all(12),
+        decoration: BoxDecoration(
+          color: theme.colorScheme.secondaryContainer,
+          borderRadius: BorderRadius.circular(12),
+        ),
+        child: Row(children: [
+          const Icon(Icons.auto_awesome, size: 18),
+          const SizedBox(width: 8),
+          Expanded(
+              child: Text(msg,
+                  style: theme.textTheme.bodyMedium)),
+        ]),
+      ),
+    );
+  }
+
+  String? _changeMessage(PlanDiff? d) {
+    if (d == null || d.isEmpty) return null;
+    final parts = <String>[];
+    if (d.added.isNotEmpty) {
+      parts.add('أضفنا ${d.added.map((e) => e.name).join('، ')}');
+    }
+    if (d.removed.isNotEmpty) {
+      parts.add('أزلنا ${d.removed.map((e) => e.name).join('، ')}');
+    }
+    if (d.deltaTotal > 0) {
+      parts.add('زادت التكلفة ${formatSar(d.deltaTotal)}');
+    } else if (d.deltaTotal < 0) {
+      parts.add('وفّرت ${formatSar(-d.deltaTotal)}');
+    }
+    return parts.join(' · ');
+  }
+
+  // ---- budget -------------------------------------------------------------
+
+  Widget _budgetCard(BuildContext context, Plan plan) {
+    final theme = Theme.of(context);
+    final budget = c.project.budget.maxTotal;
+    final double value =
+        (_budgetDraft ?? budget).clamp(500.0, 10000.0).toDouble();
+    return Card(
+      child: Padding(
+        padding: const EdgeInsets.fromLTRB(16, 12, 16, 8),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Row(children: [
+              Text('الميزانية', style: theme.textTheme.titleMedium),
+              const Spacer(),
+              Text(formatSar(value),
+                  style: theme.textTheme.titleMedium
+                      ?.copyWith(color: theme.colorScheme.primary)),
+            ]),
+            Slider(
+              min: 500,
+              max: 10000,
+              divisions: 19,
+              value: value.toDouble(),
+              label: formatSar(value),
+              onChanged: (v) => setState(() => _budgetDraft = v),
+              onChangeEnd: (v) {
+                _budgetDraft = null;
+                c.setBudget(v);
+              },
+            ),
+            Text('إجمالي الخطة الآن: ${formatSar(plan.total)}',
+                style: theme.textTheme.bodyMedium?.copyWith(
+                    color: plan.assurances.withinBudget
+                        ? theme.colorScheme.onSurfaceVariant
+                        : theme.colorScheme.error)),
+          ],
+        ),
+      ),
+    );
+  }
+
+  // ---- completeness -------------------------------------------------------
+
+  Widget _completeness(BuildContext context, Plan plan) {
+    final theme = Theme.of(context);
+    return Card(
+      color: theme.colorScheme.tertiaryContainer,
+      child: Padding(
+        padding: const EdgeInsets.all(16),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text('ينقص خطتك:',
+                style: theme.textTheme.titleSmall
+                    ?.copyWith(fontWeight: FontWeight.bold)),
+            const SizedBox(height: 8),
+            Wrap(
+              spacing: 8,
+              children: [
+                for (final cat in plan.missingCategories)
+                  ActionChip(
+                    avatar: const Icon(Icons.add, size: 18),
+                    label: Text(cat.arabicLabel),
+                    onPressed: () => c.addCheapestOf(cat),
+                  ),
+              ],
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  // ---- item ---------------------------------------------------------------
+
+  Widget _itemCard(BuildContext context, PlanItem planItem) {
+    final theme = Theme.of(context);
+    final item = planItem.item;
+    final id = item.productId;
+    return Card(
+      child: Padding(
+        padding: const EdgeInsets.fromLTRB(16, 12, 8, 8),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Row(children: [
+              Expanded(
+                child: Text(item.name,
+                    style: theme.textTheme.titleMedium
+                        ?.copyWith(fontWeight: FontWeight.bold)),
+              ),
+              Text(formatSar(item.price),
+                  style: theme.textTheme.titleMedium
+                      ?.copyWith(color: theme.colorScheme.primary)),
+            ]),
+            const SizedBox(height: 4),
+            Row(children: [
+              Chip(
+                label: Text(item.category.arabicLabel),
+                visualDensity: VisualDensity.compact,
+                materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+              ),
+              if (planItem.isPinned) ...[
+                const SizedBox(width: 8),
+                Text('مثبّتة',
+                    style: TextStyle(
+                        color: theme.colorScheme.primary,
+                        fontSize: 12,
+                        fontWeight: FontWeight.w600)),
+              ],
+            ]),
+            if (item.reason.isNotEmpty) ...[
+              const SizedBox(height: 6),
+              Text(item.reason,
+                  style: theme.textTheme.bodyMedium
+                      ?.copyWith(color: theme.colorScheme.onSurfaceVariant)),
+            ],
+            const Divider(height: 16),
+            Row(children: [
+              TextButton.icon(
+                onPressed: id == null
+                    ? null
+                    : () =>
+                        planItem.isPinned ? c.unpin(id) : c.pin(id),
+                icon: Icon(
+                    planItem.isPinned ? Icons.favorite : Icons.favorite_border,
+                    size: 18,
+                    color: planItem.isPinned ? Colors.red : null),
+                label: Text(planItem.isPinned ? 'مثبّتة' : 'ثبّت'),
+              ),
+              TextButton.icon(
+                onPressed: id == null ? null : () => _openAlternatives(item),
+                icon: const Icon(Icons.swap_horiz, size: 18),
+                label: const Text('بدّل'),
+              ),
+              const Spacer(),
+              IconButton(
+                tooltip: 'أزل',
+                onPressed: id == null ? null : () => c.reject(id),
+                icon: const Icon(Icons.close),
+              ),
+            ]),
+          ],
+        ),
+      ),
+    );
+  }
+
+  void _openAlternatives(RecommendedItem item) {
+    final id = item.productId;
+    if (id == null) return;
+    final alts = c
+        .alternativesFor(item.category)
+        .where((p) => p.productId != id)
+        .toList();
+    showModalBottomSheet<void>(
+      context: context,
+      builder: (sheetContext) => SafeArea(
+        child: ListView(
+          shrinkWrap: true,
+          padding: const EdgeInsets.all(16),
+          children: [
+            Text('بدائل ${item.category.arabicLabel}',
+                style: Theme.of(sheetContext)
+                    .textTheme
+                    .titleMedium
+                    ?.copyWith(fontWeight: FontWeight.bold)),
+            const SizedBox(height: 8),
+            if (alts.isEmpty)
+              const Padding(
+                padding: EdgeInsets.symmetric(vertical: 16),
+                child: Text('لا توجد بدائل متاحة ضمن هذه الفئة.'),
+              ),
+            for (final p in alts)
+              ListTile(
+                title: Text(p.title),
+                trailing: Text(formatSar(p.price)),
+                onTap: () {
+                  Navigator.of(sheetContext).pop();
+                  c.swap(id, p.productId);
+                },
+              ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  // ---- bottom bar ---------------------------------------------------------
+
+  Widget _bottomBar(BuildContext context, Plan plan) {
+    final theme = Theme.of(context);
+    return Material(
+      elevation: 8,
+      child: Padding(
+        padding: const EdgeInsets.all(16),
+        child: SafeArea(
+          top: false,
+          child: plan.isFinalized
+              ? Row(children: [
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Text('خطتك جاهزة. أنت جاهز 👏',
+                            style: theme.textTheme.titleMedium
+                                ?.copyWith(fontWeight: FontWeight.bold)),
+                        Text('${plan.itemCount} قطع · ${formatSar(plan.total)}',
+                            style: theme.textTheme.bodySmall),
+                      ],
+                    ),
+                  ),
+                  TextButton(
+                      onPressed: () => c.reopen(),
+                      child: const Text('تعديل')),
+                  const SizedBox(width: 4),
+                  FilledButton.icon(
+                    onPressed: () => _openShare(plan),
+                    icon: const Icon(Icons.ios_share),
+                    label: const Text('شارك'),
+                  ),
+                ])
+              : FilledButton.icon(
+                  onPressed:
+                      plan.items.isEmpty ? null : () => c.finalizePlan(),
+                  icon: const Icon(Icons.verified_outlined),
+                  label: const Text('هذه هي خطتي — أنا مطمئن'),
+                ),
+        ),
+      ),
+    );
+  }
+
+  void _openShare(Plan plan) {
+    final b = StringBuffer()
+      ..writeln('خطتي — التأثيث الذكي')
+      ..writeln();
+    for (final it in plan.items) {
+      b.writeln('• ${it.item.name} — ${formatSar(it.item.price)}');
+    }
+    b
+      ..writeln()
+      ..writeln('الإجمالي: ${formatSar(plan.total)}')
+      ..writeln('الجاهزية: ${plan.confidence}%');
+    showDialog<void>(
+      context: context,
+      builder: (dialogContext) => AlertDialog(
+        title: const Text('شارك خطتك'),
+        content: SelectableText(b.toString()),
+        actions: [
+          TextButton(
+              onPressed: () => Navigator.of(dialogContext).pop(),
+              child: const Text('تم')),
+        ],
+      ),
+    );
+  }
+}

@@ -1,6 +1,7 @@
 import 'package:go_router/go_router.dart';
 
 import '../../features/onboarding/presentation/onboarding_screen.dart';
+import '../../features/plan/presentation/plan_screen.dart';
 import '../../features/recommendations/presentation/recommendations_screen.dart';
 import '../../features/room_analysis/presentation/analysis_screen.dart';
 import '../../features/room_input/presentation/image_input_screen.dart';
@@ -19,6 +20,7 @@ abstract class Routes {
   static const analysis = '/analysis';
   static const recommendations = '/recommendations';
   static const saved = '/saved';
+  static const plan = '/plan';
 }
 
 final GoRouter appRouter = GoRouter(
@@ -55,6 +57,10 @@ final GoRouter appRouter = GoRouter(
     GoRoute(
       path: Routes.saved,
       builder: (context, state) => const SavedProjectsScreen(),
+    ),
+    GoRoute(
+      path: Routes.plan,
+      builder: (context, state) => const PlanScreen(),
     ),
   ],
 );

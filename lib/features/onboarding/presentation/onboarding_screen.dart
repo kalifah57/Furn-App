@@ -60,6 +60,11 @@ class OnboardingScreen extends ConsumerWidget {
                 onPressed: () => context.go(Routes.saved),
                 child: const Text(AppStrings.onboardingSaved),
               ),
+              OutlinedButton.icon(
+                onPressed: () => context.go(Routes.plan),
+                icon: const Icon(Icons.tune),
+                label: const Text('جرّب مساحة الخطة (تجريبي)'),
+              ),
             ],
           ),
         ),
