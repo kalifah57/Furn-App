@@ -47,8 +47,8 @@ Gates are **evidence**, not green builds.
 
 ```mermaid
 flowchart LR
-  S0[S0 · Engine runs headless<br/>½ wk · pure Dart] --> S1[S1 · TRUST TEST<br/>2 wk · humans judge recs]
-  S0 --> S2[S2 · Demand signal<br/>1 wk · parallel]
+  S0[S0 · Decision Benchmark<br/>invariant tier · auto-scored] --> S1[S1 · Canonical benchmark<br/>real cases · expert then user]
+  S0 --> S2[S2 · Demand signal<br/>via collecting real cases]
   S1 -->|V1 pass| S3[S3 · Thin runnable MVP<br/>2–3 wk · real hands]
   S2 -->|D1 pass| S3
   S1 -->|V1 fail| FIX[Fix rules / pivot thesis<br/>cheap · pure Dart]
@@ -59,9 +59,9 @@ flowchart LR
 
 | Stage | Time | Goal | Gate (evidence) |
 |---|---|---|---|
-| **S0 · Reality check** | ½ wk | engine runs end-to-end from a console (pure Dart harness) | a scenario in → recommendation + explanation out |
-| **S1 · Trust Test** ⭐ | 2 wk | **the real next milestone** — run engine over 25–30 realistic Saudi scenarios; 8–10 target users + ≥1 furniture/interior expert judge the recs | **V1:** clear majority rate recs "trustworthy / as-expected or better" |
-| **S2 · Demand** (parallel) | 1 wk | 10–15 problem interviews or a landing smoke test | **D1:** evidence people *want* an app to decide furniture |
+| **S0 · Decision Benchmark — invariant tier** | ½ wk | build the **auto-scored** invariant benchmark over the *existing* engine (fit · availability · budget sanity · coverage · Arabic synonyms) — `benchmark/` | `dart run benchmark/run_benchmark.dart` green — no hard rule violated |
+| **S1 · Canonical benchmark** ⭐ | 2 wk | **the real next milestone** — collect ~12 **real** cases (Reddit/Quora/interviews), expert writes acceptance criteria + 1–5 rubric (no single golden answer), score; then reuse the *same* set for user trust | **V1:** `benchmark_score` clears the bar, then a clear majority of users rate 4–5 |
+| **S2 · Demand** (same motion as S1 collection) | — | collecting real cases *is* the demand check: do people actually post/ask this? | **D1:** real cases exist in the wild → the problem is real |
 | **S3 · Thin MVP** | 2–3 wk | app *runs* the happy path on a device, offline, mock data, saves locally (simple). **This is where a redefined "M0" lives — not first.** Put in 10–20 real hands. | usable end-to-end without crashing; users complete a decision |
 | **S4 · One real value** | when S3 engages | the *single* thing that most increases trust — a **small real catalog slice** (one affiliate feed, or even a hand-curated ~100 SKUs) so recs are **buyable** | users act on a real recommendation |
 | **S5+ · Infra** | when usage *forces* it | backend/sync, real AI, spatial, CI — each unlocked by a **named pain**, never a calendar | the pain is real and measured |

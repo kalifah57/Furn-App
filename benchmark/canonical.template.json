@@ -1,0 +1,77 @@
+{
+  "_meta": {
+    "tier": "canonical (Tier 2) — the real, expert-labeled cases. THE company asset.",
+    "how_to_build": "Replace every EXAMPLE below with REAL cases sourced from r/saudiarabia, r/interiordecorating, Quora, Facebook groups, or user interviews. Collecting these IS problem-validation and benchmark-seeding in one motion.",
+    "why_not_exact_match": "Furniture has no single correct answer (unlike MMLU). So a case is NOT graded output==expected. It is graded against (a) objective hard_constraints and (b) an expert soft rubric.",
+    "scoring": "case_score = hard_pass ? (0.6 * criteria_met_fraction + 0.4 * expert_stars/5) : 0. benchmark_score = mean(case_score). Any engine change that lowers benchmark_score is rejected.",
+    "start_size": 12,
+    "target_size": 100,
+    "note": "hard_constraints are auto-checkable with the same logic as benchmark/run_benchmark.dart; criteria_met and expert_stars are filled by a furniture/interior expert."
+  },
+  "cases": [
+    {
+      "id": "REAL-EXAMPLE-majlis-5000",
+      "source": "EXAMPLE — replace with a real permalink, e.g. https://reddit.com/r/saudiarabia/...",
+      "raw_quote": "EXAMPLE — نص المستخدم الحقيقي كما كتبه: «مجلس ٤×٥، ميزانيتي ٥٠٠٠ ريال، أبغى مودرن بس فخم وسجادة تناسب الجلسة».",
+      "input": {
+        "locale": "ar-SA",
+        "room": { "name": "المجلس", "width_m": 4, "length_m": 5, "room_type": "guest_room" },
+        "budget": { "currency": "SAR", "max_total": 5000, "flexible": false },
+        "style": { "preferred": ["modern"], "colors": [] },
+        "items": { "essential": [{ "type": "كنب" }, { "type": "سجادة" }], "optional": [{ "type": "إضاءة" }] }
+      },
+      "expert": {
+        "must_include": ["EXAMPLE — كنبة تدخل المساحة وتترك ممرًا للحركة", "سجادة بمقاس يناسب الجلسة لا أصغر منها"],
+        "must_not_include": ["EXAMPLE — كنب زاوية يسدّ حركة المجلس"],
+        "hard_constraints": {
+          "must_exclude": [],
+          "must_cover_categories": ["sofa", "rug"],
+          "no_out_of_stock": true,
+          "all_fit_room": true,
+          "no_item_exceeds_budget": true
+        },
+        "quality_bar_notes": "EXAMPLE — ما الذي يجعل الإجابة ممتازة بنظر خبير تصميم داخلي؟",
+        "expert_reference_answer": "EXAMPLE (اختياري) — قائمة الخبير المرجعية، للمقارنة النوعية لا للمطابقة الحرفية."
+      },
+      "result": {
+        "actual_output": null,
+        "criteria_met_fraction": null,
+        "expert_stars": null,
+        "case_score": null,
+        "reviewer_notes": "يُملأ بعد dart run + مراجعة الخبير"
+      }
+    },
+    {
+      "id": "REAL-EXAMPLE-first-apartment-bedroom-1800",
+      "source": "EXAMPLE — replace with a real source",
+      "raw_quote": "EXAMPLE — «أول شقة، غرفة نوم ٣×٣.٥، معي ١٨٠٠ ريال، أحتاج سرير ودولاب».",
+      "input": {
+        "locale": "ar-SA",
+        "room": { "name": "غرفة النوم", "width_m": 3, "length_m": 3.5, "room_type": "bedroom" },
+        "budget": { "currency": "SAR", "max_total": 1800, "flexible": false },
+        "style": { "preferred": ["modern"], "colors": ["gray", "white"] },
+        "items": { "essential": [{ "type": "سرير" }, { "type": "دولاب" }], "optional": [{ "type": "مصباح" }] }
+      },
+      "expert": {
+        "must_include": ["EXAMPLE — سرير مناسب للمساحة ضمن نصيب الفئة", "دولاب لا يزاحم السرير"],
+        "must_not_include": ["EXAMPLE — قطعة تستهلك الميزانية وتترك باقي الأساسيات مكشوفًا"],
+        "hard_constraints": {
+          "must_exclude": [],
+          "must_cover_categories": ["bed", "storage"],
+          "no_out_of_stock": true,
+          "all_fit_room": true,
+          "no_item_exceeds_budget": true
+        },
+        "quality_bar_notes": "EXAMPLE — توازن السرير/الدولاب/الإضاءة ضمن ١٨٠٠.",
+        "expert_reference_answer": "EXAMPLE (اختياري)."
+      },
+      "result": {
+        "actual_output": null,
+        "criteria_met_fraction": null,
+        "expert_stars": null,
+        "case_score": null,
+        "reviewer_notes": ""
+      }
+    }
+  ]
+}
