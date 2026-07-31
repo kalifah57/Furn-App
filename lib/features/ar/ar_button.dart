@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../../analytics/analytics.dart';
+import '../../core/di/providers.dart';
 import '../../shared/models/models.dart';
 import 'ar_launcher.dart';
 
@@ -19,25 +22,28 @@ String? _arColor(List<String> tags) {
 
 /// زر «شاهدها في غرفتك» — يظهر فقط للمنتجات التي لها نموذج ثلاثي الأبعاد جاهز.
 /// يفتح معاينة الواقع المعزّز (ar.html) بمقاس القطعة الحقيقي ولونها.
-class ArButton extends StatelessWidget {
+class ArButton extends ConsumerWidget {
   const ArButton({super.key, required this.product});
 
   final CatalogProduct? product;
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final p = product;
     if (p == null || !p.hasArModel) return const SizedBox.shrink();
     return OutlinedButton.icon(
-      onPressed: () => openArView(
-        glbUrl: p.modelGlbUrl,
-        usdzUrl: p.modelUsdzUrl,
-        title: p.title,
-        widthCm: p.widthCm,
-        depthCm: p.depthCm,
-        heightCm: p.heightCm,
-        color: _arColor(p.colorTags),
-      ),
+      onPressed: () {
+        ref.read(analyticsProvider).track(ArOpened(p.productId));
+        openArView(
+          glbUrl: p.modelGlbUrl,
+          usdzUrl: p.modelUsdzUrl,
+          title: p.title,
+          widthCm: p.widthCm,
+          depthCm: p.depthCm,
+          heightCm: p.heightCm,
+          color: _arColor(p.colorTags),
+        );
+      },
       icon: const Icon(Icons.view_in_ar, size: 18),
       label: const Text('شاهدها في غرفتك'),
     );
@@ -46,7 +52,7 @@ class ArButton extends StatelessWidget {
 
 /// زر تجربة الواقع المعزّز بنموذج جاهز (افتراضيًا الطاولة الحقيقية بمقاسها).
 /// يفتح الكاميرا مباشرة دون الحاجة لعنصر منتج مُختار.
-class ArDemoButton extends StatelessWidget {
+class ArDemoButton extends ConsumerWidget {
   const ArDemoButton({
     super.key,
     this.label = 'شاهدها في غرفتك',
@@ -69,17 +75,20 @@ class ArDemoButton extends StatelessWidget {
   final String? color;
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return FilledButton.icon(
-      onPressed: () => openArView(
-        glbUrl: glbUrl,
-        usdzUrl: usdzUrl,
-        title: title,
-        widthCm: widthCm,
-        depthCm: depthCm,
-        heightCm: heightCm,
-        color: color != null ? _colorAr[color!] ?? color : null,
-      ),
+      onPressed: () {
+        ref.read(analyticsProvider).track(const ArOpened('demo'));
+        openArView(
+          glbUrl: glbUrl,
+          usdzUrl: usdzUrl,
+          title: title,
+          widthCm: widthCm,
+          depthCm: depthCm,
+          heightCm: heightCm,
+          color: color != null ? _colorAr[color!] ?? color : null,
+        );
+      },
       icon: const Icon(Icons.view_in_ar, size: 18),
       label: Text(label),
     );

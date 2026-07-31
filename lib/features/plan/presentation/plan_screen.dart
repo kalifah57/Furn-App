@@ -52,6 +52,7 @@ class _PlanViewState extends State<_PlanView> {
 
   @override
   void dispose() {
+    c.logAbandonedIfUnfinished();
     c.removeListener(_onChange);
     super.dispose();
   }
@@ -456,6 +457,7 @@ class _PlanViewState extends State<_PlanView> {
     if (id == null) return;
     final options = c.alternativesFor(item.category);
     final room = c.project.room;
+    c.logOptionsOpened(item.category, options.length);
     showModalBottomSheet<void>(
       context: context,
       isScrollControlled: true,
@@ -582,6 +584,7 @@ class _PlanViewState extends State<_PlanView> {
   }
 
   void _openShare(Plan plan) {
+    c.logShared();
     final b = StringBuffer()
       ..writeln('خطتي — التأثيث الذكي')
       ..writeln();

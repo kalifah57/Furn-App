@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
+import '../../../analytics/analytics.dart';
 import '../../../core/constants/app_strings.dart';
 import '../../../core/di/providers.dart';
 import '../../../core/router/app_router.dart';
@@ -50,6 +51,7 @@ class OnboardingScreen extends ConsumerWidget {
               const Spacer(),
               FilledButton(
                 onPressed: () async {
+                  ref.read(analyticsProvider).track(const FlowStarted('onboarding'));
                   await ref.read(authRepositoryProvider).signInAnonymously();
                   if (context.mounted) context.go(Routes.inputMethod);
                 },
@@ -61,7 +63,10 @@ class OnboardingScreen extends ConsumerWidget {
                 child: const Text(AppStrings.onboardingSaved),
               ),
               OutlinedButton.icon(
-                onPressed: () => context.go(Routes.plan),
+                onPressed: () {
+                  ref.read(analyticsProvider).track(const FlowStarted('plan-demo'));
+                  context.go(Routes.plan);
+                },
                 icon: const Icon(Icons.tune),
                 label: const Text('جرّب مساحة الخطة (تجريبي)'),
               ),

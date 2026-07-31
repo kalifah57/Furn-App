@@ -1,6 +1,7 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:uuid/uuid.dart';
 
+import '../../analytics/analytics.dart';
 import '../../ai/contracts/llm_extraction_service.dart';
 import '../../ai/contracts/speech_to_text_service.dart';
 import '../../ai/contracts/vision_analysis_service.dart';
@@ -21,6 +22,11 @@ import '../../shared/services/catalog_repository.dart';
 /// `overrides` عند إنشاء `ProviderScope` دون لمس الـ UI.
 
 final uuidProvider = Provider<Uuid>((ref) => const Uuid());
+
+// ---- القياس (Analytics) ----
+// الافتراضي Noop (لا يُسجّل شيئًا)؛ يُختار الـ sink الحقيقي عبر override في
+// نقطة الدخول أو الاختبارات — دون لمس نقاط النداء.
+final analyticsProvider = Provider<Analytics>((ref) => const NoopAnalytics());
 
 // ---- طبقة الـ AI (mock-first) ----
 final speechToTextServiceProvider = Provider<SpeechToTextService>(

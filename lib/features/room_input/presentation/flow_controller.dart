@@ -1,5 +1,6 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../../../analytics/analytics.dart';
 import '../../../core/di/providers.dart';
 import '../../../core/errors/failure.dart';
 import '../../../core/errors/result.dart';
@@ -13,24 +14,37 @@ final furnishingFlowControllerProvider =
 
 /// يقود رحلة التأثيث عبر: (استخراج AI أو إدخال يدوي) → قواعد العمل → التوصيات.
 class FurnishingFlowController extends Notifier<FurnishingFlowState> {
+  /// وضع الإدخال الأخير — يُرفق بحدث input_submitted (يُضبط عند كل مدخل).
+  String _lastInputMode = 'manual';
+
   @override
   FurnishingFlowState build() => const FurnishingFlowState();
 
   /// إدخال يدوي منظّم: بلا استدعاء LLM (cost control) — قواعد العمل فقط.
   Future<void> submitManualDraft(FurnishingProject draft) async {
+    _lastInputMode = 'manual';
     state = state.copyWith(status: FlowStatus.extracting, project: draft);
     final finalized = ref.read(analysisRepositoryProvider).finalizeManual(draft);
     await _afterAnalysis(finalized);
   }
 
-  Future<void> runText(String text) =>
-      _handle(() => ref.read(analysisRepositoryProvider).analyzeFromText(text));
+  Future<void> runText(String text) {
+    _lastInputMode = 'text';
+    return _handle(
+        () => ref.read(analysisRepositoryProvider).analyzeFromText(text));
+  }
 
-  Future<void> runVoice() => _handle(
-      () => ref.read(analysisRepositoryProvider).analyzeFromVoice('mock_audio'));
+  Future<void> runVoice() {
+    _lastInputMode = 'voice';
+    return _handle(() =>
+        ref.read(analysisRepositoryProvider).analyzeFromVoice('mock_audio'));
+  }
 
-  Future<void> runImages(List<String> refs, {String text = ''}) => _handle(() =>
-      ref.read(analysisRepositoryProvider).analyzeFromImages(refs, text: text));
+  Future<void> runImages(List<String> refs, {String text = ''}) {
+    _lastInputMode = 'image';
+    return _handle(() =>
+        ref.read(analysisRepositoryProvider).analyzeFromImages(refs, text: text));
+  }
 
   /// بعد إجابة أسئلة المتابعة: إعادة تطبيق القواعد ثم التوصية.
   Future<void> proceedAfterFollowUp(FurnishingProject updated) async {
@@ -70,6 +84,13 @@ class FurnishingFlowController extends Notifier<FurnishingFlowState> {
   }
 
   Future<void> _afterAnalysis(FurnishingProject project) async {
+    ref.read(analyticsProvider).track(InputSubmitted(
+          roomType: project.room.roomType.wire,
+          hasBudget: project.budget.hasBudget,
+          essentialCount: project.items.essential.length,
+          optionalCount: project.items.optional.length,
+          inputMode: _lastInputMode,
+        ));
     if (project.nextActions.hasFollowUps) {
       state = state.copyWith(status: FlowStatus.needsFollowUp, project: project);
       return;
