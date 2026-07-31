@@ -119,7 +119,7 @@
     </div>
 
     <div class="demo-badge" id="demoBadge" style="display:none">
-      <span>نموذج تجريبي لإثبات تقنية الواقع المعزّز</span>
+      <span>نموذج بمقاسه الحقيقي — عرض توضيحي</span>
     </div>
 
     <model-viewer id="mv"
@@ -166,8 +166,11 @@
 
   <script>
     (function () {
-      var DEMO_GLB  = "https://modelviewer.dev/shared-assets/models/Astronaut.glb";
-      var DEMO_USDZ = "https://modelviewer.dev/shared-assets/models/Astronaut.usdz";
+      // Default model = a REAL, to-scale coffee table generated in-repo
+      // (tools/generate_furniture_glb.py), served from this same deployment.
+      // No USDZ needed: iOS Safari auto-converts the GLB for Quick Look.
+      var DEMO_GLB  = "models/coffee_table_walnut.glb";
+      var DEMO_USDZ = "";
 
       var q = new URLSearchParams(location.search);
       var glb   = q.get("glb")   || "";
@@ -176,7 +179,12 @@
       var w = q.get("w"), d = q.get("d"), h = q.get("h"), color = q.get("color");
 
       var isDemo = !glb;
-      if (isDemo) { glb = DEMO_GLB; usdz = usdz || DEMO_USDZ; }
+      if (isDemo) {
+        glb = DEMO_GLB; usdz = usdz || DEMO_USDZ;
+        if (!title) title = "طاولة قهوة خشبية";
+        if (!w) { w = "110"; d = "60"; h = "45"; }
+        if (!color) color = "جوزي";
+      }
 
       var mv = document.getElementById("mv");
       mv.setAttribute("src", glb);
