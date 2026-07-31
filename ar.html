@@ -53,6 +53,16 @@
       --poster-color: transparent;
     }
 
+    .progress-shell {
+      position: absolute; top: 0; inset-inline: 0; height: 3px;
+      background: rgba(245,239,230,.12); z-index: 7;
+    }
+    .progress-fill {
+      height: 100%; width: 0%; background: var(--brand);
+      transition: width .2s ease;
+    }
+    .progress-shell.hide { opacity: 0; transition: opacity .5s ease .2s; }
+
     /* Prominent, custom AR button (model-viewer shows it only when AR is usable) */
     .ar-btn {
       position: absolute; inset-inline: 0; bottom: 0; z-index: 6;
@@ -115,14 +125,25 @@
     <model-viewer id="mv"
       camera-controls
       auto-rotate
+      auto-rotate-delay="2500"
+      rotation-per-second="18deg"
+      interaction-prompt="none"
+      loading="eager"
+      reveal="auto"
       shadow-intensity="1"
+      shadow-softness="1"
+      tone-mapping="neutral"
       ar
       ar-modes="webxr scene-viewer quick-look"
       ar-scale="fixed"
       ar-placement="floor"
       environment-image="neutral"
-      exposure="1"
+      exposure="1.05"
+      min-field-of-view="18deg"
       alt="معاينة ثلاثية الأبعاد">
+      <div class="progress-shell" slot="progress-bar">
+        <div class="progress-fill" id="progressFill"></div>
+      </div>
       <div class="ar-btn" slot="ar-button">
         <button id="arButton">
           <span aria-hidden="true">&#128241;</span>
@@ -171,6 +192,15 @@
       function pill(t) { var s = document.createElement("div"); s.className = "pill"; s.textContent = t; meta.appendChild(s); }
       if (w && d && h) pill("المقاس: " + w + "×" + d + "×" + h + " سم");
       if (color) pill("اللون: " + color);
+
+      // Load progress bar.
+      var fill = document.getElementById("progressFill");
+      var shell = fill.parentElement;
+      mv.addEventListener("progress", function (e) {
+        var p = Math.round((e.detail.totalProgress || 0) * 100);
+        fill.style.width = p + "%";
+        if (p >= 100) shell.classList.add("hide");
+      });
 
       // Hide the rotate hint once the user interacts.
       var hint = document.getElementById("hint");
