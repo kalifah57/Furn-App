@@ -5,6 +5,7 @@ import '../../../domain_engine/plan/plan.dart';
 import '../../../shared/models/models.dart';
 import '../../../shared/utils/formatters.dart';
 import '../../ar/ar_button.dart';
+import '../../options/option_card.dart';
 import 'plan_controller.dart';
 
 /// شاشة الخطة — قلب التطبيق (product_thesis.md): «الخطة» التي يشكّلها المستخدم
@@ -419,8 +420,11 @@ class _PlanViewState extends State<_PlanView> {
               ),
               TextButton.icon(
                 onPressed: id == null ? null : () => _openAlternatives(item),
-                icon: const Icon(Icons.swap_horiz, size: 18),
-                label: const Text('بدّل'),
+                icon: const Icon(Icons.grid_view_outlined, size: 18),
+                label: Text(() {
+                  final n = c.alternativesFor(item.category).length;
+                  return n > 1 ? 'الخيارات ($n)' : 'بدّل';
+                }()),
               ),
               const Spacer(),
               IconButton(
@@ -442,43 +446,86 @@ class _PlanViewState extends State<_PlanView> {
     );
   }
 
+  /// متصفّح الخيارات الغنيّ — «أرِني الخيارات»: كل خيارات الفئة المتاحة
+  /// (المتجر، السعر، الأبعاد + هل تناسب غرفتك، الألوان، الخامات، التقييم،
+  /// الواقع المعزّز) في ورقة قابلة للتمرير، مع تمييز الخيار الحالي.
   void _openAlternatives(RecommendedItem item) {
     final id = item.productId;
     if (id == null) return;
-    final alts = c
-        .alternativesFor(item.category)
-        .where((p) => p.productId != id)
-        .toList();
+    final options = c.alternativesFor(item.category);
+    final room = c.project.room;
     showModalBottomSheet<void>(
       context: context,
-      builder: (sheetContext) => SafeArea(
-        child: ListView(
-          shrinkWrap: true,
-          padding: const EdgeInsets.all(16),
-          children: [
-            Text('بدائل ${item.category.arabicLabel}',
-                style: Theme.of(sheetContext)
-                    .textTheme
-                    .titleMedium
-                    ?.copyWith(fontWeight: FontWeight.bold)),
-            const SizedBox(height: 8),
-            if (alts.isEmpty)
-              const Padding(
-                padding: EdgeInsets.symmetric(vertical: 16),
-                child: Text('لا توجد بدائل متاحة ضمن هذه الفئة.'),
+      isScrollControlled: true,
+      showDragHandle: true,
+      builder: (sheetContext) {
+        final theme = Theme.of(sheetContext);
+        return DraggableScrollableSheet(
+          expand: false,
+          initialChildSize: 0.78,
+          minChildSize: 0.5,
+          maxChildSize: 0.95,
+          builder: (ctx, scrollController) => Column(
+            children: [
+              Padding(
+                padding: const EdgeInsets.fromLTRB(16, 0, 16, 8),
+                child: Row(children: [
+                  Icon(Icons.grid_view, color: theme.colorScheme.primary),
+                  const SizedBox(width: 8),
+                  Expanded(
+                    child: Text(
+                      'خيارات ${item.category.arabicLabel} — ${options.length}',
+                      style: theme.textTheme.titleMedium
+                          ?.copyWith(fontWeight: FontWeight.bold),
+                    ),
+                  ),
+                ]),
               ),
-            for (final p in alts)
-              ListTile(
-                title: Text(p.title),
-                trailing: Text(formatSar(p.price)),
-                onTap: () {
-                  Navigator.of(sheetContext).pop();
-                  c.swap(id, p.productId);
-                },
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 16),
+                child: Text(
+                  'قارن وجرّبها في غرفتك، ثم اختر ما تثق به.',
+                  style: theme.textTheme.bodySmall
+                      ?.copyWith(color: theme.colorScheme.onSurfaceVariant),
+                ),
               ),
-          ],
-        ),
-      ),
+              const SizedBox(height: 8),
+              Expanded(
+                child: options.isEmpty
+                    ? const Center(
+                        child: Padding(
+                          padding: EdgeInsets.all(24),
+                          child: Text('لا توجد خيارات متاحة ضمن هذه الفئة.'),
+                        ),
+                      )
+                    : ListView.builder(
+                        controller: scrollController,
+                        padding: const EdgeInsets.fromLTRB(16, 0, 16, 24),
+                        itemCount: options.length,
+                        itemBuilder: (_, i) {
+                          final p = options[i];
+                          final current = p.productId == id;
+                          return Padding(
+                            padding: const EdgeInsets.only(bottom: 10),
+                            child: OptionCard(
+                              product: p,
+                              room: room,
+                              isCurrent: current,
+                              onSelect: current
+                                  ? null
+                                  : () {
+                                      Navigator.of(sheetContext).pop();
+                                      c.swap(id, p.productId);
+                                    },
+                            ),
+                          );
+                        },
+                      ),
+              ),
+            ],
+          ),
+        );
+      },
     );
   }
 
