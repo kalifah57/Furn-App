@@ -345,15 +345,17 @@ class _PlanViewState extends State<_PlanView> {
             ]),
             const SizedBox(height: 6),
             Text(
-              'افتح الكاميرا وضع القطعة بمقاسها الحقيقي في غرفتك، ثم دُر حولها '
-              'وتأكّد قبل القرار — دون تثبيت أي تطبيق.',
+              'طاولة قهوة حقيقية بمقاسها الفعلي (١١٠×٦٠×٤٥ سم). افتح الكاميرا '
+              'وضعها على الأرض، لُفّ حولها، وتأكّد أنها تناسب مكانك — دون تثبيت '
+              'أي تطبيق.',
               style: theme.textTheme.bodyMedium
                   ?.copyWith(color: theme.colorScheme.onSurfaceVariant),
             ),
             const SizedBox(height: 12),
-            const ArDemoButton(),
+            const ArDemoButton(label: 'شاهد الطاولة في غرفتك'),
             const SizedBox(height: 6),
-            Text('نموذج تجريبي لإثبات التقنية — نماذج المنتجات الحقيقية قريبًا.',
+            Text('نموذج ثلاثي الأبعاد حقيقي مُولّد بمقاسه الفعلي — نُلحق نماذج '
+                'بقية المنتجات تباعًا.',
                 style: theme.textTheme.bodySmall
                     ?.copyWith(color: theme.colorScheme.onSurfaceVariant)),
           ],

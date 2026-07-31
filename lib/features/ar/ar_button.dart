@@ -44,20 +44,48 @@ class ArButton extends StatelessWidget {
   }
 }
 
-/// زر تجربة الواقع المعزّز بنموذج تجريبي عام (لا يتطلّب بيانات منتج).
-/// يثبت أن الكاميرا + الوضع بمقاس حقيقي يعملان قبل توفّر نماذج المنتجات.
+/// زر تجربة الواقع المعزّز بنموذج جاهز (افتراضيًا الطاولة الحقيقية بمقاسها).
+/// يفتح الكاميرا مباشرة دون الحاجة لعنصر منتج مُختار.
 class ArDemoButton extends StatelessWidget {
-  const ArDemoButton({super.key, this.label = 'جرّب الواقع المعزّز الآن'});
+  const ArDemoButton({
+    super.key,
+    this.label = 'شاهدها في غرفتك',
+    this.glbUrl = kDemoTableGlb,
+    this.usdzUrl = '',
+    this.title = 'طاولة قهوة خشبية',
+    this.widthCm = 110,
+    this.depthCm = 60,
+    this.heightCm = 45,
+    this.color = 'walnut',
+  });
 
   final String label;
+  final String glbUrl;
+  final String usdzUrl;
+  final String title;
+  final double? widthCm;
+  final double? depthCm;
+  final double? heightCm;
+  final String? color;
 
   @override
   Widget build(BuildContext context) {
     return FilledButton.icon(
-      onPressed: () =>
-          openArView(glbUrl: '', usdzUrl: '', title: 'نموذج تجريبي'),
+      onPressed: () => openArView(
+        glbUrl: glbUrl,
+        usdzUrl: usdzUrl,
+        title: title,
+        widthCm: widthCm,
+        depthCm: depthCm,
+        heightCm: heightCm,
+        color: color != null ? _colorAr[color!] ?? color : null,
+      ),
       icon: const Icon(Icons.view_in_ar, size: 18),
       label: Text(label),
     );
   }
 }
+
+/// النموذج الحقيقي المولّد بمقاسه (tools/generate_furniture_glb.py) — يُخدَم من
+/// نفس النشر على GitHub Pages؛ المسار نسبي ليُحَل مقابل `<base href>`.
+const kDemoTableGlb = 'models/coffee_table_walnut.glb';

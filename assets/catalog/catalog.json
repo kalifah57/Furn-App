@@ -1414,5 +1414,40 @@
     ],
     "image_url": "",
     "product_url": ""
+  },
+  {
+    "product_id": "table_coffee_walnut_ar",
+    "title": "طاولة قهوة خشبية (جوزي)",
+    "category": "table",
+    "subcategory": "coffee_table",
+    "style_tags": [
+      "modern",
+      "wood"
+    ],
+    "color_tags": [
+      "walnut",
+      "brown"
+    ],
+    "material_tags": [
+      "wood"
+    ],
+    "width_cm": 110,
+    "depth_cm": 60,
+    "height_cm": 45,
+    "price": 520,
+    "currency": "SAR",
+    "brand": "بيت الراحة",
+    "supplier": "mock",
+    "availability_status": "in_stock",
+    "rating_optional": 4.5,
+    "room_suitability_tags": [
+      "living_room",
+      "guest_room"
+    ],
+    "image_url": "",
+    "product_url": "",
+    "model_glb_url": "models/coffee_table_walnut.glb",
+    "model_usdz_url": "",
+    "ar_ready": true
   }
 ]

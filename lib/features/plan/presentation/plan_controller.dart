@@ -16,7 +16,7 @@ const _demoProject = FurnishingProject(
   style: StylePreferences(preferred: ['modern'], colors: ['gray', 'white']),
   items: RequestedItems(
     essential: [RequestedItem(type: 'سرير'), RequestedItem(type: 'دولاب')],
-    optional: [RequestedItem(type: 'إضاءة')],
+    optional: [RequestedItem(type: 'إضاءة'), RequestedItem(type: 'طاولة')],
   ),
 );
 
