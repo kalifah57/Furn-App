@@ -26,6 +26,9 @@ class CatalogProduct extends Equatable {
     this.roomSuitabilityTags = const [],
     this.imageUrl = '',
     this.productUrl = '',
+    this.modelGlbUrl = '',
+    this.modelUsdzUrl = '',
+    this.arReady = false,
   });
 
   final String productId;
@@ -48,7 +51,18 @@ class CatalogProduct extends Equatable {
   final String imageUrl;
   final String productUrl;
 
+  /// روابط النموذج ثلاثي الأبعاد للواقع المعزّز (see it in your room).
+  /// GLB لأندرويد/الويب، USDZ لـ Quick Look على iOS — بمقاس حقيقي بالمتر.
+  final String modelGlbUrl;
+  final String modelUsdzUrl;
+
+  /// يُعرض زر «شاهدها في غرفتك» فقط عندما يكون النموذجان جاهزين وموثّقَي المقاس.
+  final bool arReady;
+
   bool get isAvailable => availabilityStatus == 'in_stock';
+
+  /// جاهزية فعلية للـ AR: العلَم مرفوع ونموذج GLB موجود على الأقل.
+  bool get hasArModel => arReady && modelGlbUrl.isNotEmpty;
 
   factory CatalogProduct.fromJson(Map<String, dynamic> json) => CatalogProduct(
         productId: asString(json['product_id']),
@@ -71,6 +85,9 @@ class CatalogProduct extends Equatable {
         roomSuitabilityTags: asStringList(json['room_suitability_tags']),
         imageUrl: asString(json['image_url']),
         productUrl: asString(json['product_url']),
+        modelGlbUrl: asString(json['model_glb_url']),
+        modelUsdzUrl: asString(json['model_usdz_url']),
+        arReady: asBool(json['ar_ready']),
       );
 
   Map<String, dynamic> toJson() => {
@@ -93,6 +110,9 @@ class CatalogProduct extends Equatable {
         'room_suitability_tags': roomSuitabilityTags,
         'image_url': imageUrl,
         'product_url': productUrl,
+        'model_glb_url': modelGlbUrl,
+        'model_usdz_url': modelUsdzUrl,
+        'ar_ready': arReady,
       };
 
   @override
@@ -116,5 +136,8 @@ class CatalogProduct extends Equatable {
         roomSuitabilityTags,
         imageUrl,
         productUrl,
+        modelGlbUrl,
+        modelUsdzUrl,
+        arReady,
       ];
 }

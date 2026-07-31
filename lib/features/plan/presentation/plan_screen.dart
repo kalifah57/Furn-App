@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../domain_engine/plan/plan.dart';
 import '../../../shared/models/models.dart';
 import '../../../shared/utils/formatters.dart';
+import '../../ar/ar_button.dart';
 import 'plan_controller.dart';
 
 /// شاشة الخطة — قلب التطبيق (product_thesis.md): «الخطة» التي يشكّلها المستخدم
@@ -79,6 +80,8 @@ class _PlanViewState extends State<_PlanView> {
                 const SizedBox(height: 12),
                 _completeness(context, plan),
               ],
+              const SizedBox(height: 12),
+              _arPreviewCard(context),
               const SizedBox(height: 20),
               Text('قطع خطتك',
                   style: Theme.of(context)
@@ -321,10 +324,48 @@ class _PlanViewState extends State<_PlanView> {
 
   // ---- item ---------------------------------------------------------------
 
+  /// بطاقة تجربة الواقع المعزّز — يفتح المستخدم الكاميرا ويرى قطعة بمقاسها
+  /// الحقيقي في غرفته الآن (نموذج تجريبي)، تمهيدًا لنماذج المنتجات الفعلية.
+  Widget _arPreviewCard(BuildContext context) {
+    final theme = Theme.of(context);
+    return Card(
+      color: theme.colorScheme.secondaryContainer.withOpacity(0.5),
+      child: Padding(
+        padding: const EdgeInsets.all(16),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Row(children: [
+              Icon(Icons.view_in_ar, color: theme.colorScheme.primary),
+              const SizedBox(width: 8),
+              Text('شاهدها في غرفتك',
+                  style: theme.textTheme.titleMedium
+                      ?.copyWith(fontWeight: FontWeight.bold)),
+            ]),
+            const SizedBox(height: 6),
+            Text(
+              'افتح الكاميرا وضع القطعة بمقاسها الحقيقي في غرفتك، ثم دُر حولها '
+              'وتأكّد قبل القرار — دون تثبيت أي تطبيق.',
+              style: theme.textTheme.bodyMedium
+                  ?.copyWith(color: theme.colorScheme.onSurfaceVariant),
+            ),
+            const SizedBox(height: 12),
+            const ArDemoButton(),
+            const SizedBox(height: 6),
+            Text('نموذج تجريبي لإثبات التقنية — نماذج المنتجات الحقيقية قريبًا.',
+                style: theme.textTheme.bodySmall
+                    ?.copyWith(color: theme.colorScheme.onSurfaceVariant)),
+          ],
+        ),
+      ),
+    );
+  }
+
   Widget _itemCard(BuildContext context, PlanItem planItem) {
     final theme = Theme.of(context);
     final item = planItem.item;
     final id = item.productId;
+    final product = c.productById(id);
     return Card(
       child: Padding(
         padding: const EdgeInsets.fromLTRB(16, 12, 8, 8),
@@ -388,6 +429,13 @@ class _PlanViewState extends State<_PlanView> {
                 icon: const Icon(Icons.close),
               ),
             ]),
+            if (product?.hasArModel ?? false) ...[
+              const Divider(height: 8),
+              Align(
+                alignment: AlignmentDirectional.centerStart,
+                child: ArButton(product: product),
+              ),
+            ],
           ],
         ),
       ),

@@ -98,4 +98,13 @@ class PlanController extends ChangeNotifier {
 
   List<CatalogProduct> alternativesFor(RecommendationCategory c) =>
       _ws.alternativesFor(c);
+
+  /// منتج الكتالوج المصدر لعنصر في الخطة (للوصول إلى نموذج الـ AR ومقاسه).
+  CatalogProduct? productById(String? id) {
+    if (id == null) return null;
+    for (final p in _ws.catalog) {
+      if (p.productId == id) return p;
+    }
+    return null;
+  }
 }
