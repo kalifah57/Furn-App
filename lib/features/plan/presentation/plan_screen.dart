@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 
+import '../../../core/router/app_router.dart';
 import '../../../domain_engine/plan/plan.dart';
 import '../../../shared/models/models.dart';
 import '../../../shared/utils/formatters.dart';
@@ -18,7 +20,18 @@ class PlanScreen extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final async = ref.watch(planControllerProvider);
     return Scaffold(
-      appBar: AppBar(title: const Text('خطتي')),
+      appBar: AppBar(
+        title: const Text('خطتي'),
+        actions: [
+          // بوّابة الواقع المعزّز على مستوى الكتالوج: تعرض ما يدخل في الغرفة
+          // فعلًا (ArSpatialEngine) قبل فتح الكاميرا.
+          IconButton(
+            tooltip: 'شاهدها في غرفتك',
+            icon: const Icon(Icons.view_in_ar),
+            onPressed: () => context.push(Routes.ar),
+          ),
+        ],
+      ),
       body: async.when(
         loading: () => const Center(child: CircularProgressIndicator()),
         error: (e, _) => Center(child: Padding(
