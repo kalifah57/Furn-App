@@ -1,6 +1,7 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../core/di/providers.dart';
+import '../../../core/errors/result.dart';
 import '../../../domain_engine/spatial/ar_spatial_engine.dart';
 import '../../../domain_engine/spatial/placement_solver.dart';
 import '../../../domain_engine/spatial/replacement_finder.dart';
@@ -109,6 +110,42 @@ class SandboxController extends AsyncNotifier<SandboxState> {
       totalBudget: budget,
       catalog: catalog,
     );
+  }
+
+  // ---- إعادة المسح (تسليم إلى الجوال) ------------------------------------
+
+  /// يعيد بناء المشهد على غرفة جديدة قادمة من الماسح.
+  ///
+  /// المسح ليس جزءًا من [build]: الصندوق يجب أن يفتح فورًا بغرفة المشروع حتى بلا
+  /// جوال، و«امسح غرفتي» فعل صريح يبدّل الغرفة تحت نفس الباقة.
+  Future<Result<ScannedRoom>> rescan() async {
+    final previous = state.valueOrNull;
+    final result = await ref.read(roomScannerServiceProvider).scan();
+    final room = result.valueOrNull;
+    if (room == null) return result; // نُبقي المشهد الحالي كما هو
+
+    final catalog = previous?.catalog ?? const <CatalogProduct>[];
+    final brief = ref.read(sandboxBriefProvider);
+    final budget = previous?.totalBudget ?? brief.budget.maxTotal;
+
+    final package = ref.read(packageComposerProvider).compose(
+          catalog: catalog,
+          roomType: brief.room.roomType,
+          budget: budget,
+        );
+    final space = RoomSpace(
+      widthCm: room.widthCm,
+      lengthCm: room.lengthCm,
+      ceilingCm: room.ceilingCm,
+    );
+
+    state = AsyncData(SandboxState(
+      room: room,
+      plan: ref.read(placementSolverProvider).solve(package.items, space),
+      totalBudget: budget,
+      catalog: catalog,
+    ));
+    return result;
   }
 
   // ---- التفاعل مع المشهد -------------------------------------------------

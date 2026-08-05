@@ -17,7 +17,16 @@ class SandboxScreen extends ConsumerWidget {
     final async = ref.watch(sandboxControllerProvider);
 
     return Scaffold(
-      appBar: AppBar(title: const Text('صمّم غرفتك')),
+      appBar: AppBar(
+        title: const Text('صمّم غرفتك'),
+        actions: [
+          IconButton(
+            tooltip: 'امسح غرفتي',
+            icon: const Icon(Icons.center_focus_strong),
+            onPressed: () => _rescan(context, ref),
+          ),
+        ],
+      ),
       body: async.when(
         loading: () => const Center(child: CircularProgressIndicator()),
         error: (e, _) => Center(
@@ -45,6 +54,18 @@ class SandboxScreen extends ConsumerWidget {
         ),
       ),
     );
+  }
+
+  /// يبدأ المسح (تسليم إلى الجوال على الويب، LiDAR مباشرة على iOS).
+  ///
+  /// نُبقي المشهد الحالي معروضًا أثناء الانتظار: إفراغ الشاشة لدقيقتين بينما
+  /// المستخدم يمشي إلى غرفته يبدو كتعطّل.
+  Future<void> _rescan(BuildContext context, WidgetRef ref) async {
+    final messenger = ScaffoldMessenger.of(context);
+    final result = await ref.read(sandboxControllerProvider.notifier).rescan();
+    final failure = result.failureOrNull;
+    if (failure == null) return;
+    messenger.showSnackBar(SnackBar(content: Text(failure.message)));
   }
 
   void _onTap(BuildContext context, WidgetRef ref, String? productId) {
