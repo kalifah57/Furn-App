@@ -7,6 +7,13 @@ import 'decision.dart';
 /// دورة حياة المشروع — من مسوّدة إلى معتمَد.
 enum ProjectStatus { draft, active, approved }
 
+/// حارس «لم يُمرَّر» لـ [Project.copyWith] — يميّزه عن null الصريحة.
+class _Unset {
+  const _Unset();
+}
+
+const _unset = _Unset();
+
 /// **الجذر الكلّي (Aggregate Root).** المشروع = المُلخّص (الغرفة/الميزانية/الاحتياج)
 /// + الخطة المشتقّة الحالية + مسار القرارات + الحالة. المنتج النهائي المُباع هو
 /// **خطة التأثيث داخل مشروع معتمَد.** كيان نقي بلا Flutter (قابل للاختبار بمعزل).
@@ -40,13 +47,16 @@ class Project extends Equatable {
   double get budgetMax => brief.budget.maxTotal;
   double get total => plan.total;
 
+  /// [approvedAt] وحده حقل قابل لـ null، ولذلك لا يصلح معه `??`: تمرير null
+  /// صراحةً (كما يفعل [reopen]) كان يُفسَّر «لم يُمرَّر» فيبقى تاريخ الاعتماد
+  /// على مشروع أُعيد فتحه. الحارس يفصل «لم يُمرَّر» عن «امسحه».
   Project copyWith({
     FurnishingProject? brief,
     Plan? plan,
     ProjectStatus? status,
     DecisionTimeline? timeline,
     String? title,
-    DateTime? approvedAt,
+    Object? approvedAt = _unset,
   }) =>
       Project(
         id: id,
@@ -55,7 +65,9 @@ class Project extends Equatable {
         status: status ?? this.status,
         timeline: timeline ?? this.timeline,
         title: title ?? this.title,
-        approvedAt: approvedAt ?? this.approvedAt,
+        approvedAt: identical(approvedAt, _unset)
+            ? this.approvedAt
+            : approvedAt as DateTime?,
       );
 
   /// يسجّل قرارًا على المسار، يربط الخطة المُعاد اشتقاقها، وينقل الحالة إلى active

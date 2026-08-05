@@ -8,16 +8,16 @@ import 'package:furn_app/shared/models/models.dart';
 /// Draft → Active → Approved lifecycle. Pure domain — no Flutter.
 void main() {
   const plan = Plan(
-    items: const [],
+    items: [],
     total: 1200,
-    assurances: const Assurances(
+    assurances: Assurances(
       fitsRoom: true,
       withinBudget: true,
       allAvailable: true,
       essentialsComplete: true,
     ),
     confidence: 80,
-    missingCategories: const [],
+    missingCategories: [],
   );
 
   final brief = FurnishingProject(
@@ -76,5 +76,20 @@ void main() {
     expect(p.status, ProjectStatus.active);
     expect(p.approvedAt, isNull);
     expect(p.timeline.last!.kind, DecisionKind.reopened);
+  });
+
+  group('copyWith and the nullable approvedAt', () {
+    test('omitting approvedAt preserves it', () {
+      final approved = draft().approve(DateTime(2026, 5, 1));
+      expect(approved.copyWith(title: 'خطة الضيوف').approvedAt,
+          DateTime(2026, 5, 1));
+    });
+
+    test('passing null explicitly clears it', () {
+      // The distinction `??` cannot express: an explicit null must erase the
+      // timestamp, otherwise a reopened project still claims it was approved.
+      final approved = draft().approve(DateTime(2026, 5, 1));
+      expect(approved.copyWith(approvedAt: null).approvedAt, isNull);
+    });
   });
 }
