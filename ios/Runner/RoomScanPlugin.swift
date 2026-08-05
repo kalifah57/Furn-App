@@ -57,14 +57,25 @@ final class RoomScanPlugin: NSObject {
                             details: nil))
         return
       }
-      presentCapture(result: result)
+      // Optional handoff: when the Mac address and pairing code are supplied,
+      // each stage is mirrored to the local rendezvous so the browser can
+      // follow along. Without them the scan simply returns over the channel.
+      var uploader: HandoffUploader?
+      if let args = call.arguments as? [String: Any],
+         let host = args["serverUrl"] as? String,
+         let code = args["pairingCode"] as? String,
+         let url = URL(string: host) {
+        uploader = HandoffUploader(baseURL: url, pairingCode: code)
+      }
+      presentCapture(result: result, uploader: uploader)
 
     default:
       result(FlutterMethodNotImplemented)
     }
   }
 
-  private func presentCapture(result: @escaping FlutterResult) {
+  private func presentCapture(result: @escaping FlutterResult,
+                              uploader: HandoffUploader? = nil) {
     guard let host = hostViewController else {
       result(FlutterError(code: "SCAN_FAILED",
                           message: "No view controller to present from.",
@@ -78,22 +89,46 @@ final class RoomScanPlugin: NSObject {
     // reply freely.
     let reply = SingleReply(result)
 
-    let scanner = RoomScanViewController { outcome in
+    if let uploader = uploader {
+      Task { await uploader.send(stage: .linked) }
+    }
+
+    let scanner = RoomScanViewController(onStage: { stage in
+      guard let uploader = uploader else { return }
+      Task { await uploader.send(stage: stage) }
+    }) { outcome in
       host.dismiss(animated: true) {
         switch outcome {
         case .success(let room):
           do {
-            reply.send(try RoomScanPlugin.encode(room))
+            let json = try RoomScanPlugin.encode(room)
+            if let uploader = uploader {
+              let extent = RoomScanPlugin.floorExtent(of: room.walls)
+              let ceiling = Double(room.walls.map { $0.dimensions.y }.max() ?? 0)
+              Task {
+                await uploader.sendCompleted(
+                  widthCm: extent.width * 100,
+                  lengthCm: extent.length * 100,
+                  ceilingCm: ceiling * 100,
+                  confidence: room.walls.count >= 4 ? 0.95 : 0.6)
+              }
+            }
+            reply.send(json)
           } catch {
             reply.send(FlutterError(code: "SCAN_FAILED",
                                     message: "Could not serialise the scan: \(error)",
                                     details: nil))
           }
         case .cancelled:
+          if let uploader = uploader { Task { await uploader.send(stage: .cancelled) } }
           reply.send(FlutterError(code: "CANCELLED",
                                   message: "The user cancelled the scan.",
                                   details: nil))
         case .failed(let error):
+          if let uploader = uploader {
+            Task { await uploader.send(stage: .failed,
+                                       failure: error.localizedDescription) }
+          }
           reply.send(FlutterError(code: "SCAN_FAILED",
                                   message: error.localizedDescription,
                                   details: nil))
@@ -221,9 +256,12 @@ final class RoomScanViewController: UIViewController, RoomCaptureViewDelegate {
 
   private lazy var captureView = RoomCaptureView(frame: view.bounds)
   private let onFinish: (RoomScanOutcome) -> Void
+  private let onStage: (HandoffUploader.Stage) -> Void
   private var finished = false
 
-  init(onFinish: @escaping (RoomScanOutcome) -> Void) {
+  init(onStage: @escaping (HandoffUploader.Stage) -> Void = { _ in },
+       onFinish: @escaping (RoomScanOutcome) -> Void) {
+    self.onStage = onStage
     self.onFinish = onFinish
     super.init(nibName: nil, bundle: nil)
   }
@@ -241,6 +279,7 @@ final class RoomScanViewController: UIViewController, RoomCaptureViewDelegate {
   override func viewDidAppear(_ animated: Bool) {
     super.viewDidAppear(animated)
     captureView.captureSession.run(configuration: RoomCaptureSessionConfig())
+    onStage(.scanning)
   }
 
   private func addControls() {
@@ -269,6 +308,7 @@ final class RoomScanViewController: UIViewController, RoomCaptureViewDelegate {
   @objc private func finishScan() {
     // Stopping the session triggers processing; the result arrives in the
     // delegate callback below, not here.
+    onStage(.processing)
     captureView.captureSession.stop()
   }
 
