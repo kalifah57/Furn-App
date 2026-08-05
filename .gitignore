@@ -23,3 +23,6 @@ pubspec.lock
 lib/core/config/firebase_options.dart
 android/app/google-services.json
 ios/Runner/GoogleService-Info.plist
+
+# Python tooling
+__pycache__/

@@ -29,7 +29,10 @@
       "guest_room"
     ],
     "image_url": "",
-    "product_url": ""
+    "product_url": "",
+    "model_glb_url": "models/glb/bed_single_wood_s.glb",
+    "model_usdz_url": "",
+    "ar_ready": true
   },
   {
     "product_id": "bed_double_simple",
@@ -61,7 +64,10 @@
       "bedroom"
     ],
     "image_url": "",
-    "product_url": ""
+    "product_url": "",
+    "model_glb_url": "models/glb/bed_double_simple.glb",
+    "model_usdz_url": "",
+    "ar_ready": true
   },
   {
     "product_id": "bed_queen_premium",
@@ -91,7 +97,10 @@
       "bedroom"
     ],
     "image_url": "",
-    "product_url": ""
+    "product_url": "",
+    "model_glb_url": "models/glb/bed_queen_premium.glb",
+    "model_usdz_url": "",
+    "ar_ready": true
   },
   {
     "product_id": "bed_single_econo",
@@ -121,7 +130,10 @@
       "guest_room"
     ],
     "image_url": "",
-    "product_url": ""
+    "product_url": "",
+    "model_glb_url": "models/glb/bed_single_econo.glb",
+    "model_usdz_url": "",
+    "ar_ready": true
   },
   {
     "product_id": "sofa_two_seat_s",
@@ -152,7 +164,10 @@
       "guest_room"
     ],
     "image_url": "",
-    "product_url": ""
+    "product_url": "",
+    "model_glb_url": "models/glb/sofa_two_seat_s.glb",
+    "model_usdz_url": "",
+    "ar_ready": true
   },
   {
     "product_id": "armchair_comfort",
@@ -183,7 +198,10 @@
       "guest_room"
     ],
     "image_url": "",
-    "product_url": ""
+    "product_url": "",
+    "model_glb_url": "models/glb/armchair_comfort.glb",
+    "model_usdz_url": "",
+    "ar_ready": true
   },
   {
     "product_id": "sofa_corner_l",
@@ -212,7 +230,10 @@
       "living_room"
     ],
     "image_url": "",
-    "product_url": ""
+    "product_url": "",
+    "model_glb_url": "models/glb/sofa_corner_l.glb",
+    "model_usdz_url": "",
+    "ar_ready": true
   },
   {
     "product_id": "sofa_fabric_gray",
@@ -242,7 +263,10 @@
       "guest_room"
     ],
     "image_url": "",
-    "product_url": ""
+    "product_url": "",
+    "model_glb_url": "models/glb/sofa_fabric_gray.glb",
+    "model_usdz_url": "",
+    "ar_ready": true
   },
   {
     "product_id": "wardrobe_small",
@@ -273,7 +297,10 @@
       "guest_room"
     ],
     "image_url": "",
-    "product_url": ""
+    "product_url": "",
+    "model_glb_url": "models/glb/wardrobe_small.glb",
+    "model_usdz_url": "",
+    "ar_ready": true
   },
   {
     "product_id": "wardrobe_two_door",
@@ -302,7 +329,10 @@
       "bedroom"
     ],
     "image_url": "",
-    "product_url": ""
+    "product_url": "",
+    "model_glb_url": "models/glb/wardrobe_two_door.glb",
+    "model_usdz_url": "",
+    "ar_ready": true
   },
   {
     "product_id": "nightstand_storage",
@@ -332,7 +362,10 @@
       "guest_room"
     ],
     "image_url": "",
-    "product_url": ""
+    "product_url": "",
+    "model_glb_url": "models/glb/nightstand_storage.glb",
+    "model_usdz_url": "",
+    "ar_ready": true
   },
   {
     "product_id": "lamp_floor",
@@ -363,7 +396,10 @@
       "guest_room"
     ],
     "image_url": "",
-    "product_url": ""
+    "product_url": "",
+    "model_glb_url": "models/glb/lamp_floor.glb",
+    "model_usdz_url": "",
+    "ar_ready": true
   },
   {
     "product_id": "lamp_table",
@@ -393,7 +429,10 @@
       "guest_room"
     ],
     "image_url": "",
-    "product_url": ""
+    "product_url": "",
+    "model_glb_url": "models/glb/lamp_table.glb",
+    "model_usdz_url": "",
+    "ar_ready": true
   },
   {
     "product_id": "chandelier_classic",
@@ -424,7 +463,10 @@
       "guest_room"
     ],
     "image_url": "",
-    "product_url": ""
+    "product_url": "",
+    "model_glb_url": "models/glb/chandelier_classic.glb",
+    "model_usdz_url": "",
+    "ar_ready": true
   },
   {
     "product_id": "rug_small_beige",
@@ -455,7 +497,10 @@
       "guest_room"
     ],
     "image_url": "",
-    "product_url": ""
+    "product_url": "",
+    "model_glb_url": "models/glb/rug_small_beige.glb",
+    "model_usdz_url": "",
+    "ar_ready": true
   },
   {
     "product_id": "rug_medium_classic",
@@ -486,7 +531,10 @@
       "guest_room"
     ],
     "image_url": "",
-    "product_url": ""
+    "product_url": "",
+    "model_glb_url": "models/glb/rug_medium_classic.glb",
+    "model_usdz_url": "",
+    "ar_ready": true
   },
   {
     "product_id": "rug_large_modern",
@@ -515,7 +563,10 @@
       "living_room"
     ],
     "image_url": "",
-    "product_url": ""
+    "product_url": "",
+    "model_glb_url": "models/glb/rug_large_modern.glb",
+    "model_usdz_url": "",
+    "ar_ready": true
   },
   {
     "product_id": "table_coffee_s",
@@ -545,7 +596,10 @@
       "guest_room"
     ],
     "image_url": "",
-    "product_url": ""
+    "product_url": "",
+    "model_glb_url": "models/glb/table_coffee_s.glb",
+    "model_usdz_url": "",
+    "ar_ready": true
   },
   {
     "product_id": "table_side_min",
@@ -576,7 +630,10 @@
       "guest_room"
     ],
     "image_url": "",
-    "product_url": ""
+    "product_url": "",
+    "model_glb_url": "models/glb/table_side_min.glb",
+    "model_usdz_url": "",
+    "ar_ready": true
   },
   {
     "product_id": "table_dining_s",
@@ -605,7 +662,10 @@
       "living_room"
     ],
     "image_url": "",
-    "product_url": ""
+    "product_url": "",
+    "model_glb_url": "models/glb/table_dining_s.glb",
+    "model_usdz_url": "",
+    "ar_ready": true
   },
   {
     "product_id": "bed_king_uph",
@@ -635,7 +695,10 @@
       "bedroom"
     ],
     "image_url": "",
-    "product_url": ""
+    "product_url": "",
+    "model_glb_url": "models/glb/bed_king_uph.glb",
+    "model_usdz_url": "",
+    "ar_ready": true
   },
   {
     "product_id": "bed_storage_full",
@@ -665,7 +728,10 @@
       "bedroom"
     ],
     "image_url": "",
-    "product_url": ""
+    "product_url": "",
+    "model_glb_url": "models/glb/bed_storage_full.glb",
+    "model_usdz_url": "",
+    "ar_ready": true
   },
   {
     "product_id": "bed_kids_single",
@@ -695,7 +761,10 @@
       "bedroom"
     ],
     "image_url": "",
-    "product_url": ""
+    "product_url": "",
+    "model_glb_url": "models/glb/bed_kids_single.glb",
+    "model_usdz_url": "",
+    "ar_ready": true
   },
   {
     "product_id": "bed_platform_wood",
@@ -725,7 +794,10 @@
       "bedroom"
     ],
     "image_url": "",
-    "product_url": ""
+    "product_url": "",
+    "model_glb_url": "models/glb/bed_platform_wood.glb",
+    "model_usdz_url": "",
+    "ar_ready": true
   },
   {
     "product_id": "sofa_majlis_floor",
@@ -755,7 +827,10 @@
       "guest_room"
     ],
     "image_url": "",
-    "product_url": ""
+    "product_url": "",
+    "model_glb_url": "models/glb/sofa_majlis_floor.glb",
+    "model_usdz_url": "",
+    "ar_ready": true
   },
   {
     "product_id": "sofa_recliner",
@@ -784,7 +859,10 @@
       "living_room"
     ],
     "image_url": "",
-    "product_url": ""
+    "product_url": "",
+    "model_glb_url": "models/glb/sofa_recliner.glb",
+    "model_usdz_url": "",
+    "ar_ready": true
   },
   {
     "product_id": "sofa_leather_3",
@@ -814,7 +892,10 @@
       "guest_room"
     ],
     "image_url": "",
-    "product_url": ""
+    "product_url": "",
+    "model_glb_url": "models/glb/sofa_leather_3.glb",
+    "model_usdz_url": "",
+    "ar_ready": true
   },
   {
     "product_id": "sofa_loveseat_beige",
@@ -845,7 +926,10 @@
       "guest_room"
     ],
     "image_url": "",
-    "product_url": ""
+    "product_url": "",
+    "model_glb_url": "models/glb/sofa_loveseat_beige.glb",
+    "model_usdz_url": "",
+    "ar_ready": true
   },
   {
     "product_id": "sofa_fabric_blue_3",
@@ -875,7 +959,10 @@
       "guest_room"
     ],
     "image_url": "",
-    "product_url": ""
+    "product_url": "",
+    "model_glb_url": "models/glb/sofa_fabric_blue_3.glb",
+    "model_usdz_url": "",
+    "ar_ready": true
   },
   {
     "product_id": "storage_tv_unit",
@@ -905,7 +992,10 @@
       "guest_room"
     ],
     "image_url": "",
-    "product_url": ""
+    "product_url": "",
+    "model_glb_url": "models/glb/storage_tv_unit.glb",
+    "model_usdz_url": "",
+    "ar_ready": true
   },
   {
     "product_id": "storage_bookshelf",
@@ -935,7 +1025,10 @@
       "bedroom"
     ],
     "image_url": "",
-    "product_url": ""
+    "product_url": "",
+    "model_glb_url": "models/glb/storage_bookshelf.glb",
+    "model_usdz_url": "",
+    "ar_ready": true
   },
   {
     "product_id": "storage_chest_drawers",
@@ -964,7 +1057,10 @@
       "bedroom"
     ],
     "image_url": "",
-    "product_url": ""
+    "product_url": "",
+    "model_glb_url": "models/glb/storage_chest_drawers.glb",
+    "model_usdz_url": "",
+    "ar_ready": true
   },
   {
     "product_id": "storage_wardrobe_4door",
@@ -994,7 +1090,10 @@
       "bedroom"
     ],
     "image_url": "",
-    "product_url": ""
+    "product_url": "",
+    "model_glb_url": "models/glb/storage_wardrobe_4door.glb",
+    "model_usdz_url": "",
+    "ar_ready": true
   },
   {
     "product_id": "storage_shoe_cabinet",
@@ -1023,7 +1122,10 @@
       "other"
     ],
     "image_url": "",
-    "product_url": ""
+    "product_url": "",
+    "model_glb_url": "models/glb/storage_shoe_cabinet.glb",
+    "model_usdz_url": "",
+    "ar_ready": true
   },
   {
     "product_id": "lamp_pendant_modern",
@@ -1054,7 +1156,10 @@
       "guest_room"
     ],
     "image_url": "",
-    "product_url": ""
+    "product_url": "",
+    "model_glb_url": "models/glb/lamp_pendant_modern.glb",
+    "model_usdz_url": "",
+    "ar_ready": true
   },
   {
     "product_id": "lamp_led_ceiling",
@@ -1085,7 +1190,10 @@
       "living_room"
     ],
     "image_url": "",
-    "product_url": ""
+    "product_url": "",
+    "model_glb_url": "models/glb/lamp_led_ceiling.glb",
+    "model_usdz_url": "",
+    "ar_ready": true
   },
   {
     "product_id": "lamp_bedside_pair",
@@ -1115,7 +1223,10 @@
       "bedroom"
     ],
     "image_url": "",
-    "product_url": ""
+    "product_url": "",
+    "model_glb_url": "models/glb/lamp_bedside_pair.glb",
+    "model_usdz_url": "",
+    "ar_ready": true
   },
   {
     "product_id": "lamp_arc_floor",
@@ -1144,7 +1255,10 @@
       "living_room"
     ],
     "image_url": "",
-    "product_url": ""
+    "product_url": "",
+    "model_glb_url": "models/glb/lamp_arc_floor.glb",
+    "model_usdz_url": "",
+    "ar_ready": true
   },
   {
     "product_id": "rug_persian_classic",
@@ -1175,7 +1289,10 @@
       "living_room"
     ],
     "image_url": "",
-    "product_url": ""
+    "product_url": "",
+    "model_glb_url": "models/glb/rug_persian_classic.glb",
+    "model_usdz_url": "",
+    "ar_ready": true
   },
   {
     "product_id": "rug_shaggy_gray",
@@ -1205,7 +1322,10 @@
       "living_room"
     ],
     "image_url": "",
-    "product_url": ""
+    "product_url": "",
+    "model_glb_url": "models/glb/rug_shaggy_gray.glb",
+    "model_usdz_url": "",
+    "ar_ready": true
   },
   {
     "product_id": "rug_runner_hall",
@@ -1234,7 +1354,10 @@
       "other"
     ],
     "image_url": "",
-    "product_url": ""
+    "product_url": "",
+    "model_glb_url": "models/glb/rug_runner_hall.glb",
+    "model_usdz_url": "",
+    "ar_ready": true
   },
   {
     "product_id": "rug_round_beige",
@@ -1264,7 +1387,10 @@
       "living_room"
     ],
     "image_url": "",
-    "product_url": ""
+    "product_url": "",
+    "model_glb_url": "models/glb/rug_round_beige.glb",
+    "model_usdz_url": "",
+    "ar_ready": true
   },
   {
     "product_id": "table_dining_6",
@@ -1293,7 +1419,10 @@
       "living_room"
     ],
     "image_url": "",
-    "product_url": ""
+    "product_url": "",
+    "model_glb_url": "models/glb/table_dining_6.glb",
+    "model_usdz_url": "",
+    "ar_ready": true
   },
   {
     "product_id": "table_console_slim",
@@ -1323,7 +1452,10 @@
       "guest_room"
     ],
     "image_url": "",
-    "product_url": ""
+    "product_url": "",
+    "model_glb_url": "models/glb/table_console_slim.glb",
+    "model_usdz_url": "",
+    "ar_ready": true
   },
   {
     "product_id": "table_nesting_set",
@@ -1353,7 +1485,10 @@
       "living_room"
     ],
     "image_url": "",
-    "product_url": ""
+    "product_url": "",
+    "model_glb_url": "models/glb/table_nesting_set.glb",
+    "model_usdz_url": "",
+    "ar_ready": true
   },
   {
     "product_id": "table_study_desk",
@@ -1383,7 +1518,10 @@
       "other"
     ],
     "image_url": "",
-    "product_url": ""
+    "product_url": "",
+    "model_glb_url": "models/glb/table_study_desk.glb",
+    "model_usdz_url": "",
+    "ar_ready": true
   },
   {
     "product_id": "table_coffee_glass",
@@ -1413,7 +1551,10 @@
       "living_room"
     ],
     "image_url": "",
-    "product_url": ""
+    "product_url": "",
+    "model_glb_url": "models/glb/table_coffee_glass.glb",
+    "model_usdz_url": "",
+    "ar_ready": true
   },
   {
     "product_id": "table_coffee_walnut_ar",
