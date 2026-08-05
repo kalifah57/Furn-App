@@ -39,8 +39,9 @@ class HandoffRoomScannerService implements RoomScannerService {
       return Err(opened.failureOrNull ?? const UnknownFailure());
     }
 
-    _sessions.add(session);
-
+    // لا نبثّ الجلسة هنا: [HandoffChannel.watch] يُعيد الحالة الراهنة أوّلًا،
+    // فبثّها مرّتين يُظهر انتقالًا مكرّرًا (pending ثم pending) ترتعش عنده أي
+    // واجهة تتحرّك مع تغيّر المرحلة. مصدر المراحل واحد: البثّ.
     try {
       await for (final update in channel.watch(session.id)) {
         _sessions.add(update);
