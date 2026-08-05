@@ -3,6 +3,7 @@ import 'dart:async';
 import '../../../core/errors/failure.dart';
 import '../../../core/errors/result.dart';
 import '../domain/handoff_session.dart';
+import '../domain/room_scanner_service.dart';
 
 /// تنفيذ [HandoffChannel] في الذاكرة — يحاكي الجهاز الثاني بلا خادم.
 ///
