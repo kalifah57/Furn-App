@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../core/di/providers.dart';
 import '../../../domain_engine/spatial/ar_spatial_engine.dart';
 import '../../../shared/models/models.dart';
+import '../../plan/presentation/plan_controller.dart' show planProjectProvider;
 
 /// حقن تبعيات شاشة الواقع المعزّز (ADR-0001 §4): كل شيء عبر مزوّدات قابلة
 /// للاستبدال، فلا تعرف الشاشة من أين جاء الكتالوج ولا كيف تُحسب المساحة.
@@ -11,12 +12,13 @@ import '../../../shared/models/models.dart';
 final arSpatialEngineProvider =
     Provider<ArSpatialEngine>((ref) => const ArSpatialEngine());
 
-/// الغرفة الممسوحة التي تُقاس عليها القطع.
+/// الغرفة التي تُقاس عليها القطع — **غرفة المستخدم نفسها**.
 ///
-/// يُستبدل بالقياس الحقيقي (من مسح الكاميرا أو الإدخال اليدوي) عبر `override`
-/// عند بناء الشاشة؛ الافتراضي غرفة معيشة 4×4 م لمعاينة الـ MVP.
+/// تُشتقّ من [planProjectProvider] (مشروع التدفّق إن اكتمل، وإلا المشروع
+/// التجريبي)، فتتبع البوّابة المقاسَ الحقيقي تلقائيًا. بلا هذا الربط كانت الشاشة
+/// تقيس أثاث كل مستخدم على غرفة ثابتة — وهو نقض لغرضها كلّه.
 final arRoomProvider = Provider<Room>(
-  (ref) => const Room(widthM: 4, lengthM: 4, roomType: RoomType.livingRoom),
+  (ref) => ref.watch(planProjectProvider).room,
 );
 
 /// القطع المثبّتة في الغرفة فعلًا — تستهلك المساحة المتبقّية للقطع التالية.
