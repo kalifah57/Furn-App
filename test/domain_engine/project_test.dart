@@ -8,16 +8,16 @@ import 'package:furn_app/shared/models/models.dart';
 /// Draft → Active → Approved lifecycle. Pure domain — no Flutter.
 void main() {
   const plan = Plan(
-    items: [],
+    items: const [],
     total: 1200,
-    assurances: Assurances(
+    assurances: const Assurances(
       fitsRoom: true,
       withinBudget: true,
       allAvailable: true,
       essentialsComplete: true,
     ),
     confidence: 80,
-    missingCategories: [],
+    missingCategories: const [],
   );
 
   final brief = FurnishingProject(

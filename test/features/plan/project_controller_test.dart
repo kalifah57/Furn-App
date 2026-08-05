@@ -42,21 +42,21 @@ class FakeProjectRepository implements ProjectRepository {
 
 void main() {
   const catalog = <CatalogProduct>[
-    CatalogProduct(
+    const CatalogProduct(
         productId: 'bed_a',
         title: 'سرير أ',
         category: RecommendationCategory.bed,
         widthCm: 90,
         depthCm: 200,
         price: 450),
-    CatalogProduct(
+    const CatalogProduct(
         productId: 'bed_b',
         title: 'سرير ب',
         category: RecommendationCategory.bed,
         widthCm: 140,
         depthCm: 200,
         price: 780),
-    CatalogProduct(
+    const CatalogProduct(
         productId: 'ward_a',
         title: 'دولاب أ',
         category: RecommendationCategory.storage,
