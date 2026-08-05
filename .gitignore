@@ -26,3 +26,20 @@ ios/Runner/GoogleService-Info.plist
 
 # Python tooling
 __pycache__/
+
+# iOS — generated Xcode scaffold (run `flutter create --platforms=ios .` on a Mac).
+# The hand-written Swift under ios/Runner/ IS tracked; everything below is generated.
+ios/Pods/
+ios/.symlinks/
+ios/Podfile.lock
+ios/Flutter/Generated.xcconfig
+ios/Flutter/flutter_export_environment.sh
+ios/Flutter/ephemeral/
+ios/Flutter/App.framework
+ios/Flutter/Flutter.framework
+ios/Flutter/Flutter.podspec
+ios/Flutter/.last_build_id
+ios/Runner/GeneratedPluginRegistrant.*
+ios/ServiceDefinitions.json
+**/xcuserdata/
+**/*.xcuserdatad

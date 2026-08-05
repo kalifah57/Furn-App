@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart' show kIsWeb, defaultTargetPlatform, TargetPlatform;
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../domain_engine/spatial/furniture_package.dart';
@@ -5,15 +6,28 @@ import '../../../domain_engine/spatial/placement_solver.dart';
 import '../../../domain_engine/spatial/replacement_finder.dart';
 import '../../../shared/models/models.dart';
 import '../../plan/presentation/plan_controller.dart' show planProjectProvider;
+import '../data/platform_room_scanner_service.dart';
 import '../domain/image_inpainting_service.dart';
 import '../domain/room_scanner_service.dart';
 
 /// حقن تبعيات الصندوق التفاعلي (ADR-0001 §4). محرّكات المجال بلا حالة، لذا
 /// `const` — والخدمات الوهمية تُستبدل بالحقيقية عبر `override` دون لمس الشاشة.
 
-// ---- خدمات المسح والتنظيف (mock-first) ----
-final roomScannerServiceProvider =
-    Provider<RoomScannerService>((ref) => const MockRoomScannerService());
+// ---- خدمات المسح والتنظيف ----
+
+/// خدمة المسح: RoomPlan الأصلية على iOS، ومحاكاة في ما عداها.
+///
+/// الاختيار هنا وحده — [SandboxController] لا يعرف أيّهما يعمل، ويستقبل
+/// [ScannedRoom] في الحالتين. على الويب (وهو ما يُنشر منه التطبيق اليوم) لا يوجد
+/// تنفيذ أصلي، ولذلك لا نمرّ أصلًا على القناة.
+///
+/// `kIsWeb` يُفحص أولًا لأن `Platform.isIOS` يرمي استثناءً على الويب.
+final roomScannerServiceProvider = Provider<RoomScannerService>((ref) {
+  if (!kIsWeb && defaultTargetPlatform == TargetPlatform.iOS) {
+    return const PlatformRoomScannerService();
+  }
+  return const MockRoomScannerService();
+});
 
 final imageInpaintingServiceProvider =
     Provider<ImageInpaintingService>((ref) => const MockImageInpaintingService());
