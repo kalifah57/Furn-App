@@ -11,6 +11,8 @@ to it either.
     python3 tools/handoff_server.py [--port 8080] [--root build/web]
 
 Endpoints
+    POST   /events           -> append analytics events (activation funnel)
+    GET    /events            -> everything collected, newest last
     GET    /handoff/<CODE>   -> session JSON, or 404 if unknown
     POST   /handoff/<CODE>   -> store session JSON (the phone writes here)
     DELETE /handoff/<CODE>   -> drop the session
@@ -33,7 +35,9 @@ from http.server import ThreadingHTTPServer, SimpleHTTPRequestHandler
 SESSION_TTL_SECONDS = 900  # 15 minutes; a scan takes 2-3
 
 _sessions = {}
+_events = []          # القياس المحلّي — يكفي للتحقّق من القِمع قبل أي خلفية
 _lock = threading.Lock()
+EVENTS_CAP = 5000     # سقف كي لا تكبر جلسة طويلة بلا حدّ
 
 
 def _prune(now=None):
@@ -125,6 +129,10 @@ class Handler(SimpleHTTPRequestHandler):
         self.end_headers()
 
     def do_GET(self):
+        if self.path.split("?", 1)[0].rstrip("/") == "/events":
+            with _lock:
+                return self._send_json(200, {"count": len(_events),
+                                             "events": list(_events)})
         code = self._code()
         if code is None:
             return SimpleHTTPRequestHandler.do_GET(self)
@@ -134,6 +142,23 @@ class Handler(SimpleHTTPRequestHandler):
         return self._send_json(200, session)
 
     def do_POST(self):
+        path = self.path.split("?", 1)[0].rstrip("/")
+        if path == "/events":
+            length = int(self.headers.get("Content-Length") or 0)
+            try:
+                payload = json.loads(self.rfile.read(length).decode() or "{}")
+            except json.JSONDecodeError:
+                return self._send_json(400, {"error": "malformed json"})
+            batch = payload.get("events") or []
+            with _lock:
+                _events.extend(batch)
+                if len(_events) > EVENTS_CAP:
+                    del _events[: len(_events) - EVENTS_CAP]
+                total = len(_events)
+            for e in batch:
+                print("  [event] %s" % e.get("name"))
+            return self._send_json(200, {"ok": True, "stored": total})
+
         code = self._code()
         if code is None:
             return self._send_json(404, {"error": "not a session path"})
@@ -174,6 +199,7 @@ def main():
     print("  Mac browser : http://localhost:%d/" % args.port)
     print("  iPhone      : http://%s:%d/   <- enter this in the app" % (ip, args.port))
     print("  serving     : %s" % args.root)
+    print("  events      : http://localhost:%d/events" % args.port)
     print()
     ThreadingHTTPServer(("0.0.0.0", args.port), Handler).serve_forever()
 
