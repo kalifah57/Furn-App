@@ -2,6 +2,8 @@ import '../../shared/models/models.dart';
 import '../recommendation/category_mapper.dart';
 import '../recommendation/recommendation_engine.dart';
 import 'plan.dart';
+import 'scope_table.dart';
+import 'unmet_need.dart';
 
 /// The confidence loop — pure Dart, no Flutter.
 ///
@@ -114,7 +116,17 @@ class PlanWorkspace {
     final total = items.fold<double>(0, (s, e) => s + e.item.price);
     final covered = items.map((e) => e.item.category).toSet();
     final missing = _missingEssentials(covered);
-    final assurances = _assurances(items, byId, total, missing);
+    final unmet = _unmetNeeds();
+
+    // الميزانية الفعّالة: ما يبقى بعد حجز ما هو خارج نطاقنا. نخطّط عليها لا على
+    // الرقم المعلن، وإلا امتلأت الخطة أثاثًا ولم تبقَ سيولة لما طلبه المستخدم
+    // فعلًا. تُصفَّر عند السالب — عندها لا شيء داخل الميزانية، وهذا صحيح.
+    final reserved = unmet.fold<double>(0, (s, u) => s + u.reserveSar);
+    final effective = project.budget.hasBudget && reserved > 0
+        ? (project.budget.maxTotal - reserved).clamp(0.0, double.infinity)
+        : null;
+
+    final assurances = _assurances(items, byId, total, missing, unmet, effective);
     final confidence = _confidence(assurances, _pinned.isNotEmpty);
 
     return Plan(
@@ -124,6 +136,8 @@ class PlanWorkspace {
       confidence: confidence,
       missingCategories: missing,
       isFinalized: _finalized,
+      unmetNeeds: unmet,
+      effectiveBudgetSar: effective,
     );
   }
 
@@ -156,9 +170,36 @@ class PlanWorkspace {
       );
 
   List<RecommendationCategory> _missingEssentials(Set<RecommendationCategory> covered) {
-    final essentials =
-        project.items.essential.map((e) => mapTypeToCategory(e.type)).toSet();
+    // الأنواع المجهولة لا مكان لها هنا: مكانها [Plan.unmetNeeds] باسمها الذي
+    // كتبه المستخدم، لا كـ«أخرى» في قائمة نواقص لا يمكن سدّها.
+    final essentials = <RecommendationCategory>{};
+    for (final e in project.items.essential) {
+      final c = mapTypeToCategoryOrNull(e.type);
+      if (c != null) essentials.add(c);
+    }
     return essentials.difference(covered).toList();
+  }
+
+  /// الفجوات المعلنة: ما طلبه المستخدم ولا نخدمه.
+  ///
+  /// ترتيب كلّي بالنصّ — فرز Dart غير مضمون الاستقرار، والناتج يجب أن يكون
+  /// واحدًا في كل تشغيل.
+  List<UnmetNeed> _unmetNeeds() {
+    final seen = <String>{};
+    final out = <UnmetNeed>[];
+    for (final e in [
+      ...project.items.essential,
+      ...project.items.useful,
+      ...project.items.optional,
+    ]) {
+      if (mapTypeToCategoryOrNull(e.type) != null) continue; // نخدمه
+      final need = lookupScope(e.type);
+      if (need == null) continue; // مجهول ولا نعرفه أصلًا — لا ندّعي معرفته
+      if (!seen.add(need.rawType)) continue;
+      out.add(need);
+    }
+    out.sort((a, b) => a.rawType.compareTo(b.rawType));
+    return out;
   }
 
   Assurances _assurances(
@@ -166,6 +207,8 @@ class PlanWorkspace {
     Map<String, CatalogProduct> byId,
     double total,
     List<RecommendationCategory> missing,
+    List<UnmetNeed> unmet,
+    double? effectiveBudget,
   ) {
     final r = project.room;
     var fits = true;
@@ -185,12 +228,16 @@ class PlanWorkspace {
       }
     }
 
-    final within = !project.budget.hasBudget || total <= project.budget.maxTotal;
+    final ceiling = effectiveBudget ?? project.budget.maxTotal;
+    final within = !project.budget.hasBudget || total <= ceiling;
     return Assurances(
       fitsRoom: fits,
       withinBudget: within,
       allAvailable: available,
-      essentialsComplete: missing.isEmpty,
+      // نقص حقيقي فقط يكسر «لم يُنسَ شيء»: `notStocked`/`noneFit` عيب فينا،
+      // أما `outOfScope` فحدّ معلن أخبرنا به المستخدم صراحةً — لا يُعاقَب عليه.
+      essentialsComplete:
+          missing.isEmpty && !unmet.any((u) => u.lowersConfidence),
     );
   }
 

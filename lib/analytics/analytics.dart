@@ -169,6 +169,30 @@ class PlanShared extends AnalyticsEvent {
   Map<String, Object?> get params => {'confidence': confidence};
 }
 
+/// طلب المستخدم شيئًا لا نخدمه. تجميع هذا الحدث يحوّل الشكوى إلى **قائمة
+/// تسوّق مرتّبة بالطلب الحقيقي** — وهو ما يقرّر ماذا نورّد بعد ذلك.
+class NeedUnmet extends AnalyticsEvent {
+  const NeedUnmet({required this.rawType, required this.reason, this.reserveSar});
+
+  /// نصّ المستخدم كما كتبه — هو البيانات المفيدة، لا فئة نحن اخترناها.
+  final String rawType;
+
+  /// `out_of_scope` | `not_stocked` | `none_fit`
+  final String reason;
+
+  final double? reserveSar;
+
+  @override
+  String get name => 'need_unmet';
+
+  @override
+  Map<String, Object?> get params => {
+        'raw_type': rawType,
+        'reason': reason,
+        if (reserveSar != null) 'reserve_sar': reserveSar,
+      };
+}
+
 class SessionAbandoned extends AnalyticsEvent {
   const SessionAbandoned({required this.lastStep, required this.lastConfidence});
   final String lastStep;

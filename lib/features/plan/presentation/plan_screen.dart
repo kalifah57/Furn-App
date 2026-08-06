@@ -4,6 +4,7 @@ import 'package:go_router/go_router.dart';
 
 import '../../../core/router/app_router.dart';
 import '../../../domain_engine/plan/plan.dart';
+import '../../../domain_engine/plan/unmet_need.dart';
 import '../../../shared/models/models.dart';
 import '../../../shared/utils/formatters.dart';
 import '../../ar/ar_button.dart';
@@ -94,6 +95,10 @@ class _PlanViewState extends State<_PlanView> {
               if (plan.missingCategories.isNotEmpty) ...[
                 const SizedBox(height: 12),
                 _completeness(context, plan),
+              ],
+              if (plan.hasUnmetNeeds) ...[
+                const SizedBox(height: 12),
+                UnmetNeedsSection(plan: plan),
               ],
               const SizedBox(height: 12),
               _arPreviewCard(context),
@@ -829,6 +834,102 @@ class _PlanViewState extends State<_PlanView> {
             ],
           ),
         ),
+      ),
+    );
+  }
+}
+
+
+/// **الفجوات المعلنة** — ما طلبه المستخدم ولا نخدمه، مذكورًا بصوت عالٍ.
+///
+/// ظهور هذا القسم هو الرسالة: خطة تصمت عن نقصها تبدو كاملة وليست كذلك، وذلك
+/// أسرع طريق لفقد الثقة بالأداة.
+class UnmetNeedsSection extends StatelessWidget {
+  const UnmetNeedsSection({super.key, required this.plan});
+
+  final Plan plan;
+
+  @override
+  Widget build(BuildContext context) {
+    if (!plan.hasUnmetNeeds) return const SizedBox.shrink();
+    final theme = Theme.of(context);
+
+    return Card(
+      margin: EdgeInsets.zero,
+      child: Padding(
+        padding: const EdgeInsets.all(16),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text('طلبتها ولا نوفّرها', style: theme.textTheme.titleMedium),
+            const SizedBox(height: 4),
+            Text('تقديرات سوق (أغسطس ٢٠٢٦) — ليست أسعارنا.',
+                style: theme.textTheme.bodySmall?.copyWith(
+                    color: theme.colorScheme.onSurfaceVariant)),
+            const SizedBox(height: 12),
+            for (final need in plan.unmetNeeds) _NeedRow(need: need),
+            if (plan.effectiveBudgetSar != null) ...[
+              const Divider(height: 24),
+              Text(
+                'ميزانيتك للأثاث بعد الحجز: '
+                '${plan.effectiveBudgetSar!.toStringAsFixed(0)} ريال',
+                style: theme.textTheme.titleSmall
+                    ?.copyWith(fontWeight: FontWeight.bold),
+              ),
+            ],
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class _NeedRow extends StatelessWidget {
+  const _NeedRow({required this.need});
+  final UnmetNeed need;
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final t = need.tier;
+
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 10),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(need.rawType,
+              style: theme.textTheme.bodyLarge
+                  ?.copyWith(fontWeight: FontWeight.bold)),
+          Text(
+            switch (need.reason) {
+              // حدّ معلن — نقولها بلا اعتذار، فهي ليست عيبًا.
+              UnmetReason.outOfScope => 'خارج نطاقنا حاليًا.',
+              UnmetReason.notStocked => 'ضمن نطاقنا، غير متوفّرة عندنا بعد.',
+              UnmetReason.noneFit => 'لا يوجد خيار يناسب غرفتك وميزانيتك.',
+            },
+            style: theme.textTheme.bodySmall,
+          ),
+          if (t != null)
+            Text(
+              'احجز لها ${t.lowSar.toStringAsFixed(0)}–'
+              '${t.highSar.toStringAsFixed(0)} ريال · ${t.labelAr}',
+              style: theme.textTheme.bodySmall
+                  ?.copyWith(color: theme.colorScheme.primary),
+            ),
+          // البديل الأرخص يُعرض فقط حين يغيّر النتيجة فعلًا — الفرق بين
+          // الشريحتين قد يكون الفرق بين خطة تُنفَّذ وخطة لا تُنفَّذ.
+          if (need.hasCheaperAlternative)
+            Text(
+              'لو تكفيك ${need.cheapestTier!.labelAr}: '
+              '${need.cheapestTier!.lowSar.toStringAsFixed(0)}–'
+              '${need.cheapestTier!.highSar.toStringAsFixed(0)} ريال — '
+              'يبقى لك ${(need.reserveSar - need.cheapestTier!.midSar).toStringAsFixed(0)} '
+              'ريال إضافية للأثاث.',
+              style: theme.textTheme.bodySmall
+                  ?.copyWith(color: theme.colorScheme.onSurfaceVariant),
+            ),
+        ],
       ),
     );
   }

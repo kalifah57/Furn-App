@@ -1,4 +1,5 @@
 import '../../shared/models/models.dart';
+import 'unmet_need.dart';
 
 /// The confidence loop's core objects (pure Dart · no Flutter).
 /// A [Plan] is the product: a living, ownable artifact the user shapes and
@@ -44,6 +45,8 @@ class Plan {
     required this.confidence,
     required this.missingCategories,
     this.isFinalized = false,
+    this.unmetNeeds = const [],
+    this.effectiveBudgetSar,
   });
 
   final List<PlanItem> items;
@@ -57,6 +60,21 @@ class Plan {
   final List<RecommendationCategory> missingCategories;
 
   final bool isFinalized;
+
+  /// ما طلبه المستخدم ولم نستطع تلبيته — معلنًا لا مسكوتًا عنه.
+  final List<UnmetNeed> unmetNeeds;
+
+  /// الميزانية بعد حجز ما هو خارج نطاقنا. `null` = لا حجز.
+  ///
+  /// زبون بـ3000 يطلب ثلاجة يجب أن تُبنى خطته على ما يبقى، لا على 3000 —
+  /// وإلا اشترى أثاثًا لا تبقى معه سيولة لما يحتاجه فعلًا.
+  final double? effectiveBudgetSar;
+
+  /// المحجوز إجمالًا لما هو خارج النطاق.
+  double get reservedSar =>
+      unmetNeeds.fold<double>(0, (s, u) => s + u.reserveSar);
+
+  bool get hasUnmetNeeds => unmetNeeds.isNotEmpty;
 
   int get itemCount => items.length;
   int get pinnedCount => items.where((e) => e.isPinned).length;
