@@ -55,7 +55,7 @@ class _AnalysisScreenState extends ConsumerState<AnalysisScreen> {
       case FlowStatus.error:
         return ErrorView(
           message: state.failure?.message ?? AppStrings.genericError,
-          onRetry: () => context.go(Routes.inputMethod),
+          onRetry: () => context.go(Routes.assistant),
         );
       case FlowStatus.needsFollowUp:
         return _followUp(state.project!);
@@ -221,7 +221,7 @@ class _AnalysisScreenState extends ConsumerState<AnalysisScreen> {
         FilledButton.icon(
           icon: const Icon(Icons.recommend),
           label: const Text(AppStrings.viewRecommendations),
-          onPressed: () => context.go(Routes.recommendations),
+          onPressed: () => context.go(Routes.roomOptions),
         ),
       ],
     );

@@ -67,7 +67,7 @@ class _ImageInputScreenState extends ConsumerState<ImageInputScreen> {
                         ref
                             .read(furnishingFlowControllerProvider.notifier)
                             .runImages(_refs);
-                        context.go(Routes.analysis);
+                        context.go(Routes.assistantThinking);
                       },
                 child: const Text(AppStrings.analyzeRequest),
               ),

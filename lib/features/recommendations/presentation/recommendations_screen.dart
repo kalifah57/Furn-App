@@ -47,7 +47,7 @@ class RecommendationsScreen extends ConsumerWidget {
               OutlinedButton.icon(
                 icon: const Icon(Icons.tune),
                 label: const Text('شكّل خطتك القابلة للتعديل'),
-                onPressed: () => context.go(Routes.plan),
+                onPressed: () => context.go(Routes.room),
               ),
               const SizedBox(height: 8),
               FilledButton.icon(

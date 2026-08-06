@@ -53,19 +53,19 @@ class OnboardingScreen extends ConsumerWidget {
                 onPressed: () async {
                   ref.read(analyticsProvider).track(const FlowStarted('onboarding'));
                   await ref.read(authRepositoryProvider).signInAnonymously();
-                  if (context.mounted) context.go(Routes.inputMethod);
+                  if (context.mounted) context.go(Routes.assistant);
                 },
                 child: const Text(AppStrings.onboardingStart),
               ),
               const SizedBox(height: 12),
               TextButton(
-                onPressed: () => context.go(Routes.saved),
+                onPressed: () => context.go(Routes.roomSaved),
                 child: const Text(AppStrings.onboardingSaved),
               ),
               OutlinedButton.icon(
                 onPressed: () {
                   ref.read(analyticsProvider).track(const FlowStarted('plan-demo'));
-                  context.go(Routes.plan);
+                  context.go(Routes.room);
                 },
                 icon: const Icon(Icons.tune),
                 label: const Text('جرّب مساحة الخطة (تجريبي)'),

@@ -96,7 +96,7 @@ class Handler(SimpleHTTPRequestHandler):
 
         if not rel or os.path.isdir(full):
             return index
-        # SPA fallback: GoRouter paths like /sandbox are not files on disk, so an
+        # SPA fallback: GoRouter paths like /preview are not files on disk, so an
         # unknown extensionless path must serve index.html — otherwise reloading
         # the browser anywhere but the root 404s.
         if not os.path.exists(full) and not os.path.splitext(rel)[1]:

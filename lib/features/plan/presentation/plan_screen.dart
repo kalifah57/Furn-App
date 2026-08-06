@@ -24,12 +24,12 @@ class PlanScreen extends ConsumerWidget {
       appBar: AppBar(
         title: const Text('خطتي'),
         actions: [
-          // بوّابة الواقع المعزّز على مستوى الكتالوج: تعرض ما يدخل في الغرفة
-          // فعلًا (ArSpatialEngine) قبل فتح الكاميرا.
+          // المعاينة: الخطة نفسها موضوعة في مساحة الغرفة بمقاسها الحقيقي — يرى
+          // المستخدم ما يدخل فعلًا وما لا يدخل قبل أن يدفع.
           IconButton(
-            tooltip: 'شاهدها في غرفتك',
-            icon: const Icon(Icons.view_in_ar),
-            onPressed: () => context.push(Routes.ar),
+            tooltip: 'المعاينة',
+            icon: const Icon(Icons.grid_view_outlined),
+            onPressed: () => context.push(Routes.preview),
           ),
         ],
       ),

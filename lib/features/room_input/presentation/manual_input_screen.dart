@@ -60,7 +60,7 @@ class _ManualInputScreenState extends ConsumerState<ManualInputScreen> {
       ),
     );
     ref.read(furnishingFlowControllerProvider.notifier).submitManualDraft(draft);
-    context.go(Routes.analysis);
+    context.go(Routes.assistantThinking);
   }
 
   void _toggle(Set<String> set, String value, bool isSelected) =>

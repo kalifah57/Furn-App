@@ -37,7 +37,7 @@ class VoiceInputScreen extends ConsumerWidget {
                 label: const Text(AppStrings.startRecording),
                 onPressed: () {
                   ref.read(furnishingFlowControllerProvider.notifier).runVoice();
-                  context.go(Routes.analysis);
+                  context.go(Routes.assistantThinking);
                 },
               ),
             ],
