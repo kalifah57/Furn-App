@@ -190,8 +190,15 @@ class PlanWorkspace {
     // RequestedItems فيه قائمتان فقط: essential و optional.
     for (final e in [...project.items.essential, ...project.items.optional]) {
       if (mapTypeToCategoryOrNull(e.type) != null) continue; // نخدمه
-      final need = lookupScope(e.type);
-      if (need == null) continue; // مجهول ولا نعرفه أصلًا — لا ندّعي معرفته
+      if (e.type.trim().isEmpty) continue;
+
+      // ما لا يعرفه الجدول أيضًا يُعلَن ولا يُسقَط. إسقاطه يعيد الصمت الذي بُنيت
+      // هذه الميزة لإنهائه — والفرق أن الصمت الآن كامل، بينما كان «ناقص: أخرى»
+      // يُظهر شيئًا على الأقل. الافتراض `notStocked`: نخفض الثقة (فشلنا في
+      // خدمة طلب) ونضعه في قائمة التوريد ليصنّفه إنسان — الإفراط في الإبلاغ
+      // أأمن من الإسقاط الصامت.
+      final need = lookupScope(e.type) ??
+          UnmetNeed(rawType: e.type.trim(), reason: UnmetReason.notStocked);
       if (!seen.add(need.rawType)) continue;
       out.add(need);
     }

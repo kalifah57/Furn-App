@@ -125,6 +125,26 @@ void main() {
       expect(plan.reservedSar, 0);
     });
 
+    test('a request we have never heard of is still declared, not dropped', () {
+      // The regression this guards: excluding unknown types from
+      // missingCategories without declaring them turned "ناقص: أخرى" — a bad
+      // label on a visible gap — into complete silence, which is worse.
+      final plan = workspaceFor(projectAsking(['سرير', 'نباتات'])).build();
+      expect(plan.unmetNeeds.map((u) => u.rawType), contains('نباتات'));
+      expect(plan.unmetNeeds.single.reason, UnmetReason.notStocked);
+      expect(plan.unmetNeeds.single.hasEstimate, isFalse);
+    });
+
+    test('an unheard-of request still lowers confidence', () {
+      final plan = workspaceFor(projectAsking(['سرير', 'لوحة جدارية'])).build();
+      expect(plan.assurances.essentialsComplete, isFalse);
+    });
+
+    test('an empty request type is ignored rather than declared', () {
+      final plan = workspaceFor(projectAsking(['سرير', '  '])).build();
+      expect(plan.unmetNeeds, isEmpty);
+    });
+
     test('duplicates are collapsed and output is ordered', () {
       final plan =
           workspaceFor(projectAsking(['مرتبة', 'ثلاجة', 'مرتبة'])).build();
