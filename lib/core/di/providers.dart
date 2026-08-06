@@ -16,7 +16,7 @@ import '../../features/recommendations/data/recommendation_repository_impl.dart'
 import '../../features/recommendations/domain/recommendation_repository.dart';
 import '../../features/room_analysis/data/analysis_repository_impl.dart';
 import '../../features/room_analysis/domain/analysis_repository.dart';
-import '../../features/saved_projects/data/in_memory_project_repository.dart';
+import '../../features/saved_projects/data/local_project_repository.dart';
 import '../../features/saved_projects/domain/project_repository.dart';
 import '../../shared/services/catalog_repository.dart';
 import '../../shared/services/http_post.dart';
@@ -101,8 +101,10 @@ final recommendationRepositoryProvider = Provider<RecommendationRepository>(
   ),
 );
 
+/// يبقى عبر إغلاق المتصفّح (`localStorage` على الويب). الانتقال إلى Firestore
+/// لاحقًا (القرار G3) يبدّل هذا السطر وحده.
 final projectRepositoryProvider = Provider<ProjectRepository>(
-  (ref) => InMemoryProjectRepository(),
+  (ref) => LocalProjectRepository(),
 );
 
 final authRepositoryProvider = Provider<AuthRepository>(

@@ -80,6 +80,33 @@ class PlanSeeded extends AnalyticsEvent {
       };
 }
 
+/// المستخدم عاد إلى خطة كانت محفوظة (تحديث الصفحة، أو زيارة لاحقة).
+///
+/// **ليس** [PlanSeeded]: التحديث ليس بذرة جديدة، وعدّه كذلك يضخّم بسط قِمع
+/// التفعيل كذبًا — وهذا بالضبط نوع الرقم الذي يقود إلى قرار خاطئ. وهو بذاته
+/// مقياس لم يكن عندنا: **كم واحدًا يعود إلى خطته فعلًا** — أوضح إشارة ملكية.
+class PlanRestored extends AnalyticsEvent {
+  const PlanRestored({
+    required this.confidence,
+    required this.itemCount,
+    required this.decisions,
+  });
+  final int confidence;
+  final int itemCount;
+
+  /// عدد القرارات المستعادة (تثبيت + رفض) — خطة بلا قرارات لم يشتغل عليها أحد.
+  final int decisions;
+
+  @override
+  String get name => 'plan_restored';
+  @override
+  Map<String, Object?> get params => {
+        'confidence': confidence,
+        'itemCount': itemCount,
+        'decisions': decisions,
+      };
+}
+
 class ItemPinned extends AnalyticsEvent {
   const ItemPinned(this.category);
   final String category;

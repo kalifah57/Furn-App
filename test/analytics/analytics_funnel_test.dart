@@ -92,4 +92,68 @@ void main() {
 
     expect(a.events, isEmpty);
   });
+
+  group('coming back to a saved plan is not a new seed', () {
+    PlanController restoredWith(DebugAnalytics a, WorkspaceState state) =>
+        PlanController(
+          PlanWorkspace(project: project, catalog: catalog)..restore(state),
+          analytics: a,
+          restored: true,
+        );
+
+    test('a restored plan emits plan_restored, never plan_seeded', () {
+      // عدّ التحديث بذرةً جديدة يضخّم بسط قِمع التفعيل كذبًا، وهو الرقم الوحيد
+      // الذي نقيس به هل ينجح المنتج.
+      final a = DebugAnalytics(log: false);
+      final c = restoredWith(
+        a,
+        const WorkspaceState(
+          pinned: {'bed_b'},
+          rejected: {'ward_a'},
+          budgetMax: 1800,
+          finalized: false,
+        ),
+      );
+      addTearDown(c.dispose);
+
+      expect(a.names, ['plan_restored']);
+      expect(a.events.whereType<PlanRestored>().single.decisions, 2);
+    });
+
+    test('the restored plan is the one the user left', () {
+      final a = DebugAnalytics(log: false);
+      final c = restoredWith(
+        a,
+        const WorkspaceState(
+          pinned: {'bed_b'},
+          rejected: <String>{},
+          budgetMax: 1800,
+          finalized: false,
+        ),
+      );
+      addTearDown(c.dispose);
+
+      expect(c.plan.items.any((e) => e.item.productId == 'bed_b' && e.isPinned),
+          isTrue);
+    });
+
+    test('editing a restored plan reports the same events as ever', () {
+      final a = DebugAnalytics(log: false);
+      final c = restoredWith(
+        a,
+        const WorkspaceState(
+          pinned: <String>{},
+          rejected: <String>{},
+          budgetMax: 1800,
+          finalized: false,
+        ),
+      );
+      addTearDown(c.dispose);
+
+      c.pin('bed_b');
+      c.finalizePlan();
+
+      expect(a.names, ['plan_restored', 'item_pinned', 'plan_finalized']);
+    });
+  });
 }

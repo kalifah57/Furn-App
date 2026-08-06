@@ -7,6 +7,7 @@ import '../../../domain_engine/plan/plan.dart';
 import '../../../domain_engine/plan/plan_workspace.dart';
 import '../../../shared/models/models.dart';
 import '../../room_input/presentation/flow_controller.dart';
+import '../data/plan_draft_store.dart';
 
 /// مشروع تجريبي للدخول المباشر إلى مساحة الخطة (من شاشة البداية).
 const _demoProject = FurnishingProject(
@@ -21,20 +22,45 @@ const _demoProject = FurnishingProject(
   ),
 );
 
-/// المشروع الذي تُبنى عليه الخطة: مشروع التدفّق (input → analysis) إن اكتمل،
-/// وإلا المشروع التجريبي — دون تغيير الشاشة.
+/// مخزن مسوّدة الخطة — يُستبدَل في الاختبارات بمخزن في الذاكرة.
+final planDraftStoreProvider =
+    Provider<PlanDraftStore>((ref) => const PlanDraftStore());
+
+/// المشروع الذي تُبنى عليه الخطة، بهذا الترتيب:
+/// مشروع التدفّق (input → analysis) إن اكتمل، ثم **المُلخّص المحفوظ** إن وُجد،
+/// وإلا المشروع التجريبي.
+///
+/// المسوّدة قبل التجريبي عمدًا: من حدّث الصفحة بعد أن شكّل خطته يجب أن يرى غرفته
+/// هو، لا غرفة عرض. المشروع التجريبي آخر الخيارات لا أوّلها.
 final planProjectProvider = Provider<FurnishingProject>((ref) {
   final flowProject = ref.watch(furnishingFlowControllerProvider).project;
-  return flowProject ?? _demoProject;
+  if (flowProject != null) return flowProject;
+  return ref.read(planDraftStoreProvider).load()?.brief ?? _demoProject;
 });
 
-/// يحمّل الكتالوج ثم يبني [PlanController] فوق [PlanWorkspace] (نواة حلقة الثقة).
+/// يحمّل الكتالوج، يستعيد المسوّدة إن كانت لنفس المشروع، ثم يبني [PlanController]
+/// فوق [PlanWorkspace] (نواة حلقة الثقة).
 final planControllerProvider = FutureProvider<PlanController>((ref) async {
   final res = await ref.read(catalogRepositoryProvider).loadProducts();
   final catalog = res.valueOrNull ?? const <CatalogProduct>[];
+  final project = ref.read(planProjectProvider);
+  final store = ref.read(planDraftStoreProvider);
+  final ws = PlanWorkspace(project: project, catalog: catalog);
+
+  // القرارات تُستعاد لنفس المشروع فقط: تثبيتات مشروع سابق فوق مُلخّص جديد ليست
+  // استعادة بل تلويث — قد تشير إلى منتجات لا علاقة لها بهذه الغرفة.
+  final draft = store.load();
+  var restored = false;
+  if (draft != null && draft.brief.projectId == project.projectId) {
+    ws.restore(draft.state);
+    restored = true;
+  }
+
   final controller = PlanController(
-    PlanWorkspace(project: ref.read(planProjectProvider), catalog: catalog),
+    ws,
     analytics: ref.read(analyticsProvider),
+    store: store,
+    restored: restored,
   );
   ref.onDispose(controller.dispose);
   return controller;
@@ -43,20 +69,38 @@ final planControllerProvider = FutureProvider<PlanController>((ref) async {
 /// يترجم نيّة المستخدم (تثبيت/رفض/تبديل/ميزانية) إلى إعادة بناء للخطة،
 /// ويحتفظ بآخر تغيير لعرض «ما الذي تغيّر».
 class PlanController extends ChangeNotifier {
-  PlanController(this._ws, {Analytics analytics = const NoopAnalytics()})
-      : _analytics = analytics {
+  PlanController(
+    this._ws, {
+    Analytics analytics = const NoopAnalytics(),
+    PlanDraftStore? store,
+    bool restored = false,
+  })  : _analytics = analytics,
+        _store = store {
     plan = _ws.build();
-    _analytics.track(PlanSeeded(
-      confidence: plan.confidence,
-      itemCount: plan.itemCount,
-      missingCount: plan.missingCategories.length,
-      total: plan.total,
-      withinBudget: plan.assurances.withinBudget,
-    ));
+    if (restored) {
+      final s = _ws.snapshot();
+      _analytics.track(PlanRestored(
+        confidence: plan.confidence,
+        itemCount: plan.itemCount,
+        decisions: s.pinned.length + s.rejected.length,
+      ));
+    } else {
+      _analytics.track(PlanSeeded(
+        confidence: plan.confidence,
+        itemCount: plan.itemCount,
+        missingCount: plan.missingCategories.length,
+        total: plan.total,
+        withinBudget: plan.assurances.withinBudget,
+      ));
+      // نحفظ البذرة فورًا: من أكمل التدفّق ثم أغلق المتصفّح دون أن يعدّل شيئًا
+      // كان سيعود إلى المشروع التجريبي، أي يفقد غرفته لأنه لم يضغط زرًّا.
+      _persist();
+    }
   }
 
   final PlanWorkspace _ws;
   final Analytics _analytics;
+  final PlanDraftStore? _store;
   late Plan plan;
   PlanDiff? lastChange;
 
@@ -83,17 +127,23 @@ class PlanController extends ChangeNotifier {
     _ws.restore(_states[index]);
     plan = _ws.build();
     lastChange = null;
+    _persist();
     notifyListeners();
   }
 
   /// How the current plan differs from a saved version.
   PlanDiff compareWith(int index) => PlanWorkspace.diff(_snapshots[index], plan);
 
+  /// يكتب المُلخّص + القرارات بعد كل تغيير. المُلخّص يُحفظ أيضًا لأن
+  /// [PlanWorkspace.setBudget] يغيّره، فحفظ القرارات وحدها كان سيفقد الميزانية.
+  void _persist() => _store?.save(_ws.project, _ws.snapshot());
+
   void _apply(void Function() op) {
     final before = plan;
     op();
     plan = _ws.build();
     lastChange = PlanWorkspace.diff(before, plan);
+    _persist();
     notifyListeners();
   }
 
