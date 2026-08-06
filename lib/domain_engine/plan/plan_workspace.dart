@@ -187,11 +187,8 @@ class PlanWorkspace {
   List<UnmetNeed> _unmetNeeds() {
     final seen = <String>{};
     final out = <UnmetNeed>[];
-    for (final e in [
-      ...project.items.essential,
-      ...project.items.useful,
-      ...project.items.optional,
-    ]) {
+    // RequestedItems فيه قائمتان فقط: essential و optional.
+    for (final e in [...project.items.essential, ...project.items.optional]) {
       if (mapTypeToCategoryOrNull(e.type) != null) continue; // نخدمه
       final need = lookupScope(e.type);
       if (need == null) continue; // مجهول ولا نعرفه أصلًا — لا ندّعي معرفته
