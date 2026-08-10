@@ -187,6 +187,22 @@ class PlanFinalized extends AnalyticsEvent {
       };
 }
 
+/// المستخدم فتح رابط المنتج في المتجر — أوّل إشارة نيّة شراء. بها يصير **قِمع
+/// الإيراد مرئيًّا**: قبلها كنّا عميانًا عن أهم خطوة فيه، فلا سقف للنقرة المدفوعة
+/// نعرفه ولا نسبة تحوّل نقيسها. يحترم الموافقة كبقية الأحداث (يُسقَط بلا موافقة).
+class MerchantClicked extends AnalyticsEvent {
+  const MerchantClicked(this.productId, {this.category});
+  final String productId;
+  final String? category;
+  @override
+  String get name => 'merchant_click';
+  @override
+  Map<String, Object?> get params => {
+        'product_id': productId,
+        if (category != null) 'category': category,
+      };
+}
+
 class PlanShared extends AnalyticsEvent {
   const PlanShared(this.confidence);
   final int confidence;

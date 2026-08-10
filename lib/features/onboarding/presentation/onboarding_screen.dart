@@ -6,6 +6,7 @@ import '../../../analytics/analytics.dart';
 import '../../../core/constants/app_strings.dart';
 import '../../../core/di/providers.dart';
 import '../../../core/router/app_router.dart';
+import '../../consent/presentation/consent_banner.dart';
 
 /// شاشة البداية (onboarding عربي — ضمن الـ MVP).
 class OnboardingScreen extends ConsumerWidget {
@@ -21,6 +22,7 @@ class OnboardingScreen extends ConsumerWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
+              const ConsentBanner(),
               const Spacer(),
               Icon(Icons.chair_alt_outlined,
                   size: 88, color: theme.colorScheme.primary),

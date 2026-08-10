@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../../../analytics/analytics.dart';
+import '../../../core/di/providers.dart';
 import '../../../domain_engine/spatial/replacement_finder.dart';
 import '../../../shared/utils/formatters.dart';
 import '../../ar/ar_button.dart';
+import '../../catalog/open_store.dart';
 import 'sandbox_controller.dart';
 import 'sandbox_scene_view.dart';
 
@@ -189,8 +192,21 @@ class _ItemSheet extends ConsumerWidget {
                   '${p.heightCm.toInt()} سم',
             ),
             _Detail(label: 'الفئة', value: p.category.arabicLabel),
-            if (p.productUrl.isNotEmpty)
-              _Detail(label: 'المصدر', value: p.productUrl),
+            // زر حقيقي لا نصٌّ خام: يُظهر نيّة الشراء ويُطلق merchant_click.
+            // يظهر فقط لمنتج له رابط متجر — فهو خامد على البيانات الوهمية،
+            // ويضيء لحظة وصول كاتلوج آيكيا الحقيقي (product_link).
+            if (p.productUrl.isNotEmpty) ...[
+              const SizedBox(height: 12),
+              OutlinedButton.icon(
+                onPressed: () {
+                  ref.read(analyticsProvider).track(
+                      MerchantClicked(p.productId, category: p.category.wire));
+                  openStore(p.productUrl);
+                },
+                icon: const Icon(Icons.open_in_new, size: 18),
+                label: const Text('افتح في المتجر'),
+              ),
+            ],
             const SizedBox(height: 16),
             Row(
               children: [

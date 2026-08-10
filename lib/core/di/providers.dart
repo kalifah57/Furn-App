@@ -12,6 +12,7 @@ import '../../ai/mock/mock_speech_to_text_service.dart';
 import '../../ai/mock/mock_vision_analysis_service.dart';
 import '../../features/auth/data/mock_auth_repository.dart';
 import '../../features/auth/domain/auth_repository.dart';
+import '../../features/consent/presentation/consent_controller.dart';
 import '../../features/recommendations/data/recommendation_repository_impl.dart';
 import '../../features/recommendations/domain/recommendation_repository.dart';
 import '../../features/room_analysis/data/analysis_repository_impl.dart';
@@ -39,9 +40,10 @@ const String kAnalyticsEndpoint =
 
 /// موافقة المستخدم على القياس (نظام حماية البيانات الشخصية).
 ///
-/// الافتراض `true` هنا للتطوير فقط؛ **يجب ربطه بموافقة صريحة في الواجهة قبل
-/// الشحن.** بلا ذلك نجمع بلا إذن.
-final analyticsConsentProvider = Provider<bool>((ref) => true);
+/// مربوطة بخيار المستخدم الصريح: `null` (لم يُسأل) و`false` (رفض) كلاهما **لا
+/// جمع**. القياس معطّل حتى موافقة صريحة — لا نجمع بلا إذن.
+final analyticsConsentProvider =
+    Provider<bool>((ref) => ref.watch(consentControllerProvider) == true);
 
 /// الـ sink الفعلي — **القرار كله هنا**، فلا يستبدله `main.dart` ولا غيره.
 ///

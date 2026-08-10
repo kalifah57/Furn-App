@@ -29,7 +29,10 @@ and never changes it. The pure-Dart domain engine stays analytics-free (enforced
   `--dart-define=ANALYTICS_ENDPOINT=…` is set. **No endpoint ⇒ nothing is sent:**
   shipping user data to a destination nobody chose is not a default.
 - **Privacy:** anonymous per-session id only (ties to the anonymous `AppUser`), no
-  PII, and a `consent` flag (PDPL) that hard-drops all events when false.
+  PII, and a `consent` flag (PDPL) that hard-drops all events when false. Consent
+  is **explicit and defaults to off**: `analyticsConsentProvider` reads the user's
+  stored choice via `consentControllerProvider`, and `null` (not asked yet) counts
+  as no — nothing is collected until the onboarding `ConsentBanner` is answered.
 
 ## Event catalog
 | Event | Fires when | Props |
@@ -42,6 +45,7 @@ and never changes it. The pure-Dart domain engine stays analytics-free (enforced
 | `budget_changed` | user moves the budget slider | `newMax, deltaConfidence` |
 | `options_opened` | user opens the options browser for a need | `category, optionCount` |
 | `ar_opened` | user launches "see it in your room" | `target` (productId \| `demo`) |
+| `merchant_click` | user opens a product's store link — the first purchase-intent signal | `product_id`, `category` |
 | `plan_finalized` | user commits to the plan (activation) | `confidence, itemCount, pinnedCount, edits` |
 | `plan_shared` | user opens the share sheet | `confidence` |
 | `need_unmet` | user asked for something we cannot serve | `raw_type` (their words), `reason` (`out_of_scope`\|`not_stocked`\|`none_fit`), `reserve_sar` |
