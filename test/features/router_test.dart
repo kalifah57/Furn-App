@@ -17,8 +17,6 @@ void main() {
     Routes.onboarding,
     Routes.assistant,
     Routes.assistantManual,
-    Routes.assistantVoice,
-    Routes.assistantPhoto,
     Routes.assistantThinking,
     Routes.room,
     Routes.roomSaved,

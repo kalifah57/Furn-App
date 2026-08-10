@@ -4,10 +4,8 @@ import '../../features/interactive_sandbox/presentation/sandbox_screen.dart';
 import '../../features/onboarding/presentation/onboarding_screen.dart';
 import '../../features/plan/presentation/plan_screen.dart';
 import '../../features/room_analysis/presentation/analysis_screen.dart';
-import '../../features/room_input/presentation/image_input_screen.dart';
-import '../../features/room_input/presentation/input_method_screen.dart';
+import '../../features/room_input/presentation/assistant_screen.dart';
 import '../../features/room_input/presentation/manual_input_screen.dart';
-import '../../features/room_input/presentation/voice_input_screen.dart';
 import '../../features/saved_projects/presentation/saved_projects_screen.dart';
 
 /// مسارات التطبيق (ADR-0001 §3 — GoRouter).
@@ -29,9 +27,7 @@ abstract class Routes {
 
   // ---- ١. المساعد --------------------------------------------------------
   static const assistant = '/assistant';
-  static const assistantManual = '/assistant/manual';
-  static const assistantVoice = '/assistant/voice';
-  static const assistantPhoto = '/assistant/photo';
+  static const assistantManual = '/assistant/manual'; // إدخال مفصّل بالحقول
   static const assistantThinking = '/assistant/thinking';
 
   // ---- ٢. غرفتي ----------------------------------------------------------
@@ -57,22 +53,14 @@ final List<GoRoute> appRoutes = [
     builder: (context, state) => const OnboardingScreen(),
   ),
 
-  // ١. المساعد — يفهم اللغة والصور ويستخرج المعلومات، ولا يتّخذ قرارًا.
+  // ١. المساعد — مدخل واحد يفهم اللغة والصور ويستخرج المعلومات، ولا يتّخذ قرارًا.
   GoRoute(
     path: Routes.assistant,
-    builder: (context, state) => const InputMethodScreen(),
+    builder: (context, state) => const AssistantScreen(),
   ),
   GoRoute(
     path: Routes.assistantManual,
     builder: (context, state) => const ManualInputScreen(),
-  ),
-  GoRoute(
-    path: Routes.assistantVoice,
-    builder: (context, state) => const VoiceInputScreen(),
-  ),
-  GoRoute(
-    path: Routes.assistantPhoto,
-    builder: (context, state) => const ImageInputScreen(),
   ),
   GoRoute(
     path: Routes.assistantThinking,
