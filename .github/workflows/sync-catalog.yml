@@ -1,0 +1,80 @@
+name: Sync IKEA catalogue
+
+# القناة الدائمة بين مستودع الكاتلوج وهذا المستودع (docs/catalog_data_contract.md).
+# تعمل على خوادم GitHub — فتصل إلى الرابط الخام الذي يحجبه صندوق الجلسة.
+on:
+  schedule:
+    - cron: '17 4 * * *' # يوميًّا؛ الدقيقة 17 تفاديًا لازدحام رأس الساعة
+  workflow_dispatch: {}
+  repository_dispatch:
+    types: [catalog-updated] # يُمكن للمصدر أن ينبضها عند التغيّر
+
+permissions:
+  contents: write
+  pull-requests: write
+
+# المصدر — موضع ثابت حسب العقد. عدّلها هنا فقط إن تغيّر مكان النشر.
+env:
+  SRC_OWNER: abdulazizashy4
+  SRC_REPO: Catalog
+  SRC_BRANCH: main
+  SRC_FILE: catalog.json
+  SRC_MANIFEST: catalog.manifest.json
+  DEST: assets/catalog/ikea_ksa.json
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Fetch catalogue + manifest from the source
+        run: |
+          base="https://raw.githubusercontent.com/${SRC_OWNER}/${SRC_REPO}/${SRC_BRANCH}"
+          auth=()
+          if [ -n "${{ secrets.CATALOG_READ_TOKEN }}" ]; then
+            auth=(-H "Authorization: token ${{ secrets.CATALOG_READ_TOKEN }}")
+          fi
+          # -f: fail loudly on 404 — a missing file at the fixed location is a
+          # contract violation to surface, not to paper over.
+          curl -fsSL "${auth[@]}" "$base/${SRC_FILE}" -o /tmp/catalog.json
+          curl -fsSL "${auth[@]}" "$base/${SRC_MANIFEST}" -o /tmp/manifest.json \
+            || echo '{}' > /tmp/manifest.json
+
+      - name: Verify integrity against the manifest
+        run: |
+          want=$(python3 -c "import json;print(json.load(open('/tmp/manifest.json')).get('sha256',''))")
+          got=$(sha256sum /tmp/catalog.json | cut -d' ' -f1)
+          if [ -n "$want" ] && [ "$want" != "$got" ]; then
+            echo "::error::manifest sha256 ($want) != fetched ($got) — refusing to sync a file that doesn't match its manifest"
+            exit 1
+          fi
+          echo "records: $(python3 -c "import json;print(len(json.load(open('/tmp/catalog.json'))))")"
+
+      - name: Write the asset
+        run: |
+          mkdir -p "$(dirname "$DEST")"
+          cp /tmp/catalog.json "$DEST"
+
+      - name: Open or update a PR when the asset changed
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          if git diff --quiet -- "$DEST"; then
+            echo "no change — catalogue already in sync"; exit 0
+          fi
+          branch="data/sync-ikea-catalogue"
+          n=$(python3 -c "import json;print(len(json.load(open('$DEST'))))")
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git checkout -B "$branch"
+          git add "$DEST"
+          git commit -m "data: sync IKEA catalogue ($n records)"
+          # force-push so an already-open PR for this branch updates in place.
+          git push -f origin "$branch"
+          gh pr create \
+            --base "${{ github.event.repository.default_branch }}" \
+            --head "$branch" \
+            --title "data: sync IKEA catalogue ($n records)" \
+            --body "Automated sync from \`${SRC_OWNER}/${SRC_REPO}@${SRC_BRANCH}\`. The ingestion validates it on this PR (ikea_asset_test). One-time wiring (pubspec + IkeaCatalogRepository) is separate." \
+            2>/dev/null || echo "a PR for $branch is already open; it was updated by the push"
