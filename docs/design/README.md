@@ -10,6 +10,7 @@
 | ٢ | [`02-room-harmony.md`](02-room-harmony.md) | درجة التناغم الشفّافة + الفجوات القابلة للتنفيذ | ✅ للمراجعة |
 | ٣ | [`03-preview-pipeline.md`](03-preview-pipeline.md) | خطّ إنتاج الصور + حدّ الخصوصية | ✅ للمراجعة |
 | ٤ | [`04-contract-changes.md`](04-contract-changes.md) | مقترح تغييرات العقود المشتركة | ⏸ بانتظار إقرار |
+| ٥ | [`05-catalog-integration.md`](05-catalog-integration.md) | دمج كتالوج IKEA KSA: طاولات · لون · ستايل/خامة · مراجعة schema v2 | ⏸ بانتظار قسم البيانات |
 
 ---
 
