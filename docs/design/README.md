@@ -14,6 +14,7 @@
 | ٥ | [`05-catalog-integration.md`](05-catalog-integration.md) | دمج كتالوج IKEA KSA: طاولات · لون · ستايل/خامة · مراجعة schema v2 | ⏸ بانتظار قسم البيانات |
 | ٦ | [`06-train-test-plan.md`](06-train-test-plan.md) | خطة معايرة/اختبار + برومت قابل لإعادة الاستخدام + مصادر احترافية (اللون كقيمة مُثبَت CIELAB) | ✅ للمراجعة |
 | ٧ | [`07-charter-reconciliation.md`](07-charter-reconciliation.md) | توفيق مع ميثاق المسارات: الحدود · مطابقة `ConfidenceGap` · دفتر Train & Test | ✅ للمراجعة |
+| ٨ | [`08-golden-set-v1.md`](08-golden-set-v1.md) | **D1** — بنية الحالة الذهبية + أوّل ١٥ عيّنة (المجلس السعودي مضمّن) | ⏸ عيّنة للمراجعة قبل الستّين |
 
 **منفَّذ (أخضر على CI):** `lib/domain_engine/design/` — محورا الستايل واللون (دفعة ١).
 
