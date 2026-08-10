@@ -38,12 +38,12 @@ Clean Architecture، mock-first. المحرّك صرف (يفرضه `test/analyti
 
 | المسار | يملك (مسارات/ملفات) |
 |---|---|
-| **المعماري** (هذا الشات) | `lib/domain_engine/{budget,recommendation,plan,spatial}` · `lib/shared/models/` (العقود المشتركة) · `lib/core/di/` · CI/البناء · مراجعة ودمج كل PR |
+| **المعماري** (هذا الشات) | `lib/domain_engine/{budget,recommendation,plan,spatial}` · `lib/shared/models/` (العقود المشتركة) · `lib/core/` (عدا `router/` =٤) · CI/البناء · مراجعة ودمج كل PR |
 | **١ التصميم** | `lib/domain_engine/design/` (نطاق صرف جديد) · `lib/features/interactive_sandbox/presentation/sandbox_scene_view.dart` (الرسم) · `lib/ai/generation/` (توليد الصور) · `docs/design/` |
-| **٢ الكتالوج** | `lib/features/catalog/` · `assets/catalog/` · `docs/catalog_*` · جهة المحتوى في `.github/workflows/sync-catalog.yml` |
-| **٣ الفهم** | `lib/ai/{parsing,services,contracts,models}` — الاستخراج ومُحلِّل الأوامر ووصلة الـLLM |
-| **٤ التجربة** | `lib/features/*/presentation/` (الشاشات والأوراق) عدا رسم المشهد · `lib/core/router/` · متحكّمات العرض |
-| **٥ النموّ** | `lib/analytics/` · `docs/analytics_events.md` · الموافقة/الخصوصية · إشارات الإيراد |
+| **٢ الكتالوج** | `lib/features/catalog/` · `assets/catalog/` · `lib/shared/services/catalog_repository.dart` (التحميل — النموذج نفسه للمعماري) · `docs/catalog_*` · جهة المحتوى في `.github/workflows/sync-catalog.yml` |
+| **٣ الفهم** | `lib/ai/**` عدا `generation/` (=١) — العقود والـmocks والتحليل والـprompt · `lib/features/room_analysis/data/` (تنظيم الاستخراج) |
+| **٤ التجربة** | `lib/features/*/presentation/` (الشاشات والأوراق) عدا رسم المشهد (=١) ومتحكّم/مخزن الموافقة (=٥) · `lib/core/router/` · متحكّمات العرض |
+| **٥ النموّ** | `lib/analytics/` · `docs/analytics_events.md` · الموافقة/الخصوصية (`lib/features/consent/` عدا البانر =٤) · إشارات الإيراد |
 
 قاعدة ذهبية: **ملف واحد = مالك واحد.** ما يقع على الحدّ يُحسَم بهذا الجدول قبل الكود.
 
@@ -65,13 +65,13 @@ Clean Architecture، mock-first. المحرّك صرف (يفرضه `test/analyti
 - **ينتج:** قواعد + tokens + رندر. **يستهلك:** إشارات الستايل المستخرجة (من ٣) وعقد
   `ScoringContext` (من المعماري).
 
-### مسار ٢ — الكتالوج والبيانات
+### مسار ٢ — الكتالوج والبيانات  *(بريفه الكامل: `docs/workstreams/2_catalog.md`)*
 - **يملك:** الجلب/التحقّق/إزالة التكرار، التوفّر والسعر، عقد البيانات، خطّ المزامنة.
 - **لا يملك:** نموذج `CatalogProduct` نفسه (عقد مشترك — المعماري) · معنى حقول
   الستايل/اللون (تعريفها =١)؛ يملؤها فقط.
 - **ينتج:** `CatalogProduct` مأهولًا. **يستهلك:** مخطّط الحقول (من ١) وعقد النموذج (من المعماري).
 
-### مسار ٣ — الفهم (AI Understanding)
+### مسار ٣ — الفهم (AI Understanding)  *(بريفه الكامل: `docs/workstreams/3_ai_understanding.md`)*
 - **يملك:** الاستخراج من نص/صوت/صورة إلى `FurnishingProject`، **فهم صورة الغرفة**
   (مقاسات/ألوان/إضاءة)، مُحلِّل أوامر المساعد (`plan_command_parser`)، أسئلة المتابعة،
   ووصلة الـLLM.
@@ -80,7 +80,7 @@ Clean Architecture، mock-first. المحرّك صرف (يفرضه `test/analyti
 - **الحدّ مع التصميم = الاتجاه:** ما يدخل (فهم) لِـ٣، وما يخرج (صورة) لِـ١.
 - **ينتج:** `FurnishingProject`, `PlanCommand`, إشارات الرؤية. **يستهلك:** النماذج المشتركة.
 
-### مسار ٤ — التجربة (UX/Frontend)
+### مسار ٤ — التجربة (UX/Frontend)  *(بريفه الكامل: `docs/workstreams/4_experience.md`)*
 - **يملك:** الشاشات الثلاث وأوراقها، التنقّل (`router`)، متحكّمات العرض، RTL/الوصول/النصوص
   الدقيقة، حالات الفراغ/التحميل/الخطأ، وشاشة/متحكّم Sandbox (لا رسمه).
 - **لا يملك:** قواعد التصميم/الـtokens (=١) · رسم المشهد (=١) · مُحلِّل الأوامر (=٣)
@@ -88,7 +88,7 @@ Clean Architecture، mock-first. المحرّك صرف (يفرضه `test/analyti
 - **ينتج:** التجربة التي تُصيّر حلقة الثقة. **يستهلك:** مخرجات المحرّك، نظام التصميم (من ١)،
   `PlanCommand` (من ٣)، أحداث القياس (من ٥).
 
-### مسار ٥ — النموّ والتحليلات والثقة
+### مسار ٥ — النموّ والتحليلات والثقة  *(بريفه الكامل: `docs/workstreams/5_growth_analytics.md`)*
 - **يملك:** أدوات القياس، تعريفات الأحداث وكتالوجها، الموافقة/الخصوصية (PDPL)، قِمع
   الثقة، إشارات الإيراد (merchant_click/العمولة)، التجارب.
 - **لا يملك:** أماكن النداء داخل الميزات (كل مسار يُطلق أحداثه)، لكن **تعريف** أي حدث
@@ -115,7 +115,12 @@ Clean Architecture، mock-first. المحرّك صرف (يفرضه `test/analyti
 3. **Preview ينقسم:** الشاشة والتفاعل (٤) · الرسم المرئي `sandbox_scene_view.dart` (١).
 4. **حقول الكتالوج:** التصميم (١) يعرّف المخطّط · الكتالوج (٢) يملؤه.
 5. **الأحداث:** يعرّفها مسار ٥؛ البقية تُطلقها فقط.
-6. **ملف واحد = مالك واحد.**
+6. **الموافقة تنقسم:** البانر واجهةٌ (=٤) · المخزن والمتحكّم ومنطق البوابة (=٥).
+7. **صورة غرفة المستخدم تدخل عبر ٣** (فهمًا وتطبيعًا)؛ توليدُ ١ يستهلك مخرجاتها عبر
+   عقد — وحدُّ الخصوصية spec مشترك (٣+١) يوافق عليه المعماري.
+8. **ملف واحد = مالك واحد.**
+9. **ما لم يُسمَّ مالكه** في الجدول فهو **للمعماري** حتى يُسنَد صراحةً (auth، ar،
+   مخازن المسوّدات/المحفوظات، `core/errors`، `shared/utils`…).
 
 ---
 

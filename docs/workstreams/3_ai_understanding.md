@@ -25,7 +25,7 @@ Furn-App = منصّة تخطيط أثاث تفاعلية. ليست محادثة 
 ---
 
 ## ٢) ما تملكه بالضبط
-`lib/ai/**` بأكمله + `lib/features/room_analysis/data/**` (تنظيم الاستخراج):
+`lib/ai/**` **عدا** `generation/` (توليد الصور — مسار ١) + `lib/features/room_analysis/data/**` (تنظيم الاستخراج):
 - **العقود** (`lib/ai/contracts/`): `LlmExtractionService.extract(NormalizedInput) →
   Result<FurnishingProject>` · `SpeechToTextService` (صوت→نص) · `VisionAnalysisService`
   (صورة→إشارات). لكلٍّ Mock افتراضي (`lib/ai/mock/`) وprovider في `core/di` **يُبدَّل
