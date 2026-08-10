@@ -33,6 +33,19 @@ DEFAULT_USER_AGENT = (
 _RETRY_STATUS = {408, 425, 429, 500, 502, 503, 504}
 
 
+def _looks_like_robots(body: str) -> bool:
+    """True if the body actually contains robots.txt directives.
+
+    A 200 is not proof of a policy: bot filters and error pages return HTML
+    under any status. A document with no `user-agent` or `disallow` line states
+    nothing, and treating silence as a ban is as wrong as treating it as
+    permission — but only one of those two is a guess we would make *about*
+    the site owner, so we take the documented reading and proceed.
+    """
+    head = body[:4000].lower()
+    return "user-agent:" in head or "disallow:" in head or "allow:" in head
+
+
 def _disallow_all() -> urllib.robotparser.RobotFileParser:
     parser = urllib.robotparser.RobotFileParser()
     parser.disallow_all = True
@@ -126,7 +139,9 @@ class HttpClient:
 
     # ---------------------------------------------------------------- robots
 
-    def _robots_for(self, url: str) -> urllib.robotparser.RobotFileParser | None:
+    def _robots_for(
+        self, url: str, headers: Mapping[str, str] | None = None
+    ) -> urllib.robotparser.RobotFileParser | None:
         """Fetch and parse a host's robots.txt, following RFC 9309 status rules.
 
         We fetch it ourselves rather than calling `RobotFileParser.read()`,
@@ -139,6 +154,14 @@ class HttpClient:
 
         A 5xx is "unreachable" and *is* treated as a full disallow, per the
         same section: a host that is failing should not be crawled harder.
+
+        `headers` must be the same profile the caller uses for pages. A site
+        with a User-Agent filter answers an unrecognised agent with a challenge
+        page — Landmark returns 202 with HTML — and fetching robots.txt as a
+        bare bot while fetching pages as a browser means the policy we read is
+        not the policy that governs our requests. Worse, a 202 is neither 200
+        nor 4xx nor 5xx, so it fell through to the disallow branch and locked
+        the scraper out of the entire host before it read one product.
         """
         parsed = urlparse(url)
         origin = f"{parsed.scheme}://{parsed.netloc}"
@@ -151,16 +174,21 @@ class HttpClient:
 
         self._throttle(parsed.netloc)
         try:
-            response = self._session.get(robots_url, timeout=self.timeout)
+            response = self._session.get(robots_url, timeout=self.timeout, headers=headers)
         except requests.RequestException as exc:
             log.warning("could not read %s (%s); proceeding politely", robots_url, exc)
             parser = None
         else:
-            if response.status_code == 200:
+            if response.status_code == 200 and _looks_like_robots(response.text):
                 parser.parse(response.text.splitlines())  # type: ignore[union-attr]
-            elif 400 <= response.status_code < 500:
+            elif response.status_code < 400 or (400 <= response.status_code < 500):
+                # Either an "unavailable" 4xx (RFC 9309: no policy published, a
+                # crawler may proceed) or a 2xx carrying something that is not a
+                # robots.txt at all — a challenge or error page. Neither states a
+                # policy, and inventing a blanket ban from a document with no
+                # directives in it is a guess, not compliance.
                 log.info(
-                    "no robots.txt published at %s (HTTP %d); proceeding politely",
+                    "no robots.txt policy served by %s (HTTP %d); proceeding politely",
                     origin,
                     response.status_code,
                 )
@@ -176,10 +204,10 @@ class HttpClient:
         self._robots[origin] = parser
         return parser
 
-    def allowed(self, url: str) -> bool:
+    def allowed(self, url: str, headers: Mapping[str, str] | None = None) -> bool:
         if not self.respect_robots:
             return True
-        parser = self._robots_for(url)
+        parser = self._robots_for(url, headers)
         if parser is None:
             return True
         return parser.can_fetch(self.user_agent, url)
@@ -230,7 +258,7 @@ class HttpClient:
             if cached is not None:
                 return cached, self._read_cache_url(url) or url
 
-        if not self.allowed(url):
+        if not self.allowed(url, headers):
             raise RobotsDisallowed(f"robots.txt disallows {url}")
 
         host = urlparse(url).netloc

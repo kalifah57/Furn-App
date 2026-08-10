@@ -46,9 +46,22 @@ from ..units import (
     seat_depth_from_labelled,
     to_cm,
 )
-from .base import Adapter, RawProduct, classify_category, price_from_json_ld, price_from_text
+from .base import (
+    Adapter,
+    RawProduct,
+    classify_category,
+    labelled_dimensions_from_text,
+    labelled_pairs_from_text,
+    price_from_json_ld,
+    price_from_text,
+)
 
 log = logging.getLogger(__name__)
+
+#: Module-local names for the shared parsers, which this adapter used to own.
+#: Its helpers and tests refer to them, and the implementations now serve
+#: Home Centre and Abyat too — one label whitelist, every retailer.
+_from_labelled_text = labelled_dimensions_from_text
 
 # Trailing token of an IKEA product URL: `s79482824` (a multi-part article) or
 # `00519361` (a single article). This is the SKU the Furn-App record needs.
@@ -60,33 +73,6 @@ _PRODUCT_PATH_RE = re.compile(r"/p/([a-z0-9\-]+-s?\d{8})/?", re.IGNORECASE)
 #: `"itemMeasureReferenceText":"228x95x83 cm"` inside any embedded JSON blob.
 _MEASURE_JSON_RE = re.compile(
     r'"(?:itemMeasureReferenceText|measureText|measurementText|itemMeasure)"\s*:\s*"([^"]{3,60})"'
-)
-
-#: `Width: 228 cm`, `Seat depth: 54 cm`, `Height including back cushions: 84 cm`
-#: — wherever they appear in text, capturing the **whole label**, qualifier and
-#: all, so `classify_label` can judge it.
-#:
-#: The predecessor captured only the bare axis word, which destroyed the
-#: qualifier before anything could reject it: `Armrest width: 3.5 cm` arrived
-#: downstream as `width: 3.5 cm` and, first-match-wins, beat the real
-#: `Width: 132 cm`. The fix is not a longer list of lookbehinds — it is to stop
-#: throwing away the evidence and let one whitelist decide.
-#:
-#: Two words before the axis word and four after: enough for `Compressed
-#: packaging depth` and `Height including back cushions`, tight enough that a
-#: run-on sentence does not swallow a legitimate label. Section headings that
-#: still slip in ("Measurements Width") are stripped by `classify_label`.
-_AXIS_WORDS_RE = (
-    r"width|depth|height|length|"
-    r"عرض|العرض|عمق|العمق|طول|الطول|ارتفاع|الارتفاع"
-)
-_LABEL_VALUE_RE = re.compile(
-    r"(?P<label>(?:[A-Za-z؀-ۿ.]+[ \t]+){0,2}?"
-    rf"(?:{_AXIS_WORDS_RE})"
-    r"(?:[ \t]+[A-Za-z؀-ۿ.]+){0,4}?)"
-    r"[ \t]*[:：\-]?[ \t]*"
-    r"(?P<value>\d[\d.,]*(?:[ \t]*\d+/\d+)?[ \t]*(?:cm|mm|m|in|inches|\"|سم|مم)(?![a-z]))",
-    re.IGNORECASE,
 )
 
 #: A bare `228x95x83 cm` anywhere in the raw markup. Last resort — it will
@@ -504,41 +490,6 @@ def _seat_depth_from_text(html: str) -> float | None:
     except Exception:  # noqa: BLE001 - an unparseable seat depth is simply absent
         return None
     return value if 1.0 <= value <= 200.0 else None
-
-
-def labelled_pairs_from_text(text: str) -> dict[str, str]:
-    """Every `label: value` measurement in free text, labels kept intact.
-
-    Keys are the full labels (`Seat depth`, not `depth`), because that is what
-    `classify_label` needs in order to reject a component measurement. A label
-    seen twice keeps its first value; distinct labels never collide, so a
-    sub-measurement can no longer occupy the slot of a real axis.
-    """
-    pairs: dict[str, str] = {}
-    for match in _LABEL_VALUE_RE.finditer(text or ""):
-        label = " ".join(match.group("label").split())
-        pairs.setdefault(label, match.group("value"))
-    return pairs
-
-
-def _from_labelled_text(text: str) -> Dimensions | None:
-    """Build a footprint from `Width: 228 cm` phrasing in free text.
-
-    Scoped to the measurements panel. Reading the whole page instead lets the
-    packaging block compete for the same axes under the same bare labels — an
-    EKTORP came back 205cm deep, which is its carton, not its footprint.
-    """
-    for section in measurement_sections(text):
-        pairs = labelled_pairs_from_text(section)
-        if not pairs:
-            continue
-        dimensions = dimensions_from_labelled(pairs)
-        if dimensions is not None:
-            return dimensions
-
-    # No recognisable panel; read the page but still stop short of packaging.
-    pairs = labelled_pairs_from_text(before_other_sections(text))
-    return dimensions_from_labelled(pairs) if pairs else None
 
 
 def _labelled_measurements(soup: BeautifulSoup) -> dict[str, str]:

@@ -29,21 +29,79 @@ from ..aesthetics import SourceSignals
 from ..http import FetchError
 from ..locale import enforce as enforce_ksa
 from ..sitemap import discover_products
-from ..units import (
-    Dimensions,
-    dimensions_from_labelled,
-    parse_triple,
-    seat_depth_from_labelled,
-)
+from ..units import Dimensions, dimensions_from_labelled, seat_depth_from_labelled
 from .base import (
     Adapter,
     RawProduct,
     classify_category,
+    dimensions_from_triple as _from_triple,
+    labelled_dimensions_from_text,
+    labelled_pairs_from_text,
     price_from_json_ld,
     price_from_text,
 )
 
 log = logging.getLogger(__name__)
+
+
+#: Headings that mark a table as describing the carton rather than the product.
+_PACKAGING_HEADING_RE = re.compile(
+    r"package|packaging|carton|shipping|delivery|التغليف|الطرد", re.IGNORECASE
+)
+
+#: Elements that contain a spec table, and headings that label one.
+_CONTAINERS = ("table", "section", "article", "dl")
+_HEADINGS = ("h1", "h2", "h3", "h4", "h5", "h6", "strong", "legend", "caption")
+
+
+def _is_packaging_row(row) -> bool:
+    """True if this spec row sits under a packaging heading.
+
+    Walks up to the row's containing table, then back through that table's
+    previous siblings to the nearest heading. Bounded on both axes: a page with
+    no heading structure should read as "not packaging" and let the label
+    whitelist do the work, not wander the whole document looking for one.
+    """
+    container = row
+    for _ in range(6):
+        container = getattr(container, "parent", None)
+        if container is None:
+            return False
+        if getattr(container, "name", "") in _CONTAINERS:
+            break
+    else:
+        return False
+
+    # A <caption> inside the table names it without any sibling heading.
+    caption = container.find("caption") if hasattr(container, "find") else None
+    if caption is not None and _PACKAGING_HEADING_RE.search(caption.get_text(" ", strip=True)):
+        return True
+
+    sibling = container
+    for _ in range(8):
+        sibling = _previous_element_sibling(sibling)
+        if sibling is None:
+            return False
+        if getattr(sibling, "name", "") in _HEADINGS:
+            return bool(_PACKAGING_HEADING_RE.search(sibling.get_text(" ", strip=True)))
+    return False
+
+
+def _previous_element_sibling(node):
+    """The previous sibling tag, skipping whitespace and text nodes."""
+    finder = getattr(node, "find_previous_sibling", None)
+    if callable(finder):
+        return finder()
+    parent = getattr(node, "parent", None)
+    if parent is None:
+        return None
+    tags = [c for c in getattr(parent, "children", []) if getattr(c, "name", None)]
+    try:
+        index = tags.index(node)
+    except ValueError:
+        return None
+    return tags[index - 1] if index > 0 else None
+
 
 
 class JsonLdAdapter(Adapter):
@@ -157,22 +215,18 @@ class JsonLdAdapter(Adapter):
             log.debug("%s: could not categorise %s", self.store, name)
             return None
 
-        dimensions = dimensions_from_labelled(specs)
-        if dimensions is None:
-            for text in (name, description, specs.get("Dimensions", ""), specs.get("Size", "")):
-                triple = parse_triple(text)
-                if triple:
-                    candidate = Dimensions.from_retailer(
-                        width=triple[0], depth=triple[1], height=triple[2]
-                    )
-                    if candidate.is_plausible():
-                        dimensions = candidate.with_seat_depth(seat_depth_from_labelled(specs))
-                        break
+        # The visible, shadow-pierced text of a rendered page. Only present on
+        # the browser path, and the same source that carries IKEA's panel.
+        render_text = self.last_render.text if self.last_render else ""
+
+        dimensions, source = self._dimensions(specs, name, description, render_text)
 
         colour = str(product.get("color") or specs.get("Colour") or specs.get("Color") or "")
         material = str(product.get("material") or specs.get("Material") or "")
-        price = price_from_json_ld(product) or price_from_text(
-            soup.get_text(" ", strip=True)[:4000]
+        price = (
+            price_from_json_ld(product)
+            or price_from_text(soup.get_text(" ", strip=True)[:4000])
+            or price_from_text(render_text[:4000])
         )
 
         return RawProduct(
@@ -194,15 +248,58 @@ class JsonLdAdapter(Adapter):
             notes={
                 "source": f"{self.store}-json-ld",
                 "spec_rows": len(specs),
+                "dimensions_from": source,
                 "rendered": render,
             },
         )
 
+    # ------------------------------------------------------------ dimensions
+
+    def _dimensions(
+        self, specs: dict[str, str], name: str, description: str, render_text: str = ""
+    ) -> tuple[Dimensions | None, str]:
+        """Same layering as the IKEA adapter, same order of authority.
+
+        A spec table is the cleanest source when it exists, because its labels
+        arrive already separated from their values. Everything after it reads
+        free text, and every one of those layers routes through
+        `classify_label`, so a component measurement cannot become an axis here
+        any more than it can there.
+        """
+        candidates: list[tuple[str, Dimensions | None]] = [
+            ("spec-table", dimensions_from_labelled(specs)),
+            ("browser-text", labelled_dimensions_from_text(render_text)),
+            ("description-labels", labelled_dimensions_from_text(description)),
+            ("spec-triple", _from_triple(specs.get("Dimensions") or specs.get("Size") or "")),
+            ("title-triple", _from_triple(name)),
+            ("page-triple", _from_triple(description)),
+        ]
+        # Seat depth rides along from whichever source published it, and never
+        # enters the bounding box — see `classify_label`.
+        seat_depth = seat_depth_from_labelled(specs) or seat_depth_from_labelled(
+            labelled_pairs_from_text(render_text)
+        )
+
+        for label, dims in candidates:
+            if dims is not None and dims.is_plausible():
+                return dims.with_seat_depth(seat_depth), label
+        return None, "none"
+
     def _specs(self, soup: BeautifulSoup) -> dict[str, str]:
-        """Pull `{label: value}` out of whichever spec table the page renders."""
+        """Pull `{label: value}` out of whichever spec table the page renders.
+
+        Rows under a packaging heading are skipped. `table tr` matches *every*
+        table on the page, and a retailer's package block uses the same bare
+        `Width` / `Height` / `Length` labels as the product — so without this
+        the carton competes for the same axes, and since the larger value wins
+        an axis, a flat-pack carton beats the thing inside it. On the fixture
+        that turned an 88cm-deep sofa into a 208cm-deep one.
+        """
         specs: dict[str, str] = {}
         for selector in self.spec_selectors:
             for row in soup.select(selector):
+                if _is_packaging_row(row):
+                    continue
                 cells = row.find_all(["td", "th", "dt", "dd"])
                 if len(cells) >= 2:
                     label = cells[0].get_text(" ", strip=True)

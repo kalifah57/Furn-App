@@ -203,3 +203,52 @@ class TestCache:
         second = http.get_with_url(f"{server}/old")
 
         assert first == second == ("landed", f"{server}/new")
+
+
+class TestRobotsUnderABotFilter:
+    """A UA-filtered site must not lock the scraper out of itself.
+
+    Landmark answers an unrecognised User-Agent with `202` and a challenge page.
+    robots.txt was fetched without the caller's header profile, so it got the
+    challenge instead of the policy — and 202 is neither 200 nor 4xx nor 5xx, so
+    it fell through to the disallow branch. Every URL on the host became
+    forbidden before a single product was read, and the run reported "robots.txt
+    disallows" as though the retailer had said so.
+    """
+
+    def test_robots_is_fetched_with_the_callers_headers(self, server):
+        from furn_catalog.render import browser_headers
+
+        Handler.routes = {
+            "/robots.txt": (200, ROBOTS_ALLOW_ALL),
+            "/sa/en/x/p/1234567": (200, "product"),
+        }
+        http = client()
+        http.get(f"{server}/sa/en/x/p/1234567", headers=browser_headers())
+
+        robots_request = Handler.seen_headers[0]
+        assert "Chrome/" in robots_request["User-Agent"], (
+            "robots.txt was fetched as the bot while pages are fetched as a "
+            "browser — the policy read is not the policy governing our requests"
+        )
+
+    def test_a_2xx_challenge_page_is_not_a_policy(self, server):
+        """202 + HTML states nothing. Reading a blanket ban out of a document
+        with no directives in it is a guess, not compliance."""
+        Handler.routes = {
+            "/robots.txt": (202, "<html>Checking your browser…</html>"),
+            "/page": (200, "ok"),
+        }
+        assert client().allowed(f"{server}/page")
+
+    def test_a_200_that_is_not_robots_txt_is_not_a_policy(self, server):
+        Handler.routes = {"/robots.txt": (200, "<!doctype html><h1>Not found</h1>"), "/page": (200, "ok")}
+        assert client().allowed(f"{server}/page")
+
+    def test_a_real_disallow_still_binds_under_the_same_path(self, server):
+        """The permissive readings above must not weaken an actual directive."""
+        Handler.routes = {"/robots.txt": (200, ROBOTS_DISALLOW)}
+        http = client()
+        assert not http.allowed(f"{server}/sa/en/c/furniture")
+        with pytest.raises(RobotsDisallowed):
+            http.get(f"{server}/sa/en/c/furniture")

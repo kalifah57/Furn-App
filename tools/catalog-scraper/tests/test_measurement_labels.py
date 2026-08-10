@@ -401,13 +401,13 @@ class TestAssetSlug:
         assert _slug("!!!") == "item"
 
 
-class TestWriteTimeEnforcement:
-    """The floors gate emission, not just the audit.
+class TestExtentFloorsArePublishedNotEnforced:
+    """The floors are a signal, not a gate — the consumer owns the judgement.
 
-    A run that emits a 1.2cm-wide dining table and reports "50 emitted" has
-    already put the bad record in front of whoever consumes the file. Catching
-    it afterwards depends on somebody reading the audit — which is the
-    assumption that let three contaminated catalogues ship.
+    Furn-App's ingestion layer is tested against exactly these records, so
+    dropping them upstream would make its own drop counts meaningless. This
+    repo publishes raw; `--enforce-extents` turns the floors back into drops
+    for anyone publishing to a stricter consumer.
     """
 
     def _product(self, category, width, length, height):
@@ -426,27 +426,17 @@ class TestWriteTimeEnforcement:
             sku="s12345678",
         )
 
-    def test_a_component_sized_dining_table_cannot_be_emitted(self):
-        from furn_catalog.schema import ValidationError
+    def test_a_component_sized_record_still_validates(self):
+        """It ships. The contract it must satisfy is shape, not plausibility."""
+        self._product("dining_table", width=1.2, length=40.0, height=4.0).validate()
+        self._product("bed", width=90.0, length=200.0, height=8.0).validate()
 
-        with pytest.raises(ValidationError, match="implausible extent"):
-            self._product("dining_table", width=1.2, length=40.0, height=4.0).validate()
+    def test_but_the_floors_still_identify_it(self):
+        bad = self._product("dining_table", width=1.2, length=40.0, height=4.0)
+        assert implausible_for_category(bad.category, bad.dimensions.as_dict())
 
-    def test_a_bed_with_a_clearance_height_cannot_be_emitted(self):
-        from furn_catalog.schema import ValidationError
+    def test_a_real_product_trips_nothing(self):
+        good = self._product("dining_table", width=120.0, length=75.0, height=74.0)
+        good.validate()
+        assert implausible_for_category(good.category, good.dimensions.as_dict()) == []
 
-        with pytest.raises(ValidationError, match="implausible extent"):
-            self._product("bed", width=90.0, length=200.0, height=8.0).validate()
-
-    def test_a_real_product_still_validates(self):
-        self._product("dining_table", width=120.0, length=75.0, height=74.0).validate()
-        self._product("bed", width=176.0, length=209.0, height=100.0).validate()
-
-    def test_the_drop_reason_names_the_cause(self):
-        from furn_catalog.pipeline import _drop_reason
-        from furn_catalog.schema import ValidationError
-
-        try:
-            self._product("dining_table", width=1.2, length=40.0, height=4.0).validate()
-        except ValidationError as exc:
-            assert _drop_reason(exc) == "implausible_for_category"

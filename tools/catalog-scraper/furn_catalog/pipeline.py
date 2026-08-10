@@ -16,7 +16,7 @@ from typing import Iterable
 
 from .adapters import Adapter, RawProduct
 from .aesthetics import RuleBasedExtractor, VisionExtractor
-from .schema import AestheticFeatures, Product, ValidationError
+from .schema import AestheticFeatures, Product, ValidationError, implausible_extents
 
 log = logging.getLogger(__name__)
 
@@ -34,6 +34,9 @@ class RunReport:
     retried: int = 0
     recovered: int = 0
     incomplete: int = 0
+    #: Emitted records whose axes look like a component measurement rather than
+    #: the bounding box. Reported, not dropped — see Pipeline.enforce_extents.
+    suspect_extents: int = 0
     drops: Counter[str] = field(default_factory=Counter)
     dropped_examples: dict[str, str] = field(default_factory=dict)
 
@@ -55,6 +58,11 @@ class RunReport:
             )
         if self.incomplete:
             lines.append(f"  flagged   : {self.incomplete} shipped without dimensions")
+        if self.suspect_extents:
+            lines.append(
+                f"  suspect   : {self.suspect_extents} emitted with a component-sized axis "
+                "(published raw; the consumer drops these)"
+            )
         if self.drops:
             lines.append("  dropped   :")
             for reason, count in self.drops.most_common():
@@ -95,6 +103,7 @@ class Pipeline:
         allow_incomplete: bool = False,
         require_price: bool = False,
         render_always: bool = False,
+        enforce_extents: bool = False,
     ) -> None:
         self.adapter = adapter
         self.extractor = extractor or RuleBasedExtractor()
@@ -113,6 +122,11 @@ class Pipeline:
         #: authoritative source — a static page can carry a plausible-looking
         #: measurement that is not the bounding box.
         self.render_always = render_always
+        #: Drop records whose axes are too small for their category, instead of
+        #: only counting them. Off by default: this repo publishes raw, and the
+        #: consumer's ingestion layer is tested against exactly these records —
+        #: dropping them here would make its own drop counts meaningless.
+        self.enforce_extents = enforce_extents
 
     def run(
         self,
@@ -206,6 +220,20 @@ class Pipeline:
                 report.record_drop(_drop_reason(exc), f"{raw.product_name}: {exc}")
                 continue
 
+            extent_problems = (
+                implausible_extents(product.category, product.dimensions.as_dict())
+                if product.dimensions is not None
+                else []
+            )
+            if extent_problems and self.enforce_extents:
+                report.record_drop(
+                    "implausible_for_category", f"{raw.product_name}: {extent_problems[0]}"
+                )
+                continue
+            if extent_problems:
+                report.suspect_extents += 1
+                log.info("suspect extent kept (publishing raw): %s", extent_problems[0])
+
             seen_skus.add(raw.sku)
             products.append(product)
             report.emitted += 1
@@ -273,6 +301,7 @@ def merge(runs: Iterable[tuple[list[Product], RunReport]]) -> tuple[list[Product
         total.retried += report.retried
         total.recovered += report.recovered
         total.incomplete += report.incomplete
+        total.suspect_extents += report.suspect_extents
         total.drops.update(report.drops)
         for reason, example in report.dropped_examples.items():
             total.dropped_examples.setdefault(reason, example)

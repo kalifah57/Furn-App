@@ -18,6 +18,7 @@ from pathlib import Path
 from .adapters import ADAPTERS, build_adapter
 from .aesthetics import build_extractor
 from .http import HttpClient
+from . import manifest as manifest_mod
 from .pipeline import DEFAULT_MODEL_TEMPLATE, Pipeline, merge
 from .render import BrowserRenderer
 from .schema import DEFAULT_PROFILE, PROFILES, dump_catalogue
@@ -117,6 +118,20 @@ def build_parser() -> argparse.ArgumentParser:
             "and four colours of one EKTORP are a single footprint to the "
             "solver. Raise it if you want the colour range; 0 disables the cap."
         ),
+    )
+    parser.add_argument(
+        "--enforce-extents",
+        action="store_true",
+        help=(
+            "drop records whose axes are too small for their category instead of "
+            "counting them. Off by default: this repo publishes raw and the "
+            "consumer owns that judgement (see README > Published contract)."
+        ),
+    )
+    parser.add_argument(
+        "--no-manifest",
+        action="store_true",
+        help="skip writing catalog.manifest.json beside --out",
     )
     parser.add_argument(
         "--require-price",
@@ -239,6 +254,7 @@ def main(argv: list[str] | None = None) -> int:
             allow_incomplete=args.allow_incomplete,
             require_price=args.require_price,
             render_always=render_always,
+            enforce_extents=args.enforce_extents,
         )
         return pipeline.run(limit=quota, exclude_skus=exclude)
 
@@ -274,6 +290,18 @@ def main(argv: list[str] | None = None) -> int:
     if args.out:
         args.out.write_text(payload, encoding="utf-8")
         print(f"wrote {len(products)} products to {args.out}", file=sys.stderr)
+
+        # The manifest is derived from the bytes just written, never authored by
+        # hand: consumers poll it and pull the catalogue only when `sha256`
+        # changes, so a stale hash pins them to an old file silently.
+        if not args.no_manifest:
+            written = manifest_mod.write(args.out, record_count=len(products))
+            problems = manifest_mod.verify(args.out)
+            if problems:
+                for problem in problems:
+                    print(f"MANIFEST ERROR: {problem}", file=sys.stderr)
+                return 2
+            print(f"wrote {written}", file=sys.stderr)
     else:
         print(payload)
 

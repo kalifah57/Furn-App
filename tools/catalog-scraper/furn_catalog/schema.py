@@ -69,6 +69,16 @@ ROOM_CATEGORIES: dict[str, str] = {
 
 ROOMS = frozenset(ROOM_CATEGORIES.values())
 
+#: The published schema contract, carried in `catalog.manifest.json`.
+#:
+#: Bump this whenever a key is added, removed or renamed, a unit changes, or an
+#: axis changes meaning — anything that would make a consumer written against
+#: the previous version wrong. `tests/test_manifest.py` pins the exact key set
+#: to this number, so a shape change fails the suite until the version is
+#: bumped deliberately. Silent shape drift is the failure mode a downstream
+#: consumer cannot defend against.
+SCHEMA_VERSION = 1
+
 #: Floors below which an axis cannot be that category's real extent, in cm as
 #: (width, length/depth, height).
 #:
@@ -311,14 +321,15 @@ class Product:
             raise ValidationError(
                 f"implausible dimensions {self.dimensions.as_dict()} — refusing to ship to the solver"
             )
-        else:
-            # Category-aware second gate: 1.2cm is a fine number and an
-            # impossible dining table.
-            extent_problems = implausible_extents(self.category, self.dimensions.as_dict())
-            if extent_problems:
-                raise ValidationError(
-                    "implausible extent for category — " + "; ".join(extent_problems)
-                )
+        # Category extent floors are deliberately NOT enforced here. They are a
+        # judgement about whether a number looks like a component measurement,
+        # and the consumer owns that judgement: Furn-App's ingestion layer is
+        # tested against these exact records, so dropping them upstream would
+        # make its drop counts meaningless. `implausible_extents` stays
+        # available, the pipeline reports what it finds, and `--enforce-extents`
+        # turns it back into a drop for anyone publishing to a stricter
+        # consumer. What `validate` enforces is the *contract* — shape, types,
+        # locale, https, SKU — which every consumer relies on regardless.
 
         # Requirement 1: English only. Applies to whatever text is present;
         # an empty aesthetic field is vacuously English.

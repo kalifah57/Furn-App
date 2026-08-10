@@ -13,7 +13,13 @@ from bs4 import BeautifulSoup
 from ..aesthetics import SourceSignals
 from ..http import HttpClient
 from ..render import BrowserRenderer, RenderResult, browser_headers
-from ..units import Dimensions
+from ..units import (
+    Dimensions,
+    before_other_sections,
+    dimensions_from_labelled,
+    measurement_sections,
+    parse_triple,
+)
 
 
 @dataclass
@@ -156,6 +162,99 @@ class Adapter(ABC):
         if isinstance(value, dict):
             return str(value.get("url") or value.get("contentUrl") or "")
         return ""
+
+
+
+#: `Width: 228 cm`, `Seat depth: 54 cm`, `Height including back cushions: 84 cm`
+#: — wherever they appear in text, capturing the **whole label**, qualifier and
+#: all, so `classify_label` can judge it.
+#:
+#: The predecessor captured only the bare axis word, which destroyed the
+#: qualifier before anything could reject it: `Armrest width: 3.5 cm` arrived
+#: downstream as `width: 3.5 cm` and, first-match-wins, beat the real
+#: `Width: 132 cm`. The fix is not a longer list of lookbehinds — it is to stop
+#: throwing away the evidence and let one whitelist decide.
+#:
+#: Two words before the axis word and four after: enough for `Compressed
+#: packaging depth` and `Height including back cushions`, tight enough that a
+#: run-on sentence does not swallow a legitimate label. Section headings that
+#: still slip in ("Measurements Width") are stripped by `classify_label`.
+_AXIS_WORDS_RE = (
+    r"width|depth|height|length|"
+    r"عرض|العرض|عمق|العمق|طول|الطول|ارتفاع|الارتفاع"
+)
+_LABEL_VALUE_RE = re.compile(
+    r"(?P<label>(?:[A-Za-z؀-ۿ.]+[ \t]+){0,2}?"
+    rf"(?:{_AXIS_WORDS_RE})"
+    r"(?:[ \t]+[A-Za-z؀-ۿ.]+){0,4}?)"
+    r"[ \t]*[:：\-]?[ \t]*"
+    r"(?P<value>\d[\d.,]*(?:[ \t]*\d+/\d+)?[ \t]*(?:cm|mm|m|in|inches|\"|سم|مم)(?![a-z]))",
+    re.IGNORECASE,
+)
+
+
+def labelled_pairs_from_text(text: str) -> dict[str, str]:
+    """Every `label: value` measurement in free text, labels kept intact.
+
+    Keys are the full labels (`Seat depth`, not `depth`), because that is what
+    `classify_label` needs in order to reject a component measurement. A label
+    seen twice keeps its first value; distinct labels never collide, so a
+    sub-measurement can no longer occupy the slot of a real axis.
+    """
+    pairs: dict[str, str] = {}
+    for match in _LABEL_VALUE_RE.finditer(text or ""):
+        label = " ".join(match.group("label").split())
+        pairs.setdefault(label, match.group("value"))
+    return pairs
+
+
+def _from_labelled_text(text: str) -> Dimensions | None:
+    """Build a footprint from `Width: 228 cm` phrasing in free text.
+
+    Scoped to the measurements panel. Reading the whole page instead lets the
+    packaging block compete for the same axes under the same bare labels — an
+    EKTORP came back 205cm deep, which is its carton, not its footprint.
+    """
+    for section in measurement_sections(text):
+        pairs = labelled_pairs_from_text(section)
+        if not pairs:
+            continue
+        dimensions = dimensions_from_labelled(pairs)
+        if dimensions is not None:
+            return dimensions
+
+    # No recognisable panel; read the page but still stop short of packaging.
+    pairs = labelled_pairs_from_text(before_other_sections(text))
+    return dimensions_from_labelled(pairs) if pairs else None
+
+
+def labelled_dimensions_from_text(text: str) -> Dimensions | None:
+    """Build a footprint from `Width: 228 cm` phrasing in free text.
+
+    Scoped to the measurements panel. Reading the whole page instead lets the
+    packaging block compete for the same axes under the same bare labels — an
+    EKTORP came back 205cm deep, which is its carton, not its footprint.
+    """
+    for section in measurement_sections(text):
+        pairs = labelled_pairs_from_text(section)
+        if not pairs:
+            continue
+        dimensions = dimensions_from_labelled(pairs)
+        if dimensions is not None:
+            return dimensions
+
+    # No recognisable panel; read the page but still stop short of packaging.
+    pairs = labelled_pairs_from_text(before_other_sections(text))
+    return dimensions_from_labelled(pairs) if pairs else None
+
+
+def dimensions_from_triple(text: str) -> Dimensions | None:
+    """A `W x D x H` triple in free text, mapped onto the Furn-App axes."""
+    triple = parse_triple(text or "")
+    if not triple:
+        return None
+    width, depth, height = triple
+    return Dimensions.from_retailer(width=width, depth=depth, height=height)
 
 
 #: `SAR 2,495.00`, `2495 SAR`, `﷼ 2,495`. Currency must be present and Saudi —
