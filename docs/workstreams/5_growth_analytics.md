@@ -25,7 +25,7 @@ Preview. المحرّك الحتمي يقرّر؛ الـAI يفهم/يولّد.
 ## ٢) ما تملكه بالضبط
 `lib/analytics/**` + الموافقة (`lib/features/consent/**` المنطق) + وثائق القياس:
 - **العقد**: `Analytics` (واجهة) + `AnalyticsEvent` (**sealed**، أنواع صريحة بلا خرائط
-  حرّة). الأحداث الحالية (~١٤): `flow_started, input_submitted, plan_seeded/restored,
+  حرّة). الأحداث الحالية (١٦): `flow_started, input_submitted, plan_seeded/restored,
   item_pinned/rejected/swapped, budget_changed, options_opened, ar_opened,
   merchant_click, plan_finalized, plan_shared, assistant_command, need_unmet,
   session_abandoned`.
