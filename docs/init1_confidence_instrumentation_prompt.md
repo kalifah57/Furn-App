@@ -29,7 +29,7 @@ in-repo, no external service to start. Paste the prompt below and run it.*
 >
 > | Event | Where (real file) | Key props |
 > |---|---|---|
-> | `flow_started` | onboarding / plan entry | source (onboarding \| plan-demo) |
+> | `flow_started` | onboarding / plan entry | source (onboarding \| sample_plan) |
 > | `input_submitted` | `room_input/.../flow_controller.dart` | roomType, hasBudget, essentialCount, optionalCount, inputMode (manual\|voice\|image) |
 > | `plan_seeded` | `plan/.../plan_controller.dart` (first build) | confidence, itemCount, missingCount, total, withinBudget |
 > | `item_pinned` / `item_rejected` / `item_swapped` | `plan_controller.dart` | category |

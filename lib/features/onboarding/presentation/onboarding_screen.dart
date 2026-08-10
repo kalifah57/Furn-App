@@ -64,11 +64,11 @@ class OnboardingScreen extends ConsumerWidget {
               ),
               OutlinedButton.icon(
                 onPressed: () {
-                  ref.read(analyticsProvider).track(const FlowStarted('plan-demo'));
+                  ref.read(analyticsProvider).track(const FlowStarted('sample_plan'));
                   context.go(Routes.room);
                 },
                 icon: const Icon(Icons.tune),
-                label: const Text('جرّب مساحة الخطة (تجريبي)'),
+                label: const Text('شاهد نموذج خطة جاهزة'),
               ),
             ],
           ),

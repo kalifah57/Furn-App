@@ -23,7 +23,7 @@ sealed class AnalyticsEvent {
 
 class FlowStarted extends AnalyticsEvent {
   const FlowStarted(this.source);
-  final String source; // onboarding | plan-demo
+  final String source; // onboarding | sample_plan
   @override
   String get name => 'flow_started';
   @override

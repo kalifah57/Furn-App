@@ -13,7 +13,7 @@ import 'plan_controller.dart';
 
 /// شاشة الخطة — قلب التطبيق (product_thesis.md): «الخطة» التي يشكّلها المستخدم
 /// حتى يثق بها. تعرض حلقة الثقة: ثبّت/ارفض/بدّل/اضبط الميزانية → إعادة توازن فورية
-/// مع ضمانات وتفسير ومؤشّر جاهزية، ثم «هذه هي خطتي».
+/// مع ضمانات وتفسير ومؤشّر ثقة، ثم «هذه هي خطتي».
 class PlanScreen extends ConsumerWidget {
   const PlanScreen({super.key});
 
@@ -154,7 +154,7 @@ class _PlanViewState extends State<_PlanView> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text('جاهزية خطتك',
+                  Text('ثقتك في الخطة',
                       style: theme.textTheme.titleMedium
                           ?.copyWith(fontWeight: FontWeight.bold)),
                   const SizedBox(height: 4),
@@ -170,7 +170,7 @@ class _PlanViewState extends State<_PlanView> {
             ),
             IconButton(
               icon: const Icon(Icons.info_outline),
-              tooltip: 'من أين تأتي الجاهزية؟',
+              tooltip: 'من أين تأتي الثقة؟',
               onPressed: () => _openConfidenceBreakdown(context, plan),
             ),
           ],
@@ -612,7 +612,7 @@ class _PlanViewState extends State<_PlanView> {
     b
       ..writeln()
       ..writeln('الإجمالي: ${formatSar(plan.total)}')
-      ..writeln('الجاهزية: ${plan.confidence}%');
+      ..writeln('الثقة: ${plan.confidence}%');
     showDialog<void>(
       context: context,
       builder: (dialogContext) => AlertDialog(
@@ -653,7 +653,7 @@ class _PlanViewState extends State<_PlanView> {
                       ?.copyWith(fontWeight: FontWeight.bold)),
               const SizedBox(height: 8),
               Text(
-                  'جاهزية ${plan.confidence}% · ${plan.itemCount} قطع · ${formatSar(plan.total)}',
+                  'ثقة ${plan.confidence}% · ${plan.itemCount} قطع · ${formatSar(plan.total)}',
                   textAlign: TextAlign.center,
                   style: theme.textTheme.bodyMedium
                       ?.copyWith(color: theme.colorScheme.onSurfaceVariant)),
@@ -735,7 +735,7 @@ class _PlanViewState extends State<_PlanView> {
                     style: theme.textTheme.titleSmall
                         ?.copyWith(fontWeight: FontWeight.bold)),
                 Text(
-                    '${snap.itemCount} قطع · ${formatSar(snap.total)} · جاهزية ${snap.confidence}%',
+                    '${snap.itemCount} قطع · ${formatSar(snap.total)} · ثقة ${snap.confidence}%',
                     style: theme.textTheme.bodySmall),
               ],
             ),
@@ -794,7 +794,7 @@ class _PlanViewState extends State<_PlanView> {
             mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text('من أين تأتي جاهزيتك؟',
+              Text('من أين تأتي ثقتك؟',
                   style: Theme.of(sheetContext)
                       .textTheme
                       .titleMedium

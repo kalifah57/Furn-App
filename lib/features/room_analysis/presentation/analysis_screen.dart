@@ -195,7 +195,8 @@ class _AnalysisScreenState extends ConsumerState<AnalysisScreen> {
                       '${p.room.widthM} × ${p.room.lengthM} م (${p.room.areaM2.toStringAsFixed(0)} م²)'),
                 if (p.budget.hasBudget)
                   _row(AppStrings.budgetMax, formatSar(p.budget.maxTotal)),
-                _row(AppStrings.confidence, formatPercent(p.analysis.confidenceScore)),
+                _row(AppStrings.understandingScore,
+                    formatPercent(p.analysis.confidenceScore)),
               ],
             ),
           ),
@@ -218,9 +219,17 @@ class _AnalysisScreenState extends ConsumerState<AnalysisScreen> {
             ),
         ],
         const SizedBox(height: 24),
+        // القلب هو الخطة، لا قائمة التوصيات: بعد فهم الطلب يدخل المستخدم «غرفتي»
+        // مباشرةً. الخيارات باقية، لكنها منعطف اختياري لا الوجهة.
         FilledButton.icon(
-          icon: const Icon(Icons.recommend),
-          label: const Text(AppStrings.viewRecommendations),
+          icon: const Icon(Icons.tune),
+          label: const Text('شكّل خطتك'),
+          onPressed: () => context.go(Routes.room),
+        ),
+        const SizedBox(height: 8),
+        TextButton.icon(
+          icon: const Icon(Icons.grid_view_outlined),
+          label: const Text('تصفّح الخيارات أولًا'),
           onPressed: () => context.go(Routes.roomOptions),
         ),
       ],

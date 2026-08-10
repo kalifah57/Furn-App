@@ -54,7 +54,9 @@ class AppStrings {
   static const viewRecommendations = 'عرض التوصيات';
   static const missingInfo = 'بيانات ناقصة';
   static const warnings = 'تنبيهات';
-  static const confidence = 'درجة الثقة';
+  // مقياس الـAI هو **وضوح الفهم** (كم فهم الطلب)، لا ثقة الخطة. «الثقة» محجوزة
+  // لنتيجة المنتج في شاشة الخطة (plan.confidence)؛ خلطهما يربك المستخدم.
+  static const understandingScore = 'وضوح الفهم';
 
   // Recommendations
   static const recommendationsTitle = 'التوصيات';

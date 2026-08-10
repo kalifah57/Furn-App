@@ -34,7 +34,7 @@ and never changes it. The pure-Dart domain engine stays analytics-free (enforced
 ## Event catalog
 | Event | Fires when | Props |
 |---|---|---|
-| `flow_started` | user enters the journey (onboarding / plan demo) | `source` |
+| `flow_started` | user enters the journey | `source` (`onboarding` \| `sample_plan`) |
 | `input_submitted` | a project is formed from any input | `roomType, hasBudget, essentialCount, optionalCount, inputMode` (manual\|text\|voice\|image) |
 | `plan_seeded` | the plan is built for the first time | `confidence, itemCount, missingCount, total, withinBudget` |
 | `plan_restored` | a saved plan is loaded back (refresh, or a later visit) — **replaces** `plan_seeded` for that session | `confidence, itemCount, decisions` |

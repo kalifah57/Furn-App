@@ -44,13 +44,15 @@ class RecommendationsScreen extends ConsumerWidget {
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              OutlinedButton.icon(
+              // الخطة هي المنتج، لا الحفظ: «شكّل خطتك» الفعل الأساسي هنا، والحفظ
+              // ثانوي واختياري.
+              FilledButton.icon(
                 icon: const Icon(Icons.tune),
                 label: const Text('شكّل خطتك القابلة للتعديل'),
                 onPressed: () => context.go(Routes.room),
               ),
               const SizedBox(height: 8),
-              FilledButton.icon(
+              OutlinedButton.icon(
                 icon: const Icon(Icons.bookmark_add_outlined),
                 label: const Text(AppStrings.saveProject),
                 onPressed: () async {
