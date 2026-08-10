@@ -8,7 +8,6 @@ import '../../../domain_engine/plan/unmet_need.dart';
 import '../../../shared/models/models.dart';
 import '../../../shared/utils/formatters.dart';
 import '../../ar/ar_button.dart';
-import '../../options/option_card.dart';
 import 'plan_controller.dart';
 
 /// شاشة الخطة — قلب التطبيق (product_thesis.md): «الخطة» التي يشكّلها المستخدم
@@ -511,11 +510,8 @@ class _PlanViewState extends State<_PlanView> {
               ),
               TextButton.icon(
                 onPressed: id == null ? null : () => _openAlternatives(item),
-                icon: const Icon(Icons.grid_view_outlined, size: 18),
-                label: Text(() {
-                  final n = c.alternativesFor(item.category).length;
-                  return n > 1 ? 'الخيارات ($n)' : 'بدّل';
-                }()),
+                icon: const Icon(Icons.swap_horiz, size: 18),
+                label: const Text('بدّل'),
               ),
               const Spacer(),
               IconButton(
@@ -537,15 +533,15 @@ class _PlanViewState extends State<_PlanView> {
     );
   }
 
-  /// متصفّح الخيارات الغنيّ — «أرِني الخيارات»: كل خيارات الفئة المتاحة
-  /// (المتجر، السعر، الأبعاد + هل تناسب غرفتك، الألوان، الخامات، التقييم،
-  /// الواقع المعزّز) في ورقة قابلة للتمرير، مع تمييز الخيار الحالي.
+  /// «بدّل» كقرار لا قائمة: القطعة الحالية + حتى ٣ بدائل أعلى نقاطًا ضمن الميزانية
+  /// والمقاس، كلٌّ بإيجابياته وسلبياته مقابل الحالية. الاختيار يُحدّث الخطة فورًا
+  /// دون مغادرة «غرفتي».
   void _openAlternatives(RecommendedItem item) {
     final id = item.productId;
     if (id == null) return;
-    final options = c.alternativesFor(item.category);
-    final room = c.project.room;
-    c.logOptionsOpened(item.category, options.length);
+    final current = c.productById(id);
+    final alts = c.betterAlternatives(item.category, id);
+    c.logOptionsOpened(item.category, alts.length);
     showModalBottomSheet<void>(
       context: context,
       isScrollControlled: true,
@@ -554,72 +550,162 @@ class _PlanViewState extends State<_PlanView> {
         final theme = Theme.of(sheetContext);
         return DraggableScrollableSheet(
           expand: false,
-          initialChildSize: 0.78,
-          minChildSize: 0.5,
-          maxChildSize: 0.95,
-          builder: (ctx, scrollController) => Column(
+          initialChildSize: 0.7,
+          minChildSize: 0.4,
+          maxChildSize: 0.92,
+          builder: (ctx, scrollController) => ListView(
+            controller: scrollController,
+            padding: const EdgeInsets.fromLTRB(16, 0, 16, 24),
             children: [
-              Padding(
-                padding: const EdgeInsets.fromLTRB(16, 0, 16, 8),
-                child: Row(children: [
-                  Icon(Icons.grid_view, color: theme.colorScheme.primary),
-                  const SizedBox(width: 8),
-                  Expanded(
-                    child: Text(
-                      'خيارات ${item.category.arabicLabel} — ${options.length}',
-                      style: theme.textTheme.titleMedium
-                          ?.copyWith(fontWeight: FontWeight.bold),
-                    ),
+              Text('بدائل ${item.category.arabicLabel}',
+                  style: theme.textTheme.titleMedium
+                      ?.copyWith(fontWeight: FontWeight.bold)),
+              const SizedBox(height: 4),
+              Text(
+                'أعلى الخيارات نقاطًا ضمن ميزانيتك ومقاس غرفتك — اختر ما تثق به.',
+                style: theme.textTheme.bodySmall
+                    ?.copyWith(color: theme.colorScheme.onSurfaceVariant),
+              ),
+              const SizedBox(height: 14),
+              if (current != null) ...[
+                _sheetLabel(theme, 'الحالي'),
+                _compareCard(theme, current, isCurrent: true),
+                const SizedBox(height: 16),
+              ],
+              if (alts.isEmpty)
+                Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 24),
+                  child: Text(
+                    'لا يوجد بديل أفضل يدخل في غرفتك ضمن ميزانيتك المتبقّية.',
+                    textAlign: TextAlign.center,
+                    style: theme.textTheme.bodyMedium
+                        ?.copyWith(color: theme.colorScheme.onSurfaceVariant),
                   ),
-                ]),
-              ),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 16),
-                child: Text(
-                  'قارن وجرّبها في غرفتك، ثم اختر ما تثق به.',
-                  style: theme.textTheme.bodySmall
-                      ?.copyWith(color: theme.colorScheme.onSurfaceVariant),
-                ),
-              ),
-              const SizedBox(height: 8),
-              Expanded(
-                child: options.isEmpty
-                    ? const Center(
-                        child: Padding(
-                          padding: EdgeInsets.all(24),
-                          child: Text('لا توجد خيارات متاحة ضمن هذه الفئة.'),
-                        ),
-                      )
-                    : ListView.builder(
-                        controller: scrollController,
-                        padding: const EdgeInsets.fromLTRB(16, 0, 16, 24),
-                        itemCount: options.length,
-                        itemBuilder: (_, i) {
-                          final p = options[i];
-                          final current = p.productId == id;
-                          return Padding(
-                            padding: const EdgeInsets.only(bottom: 10),
-                            child: OptionCard(
-                              product: p,
-                              room: room,
-                              isCurrent: current,
-                              onSelect: current
-                                  ? null
-                                  : () {
-                                      Navigator.of(sheetContext).pop();
-                                      c.swap(id, p.productId);
-                                    },
-                            ),
-                          );
-                        },
-                      ),
-              ),
+                )
+              else ...[
+                _sheetLabel(theme, 'بدائل أفضل'),
+                for (final o in alts)
+                  _compareCard(theme, o.product,
+                      pros: o.pros,
+                      cons: o.cons,
+                      priceDelta: current == null
+                          ? null
+                          : o.product.price - current.price,
+                      onSelect: () {
+                        Navigator.of(sheetContext).pop();
+                        c.swap(id, o.product.productId);
+                      }),
+              ],
             ],
           ),
         );
       },
     );
   }
+
+  Widget _sheetLabel(ThemeData theme, String text) => Padding(
+        padding: const EdgeInsets.only(bottom: 6),
+        child: Text(text,
+            style: theme.textTheme.labelMedium
+                ?.copyWith(color: theme.colorScheme.onSurfaceVariant)),
+      );
+
+  /// بطاقة مقارنة موحّدة: القطعة الحالية والبدائل بنفس الشكل — سعر وفرق سعر،
+  /// أبعاد، وإيجابيات/سلبيات مقابل الحالية.
+  Widget _compareCard(
+    ThemeData theme,
+    CatalogProduct p, {
+    bool isCurrent = false,
+    List<String> pros = const [],
+    List<String> cons = const [],
+    double? priceDelta,
+    VoidCallback? onSelect,
+  }) {
+    final dims = (p.widthCm > 0 && p.depthCm > 0)
+        ? '${p.widthCm.toInt()}×${p.depthCm.toInt()}×${p.heightCm.toInt()} سم'
+        : null;
+    return Card(
+      margin: const EdgeInsets.only(bottom: 10),
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(12),
+        side: isCurrent
+            ? BorderSide(color: theme.colorScheme.primary, width: 1.4)
+            : BorderSide.none,
+      ),
+      child: Padding(
+        padding: const EdgeInsets.all(14),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Row(children: [
+              Expanded(
+                child: Text(p.title,
+                    style: theme.textTheme.titleSmall
+                        ?.copyWith(fontWeight: FontWeight.bold)),
+              ),
+              Text(formatSar(p.price),
+                  style: theme.textTheme.titleSmall
+                      ?.copyWith(color: theme.colorScheme.primary)),
+            ]),
+            const SizedBox(height: 4),
+            Row(children: [
+              if (p.brand.isNotEmpty)
+                Text(p.brand,
+                    style: theme.textTheme.bodySmall
+                        ?.copyWith(color: theme.colorScheme.onSurfaceVariant)),
+              if (dims != null) ...[
+                if (p.brand.isNotEmpty) const Text('  ·  '),
+                Text(dims,
+                    style: theme.textTheme.bodySmall
+                        ?.copyWith(color: theme.colorScheme.onSurfaceVariant)),
+              ],
+              const Spacer(),
+              if (priceDelta != null && priceDelta != 0)
+                Text(
+                  priceDelta < 0
+                      ? '− ${formatSar(-priceDelta)}'
+                      : '+ ${formatSar(priceDelta)}',
+                  style: theme.textTheme.labelMedium?.copyWith(
+                    fontWeight: FontWeight.bold,
+                    color: priceDelta < 0
+                        ? Colors.green.shade700
+                        : theme.colorScheme.error,
+                  ),
+                ),
+            ]),
+            for (final s in pros)
+              _prosConsRow(theme, s, isPro: true),
+            for (final s in cons) _prosConsRow(theme, s, isPro: false),
+            if (onSelect != null) ...[
+              const SizedBox(height: 8),
+              Align(
+                alignment: AlignmentDirectional.centerEnd,
+                child: FilledButton.tonalIcon(
+                  onPressed: onSelect,
+                  icon: const Icon(Icons.check, size: 18),
+                  label: const Text('اختر هذا'),
+                ),
+              ),
+            ],
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _prosConsRow(ThemeData theme, String text, {required bool isPro}) =>
+      Padding(
+        padding: const EdgeInsets.only(top: 6),
+        child: Row(crossAxisAlignment: CrossAxisAlignment.start, children: [
+          Icon(isPro ? Icons.add_circle_outline : Icons.remove_circle_outline,
+              size: 15,
+              color: isPro ? Colors.green.shade700 : theme.colorScheme.error),
+          const SizedBox(width: 6),
+          Expanded(
+              child: Text(text,
+                  style: theme.textTheme.bodySmall)),
+        ]),
+      );
 
   // ---- bottom bar ---------------------------------------------------------
 

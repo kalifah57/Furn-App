@@ -1,6 +1,8 @@
 import '../../shared/models/models.dart';
+import '../budget/budget_allocator.dart';
 import '../recommendation/category_mapper.dart';
 import '../recommendation/recommendation_engine.dart';
+import '../recommendation/scoring.dart';
 import 'plan.dart';
 import 'scope_table.dart';
 import 'unmet_need.dart';
@@ -82,6 +84,98 @@ class PlanWorkspace {
         .toList()
       ..sort((a, b) => a.price.compareTo(b.price));
     return list;
+  }
+
+  /// **البدائل الأفضل** لقطعة: أعلى نقاطًا في خانتها، ضمن الميزانية والمقاس —
+  /// معيار «الأفضل» الذي اختاره المنتج. تُستبعد القطعة الحالية، وما لا يدخل
+  /// الغرفة، وما لا يُشترى، وما يتجاوز الميزانية وحده. لكلٍّ سبب تفضيله وما يُفقده
+  /// مقابل الحالية، فيصير الاستبدال قرارًا لا قائمة.
+  ///
+  /// نُعيد بناء نفس سياق التقييم الذي يبنيه محرّك التوصيات (المخصّص + الحتمي)،
+  /// فلا يفترق ترتيب البدائل عن ترتيب البذرة.
+  List<ReplacementOption> betterAlternatives(
+    RecommendationCategory category,
+    String currentProductId, {
+    int limit = 3,
+  }) {
+    const allocator = BudgetAllocator();
+    const scorer = RecommendationScorer();
+    final ctx = ScoringContext(
+      room: project.room,
+      budget: project.budget,
+      style: project.style,
+      categoryCeilings:
+          allocator.allocate(project.room, project.budget).ceilings,
+    );
+
+    final current = _catalogById(currentProductId);
+    final cap = project.budget.hasBudget
+        ? project.budget.maxTotal
+        : double.infinity;
+
+    final scored = <(CatalogProduct, double)>[];
+    for (final p in _effectiveCatalog()) {
+      if (p.category != category) continue;
+      if (!p.isAvailable) continue;
+      if (p.productId == currentProductId) continue;
+      if (!_fitsRoom(p)) continue;
+      if (p.price > cap) continue;
+      scored.add((p, scorer.score(p, ctx).total));
+    }
+    // أعلى نقاطًا أوّلًا، وفاصل ثابت بالمعرّف — فرز Dart غير مضمون الاستقرار.
+    scored.sort((a, b) {
+      final byScore = b.$2.compareTo(a.$2);
+      return byScore != 0 ? byScore : a.$1.productId.compareTo(b.$1.productId);
+    });
+
+    return [
+      for (final s in scored.take(limit))
+        ReplacementOption(
+          product: s.$1,
+          pros: _prosVs(s.$1, current),
+          cons: _consVs(s.$1, current),
+        ),
+    ];
+  }
+
+  CatalogProduct? _catalogById(String id) {
+    for (final p in catalog) {
+      if (p.productId == id) return p;
+    }
+    return null;
+  }
+
+  bool _fitsRoom(CatalogProduct p) {
+    final r = project.room;
+    if (r.widthM <= 0 || r.lengthM <= 0) return true; // مجهول → لا نمنع
+    final rw = r.widthM * 100, rl = r.lengthM * 100;
+    return (p.widthCm <= rw && p.depthCm <= rl) ||
+        (p.depthCm <= rw && p.widthCm <= rl);
+  }
+
+  List<String> _prosVs(CatalogProduct alt, CatalogProduct? cur) {
+    if (cur == null) return const [];
+    final out = <String>[];
+    if (alt.price < cur.price) {
+      out.add('أوفر بـ ${(cur.price - alt.price).round()} ريال');
+    }
+    final ar = alt.ratingOptional, cr = cur.ratingOptional;
+    if (ar != null && (cr == null || ar > cr)) {
+      out.add('تقييم أعلى (${ar.toStringAsFixed(1)})');
+    }
+    if (!_fitsRoom(cur) && _fitsRoom(alt)) out.add('تدخل غرفتك');
+    return out;
+  }
+
+  List<String> _consVs(CatalogProduct alt, CatalogProduct? cur) {
+    if (cur == null) return const [];
+    final out = <String>[];
+    if (alt.price > cur.price) {
+      out.add('أغلى بـ ${(alt.price - cur.price).round()} ريال');
+    }
+    final ar = alt.ratingOptional, cr = cur.ratingOptional;
+    if (cr != null && (ar == null || ar < cr)) out.add('تقييم أقل');
+    return out;
   }
 
   // ---- build the current plan --------------------------------------------

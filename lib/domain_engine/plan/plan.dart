@@ -59,6 +59,25 @@ class ConfidenceGap {
   final List<String> actions;
 }
 
+/// بديلٌ مقترح لقطعة في الخطة — أعلى نقاطًا في خانته ضمن الميزانية والمقاس —
+/// مع **سبب تفضيله وما يُفقده** مقارنةً بالقطعة الحالية، كي تكون المقارنة قرارًا
+/// لا قائمة. لا صفحة مقارنة منفصلة: هذا يُعرض في المكان ويُحدِّث الخطة فورًا.
+class ReplacementOption {
+  const ReplacementOption({
+    required this.product,
+    this.pros = const [],
+    this.cons = const [],
+  });
+
+  final CatalogProduct product;
+
+  /// إيجابيات مقابل القطعة الحالية («أوفر بـ ٢٠٠ ريال»، «تقييم أعلى»).
+  final List<String> pros;
+
+  /// سلبيات مقابل الحالية («أغلى بـ ١٥٠ ريال»، «تقييم أقل»).
+  final List<String> cons;
+}
+
 /// A snapshot of the plan the user is shaping.
 class Plan {
   const Plan({

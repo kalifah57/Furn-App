@@ -196,6 +196,12 @@ class PlanController extends ChangeNotifier {
   List<CatalogProduct> alternativesFor(RecommendationCategory c) =>
       _ws.alternativesFor(c);
 
+  /// أعلى ٣ بدائل نقاطًا في الخانة، ضمن الميزانية والمقاس، مع إيجابيات/سلبيات
+  /// مقابل الحالية — «بدّل» يصير قرارًا لا قائمة.
+  List<ReplacementOption> betterAlternatives(
+          RecommendationCategory c, String currentId) =>
+      _ws.betterAlternatives(c, currentId);
+
   /// منتج الكتالوج المصدر لعنصر في الخطة (للوصول إلى نموذج الـ AR ومقاسه).
   CatalogProduct? productById(String? id) {
     if (id == null) return null;
