@@ -32,7 +32,10 @@
 - `PlanController` (`plan/presentation/plan_controller.dart`) — فوق `PlanWorkspace`،
   يترجم الإيماءة إلى عملية محرّك ويحتفظ بـ`lastChange`.
 - `SandboxController` (`interactive_sandbox/presentation/sandbox_controller.dart`).
-- `ConsentController` (`consent/presentation/consent_controller.dart`).
+
+**خارج ملكيتي وإن سكن في `presentation/`:** `ConsentController` و`ConsentStore`
+لمسار ٥ (الموافقة والخصوصية). لي **بانر الموافقة واجهةً فقط** — يستدعي `decide` ولا
+يعرف ما يفعله بها. أُدرجه هنا للجرد لا للتصرّف، وأي ملاحظة عليه تُرفع لمسار ٥.
 
 ### ما هو **سليم** ويُبنى عليه (تطوّر لا إعادة كتابة)
 هذه ليست مجاملة — هي قائمة ما **لا يُلمس**:
