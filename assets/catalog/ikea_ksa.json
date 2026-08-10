@@ -1,0 +1,1274 @@
+[
+  {
+    "id": "50613163",
+    "product_name": "STRANDMON Wing chair - Tommaboda deep beige",
+    "store": "IKEA KSA",
+    "category": "armchair",
+    "price_sar": 1095.0,
+    "urls": {
+      "product_link": "https://www.ikea.com/sa/en/p/strandmon-wing-chair-tommaboda-deep-beige-50613163/",
+      "image_url": "https://www.ikea.com/sa/en/images/products/strandmon-wing-chair-tommaboda-deep-beige__1478943_pe999900_s5.jpg",
+      "3d_model_url": "https://api.furn-app.com/assets/models/strandmon_wing_chair_tommaboda_deep_beige_50613163.usdz"
+    },
+    "spatial_attributes": {
+      "length_cm": 96.0,
+      "width_cm": 82.0,
+      "height_cm": 101.0
+    },
+    "aesthetic_features": {
+      "primary_colors": [
+        "Beige"
+      ],
+      "material": "Composite wood",
+      "style": "Minimalist Scandinavian",
+      "vibe": "Airy, calm, practical"
+    }
+  },
+  {
+    "id": "30403571",
+    "product_name": "MALM Chest of 4 drawers - white 80x100 cm",
+    "store": "IKEA KSA",
+    "category": "dresser",
+    "price_sar": 549.0,
+    "urls": {
+      "product_link": "https://www.ikea.com/sa/en/p/malm-chest-of-4-drawers-white-30403571/",
+      "image_url": "https://www.ikea.com/sa/en/images/products/malm-chest-of-4-drawers-white__0484879_pe621344_s5.jpg",
+      "3d_model_url": "https://api.furn-app.com/assets/models/malm_chest_of_4_drawers_white_80x100_cm_30403571.usdz"
+    },
+    "spatial_attributes": {
+      "length_cm": 48.0,
+      "width_cm": 80.0,
+      "height_cm": 100.0
+    },
+    "aesthetic_features": {
+      "primary_colors": [
+        "White"
+      ],
+      "material": "Composite wood",
+      "style": "Minimalist Scandinavian",
+      "vibe": "Airy, calm, practical"
+    }
+  },
+  {
+    "id": "00441758",
+    "product_name": "KLEPPSTAD Wardrobe with 3 doors - white 117x55x176 cm",
+    "store": "IKEA KSA",
+    "category": "wardrobe",
+    "price_sar": 749.0,
+    "urls": {
+      "product_link": "https://www.ikea.com/sa/en/p/kleppstad-wardrobe-with-3-doors-white-00441758/",
+      "image_url": "https://www.ikea.com/sa/en/images/products/kleppstad-wardrobe-with-3-doors-white__0753594_pe748782_s5.jpg",
+      "3d_model_url": "https://api.furn-app.com/assets/models/kleppstad_wardrobe_with_3_doors_white_117x55x176_cm_00441758.usdz"
+    },
+    "spatial_attributes": {
+      "length_cm": 55.0,
+      "width_cm": 117.0,
+      "height_cm": 176.0
+    },
+    "aesthetic_features": {
+      "primary_colors": [
+        "White"
+      ],
+      "material": "Composite wood",
+      "style": "Minimalist Scandinavian",
+      "vibe": "Airy, calm, practical"
+    }
+  },
+  {
+    "id": "30528458",
+    "product_name": "TONSTAD Bookcase - brown stained oak veneer 82x37x201 cm",
+    "store": "IKEA KSA",
+    "category": "bookcase",
+    "price_sar": 1395.0,
+    "urls": {
+      "product_link": "https://www.ikea.com/sa/en/p/tonstad-bookcase-brown-stained-oak-veneer-30528458/",
+      "image_url": "https://www.ikea.com/sa/en/images/products/tonstad-bookcase-brown-stained-oak-veneer__1243485_pe920629_s5.jpg",
+      "3d_model_url": "https://api.furn-app.com/assets/models/tonstad_bookcase_brown_stained_oak_veneer_82x37x201_cm_30528458.usdz"
+    },
+    "spatial_attributes": {
+      "length_cm": 37.0,
+      "width_cm": 82.0,
+      "height_cm": 201.0
+    },
+    "aesthetic_features": {
+      "primary_colors": [
+        "Beige",
+        "Brown",
+        "Oak"
+      ],
+      "material": "Oak veneer, Wood veneer",
+      "style": "Minimalist Scandinavian",
+      "vibe": "Airy, calm, practical"
+    }
+  },
+  {
+    "id": "00278578",
+    "product_name": "HYLLIS Shelving unit - in/outdoor 60x27x140 cm",
+    "store": "IKEA KSA",
+    "category": "shelving",
+    "price_sar": 179.0,
+    "urls": {
+      "product_link": "https://www.ikea.com/sa/en/p/hyllis-shelving-unit-in-outdoor-00278578/",
+      "image_url": "https://www.ikea.com/sa/en/images/products/hyllis-shelving-unit-in-outdoor__0626021_pe692562_s5.jpg",
+      "3d_model_url": "https://api.furn-app.com/assets/models/hyllis_shelving_unit_in_outdoor_60x27x140_cm_00278578.usdz"
+    },
+    "spatial_attributes": {
+      "length_cm": 27.0,
+      "width_cm": 60.0,
+      "height_cm": 140.0
+    },
+    "aesthetic_features": {
+      "primary_colors": [
+        "Grey"
+      ],
+      "material": "Composite wood",
+      "style": "Contemporary Casual",
+      "vibe": "Warm, inviting, practical"
+    }
+  },
+  {
+    "id": "s29420393",
+    "product_name": "SANDSBERG Table - black 110x67 cm",
+    "store": "IKEA KSA",
+    "category": "dining_table",
+    "price_sar": 229.0,
+    "urls": {
+      "product_link": "https://www.ikea.com/sa/en/p/sandsberg-table-black-s29420393/",
+      "image_url": "https://www.ikea.com/sa/en/images/products/sandsberg-table-black__1074348_pe856162_s5.jpg",
+      "3d_model_url": "https://api.furn-app.com/assets/models/sandsberg_table_black_110x67_cm_s29420393.usdz"
+    },
+    "spatial_attributes": {
+      "length_cm": 110.0,
+      "width_cm": 67.0,
+      "height_cm": 75.0
+    },
+    "aesthetic_features": {
+      "primary_colors": [
+        "Black",
+        "Brown"
+      ],
+      "material": "Metal",
+      "style": "Industrial Modern",
+      "vibe": "Grounded, masculine, clean-lined, practical"
+    }
+  },
+  {
+    "id": "50319029",
+    "product_name": "LACK Coffee table - white stained oak effect 90x55 cm",
+    "store": "IKEA KSA",
+    "category": "coffee_table",
+    "price_sar": 149.0,
+    "urls": {
+      "product_link": "https://www.ikea.com/sa/en/p/lack-coffee-table-white-stained-oak-effect-50319029/",
+      "image_url": "https://www.ikea.com/sa/en/images/products/lack-coffee-table-white-stained-oak-effect__0411538_pe570463_s5.jpg",
+      "3d_model_url": "https://api.furn-app.com/assets/models/lack_coffee_table_white_stained_oak_effect_90x55_cm_50319029.usdz"
+    },
+    "spatial_attributes": {
+      "length_cm": 90.0,
+      "width_cm": 55.0,
+      "height_cm": 45.0
+    },
+    "aesthetic_features": {
+      "primary_colors": [
+        "White-Stained Oak",
+        "Beige"
+      ],
+      "material": "Composite wood",
+      "style": "Minimalist Scandinavian",
+      "vibe": "Airy, calm, practical"
+    }
+  },
+  {
+    "id": "90388978",
+    "product_name": "VIKHAMMER Bedside table - black 60x39 cm",
+    "store": "IKEA KSA",
+    "category": "side_table",
+    "price_sar": 449.0,
+    "urls": {
+      "product_link": "https://www.ikea.com/sa/en/p/vikhammer-bedside-table-black-90388978/",
+      "image_url": "https://www.ikea.com/sa/en/images/products/vikhammer-bedside-table-black__0569526_pe665936_s5.jpg",
+      "3d_model_url": "https://api.furn-app.com/assets/models/vikhammer_bedside_table_black_60x39_cm_90388978.usdz"
+    },
+    "spatial_attributes": {
+      "length_cm": 39.0,
+      "width_cm": 60.0,
+      "height_cm": 65.0
+    },
+    "aesthetic_features": {
+      "primary_colors": [
+        "Black"
+      ],
+      "material": "Composite wood",
+      "style": "Contemporary Dark",
+      "vibe": "Grounded, masculine, practical"
+    }
+  },
+  {
+    "id": "s09903014",
+    "product_name": "MICKE Desk - white 105x50 cm",
+    "store": "IKEA KSA",
+    "category": "desk",
+    "price_sar": 549.0,
+    "urls": {
+      "product_link": "https://www.ikea.com/sa/en/p/micke-desk-white-s09903014/",
+      "image_url": "https://www.ikea.com/sa/en/images/products/micke-desk-white__0736576_pe740630_s5.jpg",
+      "3d_model_url": "https://api.furn-app.com/assets/models/micke_desk_white_105x50_cm_s09903014.usdz"
+    },
+    "spatial_attributes": {
+      "length_cm": 50.0,
+      "width_cm": 105.0,
+      "height_cm": 140.0
+    },
+    "aesthetic_features": {
+      "primary_colors": [
+        "White"
+      ],
+      "material": "Composite wood",
+      "style": "Minimalist Scandinavian",
+      "vibe": "Airy, calm, practical"
+    }
+  },
+  {
+    "id": "70474062",
+    "product_name": "BESTÅ TV bench - black-brown 180x40x38 cm",
+    "store": "IKEA KSA",
+    "category": "tv_unit",
+    "price_sar": 550.0,
+    "urls": {
+      "product_link": "https://www.ikea.com/sa/en/p/besta-tv-bench-black-brown-70474062/",
+      "image_url": "https://www.ikea.com/sa/en/images/products/besta-tv-bench-black-brown__0316226_pe516834_s5.jpg",
+      "3d_model_url": "https://api.furn-app.com/assets/models/besta_tv_bench_black_brown_180x40x38_cm_70474062.usdz"
+    },
+    "spatial_attributes": {
+      "length_cm": 40.0,
+      "width_cm": 180.0,
+      "height_cm": 38.0
+    },
+    "aesthetic_features": {
+      "primary_colors": [
+        "Black-Brown"
+      ],
+      "material": "Composite wood",
+      "style": "Contemporary Dark",
+      "vibe": "Grounded, masculine, practical"
+    }
+  },
+  {
+    "id": "60566745",
+    "product_name": "KRYLBO Chair - Tonerud dark beige",
+    "store": "IKEA KSA",
+    "category": "chair",
+    "price_sar": 245.0,
+    "urls": {
+      "product_link": "https://www.ikea.com/sa/en/p/krylbo-chair-tonerud-dark-beige-60566745/",
+      "image_url": "https://www.ikea.com/sa/en/images/products/krylbo-chair-tonerud-dark-beige__1208495_pe908606_s5.jpg",
+      "3d_model_url": "https://api.furn-app.com/assets/models/krylbo_chair_tonerud_dark_beige_60566745.usdz"
+    },
+    "spatial_attributes": {
+      "length_cm": 51.0,
+      "width_cm": 55.0,
+      "height_cm": 75.0
+    },
+    "aesthetic_features": {
+      "primary_colors": [
+        "Dark Beige",
+        "Red"
+      ],
+      "material": "Composite wood",
+      "style": "Contemporary Casual",
+      "vibe": "Warm, inviting, practical"
+    }
+  },
+  {
+    "id": "10596995",
+    "product_name": "SALTMYRAN 2-seat sofa - Öreryd grey-beige",
+    "store": "IKEA KSA",
+    "category": "sofa",
+    "price_sar": 995.0,
+    "urls": {
+      "product_link": "https://www.ikea.com/sa/en/p/saltmyran-2-seat-sofa-oereryd-grey-beige-10596995/",
+      "image_url": "https://www.ikea.com/sa/en/images/products/saltmyran-2-seat-sofa-oereryd-grey-beige__1576105_pe1032229_s5.jpg",
+      "3d_model_url": "https://api.furn-app.com/assets/models/saltmyran_2_seat_sofa_oreryd_grey_beige_10596995.usdz"
+    },
+    "spatial_attributes": {
+      "length_cm": 79.0,
+      "width_cm": 147.0,
+      "height_cm": 77.0
+    },
+    "aesthetic_features": {
+      "primary_colors": [
+        "Beige",
+        "Grey"
+      ],
+      "material": "Composite wood",
+      "style": "Minimalist Scandinavian",
+      "vibe": "Airy, calm, practical"
+    }
+  },
+  {
+    "id": "20343224",
+    "product_name": "STRANDMON Wing chair - Nordvalla dark grey",
+    "store": "IKEA KSA",
+    "category": "armchair",
+    "price_sar": 995.0,
+    "urls": {
+      "product_link": "https://www.ikea.com/sa/en/p/strandmon-wing-chair-nordvalla-dark-grey-20343224/",
+      "image_url": "https://www.ikea.com/sa/en/images/products/strandmon-wing-chair-nordvalla-dark-grey__0325432_pe517964_s5.jpg",
+      "3d_model_url": "https://api.furn-app.com/assets/models/strandmon_wing_chair_nordvalla_dark_grey_20343224.usdz"
+    },
+    "spatial_attributes": {
+      "length_cm": 96.0,
+      "width_cm": 82.0,
+      "height_cm": 101.0
+    },
+    "aesthetic_features": {
+      "primary_colors": [
+        "Dark Grey"
+      ],
+      "material": "Composite wood",
+      "style": "Contemporary Dark",
+      "vibe": "Grounded, masculine, practical"
+    }
+  },
+  {
+    "id": "30403566",
+    "product_name": "MALM Chest of 4 drawers - black-brown 80x100 cm",
+    "store": "IKEA KSA",
+    "category": "dresser",
+    "price_sar": 549.0,
+    "urls": {
+      "product_link": "https://www.ikea.com/sa/en/p/malm-chest-of-4-drawers-black-brown-30403566/",
+      "image_url": "https://www.ikea.com/sa/en/images/products/malm-chest-of-4-drawers-black-brown__0484876_pe621355_s5.jpg",
+      "3d_model_url": "https://api.furn-app.com/assets/models/malm_chest_of_4_drawers_black_brown_80x100_cm_30403566.usdz"
+    },
+    "spatial_attributes": {
+      "length_cm": 48.0,
+      "width_cm": 80.0,
+      "height_cm": 100.0
+    },
+    "aesthetic_features": {
+      "primary_colors": [
+        "Black-Brown"
+      ],
+      "material": "Wood veneer",
+      "style": "Contemporary Dark",
+      "vibe": "Grounded, masculine, practical"
+    }
+  },
+  {
+    "id": "70602804",
+    "product_name": "BRIMNES Wardrobe with 3 doors - grey 117x50x190 cm",
+    "store": "IKEA KSA",
+    "category": "wardrobe",
+    "price_sar": 799.0,
+    "urls": {
+      "product_link": "https://www.ikea.com/sa/en/p/brimnes-wardrobe-with-3-doors-grey-70602804/",
+      "image_url": "https://www.ikea.com/sa/en/images/products/brimnes-wardrobe-with-3-doors-grey__1411089_pe973078_s5.jpg",
+      "3d_model_url": "https://api.furn-app.com/assets/models/brimnes_wardrobe_with_3_doors_grey_117x50x190_cm_70602804.usdz"
+    },
+    "spatial_attributes": {
+      "length_cm": 50.0,
+      "width_cm": 117.0,
+      "height_cm": 190.0
+    },
+    "aesthetic_features": {
+      "primary_colors": [
+        "Grey"
+      ],
+      "material": "Composite wood",
+      "style": "Contemporary Casual",
+      "vibe": "Warm, inviting, practical"
+    }
+  },
+  {
+    "id": "20436713",
+    "product_name": "BAGGEBO Bookcase - white 50x25x160 cm",
+    "store": "IKEA KSA",
+    "category": "bookcase",
+    "price_sar": 159.0,
+    "urls": {
+      "product_link": "https://www.ikea.com/sa/en/p/baggebo-bookcase-white-20436713/",
+      "image_url": "https://www.ikea.com/sa/en/images/products/baggebo-bookcase-white__0981552_pe815388_s5.jpg",
+      "3d_model_url": "https://api.furn-app.com/assets/models/baggebo_bookcase_white_50x25x160_cm_20436713.usdz"
+    },
+    "spatial_attributes": {
+      "length_cm": 25.0,
+      "width_cm": 50.0,
+      "height_cm": 160.0
+    },
+    "aesthetic_features": {
+      "primary_colors": [
+        "White"
+      ],
+      "material": "Composite wood",
+      "style": "Minimalist Scandinavian",
+      "vibe": "Airy, calm, practical"
+    }
+  },
+  {
+    "id": "50214678",
+    "product_name": "VITTSJÖ Shelving unit - black-brown/glass 51x175 cm",
+    "store": "IKEA KSA",
+    "category": "shelving",
+    "price_sar": 299.0,
+    "urls": {
+      "product_link": "https://www.ikea.com/sa/en/p/vittsjoe-shelving-unit-black-brown-glass-50214678/",
+      "image_url": "https://www.ikea.com/sa/en/images/products/vittsjoe-shelving-unit-black-brown-glass__0644374_pe702640_s5.jpg",
+      "3d_model_url": "https://api.furn-app.com/assets/models/vittsjo_shelving_unit_black_brown_glass_51x175_cm_50214678.usdz"
+    },
+    "spatial_attributes": {
+      "length_cm": 36.0,
+      "width_cm": 51.0,
+      "height_cm": 175.0
+    },
+    "aesthetic_features": {
+      "primary_colors": [
+        "Black-Brown",
+        "Red"
+      ],
+      "material": "Metal, Tempered glass",
+      "style": "Industrial Modern",
+      "vibe": "Grounded, masculine, clean-lined, practical"
+    }
+  },
+  {
+    "id": "s59420400",
+    "product_name": "SANDSBERG Table - black 67x67 cm",
+    "store": "IKEA KSA",
+    "category": "dining_table",
+    "price_sar": 169.0,
+    "urls": {
+      "product_link": "https://www.ikea.com/sa/en/p/sandsberg-table-black-s59420400/",
+      "image_url": "https://www.ikea.com/sa/en/images/products/sandsberg-table-black__1074349_pe856160_s5.jpg",
+      "3d_model_url": "https://api.furn-app.com/assets/models/sandsberg_table_black_67x67_cm_s59420400.usdz"
+    },
+    "spatial_attributes": {
+      "length_cm": 67.0,
+      "width_cm": 67.0,
+      "height_cm": 73.0
+    },
+    "aesthetic_features": {
+      "primary_colors": [
+        "Black"
+      ],
+      "material": "Metal",
+      "style": "Industrial Modern",
+      "vibe": "Grounded, masculine, clean-lined, practical"
+    }
+  },
+  {
+    "id": "90449905",
+    "product_name": "LACK Coffee table - white 90x55 cm",
+    "store": "IKEA KSA",
+    "category": "coffee_table",
+    "price_sar": 149.0,
+    "urls": {
+      "product_link": "https://www.ikea.com/sa/en/p/lack-coffee-table-white-90449905/",
+      "image_url": "https://www.ikea.com/sa/en/images/products/lack-coffee-table-white__0750652_pe746803_s5.jpg",
+      "3d_model_url": "https://api.furn-app.com/assets/models/lack_coffee_table_white_90x55_cm_90449905.usdz"
+    },
+    "spatial_attributes": {
+      "length_cm": 90.0,
+      "width_cm": 55.0,
+      "height_cm": 45.0
+    },
+    "aesthetic_features": {
+      "primary_colors": [
+        "White"
+      ],
+      "material": "Composite wood",
+      "style": "Minimalist Scandinavian",
+      "vibe": "Airy, calm, practical"
+    }
+  },
+  {
+    "id": "20570221",
+    "product_name": "GRÅFJÄLLET Bedside table - anthracite 45x36x59 cm",
+    "store": "IKEA KSA",
+    "category": "side_table",
+    "price_sar": 179.0,
+    "urls": {
+      "product_link": "https://www.ikea.com/sa/en/p/grafjaellet-bedside-table-anthracite-20570221/",
+      "image_url": "https://www.ikea.com/sa/en/images/products/grafjaellet-bedside-table-anthracite__1327638_pe944536_s5.jpg",
+      "3d_model_url": "https://api.furn-app.com/assets/models/grafjallet_bedside_table_anthracite_45x36x59_cm_20570221.usdz"
+    },
+    "spatial_attributes": {
+      "length_cm": 36.0,
+      "width_cm": 45.0,
+      "height_cm": 59.0
+    },
+    "aesthetic_features": {
+      "primary_colors": [
+        "Dark Grey",
+        "Red"
+      ],
+      "material": "Metal, Tempered glass",
+      "style": "Industrial Modern",
+      "vibe": "Grounded, masculine, clean-lined, practical"
+    }
+  },
+  {
+    "id": "00474070",
+    "product_name": "BESTÅ TV bench - white 180x40x38 cm",
+    "store": "IKEA KSA",
+    "category": "tv_unit",
+    "price_sar": 550.0,
+    "urls": {
+      "product_link": "https://www.ikea.com/sa/en/p/besta-tv-bench-white-00474070/",
+      "image_url": "https://www.ikea.com/sa/en/images/products/besta-tv-bench-white__0376997_pe516837_s5.jpg",
+      "3d_model_url": "https://api.furn-app.com/assets/models/besta_tv_bench_white_180x40x38_cm_00474070.usdz"
+    },
+    "spatial_attributes": {
+      "length_cm": 40.0,
+      "width_cm": 180.0,
+      "height_cm": 38.0
+    },
+    "aesthetic_features": {
+      "primary_colors": [
+        "White"
+      ],
+      "material": "Composite wood",
+      "style": "Minimalist Scandinavian",
+      "vibe": "Airy, calm, practical"
+    }
+  },
+  {
+    "id": "90566744",
+    "product_name": "KRYLBO Chair - Tonerud blue",
+    "store": "IKEA KSA",
+    "category": "chair",
+    "price_sar": 245.0,
+    "urls": {
+      "product_link": "https://www.ikea.com/sa/en/p/krylbo-chair-tonerud-blue-90566744/",
+      "image_url": "https://www.ikea.com/sa/en/images/products/krylbo-chair-tonerud-blue__1208500_pe908601_s5.jpg",
+      "3d_model_url": "https://api.furn-app.com/assets/models/krylbo_chair_tonerud_blue_90566744.usdz"
+    },
+    "spatial_attributes": {
+      "length_cm": 51.0,
+      "width_cm": 55.0,
+      "height_cm": 75.0
+    },
+    "aesthetic_features": {
+      "primary_colors": [
+        "Blue",
+        "Red"
+      ],
+      "material": "Composite wood",
+      "style": "Contemporary Casual",
+      "vibe": "Warm, inviting, practical"
+    }
+  },
+  {
+    "id": "40618533",
+    "product_name": "SALTMYRAN 2-seat sofa - Öreryd blue",
+    "store": "IKEA KSA",
+    "category": "sofa",
+    "price_sar": 995.0,
+    "urls": {
+      "product_link": "https://www.ikea.com/sa/en/p/saltmyran-2-seat-sofa-oereryd-blue-40618533/",
+      "image_url": "https://www.ikea.com/sa/en/images/products/saltmyran-2-seat-sofa-oereryd-blue__1578448_pe1034096_s5.jpg",
+      "3d_model_url": "https://api.furn-app.com/assets/models/saltmyran_2_seat_sofa_oreryd_blue_40618533.usdz"
+    },
+    "spatial_attributes": {
+      "length_cm": 79.0,
+      "width_cm": 147.0,
+      "height_cm": 77.0
+    },
+    "aesthetic_features": {
+      "primary_colors": [
+        "Blue"
+      ],
+      "material": "Composite wood",
+      "style": "Contemporary Casual",
+      "vibe": "Warm, inviting, practical"
+    }
+  },
+  {
+    "id": "10239280",
+    "product_name": "HEMNES Chest of 8 drawers - white stain 160x96 cm",
+    "store": "IKEA KSA",
+    "category": "dresser",
+    "price_sar": 1995.0,
+    "urls": {
+      "product_link": "https://www.ikea.com/sa/en/p/hemnes-chest-of-8-drawers-white-stain-10239280/",
+      "image_url": "https://www.ikea.com/sa/en/images/products/hemnes-chest-of-8-drawers-white-stain__0627346_pe693299_s5.jpg",
+      "3d_model_url": "https://api.furn-app.com/assets/models/hemnes_chest_of_8_drawers_white_stain_160x96_cm_10239280.usdz"
+    },
+    "spatial_attributes": {
+      "length_cm": 50.0,
+      "width_cm": 160.0,
+      "height_cm": 96.0
+    },
+    "aesthetic_features": {
+      "primary_colors": [
+        "White"
+      ],
+      "material": "Solid wood",
+      "style": "Minimalist Scandinavian",
+      "vibe": "Airy, calm, sturdy, practical"
+    }
+  },
+  {
+    "id": "40407922",
+    "product_name": "BRIMNES Wardrobe with 3 doors - white 117x50x190 cm",
+    "store": "IKEA KSA",
+    "category": "wardrobe",
+    "price_sar": 799.0,
+    "urls": {
+      "product_link": "https://www.ikea.com/sa/en/p/brimnes-wardrobe-with-3-doors-white-40407922/",
+      "image_url": "https://www.ikea.com/sa/en/images/products/brimnes-wardrobe-with-3-doors-white__0176787_pe329567_s5.jpg",
+      "3d_model_url": "https://api.furn-app.com/assets/models/brimnes_wardrobe_with_3_doors_white_117x50x190_cm_40407922.usdz"
+    },
+    "spatial_attributes": {
+      "length_cm": 50.0,
+      "width_cm": 117.0,
+      "height_cm": 190.0
+    },
+    "aesthetic_features": {
+      "primary_colors": [
+        "White"
+      ],
+      "material": "Composite wood",
+      "style": "Minimalist Scandinavian",
+      "vibe": "Airy, calm, practical"
+    }
+  },
+  {
+    "id": "70477334",
+    "product_name": "BILLY Bookcase - black oak effect 40x28x202 cm",
+    "store": "IKEA KSA",
+    "category": "bookcase",
+    "price_sar": 319.0,
+    "urls": {
+      "product_link": "https://www.ikea.com/sa/en/p/billy-bookcase-black-oak-effect-70477334/",
+      "image_url": "https://www.ikea.com/sa/en/images/products/billy-bookcase-black-oak-effect__1097083_pe864716_s5.jpg",
+      "3d_model_url": "https://api.furn-app.com/assets/models/billy_bookcase_black_oak_effect_40x28x202_cm_70477334.usdz"
+    },
+    "spatial_attributes": {
+      "length_cm": 28.0,
+      "width_cm": 40.0,
+      "height_cm": 202.0
+    },
+    "aesthetic_features": {
+      "primary_colors": [
+        "Black",
+        "Oak"
+      ],
+      "material": "Composite wood",
+      "style": "Contemporary Dark",
+      "vibe": "Grounded, masculine, practical"
+    }
+  },
+  {
+    "id": "50616816",
+    "product_name": "IKEA PS 2026 Shelving unit - pine 160x35x161 cm",
+    "store": "IKEA KSA",
+    "category": "shelving",
+    "price_sar": 1195.0,
+    "urls": {
+      "product_link": "https://www.ikea.com/sa/en/p/ikea-ps-2026-shelving-unit-pine-50616816/",
+      "image_url": "https://www.ikea.com/sa/en/images/products/ikea-ps-2026-shelving-unit-pine__1479132_pe999932_s5.jpg",
+      "3d_model_url": "https://api.furn-app.com/assets/models/ikea_ps_2026_shelving_unit_pine_160x35x161_cm_50616816.usdz"
+    },
+    "spatial_attributes": {
+      "length_cm": 35.0,
+      "width_cm": 160.0,
+      "height_cm": 161.0
+    },
+    "aesthetic_features": {
+      "primary_colors": [
+        "Natural Pine"
+      ],
+      "material": "Composite wood",
+      "style": "Contemporary Casual",
+      "vibe": "Warm, inviting, practical"
+    }
+  },
+  {
+    "id": "00583106",
+    "product_name": "GRÅFJÄLLET Bedside table - white 45x36x59 cm",
+    "store": "IKEA KSA",
+    "category": "side_table",
+    "price_sar": 179.0,
+    "urls": {
+      "product_link": "https://www.ikea.com/sa/en/p/grafjaellet-bedside-table-white-00583106/",
+      "image_url": "https://www.ikea.com/sa/en/images/products/grafjaellet-bedside-table-white__1327643_pe944531_s5.jpg",
+      "3d_model_url": "https://api.furn-app.com/assets/models/grafjallet_bedside_table_white_45x36x59_cm_00583106.usdz"
+    },
+    "spatial_attributes": {
+      "length_cm": 36.0,
+      "width_cm": 45.0,
+      "height_cm": 59.0
+    },
+    "aesthetic_features": {
+      "primary_colors": [
+        "White",
+        "Red"
+      ],
+      "material": "Metal, Tempered glass",
+      "style": "Minimalist Scandinavian",
+      "vibe": "Airy, calm, clean-lined, practical"
+    }
+  },
+  {
+    "id": "10571532",
+    "product_name": "UTESPELARE Gaming desk - ash effect/grey 160x80 cm",
+    "store": "IKEA KSA",
+    "category": "desk",
+    "price_sar": 804.0,
+    "urls": {
+      "product_link": "https://www.ikea.com/sa/en/p/utespelare-gaming-desk-ash-effect-grey-10571532/",
+      "image_url": "https://www.ikea.com/sa/en/images/products/utespelare-gaming-desk-ash-effect-grey__1238416_pe918475_s5.jpg",
+      "3d_model_url": "https://api.furn-app.com/assets/models/utespelare_gaming_desk_ash_effect_grey_160x80_cm_10571532.usdz"
+    },
+    "spatial_attributes": {
+      "length_cm": 74.0,
+      "width_cm": 185.0,
+      "height_cm": 146.0
+    },
+    "aesthetic_features": {
+      "primary_colors": [
+        "Grey",
+        "Ash"
+      ],
+      "material": "Composite wood",
+      "style": "Contemporary Casual",
+      "vibe": "Warm, inviting, practical"
+    }
+  },
+  {
+    "id": "90532589",
+    "product_name": "TOBIAS Chair - brown-red/chrome-plated",
+    "store": "IKEA KSA",
+    "category": "chair",
+    "price_sar": 495.0,
+    "urls": {
+      "product_link": "https://www.ikea.com/sa/en/p/tobias-chair-brown-red-chrome-plated-90532589/",
+      "image_url": "https://www.ikea.com/sa/en/images/products/tobias-chair-brown-red-chrome-plated__1126419_pe875739_s5.jpg",
+      "3d_model_url": "https://api.furn-app.com/assets/models/tobias_chair_brown_red_chrome_plated_90532589.usdz"
+    },
+    "spatial_attributes": {
+      "length_cm": 56.0,
+      "width_cm": 55.0,
+      "height_cm": 82.0
+    },
+    "aesthetic_features": {
+      "primary_colors": [
+        "Chrome",
+        "Brown",
+        "Red"
+      ],
+      "material": "Composite wood",
+      "style": "Contemporary Casual",
+      "vibe": "Warm, inviting, practical"
+    }
+  },
+  {
+    "id": "s09440599",
+    "product_name": "KIVIK 2-seat sofa - Tibbleby beige/grey",
+    "store": "IKEA KSA",
+    "category": "sofa",
+    "price_sar": 2295.0,
+    "urls": {
+      "product_link": "https://www.ikea.com/sa/en/p/kivik-2-seat-sofa-tibbleby-beige-grey-s09440599/",
+      "image_url": "https://www.ikea.com/sa/en/images/products/kivik-2-seat-sofa-tibbleby-beige-grey__1577305_pe1033079_s5.jpg",
+      "3d_model_url": "https://api.furn-app.com/assets/models/kivik_2_seat_sofa_tibbleby_beige_grey_s09440599.usdz"
+    },
+    "spatial_attributes": {
+      "length_cm": 95.0,
+      "width_cm": 190.0,
+      "height_cm": 83.0
+    },
+    "aesthetic_features": {
+      "primary_colors": [
+        "Beige",
+        "Grey"
+      ],
+      "material": "Pocket springs, Polyester fabric, Polyurethane foam",
+      "style": "Minimalist Scandinavian",
+      "vibe": "Airy, calm, cosy, practical"
+    }
+  },
+  {
+    "id": "90309245",
+    "product_name": "KULLEN Chest of 6 drawers - white 140x40x72 cm",
+    "store": "IKEA KSA",
+    "category": "dresser",
+    "price_sar": 449.0,
+    "urls": {
+      "product_link": "https://www.ikea.com/sa/en/p/kullen-chest-of-6-drawers-white-90309245/",
+      "image_url": "https://www.ikea.com/sa/en/images/products/kullen-chest-of-6-drawers-white__0651643_pe706985_s5.jpg",
+      "3d_model_url": "https://api.furn-app.com/assets/models/kullen_chest_of_6_drawers_white_140x40x72_cm_90309245.usdz"
+    },
+    "spatial_attributes": {
+      "length_cm": 40.0,
+      "width_cm": 140.0,
+      "height_cm": 72.0
+    },
+    "aesthetic_features": {
+      "primary_colors": [
+        "White"
+      ],
+      "material": "Composite wood",
+      "style": "Minimalist Scandinavian",
+      "vibe": "Airy, calm, practical"
+    }
+  },
+  {
+    "id": "80437234",
+    "product_name": "KLEPPSTAD Wardrobe with 2 doors - white 79x55x176 cm",
+    "store": "IKEA KSA",
+    "category": "wardrobe",
+    "price_sar": 499.0,
+    "urls": {
+      "product_link": "https://www.ikea.com/sa/en/p/kleppstad-wardrobe-with-2-doors-white-80437234/",
+      "image_url": "https://www.ikea.com/sa/en/images/products/kleppstad-wardrobe-with-2-doors-white__0733324_pe748781_s5.jpg",
+      "3d_model_url": "https://api.furn-app.com/assets/models/kleppstad_wardrobe_with_2_doors_white_79x55x176_cm_80437234.usdz"
+    },
+    "spatial_attributes": {
+      "length_cm": 55.0,
+      "width_cm": 79.0,
+      "height_cm": 176.0
+    },
+    "aesthetic_features": {
+      "primary_colors": [
+        "White"
+      ],
+      "material": "Composite wood",
+      "style": "Minimalist Scandinavian",
+      "vibe": "Airy, calm, practical"
+    }
+  },
+  {
+    "id": "80508641",
+    "product_name": "BILLY Bookcase - brown walnut effect 40x28x202 cm",
+    "store": "IKEA KSA",
+    "category": "bookcase",
+    "price_sar": 319.0,
+    "urls": {
+      "product_link": "https://www.ikea.com/sa/en/p/billy-bookcase-brown-walnut-effect-80508641/",
+      "image_url": "https://www.ikea.com/sa/en/images/products/billy-bookcase-brown-walnut-effect__1097087_pe864715_s5.jpg",
+      "3d_model_url": "https://api.furn-app.com/assets/models/billy_bookcase_brown_walnut_effect_40x28x202_cm_80508641.usdz"
+    },
+    "spatial_attributes": {
+      "length_cm": 28.0,
+      "width_cm": 40.0,
+      "height_cm": 202.0
+    },
+    "aesthetic_features": {
+      "primary_colors": [
+        "Walnut Brown"
+      ],
+      "material": "Composite wood",
+      "style": "Contemporary Casual",
+      "vibe": "Warm, inviting, practical"
+    }
+  },
+  {
+    "id": "00103343",
+    "product_name": "MALM Chest of 2 drawers - black-brown 40x55 cm",
+    "store": "IKEA KSA",
+    "category": "side_table",
+    "price_sar": 269.0,
+    "urls": {
+      "product_link": "https://www.ikea.com/sa/en/p/malm-chest-of-2-drawers-black-brown-00103343/",
+      "image_url": "https://www.ikea.com/sa/en/images/products/malm-chest-of-2-drawers-black-brown__1154559_pe886158_s5.jpg",
+      "3d_model_url": "https://api.furn-app.com/assets/models/malm_chest_of_2_drawers_black_brown_40x55_cm_00103343.usdz"
+    },
+    "spatial_attributes": {
+      "length_cm": 48.0,
+      "width_cm": 40.0,
+      "height_cm": 55.0
+    },
+    "aesthetic_features": {
+      "primary_colors": [
+        "Black-Brown"
+      ],
+      "material": "Wood veneer",
+      "style": "Contemporary Dark",
+      "vibe": "Grounded, masculine, practical"
+    }
+  },
+  {
+    "id": "60214159",
+    "product_name": "MALM Desk - white 140x65 cm",
+    "store": "IKEA KSA",
+    "category": "desk",
+    "price_sar": 635.0,
+    "urls": {
+      "product_link": "https://www.ikea.com/sa/en/p/malm-desk-white-60214159/",
+      "image_url": "https://www.ikea.com/sa/en/images/products/malm-desk-white__0735975_pe740309_s5.jpg",
+      "3d_model_url": "https://api.furn-app.com/assets/models/malm_desk_white_140x65_cm_60214159.usdz"
+    },
+    "spatial_attributes": {
+      "length_cm": 65.0,
+      "width_cm": 140.0,
+      "height_cm": 73.0
+    },
+    "aesthetic_features": {
+      "primary_colors": [
+        "White"
+      ],
+      "material": "Composite wood",
+      "style": "Minimalist Scandinavian",
+      "vibe": "Airy, calm, practical"
+    }
+  },
+  {
+    "id": "80349671",
+    "product_name": "TOBIAS Chair - transparent/chrome-plated",
+    "store": "IKEA KSA",
+    "category": "chair",
+    "price_sar": 495.0,
+    "urls": {
+      "product_link": "https://www.ikea.com/sa/en/p/tobias-chair-transparent-chrome-plated-80349671/",
+      "image_url": "https://www.ikea.com/sa/en/images/products/tobias-chair-transparent-chrome-plated__0727342_pe735614_s5.jpg",
+      "3d_model_url": "https://api.furn-app.com/assets/models/tobias_chair_transparent_chrome_plated_80349671.usdz"
+    },
+    "spatial_attributes": {
+      "length_cm": 56.0,
+      "width_cm": 55.0,
+      "height_cm": 82.0
+    },
+    "aesthetic_features": {
+      "primary_colors": [
+        "Chrome",
+        "White",
+        "Grey"
+      ],
+      "material": "Composite wood",
+      "style": "Minimalist Scandinavian",
+      "vibe": "Airy, calm, practical"
+    }
+  },
+  {
+    "id": "s49443044",
+    "product_name": "KIVIK 2-seat sofa - Kelinge grey-turquoise",
+    "store": "IKEA KSA",
+    "category": "sofa",
+    "price_sar": 2495.0,
+    "urls": {
+      "product_link": "https://www.ikea.com/sa/en/p/kivik-2-seat-sofa-kelinge-grey-turquoise-s49443044/",
+      "image_url": "https://www.ikea.com/sa/en/images/products/kivik-2-seat-sofa-kelinge-grey-turquoise__1577273_pe1033061_s5.jpg",
+      "3d_model_url": "https://api.furn-app.com/assets/models/kivik_2_seat_sofa_kelinge_grey_turquoise_s49443044.usdz"
+    },
+    "spatial_attributes": {
+      "length_cm": 95.0,
+      "width_cm": 190.0,
+      "height_cm": 83.0
+    },
+    "aesthetic_features": {
+      "primary_colors": [
+        "Turquoise",
+        "Grey"
+      ],
+      "material": "Pocket springs, Polyester fabric, Polyurethane foam",
+      "style": "Contemporary Casual",
+      "vibe": "Warm, inviting, cosy, practical"
+    }
+  },
+  {
+    "id": "40459666",
+    "product_name": "IDANÄS Bed frame with storage - dark brown stained 90x200 cm",
+    "store": "IKEA KSA",
+    "category": "bed",
+    "price_sar": 1795.0,
+    "urls": {
+      "product_link": "https://www.ikea.com/sa/en/p/idanaes-bed-frame-with-storage-dark-brown-stained-40459666/",
+      "image_url": "https://www.ikea.com/sa/en/images/products/idanaes-bed-frame-with-storage-dark-brown-stained__1151026_pe884730_s5.jpg",
+      "3d_model_url": "https://api.furn-app.com/assets/models/idanas_bed_frame_with_storage_dark_brown_stained_90x200_cm_40459666.usdz"
+    },
+    "spatial_attributes": {
+      "length_cm": 207.0,
+      "width_cm": 101.0,
+      "height_cm": 24.0
+    },
+    "aesthetic_features": {
+      "primary_colors": [
+        "Dark Brown"
+      ],
+      "material": "Linen-blend fabric",
+      "style": "Contemporary Dark",
+      "vibe": "Grounded, masculine, cosy, practical"
+    }
+  },
+  {
+    "id": "20403562",
+    "product_name": "MALM Chest of 3 drawers - white 80x78 cm",
+    "store": "IKEA KSA",
+    "category": "dresser",
+    "price_sar": 449.0,
+    "urls": {
+      "product_link": "https://www.ikea.com/sa/en/p/malm-chest-of-3-drawers-white-20403562/",
+      "image_url": "https://www.ikea.com/sa/en/images/products/malm-chest-of-3-drawers-white__0484875_pe621342_s5.jpg",
+      "3d_model_url": "https://api.furn-app.com/assets/models/malm_chest_of_3_drawers_white_80x78_cm_20403562.usdz"
+    },
+    "spatial_attributes": {
+      "length_cm": 48.0,
+      "width_cm": 80.0,
+      "height_cm": 78.0
+    },
+    "aesthetic_features": {
+      "primary_colors": [
+        "White"
+      ],
+      "material": "Composite wood",
+      "style": "Minimalist Scandinavian",
+      "vibe": "Airy, calm, practical"
+    }
+  },
+  {
+    "id": "80487813",
+    "product_name": "EKENABBEN Open shelving unit - aspen/white 70x34x154 cm",
+    "store": "IKEA KSA",
+    "category": "shelving",
+    "price_sar": 399.0,
+    "urls": {
+      "product_link": "https://www.ikea.com/sa/en/p/ekenabben-open-shelving-unit-aspen-white-80487813/",
+      "image_url": "https://www.ikea.com/sa/en/images/products/ekenabben-open-shelving-unit-aspen-white__1029351_pe835758_s5.jpg",
+      "3d_model_url": "https://api.furn-app.com/assets/models/ekenabben_open_shelving_unit_aspen_white_70x34x154_cm_80487813.usdz"
+    },
+    "spatial_attributes": {
+      "length_cm": 34.0,
+      "width_cm": 70.0,
+      "height_cm": 154.0
+    },
+    "aesthetic_features": {
+      "primary_colors": [
+        "White",
+        "Beige"
+      ],
+      "material": "Composite wood",
+      "style": "Minimalist Scandinavian",
+      "vibe": "Airy, calm, practical"
+    }
+  },
+  {
+    "id": "s09608386",
+    "product_name": "SANDSBERG Table and 4 chairs - black black/black 110x67 cm",
+    "store": "IKEA KSA",
+    "category": "dining_table",
+    "price_sar": 465.0,
+    "urls": {
+      "product_link": "https://www.ikea.com/sa/en/p/sandsberg-table-and-4-chairs-black-black-black-s09608386/",
+      "image_url": "https://www.ikea.com/sa/en/images/products/sandsberg-table-and-4-chairs-black-black-black__1460475_pe993939_s5.jpg",
+      "3d_model_url": "https://api.furn-app.com/assets/models/sandsberg_table_and_4_chairs_black_black_black_110x67_cm_s09608386.usdz"
+    },
+    "spatial_attributes": {
+      "length_cm": 110.0,
+      "width_cm": 67.0,
+      "height_cm": 75.0
+    },
+    "aesthetic_features": {
+      "primary_colors": [
+        "Black"
+      ],
+      "material": "Metal",
+      "style": "Industrial Modern",
+      "vibe": "Grounded, masculine, clean-lined, practical"
+    }
+  },
+  {
+    "id": "90625319",
+    "product_name": "MALM Chest of 2 drawers - white 40x55 cm",
+    "store": "IKEA KSA",
+    "category": "side_table",
+    "price_sar": 269.0,
+    "urls": {
+      "product_link": "https://www.ikea.com/sa/en/p/malm-chest-of-2-drawers-white-90625319/",
+      "image_url": "https://www.ikea.com/sa/en/images/products/malm-chest-of-2-drawers-white__0626822_pe693007_s5.jpg",
+      "3d_model_url": "https://api.furn-app.com/assets/models/malm_chest_of_2_drawers_white_40x55_cm_90625319.usdz"
+    },
+    "spatial_attributes": {
+      "length_cm": 48.0,
+      "width_cm": 40.0,
+      "height_cm": 55.0
+    },
+    "aesthetic_features": {
+      "primary_colors": [
+        "White"
+      ],
+      "material": "Composite wood",
+      "style": "Minimalist Scandinavian",
+      "vibe": "Airy, calm, practical"
+    }
+  },
+  {
+    "id": "30213076",
+    "product_name": "MICKE Desk - white 73x50 cm",
+    "store": "IKEA KSA",
+    "category": "desk",
+    "price_sar": 254.0,
+    "urls": {
+      "product_link": "https://www.ikea.com/sa/en/p/micke-desk-white-30213076/",
+      "image_url": "https://www.ikea.com/sa/en/images/products/micke-desk-white__0736022_pe740349_s5.jpg",
+      "3d_model_url": "https://api.furn-app.com/assets/models/micke_desk_white_73x50_cm_30213076.usdz"
+    },
+    "spatial_attributes": {
+      "length_cm": 50.0,
+      "width_cm": 73.0,
+      "height_cm": 75.0
+    },
+    "aesthetic_features": {
+      "primary_colors": [
+        "White"
+      ],
+      "material": "Composite wood",
+      "style": "Minimalist Scandinavian",
+      "vibe": "Airy, calm, practical"
+    }
+  },
+  {
+    "id": "10605424",
+    "product_name": "SANDSBERG Chair - white",
+    "store": "IKEA KSA",
+    "category": "chair",
+    "price_sar": 59.0,
+    "urls": {
+      "product_link": "https://www.ikea.com/sa/en/p/sandsberg-chair-white-10605424/",
+      "image_url": "https://www.ikea.com/sa/en/images/products/sandsberg-chair-white__1390727_pe965548_s5.jpg",
+      "3d_model_url": "https://api.furn-app.com/assets/models/sandsberg_chair_white_10605424.usdz"
+    },
+    "spatial_attributes": {
+      "length_cm": 47.0,
+      "width_cm": 39.0,
+      "height_cm": 77.0
+    },
+    "aesthetic_features": {
+      "primary_colors": [
+        "White"
+      ],
+      "material": "Powder-coated steel",
+      "style": "Minimalist Scandinavian",
+      "vibe": "Airy, calm, clean-lined, practical"
+    }
+  },
+  {
+    "id": "s49440597",
+    "product_name": "KIVIK 3-seat sofa - Tibbleby beige/grey",
+    "store": "IKEA KSA",
+    "category": "sofa",
+    "price_sar": 2695.0,
+    "urls": {
+      "product_link": "https://www.ikea.com/sa/en/p/kivik-3-seat-sofa-tibbleby-beige-grey-s49440597/",
+      "image_url": "https://www.ikea.com/sa/en/images/products/kivik-3-seat-sofa-tibbleby-beige-grey__1577303_pe1033081_s5.jpg",
+      "3d_model_url": "https://api.furn-app.com/assets/models/kivik_3_seat_sofa_tibbleby_beige_grey_s49440597.usdz"
+    },
+    "spatial_attributes": {
+      "length_cm": 95.0,
+      "width_cm": 228.0,
+      "height_cm": 83.0
+    },
+    "aesthetic_features": {
+      "primary_colors": [
+        "Beige",
+        "Grey"
+      ],
+      "material": "Pocket springs, Polyester fabric, Polyurethane foam",
+      "style": "Minimalist Scandinavian",
+      "vibe": "Airy, calm, cosy, practical"
+    }
+  },
+  {
+    "id": "20535548",
+    "product_name": "HERRÅKRA Armchair - Skulsta black",
+    "store": "IKEA KSA",
+    "category": "armchair",
+    "price_sar": 549.0,
+    "urls": {
+      "product_link": "https://www.ikea.com/sa/en/p/herrakra-armchair-skulsta-black-20535548/",
+      "image_url": "https://www.ikea.com/sa/en/images/products/herrakra-armchair-skulsta-black__1213663_pe911199_s5.jpg",
+      "3d_model_url": "https://api.furn-app.com/assets/models/herrakra_armchair_skulsta_black_20535548.usdz"
+    },
+    "spatial_attributes": {
+      "length_cm": 66.0,
+      "width_cm": 71.0,
+      "height_cm": 73.0
+    },
+    "aesthetic_features": {
+      "primary_colors": [
+        "Black"
+      ],
+      "material": "Composite wood",
+      "style": "Contemporary Dark",
+      "vibe": "Grounded, masculine, practical"
+    }
+  },
+  {
+    "id": "00486327",
+    "product_name": "GURSKEN Chest of 3 drawers - light beige 69x67 cm",
+    "store": "IKEA KSA",
+    "category": "dresser",
+    "price_sar": 249.0,
+    "urls": {
+      "product_link": "https://www.ikea.com/sa/en/p/gursken-chest-of-3-drawers-light-beige-00486327/",
+      "image_url": "https://www.ikea.com/sa/en/images/products/gursken-chest-of-3-drawers-light-beige__0923963_pe788460_s5.jpg",
+      "3d_model_url": "https://api.furn-app.com/assets/models/gursken_chest_of_3_drawers_light_beige_69x67_cm_00486327.usdz"
+    },
+    "spatial_attributes": {
+      "length_cm": 38.0,
+      "width_cm": 69.0,
+      "height_cm": 67.0
+    },
+    "aesthetic_features": {
+      "primary_colors": [
+        "Light Beige"
+      ],
+      "material": "Composite wood",
+      "style": "Minimalist Scandinavian",
+      "vibe": "Airy, calm, practical"
+    }
+  },
+  {
+    "id": "90596393",
+    "product_name": "EKENABBEN Open shelving unit - aspen/blue 70x34x154 cm",
+    "store": "IKEA KSA",
+    "category": "shelving",
+    "price_sar": 299.0,
+    "urls": {
+      "product_link": "https://www.ikea.com/sa/en/p/ekenabben-open-shelving-unit-aspen-blue-90596393/",
+      "image_url": "https://www.ikea.com/sa/en/images/products/ekenabben-open-shelving-unit-aspen-blue__1385111_pe963177_s5.jpg",
+      "3d_model_url": "https://api.furn-app.com/assets/models/ekenabben_open_shelving_unit_aspen_blue_70x34x154_cm_90596393.usdz"
+    },
+    "spatial_attributes": {
+      "length_cm": 34.0,
+      "width_cm": 70.0,
+      "height_cm": 154.0
+    },
+    "aesthetic_features": {
+      "primary_colors": [
+        "Beige",
+        "Blue"
+      ],
+      "material": "Composite wood",
+      "style": "Minimalist Scandinavian",
+      "vibe": "Airy, calm, practical"
+    }
+  },
+  {
+    "id": "s69608388",
+    "product_name": "SANDSBERG Table and 4 chairs - black black/white 110x67 cm",
+    "store": "IKEA KSA",
+    "category": "dining_table",
+    "price_sar": 465.0,
+    "urls": {
+      "product_link": "https://www.ikea.com/sa/en/p/sandsberg-table-and-4-chairs-black-black-white-s69608388/",
+      "image_url": "https://www.ikea.com/sa/en/images/products/sandsberg-table-and-4-chairs-black-black-white__1460498_pe993945_s5.jpg",
+      "3d_model_url": "https://api.furn-app.com/assets/models/sandsberg_table_and_4_chairs_black_black_white_110x67_cm_s69608388.usdz"
+    },
+    "spatial_attributes": {
+      "length_cm": 110.0,
+      "width_cm": 67.0,
+      "height_cm": 75.0
+    },
+    "aesthetic_features": {
+      "primary_colors": [
+        "Black",
+        "White"
+      ],
+      "material": "Metal",
+      "style": "Industrial Modern",
+      "vibe": "Grounded, masculine, clean-lined, practical"
+    }
+  }
+]

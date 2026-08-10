@@ -1,0 +1,7 @@
+__pycache__/
+*.py[cod]
+.http-cache/
+catalog.json
+report.txt
+.venv/
+.pytest_cache/
