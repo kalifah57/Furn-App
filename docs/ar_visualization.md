@@ -1,6 +1,11 @@
 # AR — "see it in your room" (research + implementation prompt)
 
-- **Status:** Research + design + ready-to-use prompt (not yet built)
+> **خارج نطاق الـ MVP (2026-08).** التطبيق ويب، والتجارب ثلاث (ADR-0002)؛ شاشة
+> الواقع المعزّز ومنظومة المسح حُذفت من الشيفرة بعد فرز الوصول. يبقى فقط زرّ
+> «شاهدها في غرفتك» (نافذة `<model-viewer>` في المتصفّح). هذه الوثيقة مرجع بحثي
+> للمستقبل، لا وصفٌ لما هو مبنيّ.
+
+- **Status:** Research + design (out of MVP scope; screen removed)
 - **Date:** 2026-07-30
 - **Scope:** Augmented Reality "try this furniture in your actual room" — the tech, the chosen approach for *this* app, the hard dependency (3D models), and a self-contained prompt you can hand to an agent to build it.
 - **Related:** `docs/vision_architecture.md`, `docs/catalog_data_sources.md`, `docs/product_information_model.md`, `datasets/EXTRACTION_PROMPT.md`

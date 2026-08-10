@@ -56,10 +56,10 @@ class SandboxScreen extends ConsumerWidget {
     );
   }
 
-  /// يبدأ المسح (تسليم إلى الجوال على الويب، LiDAR مباشرة على iOS).
+  /// يعيد بناء المشهد من خدمة المسح (محاكاة اليوم — تُعيد غرفة تمثيلية).
   ///
-  /// نُبقي المشهد الحالي معروضًا أثناء الانتظار: إفراغ الشاشة لدقيقتين بينما
-  /// المستخدم يمشي إلى غرفته يبدو كتعطّل.
+  /// نُبقي المشهد الحالي معروضًا أثناء الانتظار: إفراغ الشاشة بينما تُعاد القياسات
+  /// يبدو كتعطّل. يوم يدخل مسحٌ حقيقي النطاق، يُستبدل مزوّد الخدمة وحده.
   Future<void> _rescan(BuildContext context, WidgetRef ref) async {
     final messenger = ScaffoldMessenger.of(context);
     final result = await ref.read(sandboxControllerProvider.notifier).rescan();
