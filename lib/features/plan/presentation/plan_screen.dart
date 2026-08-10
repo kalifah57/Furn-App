@@ -7,6 +7,7 @@ import '../../../domain_engine/plan/plan.dart';
 import '../../../domain_engine/plan/unmet_need.dart';
 import '../../../shared/models/models.dart';
 import '../../../shared/utils/formatters.dart';
+import '../../../shared/widgets/status_views.dart';
 import '../../ar/ar_button.dart';
 import 'assistant_sheet.dart';
 import 'plan_controller.dart';
@@ -44,11 +45,13 @@ class PlanScreen extends ConsumerWidget {
         ],
       ),
       body: async.when(
-        loading: () => const Center(child: CircularProgressIndicator()),
-        error: (e, _) => Center(child: Padding(
-          padding: const EdgeInsets.all(24),
-          child: Text('تعذّر تحميل الكتالوج: $e', textAlign: TextAlign.center),
-        )),
+        loading: () => const LoadingView(message: 'جاري بناء خطتك…'),
+        // الاستثناء الخام ليس رسالة: المستخدم لا يملك ما يفعله بـ`e`، ويملك أن
+        // يعيد المحاولة. النصّ التقني يبقى في السجلّ لا على الشاشة.
+        error: (_, __) => ErrorView(
+          message: 'تعذّر تحميل قائمة الأثاث. تحقّق من اتصالك وأعد المحاولة.',
+          onRetry: () => ref.invalidate(planControllerProvider),
+        ),
         data: (controller) => _PlanView(controller: controller),
       ),
     );
@@ -117,18 +120,49 @@ class _PlanViewState extends State<_PlanView> {
               const SizedBox(height: 12),
               _arPreviewCard(context),
               const SizedBox(height: 20),
-              Text('قطع خطتك',
-                  style: Theme.of(context)
-                      .textTheme
-                      .titleMedium
-                      ?.copyWith(fontWeight: FontWeight.bold)),
-              const SizedBox(height: 8),
-              for (final item in plan.items) _itemCard(context, item),
+              // عنوانٌ فوق فراغ أسوأ من فراغ معلن: حين لا قطع، يحلّ محلّ العنوان
+              // سطرٌ يقول ما الذي يملأ الخطة.
+              if (plan.items.isEmpty)
+                _emptyPlan(context)
+              else ...[
+                Text('قطع خطتك',
+                    style: Theme.of(context)
+                        .textTheme
+                        .titleMedium
+                        ?.copyWith(fontWeight: FontWeight.bold)),
+                const SizedBox(height: 8),
+                for (final item in plan.items) _itemCard(context, item),
+              ],
             ],
           ),
         ),
         _bottomBar(context, plan),
       ],
+    );
+  }
+
+  /// خطة بلا قطع — تحدث حين تكون الميزانية دون أرخص ما يناسب الغرفة، أو حين
+  /// يرفض المستخدم كل ما اقتُرح. الحالة مشروعة، فتُقال ويُقال معها المخرج.
+  Widget _emptyPlan(BuildContext context) {
+    final theme = Theme.of(context);
+    return Container(
+      padding: const EdgeInsets.all(16),
+      decoration: BoxDecoration(
+        color: theme.colorScheme.surfaceContainerHighest,
+        borderRadius: BorderRadius.circular(12),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text('لا قطع في خطتك بعد.',
+              style: theme.textTheme.titleSmall
+                  ?.copyWith(fontWeight: FontWeight.bold)),
+          const SizedBox(height: 6),
+          Text('ارفع سقف ميزانيتك من الشريط أعلاه، أو اطلب قطعة من المساعد.',
+              style: theme.textTheme.bodyMedium
+                  ?.copyWith(color: theme.colorScheme.onSurfaceVariant)),
+        ],
+      ),
     );
   }
 
@@ -470,7 +504,9 @@ class _PlanViewState extends State<_PlanView> {
     final product = c.productById(id);
     return Card(
       child: Padding(
-        padding: const EdgeInsets.fromLTRB(16, 12, 8, 8),
+        // اتجاهية لا فيزيائية: `fromLTRB` كانت تجعل البداية ٨ والنهاية ١٦ في
+        // RTL — معكوسة عن القصد، ولا اختبار يراها لأن الاختبارات كانت LTR.
+        padding: const EdgeInsetsDirectional.fromSTEB(16, 12, 8, 8),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -753,16 +789,21 @@ class _PlanViewState extends State<_PlanView> {
                     label: const Text('شارك'),
                   ),
                 ])
-              : FilledButton.icon(
-                  onPressed: plan.items.isEmpty
-                      ? null
-                      : () {
-                          c.finalizePlan();
-                          _openArrival();
-                        },
-                  icon: const Icon(Icons.verified_outlined),
-                  label: const Text('هذه هي خطتي — أنا مطمئن'),
-                ),
+              // زرٌّ معطّل بلا سبب يُقرأ كعطل. حين لا شيء يُعتمد، يحلّ محلّه
+              // السطر الذي يقول لماذا — والسبب مرئي دون تمرير.
+              : plan.items.isEmpty
+                  ? Text('أضِف قطعةً واحدة على الأقل لتعتمد خطتك.',
+                      textAlign: TextAlign.center,
+                      style: theme.textTheme.bodyMedium
+                          ?.copyWith(color: theme.colorScheme.onSurfaceVariant))
+                  : FilledButton.icon(
+                      onPressed: () {
+                        c.finalizePlan();
+                        _openArrival();
+                      },
+                      icon: const Icon(Icons.verified_outlined),
+                      label: const Text('هذه هي خطتي — أنا مطمئن'),
+                    ),
         ),
       ),
     );

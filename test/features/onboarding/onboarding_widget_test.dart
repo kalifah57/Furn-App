@@ -6,6 +6,8 @@ import 'package:furn_app/features/consent/data/consent_store.dart';
 import 'package:furn_app/features/consent/presentation/consent_controller.dart';
 import 'package:furn_app/features/onboarding/presentation/onboarding_screen.dart';
 
+import '../../support/arabic_app.dart';
+
 /// A smoke test — the point is simply that the door screen builds and paints
 /// without throwing, which nothing verified before. It renders the entry CTA
 /// and, on a first run (no consent choice), the consent gate.
@@ -29,7 +31,7 @@ void main() {
 
     await tester.pumpWidget(UncontrolledProviderScope(
       container: container,
-      child: const MaterialApp(home: OnboardingScreen()),
+      child: arabicApp(const OnboardingScreen()),
     ));
     await tester.pump();
 

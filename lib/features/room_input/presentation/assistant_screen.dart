@@ -88,6 +88,15 @@ class _AssistantScreenState extends ConsumerState<AssistantScreen> {
                 minimumSize: const Size.fromHeight(50),
               ),
             ),
+            // الفراغ هو حالة الافتتاح، فأوّل ما يراه المستخدم كان فعلًا معطّلًا
+            // بلا سبب. السطر يقول السبب، ويختفي فور أن يزول.
+            if (!_canSend) ...[
+              const SizedBox(height: 8),
+              Text('اكتب وصفًا لغرفتك ليبدأ.',
+                  textAlign: TextAlign.center,
+                  style: theme.textTheme.bodySmall
+                      ?.copyWith(color: theme.colorScheme.onSurfaceVariant)),
+            ],
             const SizedBox(height: 22),
             Row(children: [
               Expanded(child: Divider(color: theme.colorScheme.outlineVariant)),

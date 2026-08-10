@@ -40,15 +40,28 @@ class _AnalysisScreenState extends ConsumerState<AnalysisScreen> {
   Widget build(BuildContext context) {
     final state = ref.watch(furnishingFlowControllerProvider);
     return Scaffold(
-      appBar: AppBar(title: const Text(AppStrings.requestSummary)),
+      // العنوان كان «ملخص الطلب» في كل الحالات — يَعِد بملخّصٍ بينما الشاشة
+      // تنتظر، ويكذب صراحةً حين لا طلب أصلًا.
+      appBar: AppBar(title: Text(_title(state.status))),
       body: SafeArea(child: _body(state)),
     );
   }
 
+  String _title(FlowStatus status) => switch (status) {
+        FlowStatus.idle => 'المساعد',
+        FlowStatus.extracting || FlowStatus.recommending => 'خطتك تتشكّل',
+        FlowStatus.needsFollowUp => 'أسئلة سريعة',
+        FlowStatus.error => 'تعذّر التحليل',
+        FlowStatus.ready => AppStrings.requestSummary,
+      };
+
   Widget _body(FurnishingFlowState state) {
     switch (state.status) {
-      case FlowStatus.extracting:
+      // `idle` حالة البداية لا حالة عمل. تصييرها كتحميلٍ كان يحبس من حدّث
+      // الصفحة على هذا المسار في انتظارٍ أبديّ بلا مخرج.
       case FlowStatus.idle:
+        return _notStarted();
+      case FlowStatus.extracting:
         return const LoadingView(message: AppStrings.analyzing);
       case FlowStatus.recommending:
         return const LoadingView(message: AppStrings.recommending);
@@ -62,6 +75,39 @@ class _AnalysisScreenState extends ConsumerState<AnalysisScreen> {
       case FlowStatus.ready:
         return _summary(state.project!);
     }
+  }
+
+  /// لا طلب جارٍ — يصل إليها من حدّث الصفحة على `/assistant/thinking` (الحالة
+  /// تُبنى من الصفر على الويب). المخرج الوحيد المفيد هو المساعد.
+  Widget _notStarted() {
+    final theme = Theme.of(context);
+    return Center(
+      child: Padding(
+        padding: const EdgeInsets.all(24),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Icon(Icons.auto_awesome_outlined,
+                size: 48, color: theme.colorScheme.outline),
+            const SizedBox(height: 12),
+            Text('لم يبدأ تحليل بعد.',
+                textAlign: TextAlign.center,
+                style: theme.textTheme.titleMedium
+                    ?.copyWith(fontWeight: FontWeight.bold)),
+            const SizedBox(height: 6),
+            Text('صف غرفتك في المساعد لنبني أوّل خطة.',
+                textAlign: TextAlign.center,
+                style: theme.textTheme.bodyMedium
+                    ?.copyWith(color: theme.colorScheme.onSurfaceVariant)),
+            const SizedBox(height: 16),
+            FilledButton.tonal(
+              onPressed: () => context.go(Routes.assistant),
+              child: const Text('إلى المساعد'),
+            ),
+          ],
+        ),
+      ),
+    );
   }
 
   // ---- أسئلة المتابعة ----

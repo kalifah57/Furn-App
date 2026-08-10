@@ -5,15 +5,46 @@ import 'package:go_router/go_router.dart';
 import '../../../analytics/analytics.dart';
 import '../../../core/constants/app_strings.dart';
 import '../../../core/di/providers.dart';
+import '../../../core/errors/result.dart';
 import '../../../core/router/app_router.dart';
 import '../../consent/presentation/consent_banner.dart';
 
 /// شاشة البداية (onboarding عربي — ضمن الـ MVP).
-class OnboardingScreen extends ConsumerWidget {
+class OnboardingScreen extends ConsumerStatefulWidget {
   const OnboardingScreen({super.key});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  ConsumerState<OnboardingScreen> createState() => _OnboardingScreenState();
+}
+
+class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
+  /// الدخول المجهول غير متزامن — وكان يجري خلف زرٍّ حيّ بلا أثر مرئي: نافذةٌ
+  /// صامتة يستطيع فيها المستخدم أن يبدأ دخولين.
+  bool _signingIn = false;
+
+  Future<void> _start() async {
+    if (_signingIn) return;
+    setState(() => _signingIn = true);
+    ref.read(analyticsProvider).track(const FlowStarted('onboarding'));
+
+    final result = await ref.read(authRepositoryProvider).signInAnonymously();
+    if (!mounted) return;
+
+    // العقد يسمح بالفشل، وكانت النتيجة تُهمَل فيُرحَّل المستخدم على أي حال.
+    // المحاكاة لا تفشل اليوم، لكن مزوّدًا حقيقيًّا بلا شبكة يفشل — وصمتُ الفشل
+    // أسوأ من الفشل.
+    switch (result) {
+      case Ok():
+        context.go(Routes.assistant);
+      case Err(:final failure):
+        setState(() => _signingIn = false);
+        ScaffoldMessenger.of(context)
+            .showSnackBar(SnackBar(content: Text(failure.message)));
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
     final theme = Theme.of(context);
     return Scaffold(
       body: SafeArea(
@@ -52,12 +83,14 @@ class OnboardingScreen extends ConsumerWidget {
               ),
               const Spacer(),
               FilledButton(
-                onPressed: () async {
-                  ref.read(analyticsProvider).track(const FlowStarted('onboarding'));
-                  await ref.read(authRepositoryProvider).signInAnonymously();
-                  if (context.mounted) context.go(Routes.assistant);
-                },
-                child: const Text(AppStrings.onboardingStart),
+                onPressed: _signingIn ? null : _start,
+                child: _signingIn
+                    ? const SizedBox(
+                        width: 22,
+                        height: 22,
+                        child: CircularProgressIndicator(strokeWidth: 2.5),
+                      )
+                    : const Text(AppStrings.onboardingStart),
               ),
               const SizedBox(height: 12),
               TextButton(
