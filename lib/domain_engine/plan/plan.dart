@@ -36,6 +36,29 @@ class Assurances {
       fitsRoom && withinBudget && allAvailable && essentialsComplete;
 }
 
+/// فجوة ثقة واحدة: نقصٌ **غير مسدود** يخفض الثقة، ونقاطه الحقيقية، والخطوات
+/// الملموسة التي تسدّه.
+///
+/// الثقة مركّبة شفّافة (لا عدّاد مزيّف)، فكل فجوة هنا تقابل مكوّنًا واحدًا لم
+/// يتحقّق بعد — و[points] هي بالضبط ما يكسبه المستخدم بسدّها، لا وعدًا معمّمًا.
+/// الفجوات المتحقّقة لا تُدرَج: لا نطلب من المستخدم فعل ما هو مفعول.
+class ConfidenceGap {
+  const ConfidenceGap({
+    required this.label,
+    required this.points,
+    required this.actions,
+  });
+
+  /// عنوان الفجوة («أكمل الأساسيات»، «ادخل ضمن الميزانية»).
+  final String label;
+
+  /// كم يرفع سدُّها الثقة (0..100).
+  final int points;
+
+  /// خطوات ملموسة تسدّها («أضِف سرير»، «بدّل الأريكة — أكبر من غرفتك»).
+  final List<String> actions;
+}
+
 /// A snapshot of the plan the user is shaping.
 class Plan {
   const Plan({
@@ -47,6 +70,7 @@ class Plan {
     this.isFinalized = false,
     this.unmetNeeds = const [],
     this.effectiveBudgetSar,
+    this.confidenceGaps = const [],
   });
 
   final List<PlanItem> items;
@@ -69,6 +93,10 @@ class Plan {
   /// زبون بـ3000 يطلب ثلاجة يجب أن تُبنى خطته على ما يبقى، لا على 3000 —
   /// وإلا اشترى أثاثًا لا تبقى معه سيولة لما يحتاجه فعلًا.
   final double? effectiveBudgetSar;
+
+  /// **ماذا يفعل ليرفع ثقته** — الفجوات غير المسدودة مرتّبة بالأثر (الأكبر أوّلًا).
+  /// فارغة ⇒ الخطة مكتملة الثقة. تجعل العدّاد قابلًا للتنفيذ لا رقمًا صمّاء.
+  final List<ConfidenceGap> confidenceGaps;
 
   /// المحجوز إجمالًا لما هو خارج النطاق.
   double get reservedSar =>

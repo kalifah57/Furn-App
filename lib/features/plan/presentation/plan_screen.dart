@@ -85,6 +85,10 @@ class _PlanViewState extends State<_PlanView> {
             padding: const EdgeInsets.fromLTRB(16, 16, 16, 8),
             children: [
               _confidenceCard(context, plan),
+              if (plan.confidenceGaps.isNotEmpty) ...[
+                const SizedBox(height: 8),
+                _nextSteps(context, plan),
+              ],
               const SizedBox(height: 8),
               _versionsBar(context),
               const SizedBox(height: 12),
@@ -181,6 +185,72 @@ class _PlanViewState extends State<_PlanView> {
 
   Color _confColor(int v, ColorScheme s) =>
       v >= 80 ? Colors.green : (v >= 50 ? Colors.orange : s.error);
+
+  /// «ماذا تفعل لترفع ثقتك» — الفجوات القابلة للتنفيذ من المحرّك، الأكبر أثرًا
+  /// أوّلًا، كلٌّ بنقاطها الحقيقية. تجعل العدّاد قابلًا للفعل لا رقمًا يُحدَّق فيه.
+  Widget _nextSteps(BuildContext context, Plan plan) {
+    final theme = Theme.of(context);
+    return Container(
+      padding: const EdgeInsets.all(14),
+      decoration: BoxDecoration(
+        color: theme.colorScheme.surfaceContainerHighest,
+        borderRadius: BorderRadius.circular(12),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(children: [
+            Icon(Icons.trending_up, size: 18, color: theme.colorScheme.primary),
+            const SizedBox(width: 6),
+            Text('لترفع ثقتك',
+                style: theme.textTheme.titleSmall
+                    ?.copyWith(fontWeight: FontWeight.bold)),
+          ]),
+          const SizedBox(height: 10),
+          for (final g in plan.confidenceGaps)
+            Padding(
+              padding: const EdgeInsets.only(bottom: 8),
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Container(
+                    padding:
+                        const EdgeInsets.symmetric(horizontal: 7, vertical: 2),
+                    decoration: BoxDecoration(
+                      color: theme.colorScheme.primary.withOpacity(0.12),
+                      borderRadius: BorderRadius.circular(6),
+                    ),
+                    child: Text('+${g.points}',
+                        style: theme.textTheme.labelSmall?.copyWith(
+                            color: theme.colorScheme.primary,
+                            fontWeight: FontWeight.bold)),
+                  ),
+                  const SizedBox(width: 8),
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(g.label,
+                            style: theme.textTheme.bodyMedium
+                                ?.copyWith(fontWeight: FontWeight.w600)),
+                        for (final a in g.actions)
+                          Padding(
+                            padding: const EdgeInsets.only(top: 2),
+                            child: Text('• $a',
+                                style: theme.textTheme.bodySmall?.copyWith(
+                                    color:
+                                        theme.colorScheme.onSurfaceVariant)),
+                          ),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+            ),
+        ],
+      ),
+    );
+  }
 
   // ---- assurances ---------------------------------------------------------
 

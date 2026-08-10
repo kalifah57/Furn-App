@@ -127,7 +127,10 @@ class PlanWorkspace {
         : null;
 
     final assurances = _assurances(items, byId, total, missing, unmet, effective);
-    final confidence = _confidence(assurances, _pinned.isNotEmpty);
+    final engaged = _pinned.isNotEmpty;
+    final confidence = _confidence(assurances, engaged);
+    final gaps = _confidenceGaps(
+        assurances, items, byId, missing, unmet, total, effective, engaged);
 
     return Plan(
       items: items,
@@ -138,6 +141,7 @@ class PlanWorkspace {
       isFinalized: _finalized,
       unmetNeeds: unmet,
       effectiveBudgetSar: effective,
+      confidenceGaps: gaps,
     );
   }
 
@@ -243,6 +247,102 @@ class PlanWorkspace {
       essentialsComplete:
           missing.isEmpty && !unmet.any((u) => u.lowersConfidence),
     );
+  }
+
+  /// ماذا يفعل المستخدم ليرفع ثقته — فجوة لكل مكوّن **غير متحقّق** في العدّاد،
+  /// بنقاطه الحقيقية والخطوات التي تسدّه، مرتّبةً بالأثر الأكبر أوّلًا.
+  ///
+  /// كل فرع هنا يقابل سطرًا في [_confidence]، فلا نَعِد بنقاط لا يمنحها العدّاد،
+  /// ولا ندرج فجوةً مسدودة أصلًا. المقاسات نفسها التي يفحصها [_assurances].
+  List<ConfidenceGap> _confidenceGaps(
+    Assurances a,
+    List<PlanItem> items,
+    Map<String, CatalogProduct> byId,
+    List<RecommendationCategory> missing,
+    List<UnmetNeed> unmet,
+    double total,
+    double? effective,
+    bool engaged,
+  ) {
+    final gaps = <ConfidenceGap>[];
+
+    if (!a.essentialsComplete) {
+      final actions = <String>[
+        for (final c in missing) 'أضِف ${c.arabicLabel}',
+        for (final u in unmet.where((u) => u.lowersConfidence))
+          'وفّر بديلًا لـ«${u.rawType}» — لا نورّده حاليًا',
+      ];
+      gaps.add(ConfidenceGap(label: 'أكمل الأساسيات', points: 40, actions: actions));
+    }
+
+    if (!a.withinBudget) {
+      final ceiling = effective ?? project.budget.maxTotal;
+      final over = (total - ceiling).round();
+      gaps.add(ConfidenceGap(label: 'ادخل ضمن الميزانية', points: 25, actions: [
+        'تجاوزت بـ $over ريال — بدّل قطعة بأرخص، أو أزل واحدة، أو ارفع الميزانية',
+      ]));
+    }
+
+    if (!a.fitsRoom) {
+      gaps.add(ConfidenceGap(
+        label: 'اجعلها تناسب الغرفة',
+        points: 20,
+        actions: [
+          for (final name in _oversizedNames(items, byId))
+            'بدّل «$name» — أكبر من غرفتك',
+        ],
+      ));
+    }
+
+    if (!a.allAvailable) {
+      gaps.add(ConfidenceGap(
+        label: 'اجعلها متوفّرة للشراء',
+        points: 10,
+        actions: [
+          for (final name in _unavailableNames(items, byId))
+            'بدّل «$name» — غير متوفّرة الآن',
+        ],
+      ));
+    }
+
+    if (!engaged) {
+      gaps.add(const ConfidenceGap(
+        label: 'اجعلها خطتك',
+        points: 5,
+        actions: ['ثبّت قطعة تعجبك — اطمئنانك يرتفع حين تشكّلها بنفسك'],
+      ));
+    }
+
+    // مرتّبة بالأثر (الأكبر أوّلًا) — يفعل المستخدم ما يرفع الثقة أكثر أوّلًا.
+    gaps.sort((x, y) => y.points.compareTo(x.points));
+    return gaps;
+  }
+
+  /// أسماء القطع التي لا تدخل في الغرفة — بنفس فحص [_assurances] تمامًا.
+  List<String> _oversizedNames(
+      List<PlanItem> items, Map<String, CatalogProduct> byId) {
+    final r = project.room;
+    if (r.widthM <= 0 || r.lengthM <= 0) return const [];
+    final rw = r.widthM * 100, rl = r.lengthM * 100;
+    final out = <String>[];
+    for (final it in items) {
+      final p = it.item.productId == null ? null : byId[it.item.productId];
+      if (p == null) continue;
+      final ok = (p.widthCm <= rw && p.depthCm <= rl) ||
+          (p.depthCm <= rw && p.widthCm <= rl);
+      if (!ok) out.add(p.title);
+    }
+    return out;
+  }
+
+  List<String> _unavailableNames(
+      List<PlanItem> items, Map<String, CatalogProduct> byId) {
+    final out = <String>[];
+    for (final it in items) {
+      final p = it.item.productId == null ? null : byId[it.item.productId];
+      if (p != null && !p.isAvailable) out.add(p.title);
+    }
+    return out;
   }
 
   /// Transparent confidence — the sum of what is actually true about the plan,
