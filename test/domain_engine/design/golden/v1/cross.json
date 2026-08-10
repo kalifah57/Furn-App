@@ -1,0 +1,524 @@
+[
+ {
+  "id": "crs-01",
+  "category": "cross",
+  "rule": "X1",
+  "room": {
+   "type": "living_room",
+   "width_m": 4,
+   "length_m": 5
+  },
+  "pieces": [
+   {
+    "category": "sofa",
+    "style": [
+     "minimal"
+    ],
+    "colors": [
+     "red"
+    ],
+    "materials": [
+     "fabric"
+    ],
+    "width_cm": 210,
+    "depth_cm": 90,
+    "height_cm": 80,
+    "subcategory": "sofa"
+   },
+   {
+    "category": "table",
+    "style": [
+     "minimal"
+    ],
+    "colors": [
+     "gold"
+    ],
+    "materials": [
+     "metal"
+    ],
+    "width_cm": 90,
+    "depth_cm": 50,
+    "height_cm": 45,
+    "subcategory": "coffee_table"
+   }
+  ],
+  "expected": {
+   "verdict": "dissonant",
+   "band": "medium"
+  },
+  "reason_ar": "مينيمال بألوان صائحة لم يعد مينيمال — القطع تناقض الستايل الذي طُلب.",
+  "authority": "مطابقة التشبّع للستايل — X1"
+ },
+ {
+  "id": "crs-02",
+  "category": "cross",
+  "rule": "X1",
+  "room": {
+   "type": "living_room",
+   "width_m": 4,
+   "length_m": 5
+  },
+  "pieces": [
+   {
+    "category": "sofa",
+    "style": [
+     "boho"
+    ],
+    "colors": [
+     "red"
+    ],
+    "materials": [
+     "fabric"
+    ],
+    "width_cm": 210,
+    "depth_cm": 90,
+    "height_cm": 80,
+    "subcategory": "sofa"
+   },
+   {
+    "category": "rug",
+    "style": [
+     "boho"
+    ],
+    "colors": [
+     "gold"
+    ],
+    "materials": [
+     "wool"
+    ],
+    "width_cm": 200,
+    "depth_cm": 300,
+    "height_cm": 1,
+    "subcategory": "area_rug"
+   },
+   {
+    "category": "storage",
+    "style": [
+     "boho"
+    ],
+    "colors": [
+     "brown"
+    ],
+    "materials": [
+     "wood"
+    ],
+    "width_cm": 90,
+    "depth_cm": 40,
+    "height_cm": 150,
+    "subcategory": "bookshelf",
+    "wood_tone": "medium"
+   }
+  ],
+  "expected": {
+   "verdict": "harmonious",
+   "band": "high"
+  },
+  "reason_ar": "البوهو يحتمل التشبّع العالي فالألوان الجريئة توافق طابعه لا تناقضه.",
+  "authority": "مطابقة التشبّع للستايل — X1"
+ },
+ {
+  "id": "crs-03",
+  "category": "cross",
+  "rule": "X2",
+  "room": {
+   "type": "living_room",
+   "width_m": 4,
+   "length_m": 5
+  },
+  "pieces": [
+   {
+    "category": "sofa",
+    "style": [
+     "classic"
+    ],
+    "colors": [
+     "beige"
+    ],
+    "materials": [
+     "fabric"
+    ],
+    "width_cm": 150,
+    "depth_cm": 80,
+    "height_cm": 70,
+    "subcategory": "loveseat"
+   },
+   {
+    "category": "table",
+    "style": [
+     "classic"
+    ],
+    "colors": [
+     "gold"
+    ],
+    "materials": [
+     "metal",
+     "glass"
+    ],
+    "width_cm": 70,
+    "depth_cm": 70,
+    "height_cm": 40,
+    "subcategory": "side_table"
+   }
+  ],
+  "expected": {
+   "verdict": "dissonant",
+   "band": "medium"
+  },
+  "reason_ar": "كلاسيك بقطع خفيفة نحيلة يبدو مؤقّتًا يفتقد حضوره المعتاد.",
+  "authority": "مطابقة الكتلة للستايل — X2"
+ },
+ {
+  "id": "crs-04",
+  "category": "cross",
+  "rule": "X2",
+  "room": {
+   "type": "living_room",
+   "width_m": 4,
+   "length_m": 5
+  },
+  "pieces": [
+   {
+    "category": "sofa",
+    "style": [
+     "classic"
+    ],
+    "colors": [
+     "brown"
+    ],
+    "materials": [
+     "wood",
+     "fabric"
+    ],
+    "width_cm": 240,
+    "depth_cm": 100,
+    "height_cm": 95,
+    "subcategory": "sofa"
+   },
+   {
+    "category": "storage",
+    "style": [
+     "classic"
+    ],
+    "colors": [
+     "gold"
+    ],
+    "materials": [
+     "wood",
+     "metal"
+    ],
+    "width_cm": 120,
+    "depth_cm": 55,
+    "height_cm": 180,
+    "subcategory": "cabinet",
+    "wood_tone": "dark"
+   }
+  ],
+  "expected": {
+   "verdict": "harmonious",
+   "band": "high"
+  },
+  "reason_ar": "الكلاسيك بقطع ثقيلة حاضرة يوافق كتلته العالية فيقرأ راسخًا.",
+  "authority": "مطابقة الكتلة للستايل — X2"
+ },
+ {
+  "id": "crs-05",
+  "category": "cross",
+  "rule": "X3",
+  "room": {
+   "type": "living_room",
+   "width_m": 4,
+   "length_m": 5
+  },
+  "pieces": [
+   {
+    "category": "sofa",
+    "style": [
+     "modern"
+    ],
+    "colors": [
+     "gray_warm"
+    ],
+    "materials": [
+     "fabric"
+    ],
+    "width_cm": 210,
+    "depth_cm": 90,
+    "height_cm": 85,
+    "subcategory": "sofa"
+   },
+   {
+    "category": "table",
+    "style": [
+     "boho"
+    ],
+    "colors": [
+     "red"
+    ],
+    "materials": [
+     "wood"
+    ],
+    "width_cm": 110,
+    "depth_cm": 60,
+    "height_cm": 45,
+    "subcategory": "coffee_table",
+    "wood_tone": "medium"
+   }
+  ],
+  "expected": {
+   "verdict": "harmonious",
+   "band": "medium"
+  },
+  "reason_ar": "المودرن والبوهو متقاربان (٦٥) فالخلط يبقى ضمن لهجة واحدة.",
+  "authority": "X3"
+ },
+ {
+  "id": "crs-06",
+  "category": "cross",
+  "rule": "X3",
+  "room": {
+   "type": "living_room",
+   "width_m": 4,
+   "length_m": 5
+  },
+  "pieces": [
+   {
+    "category": "sofa",
+    "style": [
+     "minimal"
+    ],
+    "colors": [
+     "white"
+    ],
+    "materials": [
+     "fabric"
+    ],
+    "width_cm": 210,
+    "depth_cm": 90,
+    "height_cm": 80,
+    "subcategory": "sofa"
+   },
+   {
+    "category": "table",
+    "style": [
+     "minimal"
+    ],
+    "colors": [
+     "white"
+    ],
+    "materials": [
+     "wood"
+    ],
+    "width_cm": 110,
+    "depth_cm": 60,
+    "height_cm": 45,
+    "subcategory": "coffee_table",
+    "wood_tone": "light"
+   },
+   {
+    "category": "storage",
+    "style": [
+     "classic"
+    ],
+    "colors": [
+     "gold"
+    ],
+    "materials": [
+     "metal"
+    ],
+    "width_cm": 100,
+    "depth_cm": 50,
+    "height_cm": 180,
+    "subcategory": "cabinet"
+   },
+   {
+    "category": "lamp",
+    "style": [
+     "boho"
+    ],
+    "colors": [
+     "red"
+    ],
+    "materials": [
+     "fabric"
+    ],
+    "width_cm": 40,
+    "depth_cm": 40,
+    "height_cm": 150,
+    "subcategory": "floor_lamp"
+   }
+  ],
+  "expected": {
+   "verdict": "dissonant",
+   "band": "low"
+  },
+  "reason_ar": "ستايلان غريبان (كلاسيك وبوهو) وسط مينيمال فوضى لا لهجة.",
+  "authority": "X3 — ستايل غريب واحد لكنة لا اثنان"
+ },
+ {
+  "id": "crs-07",
+  "category": "cross",
+  "rule": "X1",
+  "room": {
+   "type": "guest_room",
+   "width_m": 4,
+   "length_m": 6
+  },
+  "pieces": [
+   {
+    "category": "sofa",
+    "style": [
+     "majlis"
+    ],
+    "colors": [
+     "red"
+    ],
+    "materials": [
+     "fabric"
+    ],
+    "width_cm": 240,
+    "depth_cm": 80,
+    "height_cm": 40,
+    "subcategory": "floor_seating"
+   },
+   {
+    "category": "table",
+    "style": [
+     "majlis"
+    ],
+    "colors": [
+     "gold"
+    ],
+    "materials": [
+     "metal"
+    ],
+    "width_cm": 90,
+    "depth_cm": 90,
+    "height_cm": 40,
+    "subcategory": "coffee_table"
+   },
+   {
+    "category": "rug",
+    "style": [
+     "majlis"
+    ],
+    "colors": [
+     "red"
+    ],
+    "materials": [
+     "wool"
+    ],
+    "width_cm": 250,
+    "depth_cm": 350,
+    "height_cm": 1,
+    "subcategory": "area_rug"
+   }
+  ],
+  "expected": {
+   "verdict": "harmonious",
+   "band": "high"
+  },
+  "reason_ar": "المجلس يحتمل التشبّع العالي (أحمر وذهبي) فالجرأة توافق طابعه الاحتفائي.",
+  "authority": "مطابقة التشبّع للستايل — X1"
+ },
+ {
+  "id": "crs-08",
+  "category": "cross",
+  "rule": "X2",
+  "room": {
+   "type": "guest_room",
+   "width_m": 4,
+   "length_m": 6
+  },
+  "pieces": [
+   {
+    "category": "sofa",
+    "style": [
+     "majlis"
+    ],
+    "colors": [
+     "red"
+    ],
+    "materials": [
+     "fabric"
+    ],
+    "width_cm": 240,
+    "depth_cm": 80,
+    "height_cm": 40,
+    "subcategory": "floor_seating"
+   },
+   {
+    "category": "sofa",
+    "style": [
+     "majlis"
+    ],
+    "colors": [
+     "gold"
+    ],
+    "materials": [
+     "fabric"
+    ],
+    "width_cm": 80,
+    "depth_cm": 80,
+    "height_cm": 90,
+    "subcategory": "armchair"
+   }
+  ],
+  "expected": {
+   "verdict": "dissonant",
+   "band": "medium"
+  },
+  "reason_ar": "كرسي مرتفع منفرد وسط جلسة أرضية يكسر خطّ المجلس الأفقي المنخفض.",
+  "authority": "مطابقة الكتلة/الخطّ (عُرف المجلس) — X2"
+ },
+ {
+  "id": "crs-09",
+  "category": "cross",
+  "rule": "X3",
+  "room": {
+   "type": "guest_room",
+   "width_m": 4,
+   "length_m": 6
+  },
+  "pieces": [
+   {
+    "category": "sofa",
+    "style": [
+     "majlis"
+    ],
+    "colors": [
+     "red"
+    ],
+    "materials": [
+     "fabric"
+    ],
+    "width_cm": 210,
+    "depth_cm": 90,
+    "height_cm": 85,
+    "subcategory": "sofa"
+   },
+   {
+    "category": "table",
+    "style": [
+     "classic"
+    ],
+    "colors": [
+     "gold"
+    ],
+    "materials": [
+     "wood"
+    ],
+    "width_cm": 110,
+    "depth_cm": 60,
+    "height_cm": 45,
+    "subcategory": "coffee_table",
+    "wood_tone": "medium"
+   }
+  ],
+  "expected": {
+   "verdict": "harmonious",
+   "band": "high"
+  },
+  "reason_ar": "المجلس والكلاسيك متقاربان (٨٠) فيقرأ الفضاء رسميًّا مضيافًا متماسكًا.",
+  "authority": "X3"
+ }
+]
