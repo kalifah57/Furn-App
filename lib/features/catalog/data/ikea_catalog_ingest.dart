@@ -20,6 +20,11 @@ enum DropReason {
 
   /// الأبعاد أصغر من أن تكون هذه الفئة (أرضية الفئة) — قياس نظافة، لا حجم أثاث.
   belowCategoryFloor,
+
+  /// `id` مكرّر — رأيناه في سجلّ سابق. المصدر مسحٌ لموقع حيّ وقد يعيد السجلّ
+  /// نفسه؛ إبقاء الاثنين يُنتج `productId` مكرّرًا يخلط المحرّك (byId يُبقي الأخير
+  /// والقوائم تعدّه مرّتين). نُبقي الأوّل.
+  duplicateId,
 }
 
 /// نتيجة الابتلاع: ما بقي، ما سقط ولماذا، وتحذيرات لا تُسقط لكنها تستحق النظر.
@@ -102,6 +107,7 @@ class IkeaCatalogIngest {
     final products = <CatalogProduct>[];
     final dropped = <String, DropReason>{};
     final warnings = <String>[];
+    final seen = <String>{}; // معرّفات المنتجات المُبقاة — لمنع التكرار
 
     for (var i = 0; i < records.length; i++) {
       final raw = records[i];
@@ -116,6 +122,13 @@ class IkeaCatalogIngest {
       final reason = _validate(m);
       if (reason != null) {
         dropped[key] = reason;
+        continue;
+      }
+
+      // بعد اجتياز التحقّق فقط: id غير فارغ (emptyId يُسقط أعلاه). أوّل ظهور
+      // يُبقى، والمكرّر يُسقط بمفتاح فريد كي لا تتضخّم مجموعة أو تُبتلع في byId.
+      if (!seen.add(id)) {
+        dropped['$id (تكرار #$i)'] = DropReason.duplicateId;
         continue;
       }
 

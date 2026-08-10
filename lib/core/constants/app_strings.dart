@@ -51,7 +51,6 @@ class AppStrings {
   static const followUpHint = 'بعض البيانات ناقصة — أجب لتحسين النتائج';
   static const continueBtn = 'متابعة';
   static const skip = 'تخطٍّ';
-  static const viewRecommendations = 'عرض التوصيات';
   static const missingInfo = 'بيانات ناقصة';
   static const warnings = 'تنبيهات';
   // مقياس الـAI هو **وضوح الفهم** (كم فهم الطلب)، لا ثقة الخطة. «الثقة» محجوزة

@@ -133,6 +133,18 @@ void main() {
       expect(res.dropHistogram[DropReason.notObject], 2);
     });
 
+    test('a duplicate id keeps the first and drops the rest', () {
+      // The source scrapes a live site and can repeat a record ("×2");
+      // duplicate productIds would collapse in the engine's byId map.
+      final res = ingest.run([
+        record(id: 'dup'),
+        record(id: 'dup'),
+        record(id: 'unique'),
+      ]);
+      expect(res.products.map((p) => p.productId), ['dup', 'unique']);
+      expect(res.dropHistogram[DropReason.duplicateId], 1);
+    });
+
     test('the histogram counts every drop reason', () {
       final res = ingest.run([
         record(id: 'a', price: null),
