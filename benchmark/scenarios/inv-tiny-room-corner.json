@@ -1,0 +1,55 @@
+{
+  "id": "inv-tiny-room-corner",
+  "tier": "invariant",
+  "title": "غرفة صغيرة جدًا — لا قطعة أكبر من المساحة",
+  "source": "synthetic",
+  "input": {
+    "room": {
+      "width_m": 2,
+      "length_m": 2.5,
+      "room_type": "living_room"
+    },
+    "budget": {
+      "currency": "SAR",
+      "max_total": 3000,
+      "flexible": false
+    },
+    "style": {
+      "preferred": [
+        "modern"
+      ]
+    },
+    "items": {
+      "essential": [
+        {
+          "type": "كنب"
+        }
+      ],
+      "optional": []
+    }
+  },
+  "expected_constraints": [
+    {
+      "type": "in_stock"
+    },
+    {
+      "type": "fits_room"
+    },
+    {
+      "type": "within_total_budget"
+    },
+    {
+      "type": "covers_category",
+      "category": "sofa"
+    },
+    {
+      "type": "excludes_product",
+      "product_id": "sofa_corner_l"
+    }
+  ],
+  "acceptance_criteria": {
+    "machine": [],
+    "human": [],
+    "pass_threshold": 1.0
+  }
+}

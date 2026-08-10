@@ -1,0 +1,58 @@
+{
+  "id": "inv-missing-dimensions",
+  "tier": "invariant",
+  "title": "أبعاد مفقودة — لا تنهار التوصية",
+  "source": "synthetic",
+  "input": {
+    "room": {
+      "width_m": 0,
+      "length_m": 0,
+      "room_type": "bedroom"
+    },
+    "budget": {
+      "currency": "SAR",
+      "max_total": 2000,
+      "flexible": false
+    },
+    "style": {
+      "preferred": [
+        "modern"
+      ]
+    },
+    "items": {
+      "essential": [
+        {
+          "type": "سرير"
+        },
+        {
+          "type": "تخزين"
+        }
+      ],
+      "optional": []
+    }
+  },
+  "expected_constraints": [
+    {
+      "type": "in_stock"
+    },
+    {
+      "type": "fits_room"
+    },
+    {
+      "type": "within_total_budget"
+    },
+    {
+      "type": "covers_category",
+      "category": "bed"
+    },
+    {
+      "type": "covers_category",
+      "category": "storage"
+    }
+  ],
+  "acceptance_criteria": {
+    "machine": [],
+    "human": [],
+    "pass_threshold": 1.0
+  }
+}

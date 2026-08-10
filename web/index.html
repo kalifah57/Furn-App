@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<!--
+  IMPORTANT: the host <html> is intentionally LTR (no dir="rtl").
+  Flutter renders the app right-to-left on its own via MaterialApp's Arabic
+  locale / Directionality. Putting dir="rtl" on the host document anchors
+  Flutter's view to the right edge and offsets pointer coordinates, which
+  showed up on mobile as "layout shifted off the left / tap lands in the
+  middle." Keep lang="ar" for the page language; keep the document LTR.
+-->
+<html lang="ar">
+<head>
+  <base href="$FLUTTER_BASE_HREF">
+  <meta charset="UTF-8">
+  <meta content="IE=Edge" http-equiv="X-UA-Compatible">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <meta name="description" content="مستشار تأثيث ذكي عربي-أولًا — خطة تأثيث تثق بها.">
+
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <meta name="apple-mobile-web-app-title" content="التأثيث الذكي">
+
+  <title>التأثيث الذكي</title>
+  <link rel="manifest" href="manifest.json">
+  <style>
+    /* Zero out the browser's default body margin and lock the viewport so
+       the Flutter canvas fills the screen exactly with no scroll offset. */
+    html, body {
+      margin: 0;
+      padding: 0;
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      background-color: #F5EFE6;
+    }
+  </style>
+</head>
+<body>
+  <script src="flutter_bootstrap.js" async></script>
+</body>
+</html>

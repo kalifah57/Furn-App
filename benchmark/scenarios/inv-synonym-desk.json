@@ -1,0 +1,58 @@
+{
+  "id": "inv-synonym-desk",
+  "tier": "invariant",
+  "title": "مرادف عربي: مكتب → طاولة",
+  "source": "synthetic",
+  "input": {
+    "room": {
+      "width_m": 3.5,
+      "length_m": 4,
+      "room_type": "bedroom"
+    },
+    "budget": {
+      "currency": "SAR",
+      "max_total": 2500,
+      "flexible": false
+    },
+    "style": {
+      "preferred": [
+        "modern"
+      ]
+    },
+    "items": {
+      "essential": [
+        {
+          "type": "سرير"
+        },
+        {
+          "type": "مكتب"
+        }
+      ],
+      "optional": []
+    }
+  },
+  "expected_constraints": [
+    {
+      "type": "in_stock"
+    },
+    {
+      "type": "fits_room"
+    },
+    {
+      "type": "within_total_budget"
+    },
+    {
+      "type": "covers_category",
+      "category": "bed"
+    },
+    {
+      "type": "covers_category",
+      "category": "table"
+    }
+  ],
+  "acceptance_criteria": {
+    "machine": [],
+    "human": [],
+    "pass_threshold": 1.0
+  }
+}

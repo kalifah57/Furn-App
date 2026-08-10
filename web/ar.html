@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html dir="rtl" lang="ar">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <title>شاهدها في غرفتك — الواقع المعزّز</title>
+
+  <!--
+    Standalone Augmented-Reality view hosted OUTSIDE the Flutter canvas so it
+    never fights the renderer. The Flutter app opens it with query params:
+      ar.html?glb=<GLB_URL>&usdz=<USDZ_URL>&title=<NAME>&w=<cm>&d=<cm>&h=<cm>&color=<name>
+    With no params it falls back to a labelled DEMO model so the pipeline can be
+    proven end-to-end before real per-product 3D assets exist.
+
+    <model-viewer> gives one element that launches real-size AR:
+      - iOS Safari  -> Quick Look (needs the USDZ in `ios-src`)
+      - Android     -> Scene Viewer / WebXR (uses the GLB in `src`)
+    …with NO app install.
+
+    NOTE (production): this loads @google/model-viewer from a CDN for the P1
+    proof. For a strict CSP, self-host model-viewer.min.js under web/ and point
+    the <script src> at the local copy instead.
+  -->
+  <script type="module"
+    src="https://unpkg.com/@google/model-viewer@3/dist/model-viewer.min.js"></script>
+
+  <style>
+    :root { --brand: #7A5C3E; --ink: #F5EFE6; }
+    * { box-sizing: border-box; }
+    html, body {
+      margin: 0; padding: 0; width: 100%; height: 100%;
+      overflow: hidden; background: #14110E; color: var(--ink);
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Tahoma, sans-serif;
+    }
+    #stage { position: fixed; inset: 0; display: flex; flex-direction: column; }
+
+    .topbar {
+      display: flex; align-items: center; gap: 12px;
+      padding: env(safe-area-inset-top, 8px) 16px 8px;
+      background: linear-gradient(180deg, rgba(0,0,0,.55), rgba(0,0,0,0));
+      position: absolute; inset-inline: 0; top: 0; z-index: 5;
+    }
+    .topbar a.back {
+      color: var(--ink); text-decoration: none; font-size: 22px;
+      width: 40px; height: 40px; display: grid; place-items: center;
+      border-radius: 50%; background: rgba(0,0,0,.35);
+    }
+    .topbar .title { font-weight: 700; font-size: 17px; }
+
+    model-viewer {
+      flex: 1; width: 100%; height: 100%;
+      background: radial-gradient(120% 120% at 50% 20%, #2A2521 0%, #14110E 70%);
+      --poster-color: transparent;
+    }
+
+    .progress-shell {
+      position: absolute; top: 0; inset-inline: 0; height: 3px;
+      background: rgba(245,239,230,.12); z-index: 7;
+    }
+    .progress-fill {
+      height: 100%; width: 0%; background: var(--brand);
+      transition: width .2s ease;
+    }
+    .progress-shell.hide { opacity: 0; transition: opacity .5s ease .2s; }
+
+    /* Prominent, custom AR button (model-viewer shows it only when AR is usable) */
+    .ar-btn {
+      position: absolute; inset-inline: 0; bottom: 0; z-index: 6;
+      display: flex; justify-content: center;
+      padding: 16px 16px calc(16px + env(safe-area-inset-bottom, 0px));
+      pointer-events: none;
+    }
+    .ar-btn button {
+      pointer-events: auto;
+      border: 0; border-radius: 999px; cursor: pointer;
+      background: var(--brand); color: #fff;
+      font-size: 17px; font-weight: 700; font-family: inherit;
+      padding: 15px 28px; display: inline-flex; align-items: center; gap: 10px;
+      box-shadow: 0 10px 28px rgba(0,0,0,.45);
+    }
+    .ar-btn button:active { transform: translateY(1px); }
+
+    .meta {
+      position: absolute; inset-inline: 0; z-index: 5;
+      bottom: calc(90px + env(safe-area-inset-bottom, 0px));
+      display: flex; flex-wrap: wrap; gap: 8px; justify-content: center;
+      padding: 0 16px; pointer-events: none;
+    }
+    .meta .pill {
+      background: rgba(0,0,0,.5); border: 1px solid rgba(245,239,230,.18);
+      border-radius: 999px; padding: 6px 12px; font-size: 13px;
+    }
+    .demo-badge {
+      position: absolute; z-index: 5; top: 64px; inset-inline: 0;
+      display: flex; justify-content: center; pointer-events: none;
+    }
+    .demo-badge span {
+      background: rgba(122,92,62,.9); color: #fff; font-size: 12px;
+      padding: 5px 12px; border-radius: 999px;
+    }
+    .hint {
+      position: absolute; z-index: 5; inset-inline: 0;
+      top: 50%; text-align: center; padding: 0 24px;
+      color: rgba(245,239,230,.7); font-size: 14px; pointer-events: none;
+      transform: translateY(-50%);
+    }
+    #err {
+      position: fixed; inset: 0; z-index: 20; display: none;
+      align-items: center; justify-content: center; text-align: center;
+      padding: 32px; background: #14110E;
+    }
+  </style>
+</head>
+<body>
+  <div id="stage">
+    <div class="topbar">
+      <a class="back" href="javascript:history.length>1?history.back():window.close()" aria-label="رجوع">&#8594;</a>
+      <div class="title" id="title">شاهدها في غرفتك</div>
+    </div>
+
+    <div class="demo-badge" id="demoBadge" style="display:none">
+      <span>نموذج بمقاسه الحقيقي — عرض توضيحي</span>
+    </div>
+
+    <model-viewer id="mv"
+      camera-controls
+      auto-rotate
+      auto-rotate-delay="2500"
+      rotation-per-second="18deg"
+      interaction-prompt="none"
+      loading="eager"
+      reveal="auto"
+      shadow-intensity="1"
+      shadow-softness="1"
+      tone-mapping="neutral"
+      ar
+      ar-modes="webxr scene-viewer quick-look"
+      ar-scale="fixed"
+      ar-placement="floor"
+      environment-image="neutral"
+      exposure="1.05"
+      min-field-of-view="18deg"
+      alt="معاينة ثلاثية الأبعاد">
+      <div class="progress-shell" slot="progress-bar">
+        <div class="progress-fill" id="progressFill"></div>
+      </div>
+      <div class="ar-btn" slot="ar-button">
+        <button id="arButton">
+          <span aria-hidden="true">&#128241;</span>
+          ضعها في غرفتك الآن
+        </button>
+      </div>
+      <div class="hint" id="hint">حرّك الإصبع لتدوير القطعة — ثم اضغط «ضعها في غرفتك».</div>
+    </model-viewer>
+
+    <div class="meta" id="meta"></div>
+  </div>
+
+  <div id="err">
+    <div>
+      <div style="font-size:40px">&#9888;&#65039;</div>
+      <p style="font-weight:700;font-size:18px">تعذّر عرض النموذج ثلاثي الأبعاد</p>
+      <p style="opacity:.7;font-size:14px">تأكد من الاتصال بالإنترنت، أو افتح الرابط في متصفح الهاتف (Safari / Chrome).</p>
+    </div>
+  </div>
+
+  <script>
+    (function () {
+      // Default model = a REAL, to-scale coffee table generated in-repo
+      // (tools/generate_furniture_glb.py), served from this same deployment.
+      // No USDZ needed: iOS Safari auto-converts the GLB for Quick Look.
+      var DEMO_GLB  = "models/coffee_table_walnut.glb";
+      var DEMO_USDZ = "";
+
+      var q = new URLSearchParams(location.search);
+      var glb   = q.get("glb")   || "";
+      var usdz  = q.get("usdz")  || "";
+      var title = q.get("title") || "";
+      var w = q.get("w"), d = q.get("d"), h = q.get("h"), color = q.get("color");
+
+      var isDemo = !glb;
+      if (isDemo) {
+        glb = DEMO_GLB; usdz = usdz || DEMO_USDZ;
+        if (!title) title = "طاولة قهوة خشبية";
+        if (!w) { w = "110"; d = "60"; h = "45"; }
+        if (!color) color = "جوزي";
+      }
+
+      var mv = document.getElementById("mv");
+      mv.setAttribute("src", glb);
+      if (usdz) mv.setAttribute("ios-src", usdz);
+      if (title) {
+        document.getElementById("title").textContent = title;
+        mv.setAttribute("alt", title);
+      }
+      document.getElementById("demoBadge").style.display = isDemo ? "flex" : "none";
+
+      // "with the size / with the color" — show the real specs as pills.
+      var meta = document.getElementById("meta");
+      function pill(t) { var s = document.createElement("div"); s.className = "pill"; s.textContent = t; meta.appendChild(s); }
+      if (w && d && h) pill("المقاس: " + w + "×" + d + "×" + h + " سم");
+      if (color) pill("اللون: " + color);
+
+      // Load progress bar.
+      var fill = document.getElementById("progressFill");
+      var shell = fill.parentElement;
+      mv.addEventListener("progress", function (e) {
+        var p = Math.round((e.detail.totalProgress || 0) * 100);
+        fill.style.width = p + "%";
+        if (p >= 100) shell.classList.add("hide");
+      });
+
+      // Hide the rotate hint once the user interacts.
+      var hint = document.getElementById("hint");
+      mv.addEventListener("camera-change", function () { if (hint) hint.style.display = "none"; }, { once: true });
+
+      // If AR isn't available on this device, keep the interactive 3D view and
+      // tell the user why the placement button didn't appear.
+      mv.addEventListener("ar-status", function (e) {
+        if (e.detail.status === "failed" && hint) {
+          hint.textContent = "هذا الجهاز لا يدعم وضع القطعة في الغرفة — لكن يمكنك تدويرها ومعاينتها بالكامل.";
+          hint.style.display = "block";
+        }
+      });
+
+      mv.addEventListener("error", function () {
+        document.getElementById("err").style.display = "flex";
+      });
+    })();
+  </script>
+</body>
+</html>

@@ -1,0 +1,1594 @@
+[
+  {
+    "product_id": "bed_single_wood_s",
+    "title": "سرير مفرد خشبي صغير",
+    "category": "bed",
+    "subcategory": "single_bed",
+    "style_tags": [
+      "modern",
+      "wood"
+    ],
+    "color_tags": [
+      "brown",
+      "beige"
+    ],
+    "material_tags": [
+      "wood"
+    ],
+    "width_cm": 90,
+    "depth_cm": 200,
+    "height_cm": 100,
+    "price": 450,
+    "currency": "SAR",
+    "brand": "بيت الراحة",
+    "supplier": "mock",
+    "availability_status": "in_stock",
+    "rating_optional": 4.2,
+    "room_suitability_tags": [
+      "bedroom",
+      "guest_room"
+    ],
+    "image_url": "",
+    "product_url": "",
+    "model_glb_url": "models/glb/bed_single_wood_s.glb",
+    "model_usdz_url": "",
+    "ar_ready": true
+  },
+  {
+    "product_id": "bed_double_simple",
+    "title": "سرير مزدوج بسيط",
+    "category": "bed",
+    "subcategory": "double_bed",
+    "style_tags": [
+      "modern",
+      "minimal"
+    ],
+    "color_tags": [
+      "gray",
+      "white"
+    ],
+    "material_tags": [
+      "wood",
+      "fabric"
+    ],
+    "width_cm": 140,
+    "depth_cm": 200,
+    "height_cm": 100,
+    "price": 780,
+    "currency": "SAR",
+    "brand": "بيت الراحة",
+    "supplier": "mock",
+    "availability_status": "in_stock",
+    "rating_optional": 4.4,
+    "room_suitability_tags": [
+      "bedroom"
+    ],
+    "image_url": "",
+    "product_url": "",
+    "model_glb_url": "models/glb/bed_double_simple.glb",
+    "model_usdz_url": "",
+    "ar_ready": true
+  },
+  {
+    "product_id": "bed_queen_premium",
+    "title": "سرير كوين فاخر بمساند",
+    "category": "bed",
+    "subcategory": "queen_bed",
+    "style_tags": [
+      "classic"
+    ],
+    "color_tags": [
+      "beige"
+    ],
+    "material_tags": [
+      "wood",
+      "leather"
+    ],
+    "width_cm": 160,
+    "depth_cm": 210,
+    "height_cm": 115,
+    "price": 1250,
+    "currency": "SAR",
+    "brand": "لمسة",
+    "supplier": "mock",
+    "availability_status": "in_stock",
+    "rating_optional": 4.8,
+    "room_suitability_tags": [
+      "bedroom"
+    ],
+    "image_url": "",
+    "product_url": "",
+    "model_glb_url": "models/glb/bed_queen_premium.glb",
+    "model_usdz_url": "",
+    "ar_ready": true
+  },
+  {
+    "product_id": "bed_single_econo",
+    "title": "سرير مفرد اقتصادي",
+    "category": "bed",
+    "subcategory": "single_bed",
+    "style_tags": [
+      "minimal"
+    ],
+    "color_tags": [
+      "white"
+    ],
+    "material_tags": [
+      "metal"
+    ],
+    "width_cm": 90,
+    "depth_cm": 190,
+    "height_cm": 90,
+    "price": 320,
+    "currency": "SAR",
+    "brand": "وفّر",
+    "supplier": "mock",
+    "availability_status": "in_stock",
+    "rating_optional": 3.9,
+    "room_suitability_tags": [
+      "bedroom",
+      "guest_room"
+    ],
+    "image_url": "",
+    "product_url": "",
+    "model_glb_url": "models/glb/bed_single_econo.glb",
+    "model_usdz_url": "",
+    "ar_ready": true
+  },
+  {
+    "product_id": "sofa_two_seat_s",
+    "title": "كنب صغير مقعدين",
+    "category": "sofa",
+    "subcategory": "loveseat",
+    "style_tags": [
+      "modern"
+    ],
+    "color_tags": [
+      "gray"
+    ],
+    "material_tags": [
+      "fabric"
+    ],
+    "width_cm": 120,
+    "depth_cm": 70,
+    "height_cm": 80,
+    "price": 520,
+    "currency": "SAR",
+    "brand": "أثاثي",
+    "supplier": "mock",
+    "availability_status": "in_stock",
+    "rating_optional": 4.1,
+    "room_suitability_tags": [
+      "bedroom",
+      "living_room",
+      "guest_room"
+    ],
+    "image_url": "",
+    "product_url": "",
+    "model_glb_url": "models/glb/sofa_two_seat_s.glb",
+    "model_usdz_url": "",
+    "ar_ready": true
+  },
+  {
+    "product_id": "armchair_comfort",
+    "title": "كرسي مفرد مريح",
+    "category": "sofa",
+    "subcategory": "armchair",
+    "style_tags": [
+      "minimal"
+    ],
+    "color_tags": [
+      "beige"
+    ],
+    "material_tags": [
+      "fabric"
+    ],
+    "width_cm": 70,
+    "depth_cm": 75,
+    "height_cm": 90,
+    "price": 290,
+    "currency": "SAR",
+    "brand": "أثاثي",
+    "supplier": "mock",
+    "availability_status": "in_stock",
+    "rating_optional": 4.0,
+    "room_suitability_tags": [
+      "bedroom",
+      "living_room",
+      "guest_room"
+    ],
+    "image_url": "",
+    "product_url": "",
+    "model_glb_url": "models/glb/armchair_comfort.glb",
+    "model_usdz_url": "",
+    "ar_ready": true
+  },
+  {
+    "product_id": "sofa_corner_l",
+    "title": "كنب زاوية كبير",
+    "category": "sofa",
+    "subcategory": "sectional",
+    "style_tags": [
+      "modern"
+    ],
+    "color_tags": [
+      "blue"
+    ],
+    "material_tags": [
+      "fabric"
+    ],
+    "width_cm": 260,
+    "depth_cm": 160,
+    "height_cm": 85,
+    "price": 1900,
+    "currency": "SAR",
+    "brand": "لمسة",
+    "supplier": "mock",
+    "availability_status": "in_stock",
+    "rating_optional": 4.7,
+    "room_suitability_tags": [
+      "living_room"
+    ],
+    "image_url": "",
+    "product_url": "",
+    "model_glb_url": "models/glb/sofa_corner_l.glb",
+    "model_usdz_url": "",
+    "ar_ready": true
+  },
+  {
+    "product_id": "sofa_fabric_gray",
+    "title": "كنبة قماش رمادية ثلاثية",
+    "category": "sofa",
+    "subcategory": "sofa",
+    "style_tags": [
+      "modern"
+    ],
+    "color_tags": [
+      "gray"
+    ],
+    "material_tags": [
+      "fabric"
+    ],
+    "width_cm": 190,
+    "depth_cm": 85,
+    "height_cm": 85,
+    "price": 990,
+    "currency": "SAR",
+    "brand": "أثاثي",
+    "supplier": "mock",
+    "availability_status": "in_stock",
+    "rating_optional": 4.3,
+    "room_suitability_tags": [
+      "living_room",
+      "guest_room"
+    ],
+    "image_url": "",
+    "product_url": "",
+    "model_glb_url": "models/glb/sofa_fabric_gray.glb",
+    "model_usdz_url": "",
+    "ar_ready": true
+  },
+  {
+    "product_id": "wardrobe_small",
+    "title": "خزانة ملابس صغيرة",
+    "category": "storage",
+    "subcategory": "wardrobe",
+    "style_tags": [
+      "modern",
+      "minimal"
+    ],
+    "color_tags": [
+      "white"
+    ],
+    "material_tags": [
+      "wood"
+    ],
+    "width_cm": 80,
+    "depth_cm": 50,
+    "height_cm": 180,
+    "price": 540,
+    "currency": "SAR",
+    "brand": "بيت الراحة",
+    "supplier": "mock",
+    "availability_status": "in_stock",
+    "rating_optional": 4.0,
+    "room_suitability_tags": [
+      "bedroom",
+      "guest_room"
+    ],
+    "image_url": "",
+    "product_url": "",
+    "model_glb_url": "models/glb/wardrobe_small.glb",
+    "model_usdz_url": "",
+    "ar_ready": true
+  },
+  {
+    "product_id": "wardrobe_two_door",
+    "title": "دولاب بابين",
+    "category": "storage",
+    "subcategory": "wardrobe",
+    "style_tags": [
+      "classic"
+    ],
+    "color_tags": [
+      "brown"
+    ],
+    "material_tags": [
+      "wood"
+    ],
+    "width_cm": 120,
+    "depth_cm": 55,
+    "height_cm": 200,
+    "price": 850,
+    "currency": "SAR",
+    "brand": "لمسة",
+    "supplier": "mock",
+    "availability_status": "in_stock",
+    "rating_optional": 4.5,
+    "room_suitability_tags": [
+      "bedroom"
+    ],
+    "image_url": "",
+    "product_url": "",
+    "model_glb_url": "models/glb/wardrobe_two_door.glb",
+    "model_usdz_url": "",
+    "ar_ready": true
+  },
+  {
+    "product_id": "nightstand_storage",
+    "title": "كومودينو للتخزين",
+    "category": "storage",
+    "subcategory": "nightstand",
+    "style_tags": [
+      "minimal"
+    ],
+    "color_tags": [
+      "white"
+    ],
+    "material_tags": [
+      "wood"
+    ],
+    "width_cm": 45,
+    "depth_cm": 40,
+    "height_cm": 55,
+    "price": 180,
+    "currency": "SAR",
+    "brand": "وفّر",
+    "supplier": "mock",
+    "availability_status": "in_stock",
+    "rating_optional": 3.8,
+    "room_suitability_tags": [
+      "bedroom",
+      "guest_room"
+    ],
+    "image_url": "",
+    "product_url": "",
+    "model_glb_url": "models/glb/nightstand_storage.glb",
+    "model_usdz_url": "",
+    "ar_ready": true
+  },
+  {
+    "product_id": "lamp_floor",
+    "title": "مصباح أرضي عصري",
+    "category": "lamp",
+    "subcategory": "floor_lamp",
+    "style_tags": [
+      "modern"
+    ],
+    "color_tags": [
+      "black"
+    ],
+    "material_tags": [
+      "metal"
+    ],
+    "width_cm": 30,
+    "depth_cm": 30,
+    "height_cm": 150,
+    "price": 160,
+    "currency": "SAR",
+    "brand": "إضاءتي",
+    "supplier": "mock",
+    "availability_status": "in_stock",
+    "rating_optional": 4.1,
+    "room_suitability_tags": [
+      "bedroom",
+      "living_room",
+      "guest_room"
+    ],
+    "image_url": "",
+    "product_url": "",
+    "model_glb_url": "models/glb/lamp_floor.glb",
+    "model_usdz_url": "",
+    "ar_ready": true
+  },
+  {
+    "product_id": "lamp_table",
+    "title": "مصباح طاولة صغير",
+    "category": "lamp",
+    "subcategory": "table_lamp",
+    "style_tags": [
+      "minimal"
+    ],
+    "color_tags": [
+      "white"
+    ],
+    "material_tags": [
+      "ceramic"
+    ],
+    "width_cm": 20,
+    "depth_cm": 20,
+    "height_cm": 45,
+    "price": 90,
+    "currency": "SAR",
+    "brand": "إضاءتي",
+    "supplier": "mock",
+    "availability_status": "in_stock",
+    "rating_optional": 3.9,
+    "room_suitability_tags": [
+      "bedroom",
+      "guest_room"
+    ],
+    "image_url": "",
+    "product_url": "",
+    "model_glb_url": "models/glb/lamp_table.glb",
+    "model_usdz_url": "",
+    "ar_ready": true
+  },
+  {
+    "product_id": "chandelier_classic",
+    "title": "ثريا سقف كلاسيكية",
+    "category": "lamp",
+    "subcategory": "chandelier",
+    "style_tags": [
+      "classic"
+    ],
+    "color_tags": [
+      "gold"
+    ],
+    "material_tags": [
+      "metal",
+      "glass"
+    ],
+    "width_cm": 50,
+    "depth_cm": 50,
+    "height_cm": 40,
+    "price": 350,
+    "currency": "SAR",
+    "brand": "إضاءتي",
+    "supplier": "mock",
+    "availability_status": "in_stock",
+    "rating_optional": 4.4,
+    "room_suitability_tags": [
+      "living_room",
+      "guest_room"
+    ],
+    "image_url": "",
+    "product_url": "",
+    "model_glb_url": "models/glb/chandelier_classic.glb",
+    "model_usdz_url": "",
+    "ar_ready": true
+  },
+  {
+    "product_id": "rug_small_beige",
+    "title": "سجادة صغيرة بيج",
+    "category": "rug",
+    "subcategory": "area_rug",
+    "style_tags": [
+      "modern"
+    ],
+    "color_tags": [
+      "beige"
+    ],
+    "material_tags": [
+      "polyester"
+    ],
+    "width_cm": 120,
+    "depth_cm": 180,
+    "height_cm": 2,
+    "price": 140,
+    "currency": "SAR",
+    "brand": "فرشتي",
+    "supplier": "mock",
+    "availability_status": "in_stock",
+    "rating_optional": 4.0,
+    "room_suitability_tags": [
+      "bedroom",
+      "living_room",
+      "guest_room"
+    ],
+    "image_url": "",
+    "product_url": "",
+    "model_glb_url": "models/glb/rug_small_beige.glb",
+    "model_usdz_url": "",
+    "ar_ready": true
+  },
+  {
+    "product_id": "rug_medium_classic",
+    "title": "سجادة متوسطة كلاسيكية",
+    "category": "rug",
+    "subcategory": "area_rug",
+    "style_tags": [
+      "classic"
+    ],
+    "color_tags": [
+      "red",
+      "gold"
+    ],
+    "material_tags": [
+      "wool"
+    ],
+    "width_cm": 160,
+    "depth_cm": 230,
+    "height_cm": 2,
+    "price": 260,
+    "currency": "SAR",
+    "brand": "فرشتي",
+    "supplier": "mock",
+    "availability_status": "in_stock",
+    "rating_optional": 4.3,
+    "room_suitability_tags": [
+      "living_room",
+      "guest_room"
+    ],
+    "image_url": "",
+    "product_url": "",
+    "model_glb_url": "models/glb/rug_medium_classic.glb",
+    "model_usdz_url": "",
+    "ar_ready": true
+  },
+  {
+    "product_id": "rug_large_modern",
+    "title": "سجادة كبيرة عصرية",
+    "category": "rug",
+    "subcategory": "area_rug",
+    "style_tags": [
+      "modern"
+    ],
+    "color_tags": [
+      "gray"
+    ],
+    "material_tags": [
+      "cotton"
+    ],
+    "width_cm": 200,
+    "depth_cm": 300,
+    "height_cm": 2,
+    "price": 480,
+    "currency": "SAR",
+    "brand": "فرشتي",
+    "supplier": "mock",
+    "availability_status": "in_stock",
+    "rating_optional": 4.5,
+    "room_suitability_tags": [
+      "living_room"
+    ],
+    "image_url": "",
+    "product_url": "",
+    "model_glb_url": "models/glb/rug_large_modern.glb",
+    "model_usdz_url": "",
+    "ar_ready": true
+  },
+  {
+    "product_id": "table_coffee_s",
+    "title": "طاولة قهوة صغيرة",
+    "category": "table",
+    "subcategory": "coffee_table",
+    "style_tags": [
+      "modern"
+    ],
+    "color_tags": [
+      "brown"
+    ],
+    "material_tags": [
+      "wood"
+    ],
+    "width_cm": 80,
+    "depth_cm": 50,
+    "height_cm": 45,
+    "price": 210,
+    "currency": "SAR",
+    "brand": "أثاثي",
+    "supplier": "mock",
+    "availability_status": "in_stock",
+    "rating_optional": 4.0,
+    "room_suitability_tags": [
+      "living_room",
+      "guest_room"
+    ],
+    "image_url": "",
+    "product_url": "",
+    "model_glb_url": "models/glb/table_coffee_s.glb",
+    "model_usdz_url": "",
+    "ar_ready": true
+  },
+  {
+    "product_id": "table_side_min",
+    "title": "طاولة جانبية بسيطة",
+    "category": "table",
+    "subcategory": "side_table",
+    "style_tags": [
+      "minimal"
+    ],
+    "color_tags": [
+      "white"
+    ],
+    "material_tags": [
+      "wood"
+    ],
+    "width_cm": 40,
+    "depth_cm": 40,
+    "height_cm": 50,
+    "price": 120,
+    "currency": "SAR",
+    "brand": "وفّر",
+    "supplier": "mock",
+    "availability_status": "in_stock",
+    "rating_optional": 3.7,
+    "room_suitability_tags": [
+      "bedroom",
+      "living_room",
+      "guest_room"
+    ],
+    "image_url": "",
+    "product_url": "",
+    "model_glb_url": "models/glb/table_side_min.glb",
+    "model_usdz_url": "",
+    "ar_ready": true
+  },
+  {
+    "product_id": "table_dining_s",
+    "title": "طاولة طعام صغيرة",
+    "category": "table",
+    "subcategory": "dining_table",
+    "style_tags": [
+      "classic"
+    ],
+    "color_tags": [
+      "brown"
+    ],
+    "material_tags": [
+      "wood"
+    ],
+    "width_cm": 120,
+    "depth_cm": 70,
+    "height_cm": 75,
+    "price": 640,
+    "currency": "SAR",
+    "brand": "لمسة",
+    "supplier": "mock",
+    "availability_status": "out_of_stock",
+    "rating_optional": 4.2,
+    "room_suitability_tags": [
+      "living_room"
+    ],
+    "image_url": "",
+    "product_url": "",
+    "model_glb_url": "models/glb/table_dining_s.glb",
+    "model_usdz_url": "",
+    "ar_ready": true
+  },
+  {
+    "product_id": "bed_king_uph",
+    "title": "سرير كينج منجّد",
+    "category": "bed",
+    "subcategory": "king_bed",
+    "style_tags": [
+      "modern"
+    ],
+    "color_tags": [
+      "gray"
+    ],
+    "material_tags": [
+      "fabric",
+      "wood"
+    ],
+    "width_cm": 180,
+    "depth_cm": 210,
+    "height_cm": 120,
+    "price": 1850,
+    "currency": "SAR",
+    "brand": "لمسة",
+    "supplier": "mock",
+    "availability_status": "in_stock",
+    "rating_optional": 4.6,
+    "room_suitability_tags": [
+      "bedroom"
+    ],
+    "image_url": "",
+    "product_url": "",
+    "model_glb_url": "models/glb/bed_king_uph.glb",
+    "model_usdz_url": "",
+    "ar_ready": true
+  },
+  {
+    "product_id": "bed_storage_full",
+    "title": "سرير مزدوج بأدراج تخزين",
+    "category": "bed",
+    "subcategory": "double_bed",
+    "style_tags": [
+      "modern",
+      "minimal"
+    ],
+    "color_tags": [
+      "white"
+    ],
+    "material_tags": [
+      "wood"
+    ],
+    "width_cm": 150,
+    "depth_cm": 200,
+    "height_cm": 100,
+    "price": 1100,
+    "currency": "SAR",
+    "brand": "بيت الراحة",
+    "supplier": "mock",
+    "availability_status": "in_stock",
+    "rating_optional": 4.3,
+    "room_suitability_tags": [
+      "bedroom"
+    ],
+    "image_url": "",
+    "product_url": "",
+    "model_glb_url": "models/glb/bed_storage_full.glb",
+    "model_usdz_url": "",
+    "ar_ready": true
+  },
+  {
+    "product_id": "bed_kids_single",
+    "title": "سرير أطفال مفرد",
+    "category": "bed",
+    "subcategory": "single_bed",
+    "style_tags": [
+      "modern"
+    ],
+    "color_tags": [
+      "blue",
+      "white"
+    ],
+    "material_tags": [
+      "wood"
+    ],
+    "width_cm": 90,
+    "depth_cm": 190,
+    "height_cm": 85,
+    "price": 520,
+    "currency": "SAR",
+    "brand": "وفّر",
+    "supplier": "mock",
+    "availability_status": "in_stock",
+    "rating_optional": 4.1,
+    "room_suitability_tags": [
+      "bedroom"
+    ],
+    "image_url": "",
+    "product_url": "",
+    "model_glb_url": "models/glb/bed_kids_single.glb",
+    "model_usdz_url": "",
+    "ar_ready": true
+  },
+  {
+    "product_id": "bed_platform_wood",
+    "title": "سرير أرضي خشبي منخفض",
+    "category": "bed",
+    "subcategory": "double_bed",
+    "style_tags": [
+      "minimal",
+      "wood"
+    ],
+    "color_tags": [
+      "brown"
+    ],
+    "material_tags": [
+      "wood"
+    ],
+    "width_cm": 160,
+    "depth_cm": 200,
+    "height_cm": 35,
+    "price": 980,
+    "currency": "SAR",
+    "brand": "أثاثي",
+    "supplier": "mock",
+    "availability_status": "in_stock",
+    "rating_optional": 4.4,
+    "room_suitability_tags": [
+      "bedroom"
+    ],
+    "image_url": "",
+    "product_url": "",
+    "model_glb_url": "models/glb/bed_platform_wood.glb",
+    "model_usdz_url": "",
+    "ar_ready": true
+  },
+  {
+    "product_id": "sofa_majlis_floor",
+    "title": "جلسة أرضية مجلس (طقم)",
+    "category": "sofa",
+    "subcategory": "floor_seating",
+    "style_tags": [
+      "classic"
+    ],
+    "color_tags": [
+      "red",
+      "gold"
+    ],
+    "material_tags": [
+      "fabric"
+    ],
+    "width_cm": 240,
+    "depth_cm": 80,
+    "height_cm": 40,
+    "price": 1600,
+    "currency": "SAR",
+    "brand": "لمسة",
+    "supplier": "mock",
+    "availability_status": "in_stock",
+    "rating_optional": 4.5,
+    "room_suitability_tags": [
+      "guest_room"
+    ],
+    "image_url": "",
+    "product_url": "",
+    "model_glb_url": "models/glb/sofa_majlis_floor.glb",
+    "model_usdz_url": "",
+    "ar_ready": true
+  },
+  {
+    "product_id": "sofa_recliner",
+    "title": "كرسي استرخاء ريكلاينر",
+    "category": "sofa",
+    "subcategory": "recliner",
+    "style_tags": [
+      "modern"
+    ],
+    "color_tags": [
+      "brown"
+    ],
+    "material_tags": [
+      "leather"
+    ],
+    "width_cm": 90,
+    "depth_cm": 95,
+    "height_cm": 105,
+    "price": 1200,
+    "currency": "SAR",
+    "brand": "أثاثي",
+    "supplier": "mock",
+    "availability_status": "in_stock",
+    "rating_optional": 4.4,
+    "room_suitability_tags": [
+      "living_room"
+    ],
+    "image_url": "",
+    "product_url": "",
+    "model_glb_url": "models/glb/sofa_recliner.glb",
+    "model_usdz_url": "",
+    "ar_ready": true
+  },
+  {
+    "product_id": "sofa_leather_3",
+    "title": "كنبة جلد ثلاثية",
+    "category": "sofa",
+    "subcategory": "sofa",
+    "style_tags": [
+      "classic"
+    ],
+    "color_tags": [
+      "brown"
+    ],
+    "material_tags": [
+      "leather"
+    ],
+    "width_cm": 200,
+    "depth_cm": 90,
+    "height_cm": 90,
+    "price": 2400,
+    "currency": "SAR",
+    "brand": "لمسة",
+    "supplier": "mock",
+    "availability_status": "in_stock",
+    "rating_optional": 4.7,
+    "room_suitability_tags": [
+      "living_room",
+      "guest_room"
+    ],
+    "image_url": "",
+    "product_url": "",
+    "model_glb_url": "models/glb/sofa_leather_3.glb",
+    "model_usdz_url": "",
+    "ar_ready": true
+  },
+  {
+    "product_id": "sofa_loveseat_beige",
+    "title": "كنب مقعدين بيج",
+    "category": "sofa",
+    "subcategory": "loveseat",
+    "style_tags": [
+      "minimal"
+    ],
+    "color_tags": [
+      "beige"
+    ],
+    "material_tags": [
+      "fabric"
+    ],
+    "width_cm": 130,
+    "depth_cm": 75,
+    "height_cm": 82,
+    "price": 620,
+    "currency": "SAR",
+    "brand": "أثاثي",
+    "supplier": "mock",
+    "availability_status": "in_stock",
+    "rating_optional": 4.2,
+    "room_suitability_tags": [
+      "living_room",
+      "bedroom",
+      "guest_room"
+    ],
+    "image_url": "",
+    "product_url": "",
+    "model_glb_url": "models/glb/sofa_loveseat_beige.glb",
+    "model_usdz_url": "",
+    "ar_ready": true
+  },
+  {
+    "product_id": "sofa_fabric_blue_3",
+    "title": "كنبة قماش زرقاء ثلاثية",
+    "category": "sofa",
+    "subcategory": "sofa",
+    "style_tags": [
+      "modern"
+    ],
+    "color_tags": [
+      "blue"
+    ],
+    "material_tags": [
+      "fabric"
+    ],
+    "width_cm": 195,
+    "depth_cm": 88,
+    "height_cm": 86,
+    "price": 1050,
+    "currency": "SAR",
+    "brand": "أثاثي",
+    "supplier": "mock",
+    "availability_status": "in_stock",
+    "rating_optional": 4.3,
+    "room_suitability_tags": [
+      "living_room",
+      "guest_room"
+    ],
+    "image_url": "",
+    "product_url": "",
+    "model_glb_url": "models/glb/sofa_fabric_blue_3.glb",
+    "model_usdz_url": "",
+    "ar_ready": true
+  },
+  {
+    "product_id": "storage_tv_unit",
+    "title": "طاولة تلفزيون خشبية",
+    "category": "storage",
+    "subcategory": "tv_unit",
+    "style_tags": [
+      "modern"
+    ],
+    "color_tags": [
+      "brown"
+    ],
+    "material_tags": [
+      "wood"
+    ],
+    "width_cm": 160,
+    "depth_cm": 40,
+    "height_cm": 50,
+    "price": 620,
+    "currency": "SAR",
+    "brand": "أثاثي",
+    "supplier": "mock",
+    "availability_status": "in_stock",
+    "rating_optional": 4.3,
+    "room_suitability_tags": [
+      "living_room",
+      "guest_room"
+    ],
+    "image_url": "",
+    "product_url": "",
+    "model_glb_url": "models/glb/storage_tv_unit.glb",
+    "model_usdz_url": "",
+    "ar_ready": true
+  },
+  {
+    "product_id": "storage_bookshelf",
+    "title": "رف كتب مفتوح",
+    "category": "storage",
+    "subcategory": "bookshelf",
+    "style_tags": [
+      "minimal"
+    ],
+    "color_tags": [
+      "white"
+    ],
+    "material_tags": [
+      "wood"
+    ],
+    "width_cm": 80,
+    "depth_cm": 30,
+    "height_cm": 180,
+    "price": 340,
+    "currency": "SAR",
+    "brand": "وفّر",
+    "supplier": "mock",
+    "availability_status": "in_stock",
+    "rating_optional": 4.0,
+    "room_suitability_tags": [
+      "living_room",
+      "bedroom"
+    ],
+    "image_url": "",
+    "product_url": "",
+    "model_glb_url": "models/glb/storage_bookshelf.glb",
+    "model_usdz_url": "",
+    "ar_ready": true
+  },
+  {
+    "product_id": "storage_chest_drawers",
+    "title": "تسريحة بأدراج",
+    "category": "storage",
+    "subcategory": "dresser",
+    "style_tags": [
+      "classic"
+    ],
+    "color_tags": [
+      "brown"
+    ],
+    "material_tags": [
+      "wood"
+    ],
+    "width_cm": 100,
+    "depth_cm": 45,
+    "height_cm": 80,
+    "price": 560,
+    "currency": "SAR",
+    "brand": "لمسة",
+    "supplier": "mock",
+    "availability_status": "in_stock",
+    "rating_optional": 4.2,
+    "room_suitability_tags": [
+      "bedroom"
+    ],
+    "image_url": "",
+    "product_url": "",
+    "model_glb_url": "models/glb/storage_chest_drawers.glb",
+    "model_usdz_url": "",
+    "ar_ready": true
+  },
+  {
+    "product_id": "storage_wardrobe_4door",
+    "title": "دولاب أربعة أبواب",
+    "category": "storage",
+    "subcategory": "wardrobe",
+    "style_tags": [
+      "modern"
+    ],
+    "color_tags": [
+      "white",
+      "gray"
+    ],
+    "material_tags": [
+      "wood"
+    ],
+    "width_cm": 200,
+    "depth_cm": 60,
+    "height_cm": 210,
+    "price": 1650,
+    "currency": "SAR",
+    "brand": "بيت الراحة",
+    "supplier": "mock",
+    "availability_status": "in_stock",
+    "rating_optional": 4.5,
+    "room_suitability_tags": [
+      "bedroom"
+    ],
+    "image_url": "",
+    "product_url": "",
+    "model_glb_url": "models/glb/storage_wardrobe_4door.glb",
+    "model_usdz_url": "",
+    "ar_ready": true
+  },
+  {
+    "product_id": "storage_shoe_cabinet",
+    "title": "خزانة أحذية",
+    "category": "storage",
+    "subcategory": "cabinet",
+    "style_tags": [
+      "minimal"
+    ],
+    "color_tags": [
+      "white"
+    ],
+    "material_tags": [
+      "wood"
+    ],
+    "width_cm": 80,
+    "depth_cm": 30,
+    "height_cm": 100,
+    "price": 240,
+    "currency": "SAR",
+    "brand": "وفّر",
+    "supplier": "mock",
+    "availability_status": "in_stock",
+    "rating_optional": 3.9,
+    "room_suitability_tags": [
+      "other"
+    ],
+    "image_url": "",
+    "product_url": "",
+    "model_glb_url": "models/glb/storage_shoe_cabinet.glb",
+    "model_usdz_url": "",
+    "ar_ready": true
+  },
+  {
+    "product_id": "lamp_pendant_modern",
+    "title": "إضاءة معلّقة عصرية",
+    "category": "lamp",
+    "subcategory": "pendant",
+    "style_tags": [
+      "modern"
+    ],
+    "color_tags": [
+      "black",
+      "gold"
+    ],
+    "material_tags": [
+      "metal"
+    ],
+    "width_cm": 40,
+    "depth_cm": 40,
+    "height_cm": 30,
+    "price": 420,
+    "currency": "SAR",
+    "brand": "إضاءتي",
+    "supplier": "mock",
+    "availability_status": "in_stock",
+    "rating_optional": 4.4,
+    "room_suitability_tags": [
+      "living_room",
+      "guest_room"
+    ],
+    "image_url": "",
+    "product_url": "",
+    "model_glb_url": "models/glb/lamp_pendant_modern.glb",
+    "model_usdz_url": "",
+    "ar_ready": true
+  },
+  {
+    "product_id": "lamp_led_ceiling",
+    "title": "إضاءة سقف LED",
+    "category": "lamp",
+    "subcategory": "ceiling",
+    "style_tags": [
+      "minimal"
+    ],
+    "color_tags": [
+      "white"
+    ],
+    "material_tags": [
+      "metal",
+      "plastic"
+    ],
+    "width_cm": 50,
+    "depth_cm": 50,
+    "height_cm": 8,
+    "price": 260,
+    "currency": "SAR",
+    "brand": "إضاءتي",
+    "supplier": "mock",
+    "availability_status": "in_stock",
+    "rating_optional": 4.2,
+    "room_suitability_tags": [
+      "bedroom",
+      "living_room"
+    ],
+    "image_url": "",
+    "product_url": "",
+    "model_glb_url": "models/glb/lamp_led_ceiling.glb",
+    "model_usdz_url": "",
+    "ar_ready": true
+  },
+  {
+    "product_id": "lamp_bedside_pair",
+    "title": "مصباحان جانبيان (طقم)",
+    "category": "lamp",
+    "subcategory": "table_lamp",
+    "style_tags": [
+      "modern"
+    ],
+    "color_tags": [
+      "beige"
+    ],
+    "material_tags": [
+      "ceramic",
+      "fabric"
+    ],
+    "width_cm": 25,
+    "depth_cm": 25,
+    "height_cm": 50,
+    "price": 180,
+    "currency": "SAR",
+    "brand": "إضاءتي",
+    "supplier": "mock",
+    "availability_status": "in_stock",
+    "rating_optional": 4.1,
+    "room_suitability_tags": [
+      "bedroom"
+    ],
+    "image_url": "",
+    "product_url": "",
+    "model_glb_url": "models/glb/lamp_bedside_pair.glb",
+    "model_usdz_url": "",
+    "ar_ready": true
+  },
+  {
+    "product_id": "lamp_arc_floor",
+    "title": "مصباح أرضي مقوّس",
+    "category": "lamp",
+    "subcategory": "floor_lamp",
+    "style_tags": [
+      "modern"
+    ],
+    "color_tags": [
+      "gold"
+    ],
+    "material_tags": [
+      "metal"
+    ],
+    "width_cm": 40,
+    "depth_cm": 40,
+    "height_cm": 180,
+    "price": 380,
+    "currency": "SAR",
+    "brand": "إضاءتي",
+    "supplier": "mock",
+    "availability_status": "in_stock",
+    "rating_optional": 4.3,
+    "room_suitability_tags": [
+      "living_room"
+    ],
+    "image_url": "",
+    "product_url": "",
+    "model_glb_url": "models/glb/lamp_arc_floor.glb",
+    "model_usdz_url": "",
+    "ar_ready": true
+  },
+  {
+    "product_id": "rug_persian_classic",
+    "title": "سجادة فارسية كلاسيكية",
+    "category": "rug",
+    "subcategory": "area_rug",
+    "style_tags": [
+      "classic"
+    ],
+    "color_tags": [
+      "red",
+      "blue"
+    ],
+    "material_tags": [
+      "wool"
+    ],
+    "width_cm": 200,
+    "depth_cm": 300,
+    "height_cm": 2,
+    "price": 890,
+    "currency": "SAR",
+    "brand": "فرشتي",
+    "supplier": "mock",
+    "availability_status": "in_stock",
+    "rating_optional": 4.7,
+    "room_suitability_tags": [
+      "guest_room",
+      "living_room"
+    ],
+    "image_url": "",
+    "product_url": "",
+    "model_glb_url": "models/glb/rug_persian_classic.glb",
+    "model_usdz_url": "",
+    "ar_ready": true
+  },
+  {
+    "product_id": "rug_shaggy_gray",
+    "title": "سجادة وبرية رمادية",
+    "category": "rug",
+    "subcategory": "shag_rug",
+    "style_tags": [
+      "modern"
+    ],
+    "color_tags": [
+      "gray"
+    ],
+    "material_tags": [
+      "polyester"
+    ],
+    "width_cm": 160,
+    "depth_cm": 230,
+    "height_cm": 4,
+    "price": 420,
+    "currency": "SAR",
+    "brand": "فرشتي",
+    "supplier": "mock",
+    "availability_status": "in_stock",
+    "rating_optional": 4.3,
+    "room_suitability_tags": [
+      "bedroom",
+      "living_room"
+    ],
+    "image_url": "",
+    "product_url": "",
+    "model_glb_url": "models/glb/rug_shaggy_gray.glb",
+    "model_usdz_url": "",
+    "ar_ready": true
+  },
+  {
+    "product_id": "rug_runner_hall",
+    "title": "سجادة ممر",
+    "category": "rug",
+    "subcategory": "runner",
+    "style_tags": [
+      "minimal"
+    ],
+    "color_tags": [
+      "beige"
+    ],
+    "material_tags": [
+      "cotton"
+    ],
+    "width_cm": 80,
+    "depth_cm": 300,
+    "height_cm": 1,
+    "price": 190,
+    "currency": "SAR",
+    "brand": "فرشتي",
+    "supplier": "mock",
+    "availability_status": "in_stock",
+    "rating_optional": 4.0,
+    "room_suitability_tags": [
+      "other"
+    ],
+    "image_url": "",
+    "product_url": "",
+    "model_glb_url": "models/glb/rug_runner_hall.glb",
+    "model_usdz_url": "",
+    "ar_ready": true
+  },
+  {
+    "product_id": "rug_round_beige",
+    "title": "سجادة دائرية بيج",
+    "category": "rug",
+    "subcategory": "round_rug",
+    "style_tags": [
+      "modern"
+    ],
+    "color_tags": [
+      "beige"
+    ],
+    "material_tags": [
+      "cotton"
+    ],
+    "width_cm": 150,
+    "depth_cm": 150,
+    "height_cm": 1,
+    "price": 260,
+    "currency": "SAR",
+    "brand": "فرشتي",
+    "supplier": "mock",
+    "availability_status": "in_stock",
+    "rating_optional": 4.1,
+    "room_suitability_tags": [
+      "bedroom",
+      "living_room"
+    ],
+    "image_url": "",
+    "product_url": "",
+    "model_glb_url": "models/glb/rug_round_beige.glb",
+    "model_usdz_url": "",
+    "ar_ready": true
+  },
+  {
+    "product_id": "table_dining_6",
+    "title": "طاولة طعام لستة أشخاص",
+    "category": "table",
+    "subcategory": "dining_table",
+    "style_tags": [
+      "modern"
+    ],
+    "color_tags": [
+      "brown"
+    ],
+    "material_tags": [
+      "wood"
+    ],
+    "width_cm": 160,
+    "depth_cm": 90,
+    "height_cm": 75,
+    "price": 1450,
+    "currency": "SAR",
+    "brand": "لمسة",
+    "supplier": "mock",
+    "availability_status": "in_stock",
+    "rating_optional": 4.5,
+    "room_suitability_tags": [
+      "living_room"
+    ],
+    "image_url": "",
+    "product_url": "",
+    "model_glb_url": "models/glb/table_dining_6.glb",
+    "model_usdz_url": "",
+    "ar_ready": true
+  },
+  {
+    "product_id": "table_console_slim",
+    "title": "طاولة كونسول نحيفة",
+    "category": "table",
+    "subcategory": "console_table",
+    "style_tags": [
+      "minimal"
+    ],
+    "color_tags": [
+      "white"
+    ],
+    "material_tags": [
+      "wood"
+    ],
+    "width_cm": 100,
+    "depth_cm": 30,
+    "height_cm": 80,
+    "price": 320,
+    "currency": "SAR",
+    "brand": "وفّر",
+    "supplier": "mock",
+    "availability_status": "in_stock",
+    "rating_optional": 4.0,
+    "room_suitability_tags": [
+      "living_room",
+      "guest_room"
+    ],
+    "image_url": "",
+    "product_url": "",
+    "model_glb_url": "models/glb/table_console_slim.glb",
+    "model_usdz_url": "",
+    "ar_ready": true
+  },
+  {
+    "product_id": "table_nesting_set",
+    "title": "طقم طاولات متداخلة",
+    "category": "table",
+    "subcategory": "nesting_table",
+    "style_tags": [
+      "modern"
+    ],
+    "color_tags": [
+      "black"
+    ],
+    "material_tags": [
+      "metal",
+      "wood"
+    ],
+    "width_cm": 50,
+    "depth_cm": 50,
+    "height_cm": 55,
+    "price": 290,
+    "currency": "SAR",
+    "brand": "أثاثي",
+    "supplier": "mock",
+    "availability_status": "in_stock",
+    "rating_optional": 4.2,
+    "room_suitability_tags": [
+      "living_room"
+    ],
+    "image_url": "",
+    "product_url": "",
+    "model_glb_url": "models/glb/table_nesting_set.glb",
+    "model_usdz_url": "",
+    "ar_ready": true
+  },
+  {
+    "product_id": "table_study_desk",
+    "title": "مكتب دراسة",
+    "category": "table",
+    "subcategory": "desk",
+    "style_tags": [
+      "minimal"
+    ],
+    "color_tags": [
+      "white"
+    ],
+    "material_tags": [
+      "wood"
+    ],
+    "width_cm": 120,
+    "depth_cm": 60,
+    "height_cm": 75,
+    "price": 540,
+    "currency": "SAR",
+    "brand": "وفّر",
+    "supplier": "mock",
+    "availability_status": "in_stock",
+    "rating_optional": 4.1,
+    "room_suitability_tags": [
+      "bedroom",
+      "other"
+    ],
+    "image_url": "",
+    "product_url": "",
+    "model_glb_url": "models/glb/table_study_desk.glb",
+    "model_usdz_url": "",
+    "ar_ready": true
+  },
+  {
+    "product_id": "table_coffee_glass",
+    "title": "طاولة قهوة زجاجية",
+    "category": "table",
+    "subcategory": "coffee_table",
+    "style_tags": [
+      "modern"
+    ],
+    "color_tags": [
+      "black"
+    ],
+    "material_tags": [
+      "glass",
+      "metal"
+    ],
+    "width_cm": 100,
+    "depth_cm": 60,
+    "height_cm": 45,
+    "price": 480,
+    "currency": "SAR",
+    "brand": "أثاثي",
+    "supplier": "mock",
+    "availability_status": "in_stock",
+    "rating_optional": 4.3,
+    "room_suitability_tags": [
+      "living_room"
+    ],
+    "image_url": "",
+    "product_url": "",
+    "model_glb_url": "models/glb/table_coffee_glass.glb",
+    "model_usdz_url": "",
+    "ar_ready": true
+  },
+  {
+    "product_id": "table_coffee_walnut_ar",
+    "title": "طاولة قهوة خشبية (جوزي)",
+    "category": "table",
+    "subcategory": "coffee_table",
+    "style_tags": [
+      "modern",
+      "wood"
+    ],
+    "color_tags": [
+      "walnut",
+      "brown"
+    ],
+    "material_tags": [
+      "wood"
+    ],
+    "width_cm": 110,
+    "depth_cm": 60,
+    "height_cm": 45,
+    "price": 520,
+    "currency": "SAR",
+    "brand": "بيت الراحة",
+    "supplier": "mock",
+    "availability_status": "in_stock",
+    "rating_optional": 4.5,
+    "room_suitability_tags": [
+      "living_room",
+      "guest_room"
+    ],
+    "image_url": "",
+    "product_url": "",
+    "model_glb_url": "models/coffee_table_walnut.glb",
+    "model_usdz_url": "",
+    "ar_ready": true
+  }
+]

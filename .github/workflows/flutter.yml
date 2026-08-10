@@ -1,0 +1,68 @@
+name: Flutter CI
+
+# GitHub is the compiler here: every push builds, analyzes, tests, and
+# fully compiles the app (web) on GitHub's servers — no local machine needed.
+on:
+  push:
+  workflow_dispatch:
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          flutter-version: '3.24.0'
+          channel: stable
+          cache: true
+
+      - run: flutter --version
+
+      - name: Install dependencies
+        run: flutter pub get
+
+      # The three verification steps run independently (if: always()) so a
+      # single CI run surfaces analyze issues, test results, AND the full
+      # compile result together.
+      # Errors + warnings fail the build; cosmetic info-lints (const, super
+      # params, doc-comment style) don't block the compile signal.
+      - name: Analyze
+        if: always()
+        run: flutter analyze --no-fatal-infos
+
+      - name: Test
+        if: always()
+        run: flutter test
+
+      - name: Build web (full-app compile check)
+        if: always()
+        run: flutter build web --no-tree-shake-icons --web-renderer canvaskit
+
+  # Publish the web build to GitHub Pages so it can be opened on a phone.
+  deploy-web:
+    needs: verify
+    if: github.ref == 'refs/heads/claude/docs-review-architecture-plan-zwhmcg'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+      - name: Set up Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          flutter-version: '3.24.0'
+          channel: stable
+          cache: true
+      - run: flutter pub get
+      - name: Build web for GitHub Pages
+        # --pwa-strategy=none disables the service worker so redeploys are never
+        # served stale from cache (important while iterating on the UI).
+        run: flutter build web --release --base-href "/Furn-App/" --no-tree-shake-icons --pwa-strategy=none --web-renderer canvaskit
+      - name: Deploy to gh-pages branch
+        uses: peaceiris/actions-gh-pages@v4
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./build/web

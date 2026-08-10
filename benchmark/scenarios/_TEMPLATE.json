@@ -1,0 +1,25 @@
+{
+  "id": "cNNN-short-slug",
+  "tier": "canonical",
+  "split": "dev",
+  "title": "one-line summary of the real case",
+  "source": "reddit:<permalink> | quora:<url> | interview:<id>",
+  "raw_quote": "الصق كلام المستخدم الحقيقي حرفيًا هنا",
+  "input": {
+    "locale": "ar-SA",
+    "room": { "name": "", "width_m": 0, "length_m": 0, "height_m": 0, "room_type": "living_room" },
+    "budget": { "currency": "SAR", "max_total": 0, "flexible": false },
+    "style": { "preferred": [], "colors": [], "notes": "" },
+    "items": { "essential": [{ "type": "" }], "optional": [] }
+  },
+  "expected_constraints": [
+    { "type": "in_stock" },
+    { "type": "fits_room" },
+    { "type": "within_total_budget" }
+  ],
+  "acceptance_criteria": {
+    "machine": [],
+    "human": ["اكتب معيار نجاح واحد بلغة الخبير"],
+    "pass_threshold": 0.7
+  }
+}

@@ -1,0 +1,11 @@
+{
+  "scenario_id": "cNNN-short-slug",
+  "expert": "initials",
+  "reviewed_at": "YYYY-MM-DD",
+  "engine_output_note": "الصق التوصيات التي قيّمها الخبير (من reports/benchmark_report.md)",
+  "stars": 0,
+  "human_criteria_met": [
+    { "criterion": "اكتب معيار نجاح واحد بلغة الخبير", "met": false }
+  ],
+  "notes": ""
+}

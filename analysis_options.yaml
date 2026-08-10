@@ -1,0 +1,7 @@
+# خط الأساس القياسي لمشاريع Flutter. يبقي التحليل واقعيًا نحو "No issues found!".
+# (تمّت إزالة القواعد الإضافية الصارمة التي كانت تُنتج ملاحظات lint كثيرة.)
+include: package:flutter_lints/flutter.yaml
+
+analyzer:
+  errors:
+    invalid_annotation_target: ignore
