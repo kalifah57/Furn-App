@@ -18,7 +18,9 @@ Paths are web-relative (`models/glb/<id>.glb`) because the AR view is a
 standalone page (web/ar.html) that resolves them against <base href>.
 
 Usage:  python3 tools/backfill_catalog_ar.py [--check]
-        --check  audit only, write nothing (exit 1 on any violation)
+        --check  audit only, write nothing (exit 1 on any dimension violation
+                 or when a write run would change any ar field — e.g. usdz
+                 URLs set in the catalog but the files absent from disk)
 """
 
 import json
@@ -90,11 +92,14 @@ def main():
             violations.append((pid, bad))
 
         glb = REAL_MODELS.get(pid, "models/glb/%s.glb" % pid)
-        # Deliberately empty: ar.html sets `ios-src` whenever this is non-empty,
-        # and a path to a .usdz that does not exist breaks iOS Quick Look. Left
-        # blank, Safari converts the GLB itself and AR works on iOS too. Fill
-        # this in only once real .usdz assets are actually shipped.
-        usdz = ""
+        # ar.html sets `ios-src` whenever this is non-empty, and a path to a
+        # .usdz that does not exist breaks iOS Quick Look. So the field points
+        # at models/usdz/<id>.usdz only when that file really exists on disk
+        # (generate_3d_catalog.py emits them); otherwise it stays blank and
+        # Safari converts the GLB itself.
+        usdz_rel = "models/usdz/%s.usdz" % pid
+        usdz = usdz_rel if os.path.exists(
+            os.path.join(ROOT, "web", "models", "usdz", pid + ".usdz")) else ""
         before = (p.get("model_glb_url"), p.get("model_usdz_url"), p.get("ar_ready"))
         # ar_ready gates the "شاهدها في غرفتك" button. It stays False until the
         # generator has actually emitted the .glb, so the shipped app never
@@ -104,7 +109,8 @@ def main():
             p["model_glb_url"], p["model_usdz_url"], p["ar_ready"] = after
             changed += 1
 
-    print("products: %d | ar fields updated: %d" % (len(products), changed))
+    print("products: %d | ar fields %s: %d"
+          % (len(products), "would change" if check_only else "updated", changed))
     if violations:
         print("\nDIMENSION VIOLATIONS (%d):" % len(violations))
         for pid, bad in violations:
@@ -113,7 +119,9 @@ def main():
         print("dimension audit: all %d products within category ranges" % len(products))
 
     if check_only:
-        return 1 if violations else 0
+        # Pending ar-field drift is a violation too: silently blanking 48
+        # usdz URLs because the binaries are missing must not audit green.
+        return 1 if (violations or changed) else 0
 
     with open(CATALOG, "w", encoding="utf-8") as f:
         json.dump(products, f, ensure_ascii=False, indent=2)

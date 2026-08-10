@@ -1,5 +1,6 @@
 [
   {
+    "internal_id": 1,
     "product_id": "bed_single_wood_s",
     "title": "سرير مفرد خشبي صغير",
     "category": "bed",
@@ -31,10 +32,11 @@
     "image_url": "",
     "product_url": "",
     "model_glb_url": "models/glb/bed_single_wood_s.glb",
-    "model_usdz_url": "",
+    "model_usdz_url": "models/usdz/bed_single_wood_s.usdz",
     "ar_ready": true
   },
   {
+    "internal_id": 2,
     "product_id": "bed_double_simple",
     "title": "سرير مزدوج بسيط",
     "category": "bed",
@@ -66,10 +68,11 @@
     "image_url": "",
     "product_url": "",
     "model_glb_url": "models/glb/bed_double_simple.glb",
-    "model_usdz_url": "",
+    "model_usdz_url": "models/usdz/bed_double_simple.usdz",
     "ar_ready": true
   },
   {
+    "internal_id": 3,
     "product_id": "bed_queen_premium",
     "title": "سرير كوين فاخر بمساند",
     "category": "bed",
@@ -99,10 +102,11 @@
     "image_url": "",
     "product_url": "",
     "model_glb_url": "models/glb/bed_queen_premium.glb",
-    "model_usdz_url": "",
+    "model_usdz_url": "models/usdz/bed_queen_premium.usdz",
     "ar_ready": true
   },
   {
+    "internal_id": 4,
     "product_id": "bed_single_econo",
     "title": "سرير مفرد اقتصادي",
     "category": "bed",
@@ -132,10 +136,11 @@
     "image_url": "",
     "product_url": "",
     "model_glb_url": "models/glb/bed_single_econo.glb",
-    "model_usdz_url": "",
+    "model_usdz_url": "models/usdz/bed_single_econo.usdz",
     "ar_ready": true
   },
   {
+    "internal_id": 5,
     "product_id": "sofa_two_seat_s",
     "title": "كنب صغير مقعدين",
     "category": "sofa",
@@ -166,10 +171,11 @@
     "image_url": "",
     "product_url": "",
     "model_glb_url": "models/glb/sofa_two_seat_s.glb",
-    "model_usdz_url": "",
+    "model_usdz_url": "models/usdz/sofa_two_seat_s.usdz",
     "ar_ready": true
   },
   {
+    "internal_id": 6,
     "product_id": "armchair_comfort",
     "title": "كرسي مفرد مريح",
     "category": "sofa",
@@ -200,10 +206,11 @@
     "image_url": "",
     "product_url": "",
     "model_glb_url": "models/glb/armchair_comfort.glb",
-    "model_usdz_url": "",
+    "model_usdz_url": "models/usdz/armchair_comfort.usdz",
     "ar_ready": true
   },
   {
+    "internal_id": 7,
     "product_id": "sofa_corner_l",
     "title": "كنب زاوية كبير",
     "category": "sofa",
@@ -232,10 +239,11 @@
     "image_url": "",
     "product_url": "",
     "model_glb_url": "models/glb/sofa_corner_l.glb",
-    "model_usdz_url": "",
+    "model_usdz_url": "models/usdz/sofa_corner_l.usdz",
     "ar_ready": true
   },
   {
+    "internal_id": 8,
     "product_id": "sofa_fabric_gray",
     "title": "كنبة قماش رمادية ثلاثية",
     "category": "sofa",
@@ -265,10 +273,11 @@
     "image_url": "",
     "product_url": "",
     "model_glb_url": "models/glb/sofa_fabric_gray.glb",
-    "model_usdz_url": "",
+    "model_usdz_url": "models/usdz/sofa_fabric_gray.usdz",
     "ar_ready": true
   },
   {
+    "internal_id": 9,
     "product_id": "wardrobe_small",
     "title": "خزانة ملابس صغيرة",
     "category": "storage",
@@ -299,10 +308,11 @@
     "image_url": "",
     "product_url": "",
     "model_glb_url": "models/glb/wardrobe_small.glb",
-    "model_usdz_url": "",
+    "model_usdz_url": "models/usdz/wardrobe_small.usdz",
     "ar_ready": true
   },
   {
+    "internal_id": 10,
     "product_id": "wardrobe_two_door",
     "title": "دولاب بابين",
     "category": "storage",
@@ -331,10 +341,11 @@
     "image_url": "",
     "product_url": "",
     "model_glb_url": "models/glb/wardrobe_two_door.glb",
-    "model_usdz_url": "",
+    "model_usdz_url": "models/usdz/wardrobe_two_door.usdz",
     "ar_ready": true
   },
   {
+    "internal_id": 11,
     "product_id": "nightstand_storage",
     "title": "كومودينو للتخزين",
     "category": "storage",
@@ -364,10 +375,11 @@
     "image_url": "",
     "product_url": "",
     "model_glb_url": "models/glb/nightstand_storage.glb",
-    "model_usdz_url": "",
+    "model_usdz_url": "models/usdz/nightstand_storage.usdz",
     "ar_ready": true
   },
   {
+    "internal_id": 12,
     "product_id": "lamp_floor",
     "title": "مصباح أرضي عصري",
     "category": "lamp",
@@ -398,10 +410,11 @@
     "image_url": "",
     "product_url": "",
     "model_glb_url": "models/glb/lamp_floor.glb",
-    "model_usdz_url": "",
+    "model_usdz_url": "models/usdz/lamp_floor.usdz",
     "ar_ready": true
   },
   {
+    "internal_id": 13,
     "product_id": "lamp_table",
     "title": "مصباح طاولة صغير",
     "category": "lamp",
@@ -431,10 +444,11 @@
     "image_url": "",
     "product_url": "",
     "model_glb_url": "models/glb/lamp_table.glb",
-    "model_usdz_url": "",
+    "model_usdz_url": "models/usdz/lamp_table.usdz",
     "ar_ready": true
   },
   {
+    "internal_id": 14,
     "product_id": "chandelier_classic",
     "title": "ثريا سقف كلاسيكية",
     "category": "lamp",
@@ -465,10 +479,11 @@
     "image_url": "",
     "product_url": "",
     "model_glb_url": "models/glb/chandelier_classic.glb",
-    "model_usdz_url": "",
+    "model_usdz_url": "models/usdz/chandelier_classic.usdz",
     "ar_ready": true
   },
   {
+    "internal_id": 15,
     "product_id": "rug_small_beige",
     "title": "سجادة صغيرة بيج",
     "category": "rug",
@@ -499,10 +514,11 @@
     "image_url": "",
     "product_url": "",
     "model_glb_url": "models/glb/rug_small_beige.glb",
-    "model_usdz_url": "",
+    "model_usdz_url": "models/usdz/rug_small_beige.usdz",
     "ar_ready": true
   },
   {
+    "internal_id": 16,
     "product_id": "rug_medium_classic",
     "title": "سجادة متوسطة كلاسيكية",
     "category": "rug",
@@ -533,10 +549,11 @@
     "image_url": "",
     "product_url": "",
     "model_glb_url": "models/glb/rug_medium_classic.glb",
-    "model_usdz_url": "",
+    "model_usdz_url": "models/usdz/rug_medium_classic.usdz",
     "ar_ready": true
   },
   {
+    "internal_id": 17,
     "product_id": "rug_large_modern",
     "title": "سجادة كبيرة عصرية",
     "category": "rug",
@@ -565,10 +582,11 @@
     "image_url": "",
     "product_url": "",
     "model_glb_url": "models/glb/rug_large_modern.glb",
-    "model_usdz_url": "",
+    "model_usdz_url": "models/usdz/rug_large_modern.usdz",
     "ar_ready": true
   },
   {
+    "internal_id": 18,
     "product_id": "table_coffee_s",
     "title": "طاولة قهوة صغيرة",
     "category": "table",
@@ -598,10 +616,11 @@
     "image_url": "",
     "product_url": "",
     "model_glb_url": "models/glb/table_coffee_s.glb",
-    "model_usdz_url": "",
+    "model_usdz_url": "models/usdz/table_coffee_s.usdz",
     "ar_ready": true
   },
   {
+    "internal_id": 19,
     "product_id": "table_side_min",
     "title": "طاولة جانبية بسيطة",
     "category": "table",
@@ -632,10 +651,11 @@
     "image_url": "",
     "product_url": "",
     "model_glb_url": "models/glb/table_side_min.glb",
-    "model_usdz_url": "",
+    "model_usdz_url": "models/usdz/table_side_min.usdz",
     "ar_ready": true
   },
   {
+    "internal_id": 20,
     "product_id": "table_dining_s",
     "title": "طاولة طعام صغيرة",
     "category": "table",
@@ -664,10 +684,11 @@
     "image_url": "",
     "product_url": "",
     "model_glb_url": "models/glb/table_dining_s.glb",
-    "model_usdz_url": "",
+    "model_usdz_url": "models/usdz/table_dining_s.usdz",
     "ar_ready": true
   },
   {
+    "internal_id": 21,
     "product_id": "bed_king_uph",
     "title": "سرير كينج منجّد",
     "category": "bed",
@@ -697,10 +718,11 @@
     "image_url": "",
     "product_url": "",
     "model_glb_url": "models/glb/bed_king_uph.glb",
-    "model_usdz_url": "",
+    "model_usdz_url": "models/usdz/bed_king_uph.usdz",
     "ar_ready": true
   },
   {
+    "internal_id": 22,
     "product_id": "bed_storage_full",
     "title": "سرير مزدوج بأدراج تخزين",
     "category": "bed",
@@ -730,10 +752,11 @@
     "image_url": "",
     "product_url": "",
     "model_glb_url": "models/glb/bed_storage_full.glb",
-    "model_usdz_url": "",
+    "model_usdz_url": "models/usdz/bed_storage_full.usdz",
     "ar_ready": true
   },
   {
+    "internal_id": 23,
     "product_id": "bed_kids_single",
     "title": "سرير أطفال مفرد",
     "category": "bed",
@@ -763,10 +786,11 @@
     "image_url": "",
     "product_url": "",
     "model_glb_url": "models/glb/bed_kids_single.glb",
-    "model_usdz_url": "",
+    "model_usdz_url": "models/usdz/bed_kids_single.usdz",
     "ar_ready": true
   },
   {
+    "internal_id": 24,
     "product_id": "bed_platform_wood",
     "title": "سرير أرضي خشبي منخفض",
     "category": "bed",
@@ -796,10 +820,11 @@
     "image_url": "",
     "product_url": "",
     "model_glb_url": "models/glb/bed_platform_wood.glb",
-    "model_usdz_url": "",
+    "model_usdz_url": "models/usdz/bed_platform_wood.usdz",
     "ar_ready": true
   },
   {
+    "internal_id": 25,
     "product_id": "sofa_majlis_floor",
     "title": "جلسة أرضية مجلس (طقم)",
     "category": "sofa",
@@ -829,10 +854,11 @@
     "image_url": "",
     "product_url": "",
     "model_glb_url": "models/glb/sofa_majlis_floor.glb",
-    "model_usdz_url": "",
+    "model_usdz_url": "models/usdz/sofa_majlis_floor.usdz",
     "ar_ready": true
   },
   {
+    "internal_id": 26,
     "product_id": "sofa_recliner",
     "title": "كرسي استرخاء ريكلاينر",
     "category": "sofa",
@@ -861,10 +887,11 @@
     "image_url": "",
     "product_url": "",
     "model_glb_url": "models/glb/sofa_recliner.glb",
-    "model_usdz_url": "",
+    "model_usdz_url": "models/usdz/sofa_recliner.usdz",
     "ar_ready": true
   },
   {
+    "internal_id": 27,
     "product_id": "sofa_leather_3",
     "title": "كنبة جلد ثلاثية",
     "category": "sofa",
@@ -894,10 +921,11 @@
     "image_url": "",
     "product_url": "",
     "model_glb_url": "models/glb/sofa_leather_3.glb",
-    "model_usdz_url": "",
+    "model_usdz_url": "models/usdz/sofa_leather_3.usdz",
     "ar_ready": true
   },
   {
+    "internal_id": 28,
     "product_id": "sofa_loveseat_beige",
     "title": "كنب مقعدين بيج",
     "category": "sofa",
@@ -928,10 +956,11 @@
     "image_url": "",
     "product_url": "",
     "model_glb_url": "models/glb/sofa_loveseat_beige.glb",
-    "model_usdz_url": "",
+    "model_usdz_url": "models/usdz/sofa_loveseat_beige.usdz",
     "ar_ready": true
   },
   {
+    "internal_id": 29,
     "product_id": "sofa_fabric_blue_3",
     "title": "كنبة قماش زرقاء ثلاثية",
     "category": "sofa",
@@ -961,10 +990,11 @@
     "image_url": "",
     "product_url": "",
     "model_glb_url": "models/glb/sofa_fabric_blue_3.glb",
-    "model_usdz_url": "",
+    "model_usdz_url": "models/usdz/sofa_fabric_blue_3.usdz",
     "ar_ready": true
   },
   {
+    "internal_id": 30,
     "product_id": "storage_tv_unit",
     "title": "طاولة تلفزيون خشبية",
     "category": "storage",
@@ -994,10 +1024,11 @@
     "image_url": "",
     "product_url": "",
     "model_glb_url": "models/glb/storage_tv_unit.glb",
-    "model_usdz_url": "",
+    "model_usdz_url": "models/usdz/storage_tv_unit.usdz",
     "ar_ready": true
   },
   {
+    "internal_id": 31,
     "product_id": "storage_bookshelf",
     "title": "رف كتب مفتوح",
     "category": "storage",
@@ -1027,10 +1058,11 @@
     "image_url": "",
     "product_url": "",
     "model_glb_url": "models/glb/storage_bookshelf.glb",
-    "model_usdz_url": "",
+    "model_usdz_url": "models/usdz/storage_bookshelf.usdz",
     "ar_ready": true
   },
   {
+    "internal_id": 32,
     "product_id": "storage_chest_drawers",
     "title": "تسريحة بأدراج",
     "category": "storage",
@@ -1059,10 +1091,11 @@
     "image_url": "",
     "product_url": "",
     "model_glb_url": "models/glb/storage_chest_drawers.glb",
-    "model_usdz_url": "",
+    "model_usdz_url": "models/usdz/storage_chest_drawers.usdz",
     "ar_ready": true
   },
   {
+    "internal_id": 33,
     "product_id": "storage_wardrobe_4door",
     "title": "دولاب أربعة أبواب",
     "category": "storage",
@@ -1092,10 +1125,11 @@
     "image_url": "",
     "product_url": "",
     "model_glb_url": "models/glb/storage_wardrobe_4door.glb",
-    "model_usdz_url": "",
+    "model_usdz_url": "models/usdz/storage_wardrobe_4door.usdz",
     "ar_ready": true
   },
   {
+    "internal_id": 34,
     "product_id": "storage_shoe_cabinet",
     "title": "خزانة أحذية",
     "category": "storage",
@@ -1124,10 +1158,11 @@
     "image_url": "",
     "product_url": "",
     "model_glb_url": "models/glb/storage_shoe_cabinet.glb",
-    "model_usdz_url": "",
+    "model_usdz_url": "models/usdz/storage_shoe_cabinet.usdz",
     "ar_ready": true
   },
   {
+    "internal_id": 35,
     "product_id": "lamp_pendant_modern",
     "title": "إضاءة معلّقة عصرية",
     "category": "lamp",
@@ -1158,10 +1193,11 @@
     "image_url": "",
     "product_url": "",
     "model_glb_url": "models/glb/lamp_pendant_modern.glb",
-    "model_usdz_url": "",
+    "model_usdz_url": "models/usdz/lamp_pendant_modern.usdz",
     "ar_ready": true
   },
   {
+    "internal_id": 36,
     "product_id": "lamp_led_ceiling",
     "title": "إضاءة سقف LED",
     "category": "lamp",
@@ -1192,10 +1228,11 @@
     "image_url": "",
     "product_url": "",
     "model_glb_url": "models/glb/lamp_led_ceiling.glb",
-    "model_usdz_url": "",
+    "model_usdz_url": "models/usdz/lamp_led_ceiling.usdz",
     "ar_ready": true
   },
   {
+    "internal_id": 37,
     "product_id": "lamp_bedside_pair",
     "title": "مصباحان جانبيان (طقم)",
     "category": "lamp",
@@ -1225,10 +1262,11 @@
     "image_url": "",
     "product_url": "",
     "model_glb_url": "models/glb/lamp_bedside_pair.glb",
-    "model_usdz_url": "",
+    "model_usdz_url": "models/usdz/lamp_bedside_pair.usdz",
     "ar_ready": true
   },
   {
+    "internal_id": 38,
     "product_id": "lamp_arc_floor",
     "title": "مصباح أرضي مقوّس",
     "category": "lamp",
@@ -1257,10 +1295,11 @@
     "image_url": "",
     "product_url": "",
     "model_glb_url": "models/glb/lamp_arc_floor.glb",
-    "model_usdz_url": "",
+    "model_usdz_url": "models/usdz/lamp_arc_floor.usdz",
     "ar_ready": true
   },
   {
+    "internal_id": 39,
     "product_id": "rug_persian_classic",
     "title": "سجادة فارسية كلاسيكية",
     "category": "rug",
@@ -1291,10 +1330,11 @@
     "image_url": "",
     "product_url": "",
     "model_glb_url": "models/glb/rug_persian_classic.glb",
-    "model_usdz_url": "",
+    "model_usdz_url": "models/usdz/rug_persian_classic.usdz",
     "ar_ready": true
   },
   {
+    "internal_id": 40,
     "product_id": "rug_shaggy_gray",
     "title": "سجادة وبرية رمادية",
     "category": "rug",
@@ -1324,10 +1364,11 @@
     "image_url": "",
     "product_url": "",
     "model_glb_url": "models/glb/rug_shaggy_gray.glb",
-    "model_usdz_url": "",
+    "model_usdz_url": "models/usdz/rug_shaggy_gray.usdz",
     "ar_ready": true
   },
   {
+    "internal_id": 41,
     "product_id": "rug_runner_hall",
     "title": "سجادة ممر",
     "category": "rug",
@@ -1356,10 +1397,11 @@
     "image_url": "",
     "product_url": "",
     "model_glb_url": "models/glb/rug_runner_hall.glb",
-    "model_usdz_url": "",
+    "model_usdz_url": "models/usdz/rug_runner_hall.usdz",
     "ar_ready": true
   },
   {
+    "internal_id": 42,
     "product_id": "rug_round_beige",
     "title": "سجادة دائرية بيج",
     "category": "rug",
@@ -1389,10 +1431,11 @@
     "image_url": "",
     "product_url": "",
     "model_glb_url": "models/glb/rug_round_beige.glb",
-    "model_usdz_url": "",
+    "model_usdz_url": "models/usdz/rug_round_beige.usdz",
     "ar_ready": true
   },
   {
+    "internal_id": 43,
     "product_id": "table_dining_6",
     "title": "طاولة طعام لستة أشخاص",
     "category": "table",
@@ -1421,10 +1464,11 @@
     "image_url": "",
     "product_url": "",
     "model_glb_url": "models/glb/table_dining_6.glb",
-    "model_usdz_url": "",
+    "model_usdz_url": "models/usdz/table_dining_6.usdz",
     "ar_ready": true
   },
   {
+    "internal_id": 44,
     "product_id": "table_console_slim",
     "title": "طاولة كونسول نحيفة",
     "category": "table",
@@ -1454,10 +1498,11 @@
     "image_url": "",
     "product_url": "",
     "model_glb_url": "models/glb/table_console_slim.glb",
-    "model_usdz_url": "",
+    "model_usdz_url": "models/usdz/table_console_slim.usdz",
     "ar_ready": true
   },
   {
+    "internal_id": 45,
     "product_id": "table_nesting_set",
     "title": "طقم طاولات متداخلة",
     "category": "table",
@@ -1487,10 +1532,11 @@
     "image_url": "",
     "product_url": "",
     "model_glb_url": "models/glb/table_nesting_set.glb",
-    "model_usdz_url": "",
+    "model_usdz_url": "models/usdz/table_nesting_set.usdz",
     "ar_ready": true
   },
   {
+    "internal_id": 46,
     "product_id": "table_study_desk",
     "title": "مكتب دراسة",
     "category": "table",
@@ -1520,10 +1566,11 @@
     "image_url": "",
     "product_url": "",
     "model_glb_url": "models/glb/table_study_desk.glb",
-    "model_usdz_url": "",
+    "model_usdz_url": "models/usdz/table_study_desk.usdz",
     "ar_ready": true
   },
   {
+    "internal_id": 47,
     "product_id": "table_coffee_glass",
     "title": "طاولة قهوة زجاجية",
     "category": "table",
@@ -1553,10 +1600,11 @@
     "image_url": "",
     "product_url": "",
     "model_glb_url": "models/glb/table_coffee_glass.glb",
-    "model_usdz_url": "",
+    "model_usdz_url": "models/usdz/table_coffee_glass.usdz",
     "ar_ready": true
   },
   {
+    "internal_id": 48,
     "product_id": "table_coffee_walnut_ar",
     "title": "طاولة قهوة خشبية (جوزي)",
     "category": "table",
@@ -1588,7 +1636,7 @@
     "image_url": "",
     "product_url": "",
     "model_glb_url": "models/coffee_table_walnut.glb",
-    "model_usdz_url": "",
+    "model_usdz_url": "models/usdz/table_coffee_walnut_ar.usdz",
     "ar_ready": true
   }
 ]
