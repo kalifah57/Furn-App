@@ -21,7 +21,6 @@ void main() {
     Routes.assistantPhoto,
     Routes.assistantThinking,
     Routes.room,
-    Routes.roomOptions,
     Routes.roomSaved,
     Routes.preview,
   ];

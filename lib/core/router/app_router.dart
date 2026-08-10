@@ -3,7 +3,6 @@ import 'package:go_router/go_router.dart';
 import '../../features/interactive_sandbox/presentation/sandbox_screen.dart';
 import '../../features/onboarding/presentation/onboarding_screen.dart';
 import '../../features/plan/presentation/plan_screen.dart';
-import '../../features/recommendations/presentation/recommendations_screen.dart';
 import '../../features/room_analysis/presentation/analysis_screen.dart';
 import '../../features/room_input/presentation/image_input_screen.dart';
 import '../../features/room_input/presentation/input_method_screen.dart';
@@ -37,7 +36,6 @@ abstract class Routes {
 
   // ---- ٢. غرفتي ----------------------------------------------------------
   static const room = '/room';
-  static const roomOptions = '/room/options';
   static const roomSaved = '/room/saved';
 
   // ---- ٣. المعاينة -------------------------------------------------------
@@ -49,7 +47,7 @@ abstract class Routes {
 
 /// المسارات مُعلَنة **مسطّحة** رغم أن نصوصها هرمية، وهذا مقصود لا سهو:
 ///
-/// التعشيش في GoRouter يبني الأب مع الابن، فدخول `/room/options` كان سيُنشئ
+/// التعشيش في GoRouter يبني الأب مع الابن، فدخول `/room/saved` كان سيُنشئ
 /// `PlanScreen` تحته ويُطلق `plan_seeded` **قبل** أن يصل المستخدم إلى الخطة — أي
 /// يزيّف القِمع الذي نقيس به التفعيل. الهرمية هنا في العنوان لا في المكدّس؛
 /// المكدّس يبقى كما كان تمامًا.
@@ -85,10 +83,6 @@ final List<GoRoute> appRoutes = [
   GoRoute(
     path: Routes.room,
     builder: (context, state) => const PlanScreen(),
-  ),
-  GoRoute(
-    path: Routes.roomOptions,
-    builder: (context, state) => const RecommendationsScreen(),
   ),
   GoRoute(
     path: Routes.roomSaved,

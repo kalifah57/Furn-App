@@ -219,18 +219,12 @@ class _AnalysisScreenState extends ConsumerState<AnalysisScreen> {
             ),
         ],
         const SizedBox(height: 24),
-        // القلب هو الخطة، لا قائمة التوصيات: بعد فهم الطلب يدخل المستخدم «غرفتي»
-        // مباشرةً. الخيارات باقية، لكنها منعطف اختياري لا الوجهة.
+        // القلب هو الخطة، لا قائمة توصيات: بعد فهم الطلب يدخل المستخدم «غرفتي»
+        // مباشرةً. لا صفحة تصفّح — «بدّل» داخل الخطة تغطّي الخيارات.
         FilledButton.icon(
           icon: const Icon(Icons.tune),
           label: const Text('شكّل خطتك'),
           onPressed: () => context.go(Routes.room),
-        ),
-        const SizedBox(height: 8),
-        TextButton.icon(
-          icon: const Icon(Icons.grid_view_outlined),
-          label: const Text('تصفّح الخيارات أولًا'),
-          onPressed: () => context.go(Routes.roomOptions),
         ),
       ],
     );
