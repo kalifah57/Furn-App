@@ -48,6 +48,7 @@ and never changes it. The pure-Dart domain engine stays analytics-free (enforced
 | `merchant_click` | user opens a product's store link — the first purchase-intent signal | `product_id`, `category` |
 | `plan_finalized` | user commits to the plan (activation) | `confidence, itemCount, pinnedCount, edits` |
 | `plan_shared` | user opens the share sheet | `confidence` |
+| `assistant_command` | user gives the in-room Assistant a natural-language command | `intent` (`set_budget`\|`nudge_budget`\|`add`\|`remove`\|`finalize`\|`unknown`), `understood` — the `understood=false` rate shows which language to teach the parser next |
 | `need_unmet` | user asked for something we cannot serve | `raw_type` (their words), `reason` (`out_of_scope`\|`not_stocked`\|`none_fit`), `reserve_sar` |
 | `session_abandoned` | user leaves the plan without finalizing (once) | `lastStep, lastConfidence` |
 
@@ -55,7 +56,10 @@ and never changes it. The pure-Dart domain engine stays analytics-free (enforced
 `flow_controller.dart` (`input_submitted`), `plan_controller.dart` (`plan_seeded`
 or `plan_restored` — exactly one, on construction; then
 pin/reject/swap, `budget_changed`, `plan_finalized`, `options_opened` via
-`logOptionsOpened`, `plan_shared` via `logShared`, `session_abandoned` via
+`logOptionsOpened`, `plan_shared` via `logShared`, `assistant_command` via
+`runCommand`/`applyCommand` — which then routes to the same pin/reject/budget
+op, so engagement is still counted through the underlying event —
+`session_abandoned` via
 `logAbandonedIfUnfinished`), `plan_screen.dart` (calls the log helpers +
 `dispose` → abandoned), `onboarding_screen.dart` (`flow_started`),
 `features/ar/ar_button.dart` (`ar_opened`).

@@ -212,6 +212,23 @@ class PlanShared extends AnalyticsEvent {
   Map<String, Object?> get params => {'confidence': confidence};
 }
 
+/// المستخدم خاطب المساعد داخل «غرفتي» بأمرٍ لغوي. [understood] يفصل ما فهمناه
+/// عمّا لم نفهمه: تجميع `understood=false` يكشف **أيّ لغةٍ نعلّمها المُحلِّل بعد**،
+/// وهو ما يوجّه تطوير الفهم بأثر حقيقي لا بالحدس.
+class AssistantCommand extends AnalyticsEvent {
+  const AssistantCommand({required this.intent, required this.understood});
+
+  /// نيّة الأمر: set_budget | nudge_budget | add | remove | finalize | unknown.
+  final String intent;
+  final bool understood;
+
+  @override
+  String get name => 'assistant_command';
+  @override
+  Map<String, Object?> get params =>
+      {'intent': intent, 'understood': understood};
+}
+
 /// طلب المستخدم شيئًا لا نخدمه. تجميع هذا الحدث يحوّل الشكوى إلى **قائمة
 /// تسوّق مرتّبة بالطلب الحقيقي** — وهو ما يقرّر ماذا نورّد بعد ذلك.
 class NeedUnmet extends AnalyticsEvent {

@@ -1,11 +1,14 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../../../ai/parsing/plan_command.dart';
+import '../../../ai/parsing/plan_command_parser.dart';
 import '../../../analytics/analytics.dart';
 import '../../../core/di/providers.dart';
 import '../../../domain_engine/plan/plan.dart';
 import '../../../domain_engine/plan/plan_workspace.dart';
 import '../../../shared/models/models.dart';
+import '../../../shared/utils/formatters.dart';
 import '../../room_input/presentation/flow_controller.dart';
 import '../data/plan_draft_store.dart';
 
@@ -74,6 +77,7 @@ class PlanController extends ChangeNotifier {
     Analytics analytics = const NoopAnalytics(),
     PlanDraftStore? store,
     bool restored = false,
+    this.parser = const PlanCommandParser(),
   })  : _analytics = analytics,
         _store = store {
     plan = _ws.build();
@@ -101,6 +105,10 @@ class PlanController extends ChangeNotifier {
   final PlanWorkspace _ws;
   final Analytics _analytics;
   final PlanDraftStore? _store;
+
+  /// مُحلِّل لغة المساعد (mock-first) — يُبدَّل بمزوّد حقيقي عبر نفس العقد.
+  final PlanCommandParser parser;
+
   late Plan plan;
   PlanDiff? lastChange;
 
@@ -202,6 +210,80 @@ class PlanController extends ChangeNotifier {
           RecommendationCategory c, String currentId) =>
       _ws.betterAlternatives(c, currentId);
 
+  // ---- المساعد داخل «غرفتي»: لغة → نيّة → تنفيذ حتمي ----------------------
+
+  /// نقطة دخول الورقة: يفهم جملة المستخدم (mock الآن) ثم ينفّذها على المحرّك.
+  CommandResult runCommand(String text) => applyCommand(parser.parse(text));
+
+  /// ينفّذ أمرًا منظّمًا عبر عملياتٍ **موجودة** (ميزانية/تثبيت/رفض/اعتماد)، فتُحفظ
+  /// القرارات وتُرسَل أحداثها كالمعتاد. المساعد يفهم؛ المحرّك يقرّر النتيجة.
+  ///
+  /// يُرسَل [AssistantCommand] دائمًا (حتى للمجهول) — معدّل «لم نفهم» هو ما يوجّه
+  /// أيّ لغةٍ نعلّمها المُحلِّل تاليًا.
+  CommandResult applyCommand(PlanCommand cmd) {
+    _analytics.track(
+        AssistantCommand(intent: cmd.intent, understood: cmd is! UnknownCommand));
+    switch (cmd) {
+      case SetBudgetCommand(:final amountSar):
+        final v = amountSar.clamp(500.0, 10000.0).roundToDouble();
+        setBudget(v);
+        return CommandResult(
+            understood: true,
+            message: 'ضبطت ميزانيتك عند ${formatSar(v)} · $_confLine');
+      case NudgeBudgetCommand(:final direction):
+        final v = (project.budget.maxTotal * (direction < 0 ? 0.85 : 1.15))
+            .clamp(500.0, 10000.0)
+            .roundToDouble();
+        setBudget(v);
+        return CommandResult(
+            understood: true,
+            message: '${direction < 0 ? 'خفّضت' : 'رفعت'} ميزانيتك إلى '
+                '${formatSar(v)} · $_confLine');
+      case AddCategoryCommand(:final category):
+        if (alternativesFor(category).isEmpty) {
+          return CommandResult(
+              understood: true,
+              message: 'لا أجد ${category.arabicLabel} متوفّرة لأضيفها الآن.');
+        }
+        addCheapestOf(category);
+        return CommandResult(
+            understood: true,
+            message: 'أضفت ${category.arabicLabel} · $_confLine');
+      case RemoveCategoryCommand(:final category):
+        final id = _idInCategory(category);
+        if (id == null) {
+          return CommandResult(
+              understood: true,
+              message: 'لا توجد ${category.arabicLabel} في خطتك.');
+        }
+        reject(id);
+        return CommandResult(
+            understood: true,
+            message: 'أزلت ${category.arabicLabel} · $_confLine');
+      case FinalizeCommand():
+        finalizePlan();
+        return const CommandResult(
+            understood: true, message: 'اعتمدت خطتك — أنت جاهز 👏');
+      case UnknownCommand():
+        return const CommandResult(
+          understood: false,
+          message: 'لم أفهم طلبك. جرّب: «اجعلها أوفر» · «أضف طاولة» · '
+              '«ميزانيتي ٣٠٠٠» · «جاهز».',
+        );
+    }
+  }
+
+  String get _confLine => 'ثقتك ${plan.confidence}٪';
+
+  /// معرّف أوّل قطعةٍ في الخطة ضمن فئةٍ ما — لتنفيذ «احذف الطاولة» على المعروض.
+  String? _idInCategory(RecommendationCategory category) {
+    for (final it in plan.items) {
+      final id = it.item.productId;
+      if (it.item.category == category && id != null) return id;
+    }
+    return null;
+  }
+
   /// منتج الكتالوج المصدر لعنصر في الخطة (للوصول إلى نموذج الـ AR ومقاسه).
   CatalogProduct? productById(String? id) {
     if (id == null) return null;
@@ -227,4 +309,12 @@ class PlanController extends ChangeNotifier {
 
   String _categoryOf(String? id) =>
       productById(id)?.category.wire ?? 'unknown';
+}
+
+/// نتيجة أمرٍ لغوي وُجّه للمساعد: هل فُهم، ورسالةٌ موجزة تُعرَض في الورقة. لا حالة
+/// هنا — الحالة في الخطة نفسها؛ هذه للعرض الفوري فقط.
+class CommandResult {
+  const CommandResult({required this.understood, required this.message});
+  final bool understood;
+  final String message;
 }

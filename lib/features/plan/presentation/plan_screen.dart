@@ -8,6 +8,7 @@ import '../../../domain_engine/plan/unmet_need.dart';
 import '../../../shared/models/models.dart';
 import '../../../shared/utils/formatters.dart';
 import '../../ar/ar_button.dart';
+import 'assistant_sheet.dart';
 import 'plan_controller.dart';
 
 /// شاشة الخطة — قلب التطبيق (product_thesis.md): «الخطة» التي يشكّلها المستخدم
@@ -23,6 +24,16 @@ class PlanScreen extends ConsumerWidget {
       appBar: AppBar(
         title: const Text('خطتي'),
         actions: [
+          // المساعد يعيش هنا كورقة داخل الغرفة، لا كوجهة يُعاد إليها: يخاطبه
+          // المستخدم بلغته فيعدّل خطته دون مغادرتها. يظهر فقط بعد جهوز المحرّك.
+          async.maybeWhen(
+            data: (controller) => IconButton(
+              tooltip: 'المساعد',
+              icon: const Icon(Icons.auto_awesome),
+              onPressed: () => showAssistantSheet(context, controller),
+            ),
+            orElse: () => const SizedBox.shrink(),
+          ),
           // المعاينة: الخطة نفسها موضوعة في مساحة الغرفة بمقاسها الحقيقي — يرى
           // المستخدم ما يدخل فعلًا وما لا يدخل قبل أن يدفع.
           IconButton(
