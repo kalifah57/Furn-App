@@ -7,3 +7,6 @@ __pycache__/
 # catalog.json and catalog.manifest.json are the published contract
 # (see README > Published contract) and are tracked deliberately.
 run-report.txt
+
+catalog.json
+catalog.manifest.json
