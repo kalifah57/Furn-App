@@ -45,11 +45,19 @@ class SandboxScreen extends ConsumerWidget {
             Expanded(
               child: Padding(
                 padding: const EdgeInsets.all(12),
-                child: SandboxSceneView(
-                  room: s.space,
-                  placements: s.items,
-                  selectedProductId: s.selectedProductId,
-                  onTapItem: (id) => _onTap(context, ref, id),
+                // تكبير/تحريك المشهد ليتفحّص المستخدم المطابقة عن قرب. النقر
+                // يبقى اختيارًا: الإزاحة تُحرّك، والنقرة تصل إلى مُحدِّد القطعة
+                // بإحداثيات القطعة نفسها (يُعيد Flutter موضع النقر إلى فضاء الطفل
+                // عبر التحويل)، فلا يفسد الاختيار مع التكبير.
+                child: InteractiveViewer(
+                  minScale: 1,
+                  maxScale: 4,
+                  child: SandboxSceneView(
+                    room: s.space,
+                    placements: s.items,
+                    selectedProductId: s.selectedProductId,
+                    onTapItem: (id) => _onTap(context, ref, id),
+                  ),
                 ),
               ),
             ),
