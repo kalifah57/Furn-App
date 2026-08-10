@@ -131,4 +131,10 @@ flowchart TB
 ---
 
 ## 9) Mapping to current code
-Built today: 8 screens, `FurnishingFlowController` + providers, flat `GoRouter`, `AppStrings` + `locale ar` + RTL, `InMemoryProjectRepository`, bundled catalog, shared widgets. **Evolution (additive):** wrap routes in a `StatefulShellRoute` (bottom nav); add Project/Shopping/Detail/Explanation/Settings screens + their controllers; swap in `LocalProjectRepository`; migrate `AppStrings`→ARB; run a semantics/contrast/dynamic-type pass. No rewrite.
+> **⚠️ متجاوَز جزئيًا (2026-08).** سطح الملاحة صار **ثلاث تجارب** (المساعد · غرفتي ·
+> المعاينة) لا شريطًا سفليًّا بأربعة تبويبات، ومنطقة **Shopping/Purchases خارج نطاق
+> الـMVP** (الشراء اختياري — [`adr/0002`](adr/0002-three-experiences-navigation.md) و
+> [`product_thesis.md`](product_thesis.md)). البقاء صار `LocalProjectRepository`
+> (لا `InMemoryProjectRepository`، وقد حُذف).
+
+Built today: the three experiences under a flat `GoRouter` (ADR-0002), `FurnishingFlowController` + providers, `AppStrings` + `locale ar` + RTL, `LocalProjectRepository` (persists across reload), bundled catalog, shared widgets. **Evolution (additive):** migrate `AppStrings`→ARB; run a semantics/contrast/dynamic-type pass; wire a real catalog + AI provider behind the existing seams. No rewrite. *(A bottom-nav shell and a Shopping/Purchases journey are out of the confidence-first MVP.)*

@@ -1,5 +1,13 @@
 # مراجعة الوثائق — فهم المشروع، الفجوات، ونطاق الـ MVP
 
+> **⚠️ مرجع تأسيسي مُتجاوَز جزئيًا (2026-08).** يصف هذا المستند المشروع كـ«مستشار
+> رقمي يقترح قطعًا وباقات» و«تطبيق جوال» — وكلاهما لم يعد التعريف المُعتمَد:
+> المنتج **منصّة تخطيط تفاعلية على الويب**، **الخطة هي المنتج لا التوصية**
+> ([`product_thesis.md`](product_thesis.md)). كما أن حزمة الوثائق الأصلية المذكورة
+> أدناه (`product_requirements.md`, `architecture.md`, `ai_pipeline.md`,
+> `json_schema.md`, `prompt_engineering.md`, `engineering_standards.md`) **ليست في
+> هذا المستودع** — مرجع خارجي تاريخي. يُقرأ هذا المستند لسياق النشأة فقط.
+
 > وثيقة مراجعة تسبق كتابة أي كود. مبنية على قراءة حزمة الوثائق (`final_all_in_one_pack`)
 > التي تضم: `product_requirements.md`، `architecture.md`، `ai_pipeline.md`،
 > `json_schema.md`، `recommendation_engine.md`، `catalog_strategy.md`،

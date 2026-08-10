@@ -1,5 +1,12 @@
 # telemetry_analytics.md — القياس والتحليلات
 
+> **⚠️ مُتجاوَز (2026-08).** مقياس النجاح في هذه الوثيقة (`recommendations_viewed`
+> و`project_saved / recommendations_viewed`) يعكس هوية قديمة تجعل التوصيات هي
+> المنتج. **المصدر الحيّ للقياس هو [`analytics_events.md`](analytics_events.md)**،
+> ونجمُه الشمالي **`plan_finalized / flow_started`** (خطة يثق بها المستخدم)،
+> متوافقًا مع [`product_thesis.md`](product_thesis.md). تُبقى هذه الوثيقة كمرجع
+> تاريخي لتصنيف الأحداث فقط.
+
 > تصميم القياس (Telemetry) والتحليلات بما يتوافق مع **مؤشرات النجاح** (PRD) ومعايير
 > **التسجيل** (engineering_standards.md). **التنفيذ الحقيقي للتحليلات خارج نطاق المرحلة
 > الحالية** — هذه الوثيقة تصميم + موضع تجريد جاهز للتفعيل لاحقًا.
