@@ -1,5 +1,10 @@
 # تناغم الغرفة — Room Harmony
 
+> **⚠ محدَّث بـ`07`:** `ConfidenceGap{label, points, actions}` و`ReplacementOption{product, pros, cons}`
+> صارا موجودَين فعلًا في `plan/plan.dart`. `HarmonyGap` يصير **صدىً حرفيًّا لهما** (label/points/actions
+> + `ruleId` للتتبّع)، والإصلاح يُعيد استخدام `ReplacementOption`. راجع
+> [`07 §2`](07-charter-reconciliation.md) — يَجُبّ محاكاة `UnmetNeed` أدناه حيث تعارَضا.
+
 > **التسليم ٣ من ٤.** درجة شفّافة على طريقة الثقة، بفجوات قابلة للتنفيذ، Dart صرف داخل المحرّك.
 
 **المشكلة التي يحلّها:** اليوم كل درجة تُحسب لمنتج **معزولًا**
