@@ -14,9 +14,16 @@ void main() {
     ));
   }
 
+  /// `find.byType` — which `widgetWithText` delegates to — matches on exact
+  /// `runtimeType`, and `FilledButton.icon` builds the private
+  /// `_FilledButtonWithIcon` subclass. Matching by type therefore finds nothing
+  /// and the lookup throws "Bad state: No element" rather than failing on the
+  /// assertion. Match on `is FilledButton` so the icon variant counts too.
   ButtonStyleButton buildButton(WidgetTester tester) =>
-      tester.widget<FilledButton>(
-          find.widgetWithText(FilledButton, 'ابنِ خطتي'));
+      tester.widget<ButtonStyleButton>(find.ancestor(
+        of: find.text('ابنِ خطتي'),
+        matching: find.byWidgetPredicate((w) => w is FilledButton),
+      ));
 
   testWidgets('renders the intake with text, voice, image and detailed paths',
       (tester) async {
