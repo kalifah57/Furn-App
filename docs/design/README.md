@@ -11,6 +11,7 @@
 | ٣ | [`03-preview-pipeline.md`](03-preview-pipeline.md) | خطّ إنتاج الصور + حدّ الخصوصية | ✅ للمراجعة |
 | ٤ | [`04-contract-changes.md`](04-contract-changes.md) | مقترح تغييرات العقود المشتركة | ⏸ بانتظار إقرار |
 | ٥ | [`05-catalog-integration.md`](05-catalog-integration.md) | دمج كتالوج IKEA KSA: طاولات · لون · ستايل/خامة · مراجعة schema v2 | ⏸ بانتظار قسم البيانات |
+| ٦ | [`06-train-test-plan.md`](06-train-test-plan.md) | خطة معايرة/اختبار + برومت قابل لإعادة الاستخدام + مصادر احترافية (اللون كقيمة مُثبَت CIELAB) | ✅ للمراجعة |
 
 ---
 
