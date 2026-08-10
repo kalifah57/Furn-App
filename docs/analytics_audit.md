@@ -1,222 +1,123 @@
-# تدقيق التحليلات — Furn-App
+# تدقيق التوصيل G1 — القياس والموافقة والمصارف (Wiring Audit)
 
-> **مقترح — بانتظار الموافقة (Proposal — pending approval)**
-> هذه وثيقة تصميم وتدقيق (Audit/Design). الغرض منها التحديد والاقتراح فقط، لا التنفيذ. لا تحتوي على كود تنفيذي بلغة Dart سوى تواقيع توضيحية صغيرة.
+> **تقرير فجوات — بانتظار موافقة المؤسّس (Gap report — pending founder approval).**
+> تدقيق **مبنيّ على الكود الفعليّ** بعد دمج فرع المعماري. **تدقيق فقط: لا إصلاح ولا كود قبل الموافقة** (الانضباط: Audit → Design → Approval → Implementation).
+> يَحلّ هذا التقرير محلّ مسودّة التدقيق السابقة التي كُتبت على افتراض مستودع فارغ.
 >
-> **مبادئ حاكمة:** «الخطة هي المنتج» · «الثقة هي النتيجة» · «التسوّق اختياري».
-> **قاعدة القياس العليا:** «تلاحظ ولا تغيّر» — التحليلات تُلاحِظ من الخارج ولا تغيّر سلوك المنتج ولا حلقة الثقة. و«الأرقام تُرشد لا تقرّر».
-> **الملكية (Track 5):** `lib/analytics/**` + منطق الموافقة `lib/features/consent/**` (عدا البانر = Track 4: لنا المخزن والمتحكّم ومنطق البوابة، لا واجهة البانر) + وثائق `docs/analytics_events.md` و`docs/telemetry_analytics.md`.
-> **الحاكم عند التنازع في الحدود:** `docs/agent_workstreams.md`، والبريف الكامل لهذا المسار `docs/workstreams/5_growth_analytics.md` (كلاهما غير موجود بعد في هذا المستودع الفارغ — يُشار إليهما ولا يُختلقان).
+> **الحاكم عند التنازع:** `docs/agent_workstreams.md` · **بريف المسار:** `docs/workstreams/5_growth_analytics.md` · **الكتالوج الحيّ:** `docs/analytics_events.md`.
+> **الملكية (المسار ٥):** `lib/analytics/**` + منطق الموافقة `lib/features/consent/**` (عدا البانر = مسار ٤) + وثائق القياس. **نقاط النداء لأصحابها؛ تعريف الأحداث عبرنا.**
 
 ---
 
-## 1. ملخّص تنفيذي
+## 0. الخلاصة التنفيذية (Verdict)
 
-**الواقع الحالي (greenfield):** المستودع فارغ فعليًا. لا يوجد سوى `README.md`. لا `lib/`، ولا `docs/` (سوى هذه الوثيقة)، ولا `test/`، ولا أي كود من أي نوع، ولا `docs/agent_workstreams.md`. أي كل ما يرد أدناه هو الهدف/النية (target/intent) وليس شيئًا مُنفَّذًا.
+**البنية سليمة ومختبَرة جيدًا في جوهرها**، والمبادئ الحاكمة محترمة في معظمها: الموافقة معطّلة افتراضيًا، البوابة قبل التخزين، فشل صامت محدود، معرّف جلسة مجهول، `plan_restored` ليست بذرة (مثبَّت بالبناء والاختبار)، وحارس نقاء المحرّك قائم. **لكن خمس فجوات تحتاج قرارًا وإصلاحًا:**
 
-**الهدف (target):** طبقة تحليلات تُلاحِظ سلوك المستخدم عبر التجارب الثلاث (Assistant · My Room · Preview) من خلال واجهة `Analytics` واحدة، وأحداث مُصنَّفة بنوع صريح (`AnalyticsEvent` كتسلسل `sealed`)، تُرسَل عبر «مصارف» (Sinks) قابلة للتركيب، مع بوابة موافقة (consent) مُعطَّلة افتراضيًا وفق نظام حماية البيانات الشخصية السعودي (PDPL)، وحارس نقاء (purity guard) يمنع أي تسرّب للتحليلات إلى المحرك النقي.
+1. **حدث `need_unmet` غير موصَّل إطلاقًا** — إشارة الطلب لا تُجمَع (High).
+2. **تسريب نصّ خام (PII) في `need_unmet.raw_type`** — يخالف عقد «بلا PII» صراحةً ويصل إلى الشبكة (High/PII).
+3. **مصرف `DebugAnalytics` يتجاوز الموافقة** في التركيب (يجمع في وضع التطوير بلا إذن) (Medium).
+4. **لا فرض لـ HTTPS** على `ANALYTICS_ENDPOINT` — يقبل `http://` عاديًّا (Medium/Security).
+5. **لا حارس اختباريّ لـ PII/أوّليّة الـ params** — لذلك تسلّل `raw_type` دون أن يكسر اختبارًا (Medium).
 
-**الفجوة (الفجوة في فقرة واحدة):** الفجوة كاملة. لا شيء من العقد أو الكتالوج أو المصارف أو التركيب أو الموافقة أو اختبارات النقاء والقُمع مُنفَّذ؛ الحالة لكل مكوّن هي «غير مُنفَّذ / مقترح». هذه الوثيقة تُحوِّل النية إلى مواصفة قابلة للاعتماد والتنفيذ لاحقًا، وتحصر القرارات المفتوحة التي يجب حسمها قبل كتابة أي سطر تنفيذي.
-
----
-
-## 2. عقد القياس (The contract)
-
-التحليلات = **واجهة** واحدة. كل ما عداها (مصارف، تركيب، موافقة) يقف خلفها. الكود يعتمد على الواجهة لا على التفاصيل.
-
-```dart
-// توضيحي فقط — لا يُعتمد كتنفيذ
-abstract class Analytics {
-  void log(AnalyticsEvent event);
-}
-```
-
-الحدث نفسه نموذج `sealed` بأنواع فرعية صريحة، وشكله الثابت:
-
-```dart
-// توضيحي فقط — الشكل، لا التنفيذ
-sealed class AnalyticsEvent {
-  String get name;                  // snake_case ثابت ومستقر
-  Map<String, Object?> get params;  // قيم أولية فقط (primitives)، بلا PII
-}
-
-// مثال على نوع فرعي صريح
-final class MerchantClick extends AnalyticsEvent {
-  final String productId;
-  final String category;
-  // name => 'merchant_click'
-  // params => { 'product_id': productId, 'category': category }
-}
-```
-
-**قواعد العقد الثلاث الملزِمة:**
-
-1. **`name` = snake_case ثابت ومستقر.** الاسم عقد عام؛ لا يتغيّر بمرور الزمن لأن لوحات القياس والاستعلامات تُبنى عليه. تغيير اسم = تغيير عقد = تحديث الكتالوج + الاختبارات.
-2. **`params` = قيم أولية فقط (`String`, `int`, `double`, `bool`).** لا كائنات متداخلة، لا قوائم حرّة، لا خرائط ديناميكية. هذا يضمن قابلية التسلسل (serialization) والاستعلام الحتمي.
-3. **لا PII إطلاقًا.** لا اسم، لا بريد، لا رقم هاتف، لا نص مُدخَل خام، لا محتوى غرفة، لا صورة، لا مُعرِّف مستخدم. كل قيمة إمّا مُعدّدة (enum) أو مُجمّعة في «سلّة» (bucket) أو مُعرّف منتج/فئة غير شخصي. مُعرّف الجلسة **مجهول** فقط.
+**لا أنفّذ أيًّا من الإصلاحات قبل موافقتك.** خطة الإصلاح المرتّبة في §6، والقرارات المطلوبة في §7.
 
 ---
 
-## 3. كتالوج الأحداث (Event catalog)
+## 1. مصفوفة التوصيل — الكتالوج (١٦ حدثًا) مقابل المُوصَّل فعلًا
 
-الأحداث الستة عشر (16) كاملةً. كل `params` **مجهولة، مُعدَّدة أو مُجمّعة في سِلال، ولا تحمل محتوى المستخدم الخام أبدًا**. القيم المُعدَّدة أدناه مقترحة وتُثبَّت عند الاعتماد في `docs/analytics_events.md`.
-
-| event_name | متى يُطلق (trigger) | التجربة/المسار المالك | params (typed, primitives, no PII) | ملاحظات |
+| # | event_name | موصَّل؟ | نقطة النداء (call site) | ملاحظة |
 |---|---|---|---|---|
-| `flow_started` | بدء أي مسار تخطيط | Assistant · My Room · Preview | `{ experience: String(enum: assistant\|my_room\|preview), source: String(enum: home\|deeplink\|resume\|share) }` | مقام القُمع (مقام التفعيل). |
-| `input_submitted` | إرسال المستخدم مُدخَلًا للمحرك | Assistant · My Room | `{ input_kind: String(enum: text\|dimensions\|image\|voice), has_image: bool }` | **لا نص خام إطلاقًا**؛ فقط نوع المُدخَل ووجود صورة. |
-| `plan_seeded` | توليد الخطة الأولى من المحرك | Assistant · My Room | `{ experience: String, item_count_bucket: String(enum: xs\|s\|m\|l\|xl) }` | إشارة بدء بناء الخطة. |
-| `plan_restored` | استرجاع خطة محفوظة عند العودة | Assistant · My Room · Preview | `{ source: String(enum: local\|link), age_bucket: String(enum: h1\|d1\|d7\|d30\|older) }` | **إشارة العودة** (return signal) — **لا تُحسب بذرة (not a seed)**؛ عدّها ضمن `plan_seeded` يضخّم القُمع كذبًا. |
-| `item_pinned` | تثبيت المستخدم لعنصر في الخطة | My Room · Preview | `{ category: String, position_bucket: String(enum: early\|mid\|late) }` | التزام إيجابي داخل حلقة الثقة. |
-| `item_rejected` | رفض المستخدم لعنصر مقترح | My Room · Preview | `{ category: String, reason_code: String(enum: size\|style\|price\|other) }` | لا سبب حرّ؛ رمز مُعدَّد فقط. |
-| `item_swapped` | استبدال عنصر بآخر | My Room · Preview | `{ category: String, swap_source: String(enum: engine\|user) }` | تفاعل تنقيح الخطة. |
-| `budget_changed` | تعديل الميزانية | Assistant · My Room | `{ direction: String(enum: up\|down), bucket: String(enum: low\|mid\|high\|premium) }` | اتجاه وسلّة فقط، لا مبلغ خام. |
-| `options_opened` | فتح لوحة الخيارات/البدائل | My Room · Preview | `{ category: String, options_count_bucket: String(enum: s\|m\|l) }` | إشارة استكشاف. |
-| `ar_opened` | فتح العرض الواقعي/المعزّز | Preview | `{ trigger: String(enum: item\|scene), item_count_bucket: String(enum: xs\|s\|m\|l\|xl) }` | تعمّق في المعاينة. |
-| `merchant_click` | نقر المستخدم للانتقال إلى التاجر | Preview · My Room | `{ product_id: String, category: String }` | **حدث الإيراد المفتاح** — أول إشارة نيّة شراء. مدخل قُمع الإيراد. |
-| `plan_finalized` | إتمام/تثبيت الخطة النهائية | Assistant · My Room · Preview | `{ experience: String, item_count_bucket: String, duration_bucket: String(enum: m1\|m5\|m15\|m30\|longer) }` | **بسط التفعيل** (Activation). |
-| `plan_shared` | مشاركة الخطة | Assistant · My Room · Preview | `{ channel: String(enum: link\|image\|native), has_items: bool }` | إشارة انتشار/ثقة اجتماعية. |
-| `assistant_command` | تنفيذ أمر عبر المساعد | Assistant | `{ command_kind: String(enum: add\|remove\|resize\|arrange\|explain), success: bool }` | نوع الأمر ونجاحه فقط، لا نص الأمر. |
-| `need_unmet` | تعذّر تلبية طلب المستخدم | Assistant · My Room · Preview | `{ reason_code: String(enum: no_match\|out_of_budget\|unsupported\|out_of_stock) }` | **إشارة الطلب** (demand)؛ **رمز مُعدَّد لا نص حرّ**. |
-| `session_abandoned` | ترك الجلسة دون إتمام | Assistant · My Room · Preview | `{ last_stage: String(enum: input\|seeded\|editing\|preview\|checkout_intent), duration_bucket: String(enum: m1\|m5\|m15\|longer) }` | إشارة تسرّب في القُمع. |
+| 1 | `flow_started` | ✅ | `onboarding_screen.dart:56,69` (`onboarding` \| `sample_plan`) | مقام التفعيل. |
+| 2 | `input_submitted` | ✅ | `flow_controller.dart:87` | — |
+| 3 | `plan_seeded` | ✅ | `plan_controller.dart:92` (عند البناء) | — |
+| 4 | `plan_restored` | ✅ | `plan_controller.dart:86` (بديل حصريّ للبذرة) | **ليست بذرة** — مثبَّت بالبناء + اختبار. |
+| 5 | `item_pinned` | ✅ | `plan_controller.dart:161` | — |
+| 6 | `item_rejected` | ✅ | `plan_controller.dart:170` | — |
+| 7 | `item_swapped` | ✅ | `plan_controller.dart:176` | — |
+| 8 | `budget_changed` | ✅ | `plan_controller.dart:184` | `newMax` مبلغ خام (§GAP-3). |
+| 9 | `options_opened` | ✅ | `plan_controller.dart:298` | — |
+| 10 | `ar_opened` | ✅ | `ar_button.dart:36,81` (productId \| `demo`) | — |
+| 11 | `merchant_click` | ✅ | `sandbox_screen.dart:211` | **إشارة الإيراد المرساة.** غير مذكور في «Wire points» بالكتالوج (§GAP-8). |
+| 12 | `plan_finalized` | ✅ | `plan_controller.dart:194` | بسط التفعيل. |
+| 13 | `plan_shared` | ✅ | `plan_controller.dart:300` | — |
+| 14 | `assistant_command` | ✅ | `plan_controller.dart:225` | `understood` يغذّي G5. |
+| 15 | `session_abandoned` | ✅ | `plan_controller.dart:307` | مرّة واحدة (اختبار). |
+| 16 | `need_unmet` | ❌ **غير موصَّل** | — لا شيء في `lib/` — | مُعرَّف + موثَّق + مُختبَر في `http_analytics_test.dart:83` فقط، ولا يُطلقه أي مسار. **إشارة الطلب صفر.** |
 
-> **تعهّد الخصوصية للكتالوج:** كل قيمة في كل `params` أعلاه إمّا مُعدَّدة (enum مغلق) أو سلّة مُجمّعة (bucket) أو `product_id`/`category` غير شخصيين أو `bool`. **لا يظهر محتوى المستخدم الخام (نص، أبعاد دقيقة، صورة، مبلغ، اسم) في أي حدث.**
+**الحصيلة: ١٥/١٦ موصَّلة.** `need_unmet` مُعرَّف بلا نقطة نداء.
 
 ---
 
-## 4. الـSinks (المصارف)
+## 2. الفجوات وإصلاحها المقترح
 
-المصرف هو وِجهة الحدث بعد `log`. التركيب يختار المصرف؛ الكود المُنتِج للأحداث لا يعرف أيّها فعّال.
+| ID | الفجوة | الخطورة | الدليل | الإصلاح المقترح (بعد الموافقة) |
+|---|---|---|---|---|
+| **GAP-1** | `need_unmet` مُعرَّف وموثَّق لكنه **لا يُطلَق من أي مكان**؛ إشارة الطلب (قائمة التسوّق بالطلب الحقيقي) لا تُجمَع. | **High** | لا مثيل لـ `NeedUnmet(` في `lib/`؛ الوحيد في `test/analytics/http_analytics_test.dart:83`. «Wire points» في `analytics_events.md` تُغفله. | **يُطلَق عند تعذّر التلبية** (مسار المساعد `UnknownCommand`، أو سطح «طلب غير مخدوم» في الخطة/الغرفة). النداء ملك مسار ٣/٤؛ **أعرّف الحدث وأنسّق، وهم يضيفون النداء** — بعد حسم شكل `raw_type` (GAP-2). |
+| **GAP-2** | **PII:** `need_unmet.raw_type` يحمل **نصّ المستخدم كما كتبه**، ويصل إلى حمولة الشبكة. يخالف عقد `AnalyticsEvent` («قيَم بدائية فقط — بلا PII») و`telemetry_analytics.md §3` والبريف. النص الحرّ قد يحوي اسمًا/مكانًا/رقمًا. | **High / PII** | `analytics.dart:237` (تعليق «نصّ المستخدم كما كتبه») + `:251` (`'raw_type': rawType`) → `http_analytics.dart:64` (`'params': event.params`) → موثَّق `analytics_events.md:52` → **مؤكَّد كسلوك متوقَّع** في `http_analytics_test.dart:90`. | استبدال `raw_type` بـ **`requested_type` مُعدَّل من مفردات مغلقة** يعرفها المُحلِّل (غير المعروف ⇒ `other`)، فيبقى مقياس الطلب دون نصّ حرّ. تحديث الكتالوج + تعديل `http_analytics_test.dart:83-90` + إضافة حارس PII (GAP-6). *(بديل يحتاج قرارك: الاحتفاظ بالمصطلح بعد تطبيع صارم لقائمة بيضاء — أضعف خصوصيًّا.)* |
+| **GAP-3** | مبالغ خام في الـ params: `budget_changed.newMax`، `plan_seeded.total`، `need_unmet.reserve_sar`، و`confidence`. **ليست PII** (لا تُعرِّف شخصًا) والعقد «بدائيّ» محقَّق — لكنها قيَم خام لا سِلال. | Low (قرار تصميم) | `analytics.dart:139,69,243`. | **مقبولة كما هي** (قابلة للتجميع، غير معرِّفة). خيار: تسليّة المبالغ (`value_bucket`) إن رفعت منطقة/جهة الوجهة الحساسية. **قرار خصوصية لك/DPO، غير عاجل.** |
+| **GAP-4** | `DebugAnalytics` يُركَّب `DebugAnalytics(log: true)` **بلا تمرير الموافقة**، فيبقى على الافتراض `consent = true`؛ في `kDebugMode` يجمع/يطبع **بصرف النظر عن موافقة المستخدم**. (الـHTTP يمرّر الموافقة صحيحًا.) | Medium | التركيب `providers.dart:54` مقابل الافتراض `analytics.dart:278`؛ الـHTTP الصحيح `providers.dart:63`. غير مُختبَر. | تمرير `consent: ref.watch(analyticsConsentProvider)` إلى `DebugAnalytics` (وجعله تفاعليًّا)، **أو** قرار موقَّع بأن جمع التطوير المحلّي (لا يغادر الجهاز) مُستثنى. **توصيتي: البوابة على Debug أيضًا** اتّساقًا مع «لا جمع بلا موافقة» — مع علم أن G2 يشغّل اللوحات على DebugAnalytics. |
+| **GAP-5** | لا فرض لـ **HTTPS/TLS**: `analyticsProvider` يقبل أي وجهة بمخطّط (`uri.hasScheme`) بما فيها `http://` — فتُرسَل الأحداث (وضمنها حمولة `raw_type`) بنصّ صريح. | Medium / Security | `providers.dart:57-58`. | رفض ما ليس `https://` في التركيب (السماح بـ`http://localhost` للاختبار/التطوير فقط) + اختبار. |
+| **GAP-6** | **لا حارس اختباريّ لـ PII/أوّليّة الـ params.** نقاء المحرّك محروس، أمّا لا-PII فمُعلَن بلا حارس — ولهذا تسلّل `raw_type` **وأُكِّد كسلوك متوقَّع**. | Medium | `engine_purity_test.dart` موجود؛ لا مقابل له للـ params. `http_analytics_test.dart:90` يثبّت `raw_type`. | حارس يؤكّد أن كل قيَم `params` من `{String,int,double,bool}` **وأن لا حقل بنمط نصّ حرّ** (قائمة سماح للأسماء/الأنماط)؛ ودمج `need_unmet` في تغطية القِمع بعد إعادة تشكيله. تعديل `http_analytics_test.dart` جزء من الإصلاح. |
+| **GAP-7** | `telemetry_analytics.md` **مُتجاوَز** لكن البريف يعدّه وثيقة مملوكة تُحدَّث مع كل حدث؛ تصنيفه (`recommendations_viewed`, `AnalyticsService.logEvent` بخرائط حرّة) يناقض النموذج الـsealed. | Low / Doc | `telemetry_analytics.md:3-8, 27-58`. | إمّا دمجه بالكامل في `analytics_events.md` (مصدر واحد)، أو إعادة كتابته كـ«نظرة معمارية» (المصارف/الموافقة/التدفّق) وحسم التجاوز. **قرارك: تقاعد أم إعادة توظيف.** |
+| **GAP-8** | «Wire points» في `analytics_events.md` غير دقيقة: تُغفل `merchant_click` (موصَّل فعلًا) و`need_unmet` (غير موصَّل)؛ وتعليق `http_analytics.dart:12` يقول «الأحداث الثلاثة عشر» (عدد قديم؛ الآن ١٦). | Low / Doc | `analytics_events.md:55-65`؛ `http_analytics.dart:12`. | تصحيح قائمة نقاط النداء لتعكس الـ١٦ ونداءها الحقيقيّ، ووسم `need_unmet` «مُعرَّف، غير موصَّل بعد». |
 
-| Sink | السلوك | الإعداد/التهيئة |
+---
+
+## 3. تأكيدات إيجابية (ما هو صحيح ومختبَر — ليست فجوات)
+
+- **الموافقة معطّلة افتراضيًا:** `analyticsConsentProvider = consentController == true` ⇒ `null` و`false` كلاهما «لا جمع» (`providers.dart:45-46`)؛ مُختبَر (`consent_gate_test.dart:59-83`).
+- **البوابة قبل التخزين (HTTP):** `if (!consent) return;` قبل `_buffer.add` (`http_analytics.dart:56-58`)؛ مُختبَر «بلا موافقة لا شيء يُخزَّن فلا شيء يُسرَّب لاحقًا» (`http_analytics_test.dart:107-115`).
+- **التجميع والحدود:** `batchSize=20` / `flush=15s` / `maxBuffer=200` يُسقِط الأقدم (`http_analytics.dart:29-31,67-69`)؛ مُختبَر (الأحدث ينجو `[3,4,5]`).
+- **فشل صامت محدود:** `track` لا يرمي أبدًا، الدفعة تُعاد ضمن السقف (`http_analytics.dart:95-107`)؛ مُختبَر.
+- **الوجهة الفارغة ⇒ Noop:** لا إرسال بلا `ANALYTICS_ENDPOINT` (`providers.dart:57-69`)، والقرار كله في `analyticsProvider` لا في `main.dart`.
+- **معرّف جلسة مجهول فقط:** UUID، بلا هوية (`http_analytics.dart:37`, `providers.dart:62`).
+- **`plan_restored` ليست بذرة:** بديل حصريّ، مثبَّت بالبناء وثلاثة اختبارات (`analytics_funnel_test.dart:96-158`) — أهمّ حاجز في البريف، **مُنفَّذ صحيحًا**.
+- **حارس نقاء المحرّك:** فحص ساكن لـ `lib/domain_engine/**` (`engine_purity_test.dart`) — يعمل بلا Flutter SDK.
+- **العقد:** `Analytics` (واجهة) + `AnalyticsEvent` (sealed، ١٦ صنفًا بأنواع صريحة)، والمصارف الخمسة موجودة (`Noop/Debug/Http/FanOut/Remote-stub`).
+
+---
+
+## 4. تغطية الاختبارات (ما يُحرَس فعلًا)
+
+| المجال | مُختبَر؟ | أين |
 |---|---|---|
-| `NoopSink` | لا يفعل شيئًا (الافتراضي الآمن). | بلا إعداد؛ يُستخدم حين لا وجهة إرسال. |
-| `DebugSink` | يطبع الحدث محليًا للسجل. | **للتطوير فقط (dev only)**؛ لا يُفعَّل في الإنتاج. |
-| `HttpSink` | يجمِّع الأحداث ويرسلها دفعات إلى نقطة نهاية HTTP. | `batch=20`، `flush=15s`، `maxBuffer=200` (يُسقِط **الأقدم** عند الامتلاء)، **يفحص الموافقة قبل التخزين لا قبل الإرسال**، **فشل صامت محدود** عند خطأ الشبكة (لا يُسقِط شاشة المستخدم). |
-| `FanOutSink` | يبثّ الحدث الواحد إلى عدّة مصارف. | قائمة مصارف فرعية؛ فشل أحدها لا يوقف البقية. |
-| `RemoteSink` | جذع (stub) للتكامل البعيد لاحقًا. | مؤجَّل؛ لا سلوك فعلي الآن. |
-
-**HttpSink بدقّة:**
-
-- **التجميع (batch):** يُرسِل عند اكتمال **20** حدثًا، **أو** عند انقضاء **15 ثانية** منذ آخر إرسال — أيّهما أسبق.
-- **الحدّ الأقصى للمخزن (maxBuffer):** **200** حدثًا. عند الامتلاء يُسقَط **الأقدم** (drop oldest) لصالح الأحدث.
-- **بوابة الموافقة:** يُفحص consent **قبل التخزين لا قبل الإرسال** — أي عند إدخال الحدث إلى المخزن المؤقّت (enqueue). لا موافقة (`null`/`false`) ⇐ لا تخزين، وبالتالي لا إرسال. ما دخل المخزن تحت موافقة سارية يُرسَل ضمن دفعته (انظر القرار المفتوح حول سحب الموافقة والمخزن في §9).
-- **الفشل الصامت المحدود:** أي خطأ شبكة يُبتلع بصمت وضمن حدود (لا حلقات إعادة غير محدودة، لا انتظار يوقف الواجهة). **تعطّل التحليلات لا يُعطِّل ولا يُسقِط شاشة المستخدم أبدًا.**
-
-**تسلسل الحدث (enqueue → gate → batch → flush → fail-silent):**
-
-1. **enqueue:** يصل الحدث إلى `HttpSink.log`.
-2. **gate (بوابة الموافقة، قبل التخزين):** إن كانت الموافقة `null` أو `false` ⇐ يُسقَط الحدث فورًا **قبل أي تخزين**. إن كانت `granted` ⇐ يُخزَّن في المخزن المؤقّت.
-3. **buffer:** يُضاف إلى المخزن؛ إن تجاوز `maxBuffer=200` يُسقَط الأقدم.
-4. **batch/flush:** يُرسَل عند بلوغ 20 حدثًا أو عند مؤقّت 15s.
-5. **fail-silent:** عند فشل الإرسال يُبتلع الخطأ بصمت؛ لا استثناء يصعد للواجهة، ولا أثر على الشاشة.
+| تسلسل أحداث القِمع | ✅ | `analytics_funnel_test.dart` (قوائم `a.names` مرتّبة) |
+| الموافقة عند المصرف (Debug/HTTP) تُسقِط | ✅ | `analytics_funnel_test.dart:85-94`، `http_analytics_test.dart:106-116` |
+| بوابة الموافقة على مستوى المزوّد (القيمة) | ✅ | `consent_gate_test.dart` |
+| تجميع/سقف/إسقاط الأقدم/فشل صامت/fan-out | ✅ | `http_analytics_test.dart` |
+| نقاء المحرّك | ✅ | `engine_purity_test.dart` |
+| **أوّليّة الـ params / لا-PII** | ❌ **غائب** | — (GAP-6) — بل `raw_type` **مؤكَّد** في `http_analytics_test.dart:90` |
+| **التركيب يمرّر الموافقة إلى Debug** | ❌ غائب | — (GAP-4) |
+| **فرض HTTPS** | ❌ غائب | — (GAP-5) |
 
 ---
 
-## 5. التركيب (Composition)
+## 5. الأثر على تسليماتي السابقة
 
-كل قرارات الربط (wiring) تعيش في `analyticsProvider`. الكود المُنتِج للأحداث لا يتخذ قرارات إرسال.
+مسودّاتي الأربع (`analytics_audit.md` السابقة، `analytics_metrics_spec.md`، `analytics_revenue_plan.md`، `analytics_privacy_pdpl_review.md`) كُتبت **قبل الدمج** على افتراض مستودع فارغ، فاخترعت `params` مُسلّاة/مُعدَّلة **لا تطابق الكتالوج الحقيقيّ** (الذي يستخدم `confidence`/عدّادات/مبالغ خام و`raw_type`). لذلك:
 
-**`analyticsProvider` — منطق القرار:** المصدر الوحيد للقرار هو `--dart-define=ANALYTICS_ENDPOINT` (تعريف وقت-بناء، لا قراءة بيئة وقت-تشغيل)، مع تفعيل `DebugSink` في التطوير:
-
-```
-sinks = []
-if (kDebugMode)                    => sinks += DebugSink()          // تطوير فقط
-if (ANALYTICS_ENDPOINT غير فارغة)  => sinks += HttpSink(endpoint)   // خلف بوابة الموافقة
-=> analytics = sinks.isEmpty ? NoopSink() : FanOutSink(sinks)
-```
-
-- **التطوير:** `DebugSink` فعّال؛ فإن وُجدت النقطة أيضًا ⇒ `FanOutSink([DebugSink, HttpSink])`.
-- **الإنتاج:** لا `DebugSink`؛ نقطة موجودة ⇒ `HttpSink` فقط؛ نقطة فارغة ⇒ `NoopSink` (لا إرسال).
-- الافتراض الآمن دائمًا: `--dart-define=ANALYTICS_ENDPOINT` فارغة/غير مضبوطة ⇐ لا إرسال.
-
-**`analyticsConsentProvider`:** يعرض حالة الموافقة الحالية لطبقة المصارف كي تفحصها البوابة قبل التخزين. قراءة فقط من منظور المصرف.
-
-**`consentControllerProvider`:** يُبدِّل حالة الموافقة (mutate). تستدعيه واجهة لافتة الموافقة (Track 4) عند اختيار المستخدم الصريح.
-
-**`consent_store`:** يحفظ المفتاح `furn.analytics_consent` بقيم `granted` / `denied` / `absent(=null)`. **الافتراض = OFF.** كلٌّ من `null` و`false` يعني **لا جمع**. التفعيل يتطلّب opt-in صريحًا. الجلسة مجهولة الهوية فقط (anonymous session id، بلا هوية مستخدم).
+- هذا التقرير (`analytics_audit.md`) أُعيدت كتابته على الكود الحقيقيّ — **هو المرجع**.
+- تُعاد مواصفة المقاييس والإيراد والخصوصية (**G2/G3/G4**) على الكتالوج الحقيقيّ؛ حتى ذلك الحين تُقرأ المسودّات الثلاث كاتجاه لا كمواصفة نافذة (سأضع وسم تجاوز على رأس كلٍّ منها).
 
 ---
 
-## 6. حارس النقاء (Purity guard)
+## 6. خطة الإصلاح المرتّبة (تُنفَّذ بعد الموافقة فقط)
 
-**لماذا:** المحرك النقي `lib/domain_engine/` هو «المنتج» ومصدر الثقة؛ قراره حتمي وقابل للاختبار بمعزل. لو استورد التحليلات، لاختلط القرار بالمراقبة، ولانتُهك مبدأ «تلاحظ ولا تغيّر»، ولأصبح المحرك قابلًا للكسر بأعطال شبكة أو موافقة. لذلك: **`lib/domain_engine/` يجب ألا يستورد التحليلات إطلاقًا.**
+1. **GAP-2 أوّلًا (يحجب GAP-1):** إعادة تشكيل `need_unmet` — استبدال `raw_type` بـ`requested_type` مُعدَّل من مفردات مغلقة؛ تحديث `analytics.dart` + `analytics_events.md` + `http_analytics_test.dart`.
+2. **GAP-6:** إضافة حارس أوّليّة/لا-PII للـ params (يمنع تكرار المشكلة، ويحرس ما بعده).
+3. **GAP-1:** توصيل `need_unmet` عند مواضع تعذّر التلبية — **spec أعرّفه، ونداء يضيفه مسار ٣/٤** عبر المعماري (وصلة `AnalyticsEvent`).
+4. **GAP-4 + GAP-5:** تمرير الموافقة إلى `DebugAnalytics` + رفض ما ليس `https` في `analyticsProvider` + اختباراهما.
+5. **GAP-8 ثم GAP-7:** تصحيح «Wire points» والعدّاد القديم؛ حسم مصير `telemetry_analytics.md`.
 
-**كيف تحدث الملاحظة من الخارج:** طبقة الميزات (feature-layer providers/listeners) تستمع إلى حالة المحرك (engine state) وتُصدِر الأحداث. المحرك يُصدِر حالة؛ المُراقِب في الخارج يترجم تغيّر الحالة إلى `AnalyticsEvent`. المحرك لا يعلم بوجود تحليلات.
-
-**كيف يُفرَض:** عبر `test/analytics/engine_purity_test.dart` — فحص ساكن (static scan):
-
-- يقرأ ملفات `lib/domain_engine/**` ويبحث عن أي استيراد ممنوع (`import` يشير إلى `lib/analytics/` أو أي حزمة تحليلات).
-- وجود أي استيراد ممنوع ⇐ **فشل الاختبار**.
-- لا يشغّل المحرك؛ فحص نصّي/ساكن للاستيرادات فقط، ما يناسب غياب Flutter SDK (تحقّق بالتحليل الساكن، لا بتشغيل حيّ).
+كل تغيير أحداث يحدّث `docs/analytics_events.md` والاختبارات في الالتزام نفسه، **دون كسر `analytics_funnel_test`** (تسلسل الأحداث).
 
 ---
 
-## 7. جدول الحالة (Wired-vs-missing)
+## 7. القرارات المطلوبة منك (المؤسّس)
 
-المستودع فارغ، لذا حالة كل مكوّن **«غير مُنفَّذ / مقترح»**.
+1. **`need_unmet.raw_type`:** الموافقة على استبداله بـ`requested_type` مُعدَّل (توصيتي) — أم إبقاء المصطلح مع تطبيع صارم لقائمة بيضاء؟ *(الأول أسلم خصوصيًّا.)*
+2. **جمع Debug المحلّي (GAP-4):** إخضاعه للموافقة (توصيتي) أم استثناؤه صراحةً كأداة تطوير محلّية لا تغادر الجهاز؟
+3. **`telemetry_analytics.md` (GAP-7):** تقاعده لصالح `analytics_events.md`، أم إعادة توظيفه نظرةً معمارية؟
+4. **المبالغ الخام (GAP-3):** إبقاؤها (توصيتي) أم تسليتها؟
 
-| المكوّن | الحالة | ملاحظة |
-|---|---|---|
-| `Analytics` (الواجهة) | غير مُنفَّذ / مقترح | العقد الأساسي؛ يُشتق منه كل شيء. |
-| `AnalyticsEvent` (sealed model) | غير مُنفَّذ / مقترح | `{ name, params }`، أنواع فرعية صريحة. |
-| `flow_started` | غير مُنفَّذ / مقترح | مقام التفعيل. |
-| `input_submitted` | غير مُنفَّذ / مقترح | لا نص خام. |
-| `plan_seeded` | غير مُنفَّذ / مقترح | بدء بناء الخطة. |
-| `plan_restored` | غير مُنفَّذ / مقترح | إشارة العودة. |
-| `item_pinned` | غير مُنفَّذ / مقترح | التزام داخل حلقة الثقة. |
-| `item_rejected` | غير مُنفَّذ / مقترح | `reason_code` مُعدَّد. |
-| `item_swapped` | غير مُنفَّذ / مقترح | تنقيح الخطة. |
-| `budget_changed` | غير مُنفَّذ / مقترح | اتجاه + سلّة. |
-| `options_opened` | غير مُنفَّذ / مقترح | إشارة استكشاف. |
-| `ar_opened` | غير مُنفَّذ / مقترح | تعمّق المعاينة. |
-| `merchant_click` | غير مُنفَّذ / مقترح | **حدث الإيراد المفتاح**. |
-| `plan_finalized` | غير مُنفَّذ / مقترح | بسط التفعيل. |
-| `plan_shared` | غير مُنفَّذ / مقترح | انتشار/ثقة. |
-| `assistant_command` | غير مُنفَّذ / مقترح | نوع الأمر لا نصّه. |
-| `need_unmet` | غير مُنفَّذ / مقترح | إشارة الطلب. |
-| `session_abandoned` | غير مُنفَّذ / مقترح | تسرّب القُمع. |
-| `NoopSink` | غير مُنفَّذ / مقترح | الافتراضي الآمن. |
-| `DebugSink` | غير مُنفَّذ / مقترح | للتطوير فقط. |
-| `HttpSink` | غير مُنفَّذ / مقترح | batch/flush/buffer/consent/silent. |
-| `FanOutSink` | غير مُنفَّذ / مقترح | بثّ متعدد. |
-| `RemoteSink` | غير مُنفَّذ / مقترح | جذع مؤجَّل. |
-| `analyticsProvider` | غير مُنفَّذ / مقترح | قرار `ANALYTICS_ENDPOINT`. |
-| `analyticsConsentProvider` | غير مُنفَّذ / مقترح | يعرض الموافقة للمصارف. |
-| `consent_store` | غير مُنفَّذ / مقترح | مفتاح `furn.analytics_consent`. |
-| `consentControllerProvider` | غير مُنفَّذ / مقترح | يُبدِّل الموافقة. |
-| `engine_purity_test.dart` | غير مُنفَّذ / مقترح | حارس الاستيراد الساكن. |
-| `analytics_funnel_test.dart` | غير مُنفَّذ / مقترح | حارس القُمع/الكتالوج. |
-
----
-
-## 8. الاختبارات المرجعية
-
-**`test/analytics/engine_purity_test.dart`:** يحرس نقاء المحرك. يفحص `lib/domain_engine/**` بحثًا عن أي استيراد ممنوع للتحليلات، ويفشل عند وجود أيّه. تحقّق ساكن لا يشغّل المحرك (مناسب لغياب Flutter SDK).
-
-**`test/analytics/analytics_funnel_test.dart`:** يحرس كتالوج الأحداث ونموذج القُمع، ويؤكّد **تسلسل الأحداث** (الترتيب) لا مجرّد وجودها: أن الأحداث الأساسية موجودة بأسمائها الثابتة (`snake_case`)، وأن `params` أولية وخالية من PII، وأن قِمع الثقة يتقدّم بالترتيب الصحيح ومقاديره قابلة للحساب:
-
-- **Activation** = `plan_finalized / flow_started`.
-- **قِمع الثقة (Trust funnel)** = أربع مراحل بالترتيب: `flow_started → plan_seeded → engaged → plan_finalized`، حيث **`engaged`** مرحلة مشتقّة (≥١ من: `item_pinned` / `item_rejected` / `item_swapped` / `budget_changed`).
-- **`plan_restored`** = إشارة **العودة** فقط — **ليست بذرة جديدة**؛ عدّها ضمن `plan_seeded` أو مقام التفعيل **يضخّم القُمع كذبًا** ويجب استبعادها منه.
-- **`merchant_click`** = إشارة نيّة الشراء (مدخل قُمع الإيراد).
-- **`need_unmet`** = إشارة الطلب.
-
-**القاعدة الملزِمة:** أي تغيير في الأحداث (اسم، `params`، إضافة/حذف) يجب أن **يُبقي `analytics_funnel_test` أخضر**، ويُرافَق بتحديث الكتالوج (`docs/analytics_events.md`) والاختبار في الالتزام نفسه. تغيير الأحداث دون ذلك = كسر عقد = يُرفَض.
-
----
-
-## 9. قرارات مفتوحة تحتاج موافقة (Open decisions)
-
-- **مُعرّف الجلسة المجهول:** آلية التوليد (UUID مجهول؟) وسياسة التدوير (rotation) — لكل جلسة؟ يوميًّا؟ عند سحب الموافقة؟ يجب ضمان عدم ربطه بأي هوية مستمرّة.
-- **سحب الموافقة والمخزن المؤقّت:** بما أن البوابة **قبل التخزين لا قبل الإرسال**، ما مصير الأحداث المخزّنة سلفًا عند انتقال الموافقة إلى `denied` — تُمسح فورًا أم تُرسَل ضمن دفعتها؟ (توصية القياس: **مسح المخزن (flush-and-drop) فور الانتقال إلى `denied`** حسمًا للالتباس، ويحتاج توقيع الخصوصية).
-- **استضافة `ANALYTICS_ENDPOINT`:** الجهة والمنطقة (region) — التزامًا بـ PDPL، هل تُشترط استضافة داخل المملكة؟ ومن يملك النقطة؟
-- **أرقام التجميع:** تثبيت `batch=20` / `flush=15s` / `maxBuffer=200` أو ضبطها بعد قياس أولي.
-- **لافتة الموافقة (Track 4):** كيف تستدعي `consentControllerProvider` بالضبط؟ نص اللافتة، توقيت الظهور، وسلوك «denied» مقابل «absent».
-- **`RemoteSink`:** هل يُؤجَّل بالكامل الآن (جذع فقط) أم يُحدَّد عقده مبكرًا؟
-- **قيم الـ enums والسِلال:** اعتماد القيم المقترحة في §3 (حدود السِلال الزمنية والعددية، ورموز `reason_code`) وتثبيتها في `docs/analytics_events.md`.
-- **الاحتفاظ (retention):** مدّة الاحتفاظ بالأحداث على الوجهة وسياسة الحذف — خارج نطاق العميل لكنه شرط امتثال يجب حسمه قبل الإطلاق.
-
----
-
-> **الخلاصة:** المستودع فارغ؛ كل ما سبق **مقترح — بانتظار الموافقة**. عند الاعتماد، تُشتق منه ملفات `docs/analytics_events.md` و`docs/telemetry_analytics.md` والتنفيذ تحت `lib/analytics/**` و`lib/features/consent/**` مع اختباريها المرجعيين.
+> **قِف للموافقة.** لا يُكتَب أيّ إصلاح حتى تحسم ما سبق. عند الموافقة أبدأ بترتيب §6، وأنسّق نقاط النداء المملوكة لمسارات أخرى عبر المعماري.
