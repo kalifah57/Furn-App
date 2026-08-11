@@ -79,7 +79,13 @@ class _ManualInputScreenState extends ConsumerState<ManualInputScreen> {
       ),
     );
     ref.read(furnishingFlowControllerProvider.notifier).submitManualDraft(draft);
-    context.go(Routes.assistantThinking);
+    // النموذج مدفوعٌ فوق الهيكل، فالعودة إلى المحادثة تكفي: هي التي تعرض التفكير
+    // وتقود ما بعده. الحارس للرابط العميق المباشر حيث لا شيء تحته.
+    if (context.canPop()) {
+      context.pop();
+    } else {
+      context.go(Routes.assistant);
+    }
   }
 
   void _toggle(Set<String> set, String value, bool isSelected) =>

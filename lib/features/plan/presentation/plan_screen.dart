@@ -446,7 +446,12 @@ class _PlanViewState extends State<_PlanView> {
                   ActionChip(
                     avatar: const Icon(Icons.add, size: 18),
                     label: Text(cat.arabicLabel),
-                    onPressed: () => c.addCheapestOf(cat),
+                    // فئةٌ بلا بديل في الكتالوج كانت تبتلع النقرة. الحدّ يُقال.
+                    onPressed: () {
+                      if (c.addCheapestOf(cat)) return;
+                      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                          content: Text('لا نوفّر ${cat.arabicLabel} حاليًا.')));
+                    },
                   ),
               ],
             ),

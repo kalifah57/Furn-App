@@ -184,9 +184,16 @@ class PlanController extends ChangeNotifier {
         .track(BudgetChanged(newMax: v, deltaConfidence: plan.confidence - before));
   }
 
-  void addCheapestOf(RecommendationCategory category) {
+  /// يضيف أوفر ما يناسب الغرفة في الخانة، ويعيد **هل نجح**.
+  ///
+  /// النجاح ليس مضمونًا: الكتالوج الحقيقي لا يحوي كل فئة (لا إضاءة ولا سجاد
+  /// اليوم). كانت الدالة تصمت عند العجز، فتُقرأ نقرةُ المستخدم كعطل في الزرّ لا
+  /// كحدٍّ في المخزون — والحدّ المعلَن أصدق من الصمت.
+  bool addCheapestOf(RecommendationCategory category) {
     final alts = _ws.alternativesFor(category);
-    if (alts.isNotEmpty) pin(alts.first.productId);
+    if (alts.isEmpty) return false;
+    pin(alts.first.productId);
+    return true;
   }
 
   void finalizePlan() {
@@ -240,12 +247,12 @@ class PlanController extends ChangeNotifier {
             message: '${direction < 0 ? 'خفّضت' : 'رفعت'} ميزانيتك إلى '
                 '${formatSar(v)} · $_confLine');
       case AddCategoryCommand(:final category):
-        if (alternativesFor(category).isEmpty) {
+        // نفس صدق الـchip بنفس الجملة: الفهم تمّ، والعجز في المخزون لا في الطلب.
+        if (!addCheapestOf(category)) {
           return CommandResult(
               understood: true,
-              message: 'لا أجد ${category.arabicLabel} متوفّرة لأضيفها الآن.');
+              message: 'لا نوفّر ${category.arabicLabel} حاليًا.');
         }
-        addCheapestOf(category);
         return CommandResult(
             understood: true,
             message: 'أضفت ${category.arabicLabel} · $_confLine');
