@@ -80,14 +80,14 @@ void main() {
   group('the payload', () {
     test('carries name, session, timestamp and params', () async {
       final a = sink();
-      a.track(const NeedUnmet(rawType: 'ثلاجة', reason: 'out_of_scope'));
+      a.track(const NeedUnmet(requestedCategory: 'other', reason: 'out_of_scope'));
       await a.flush();
 
       final e = eventsIn(sent.single).single;
       expect(e['name'], 'need_unmet');
       expect(e['session_id'], 'session-1');
       expect(DateTime.tryParse(e['at']! as String), isNotNull);
-      expect((e['params']! as Map)['raw_type'], 'ثلاجة');
+      expect((e['params']! as Map)['requested_category'], 'other');
     });
 
     test('the timestamp is capture time, not send time', () async {
