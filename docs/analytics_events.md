@@ -49,7 +49,7 @@ and never changes it. The pure-Dart domain engine stays analytics-free (enforced
 | `plan_finalized` | user commits to the plan (activation) | `confidence, itemCount, pinnedCount, edits` |
 | `plan_shared` | user opens the share sheet | `confidence` |
 | `assistant_command` | user gives the in-room Assistant a natural-language command | `intent` (`set_budget`\|`nudge_budget`\|`add`\|`remove`\|`finalize`\|`unknown`), `understood` — the `understood=false` rate shows which language to teach the parser next |
-| `need_unmet` | user asked for something we cannot serve | `raw_type` (their words), `reason` (`out_of_scope`\|`not_stocked`\|`none_fit`), `reserve_sar` |
+| `need_unmet` | user asked for something we cannot serve — **defined; not yet wired** (no call site) | `requested_category` (closed vocab `wire`, or `other` — **no raw text**), `reason` (`out_of_scope`\|`not_stocked`\|`none_fit`), `reserve_sar` |
 | `session_abandoned` | user leaves the plan without finalizing (once) | `lastStep, lastConfidence` |
 
 ## Wire points (real files)
@@ -62,7 +62,11 @@ op, so engagement is still counted through the underlying event —
 `session_abandoned` via
 `logAbandonedIfUnfinished`), `plan_screen.dart` (calls the log helpers +
 `dispose` → abandoned), `onboarding_screen.dart` (`flow_started`),
-`features/ar/ar_button.dart` (`ar_opened`).
+`features/ar/ar_button.dart` (`ar_opened`), and
+`features/interactive_sandbox/presentation/sandbox_screen.dart`
+(`merchant_click`). **`need_unmet` is defined but not yet wired** — no call site
+emits it; its wiring belongs to a feature track (G1/GAP-1), to be assigned by the
+architect once the PII-safe `requested_category` shape (this change) is in.
 
 ## Extending
 Add a `final class` to the `AnalyticsEvent` sealed set with a stable snake_case

@@ -231,15 +231,26 @@ class AssistantCommand extends AnalyticsEvent {
 
 /// طلب المستخدم شيئًا لا نخدمه. تجميع هذا الحدث يحوّل الشكوى إلى **قائمة
 /// تسوّق مرتّبة بالطلب الحقيقي** — وهو ما يقرّر ماذا نورّد بعد ذلك.
+///
+/// **بلا PII (إصلاح G1/GAP-2):** لا يحمل نصّ المستخدم الخام — فقد يحوي اسمًا أو
+/// مكانًا أو رقمًا. الطلب يُلتقط كـ[requestedCategory] من مفردات مغلقة (فئة
+/// معروفة بصيغة `wire`، أو `other` لِما يقع خارج فئاتنا)، فيبقى مقياس «ماذا
+/// نورّد بعد» قابلًا للتجميع دون تسريب ما كتبه المستخدم.
 class NeedUnmet extends AnalyticsEvent {
-  const NeedUnmet({required this.rawType, required this.reason, this.reserveSar});
+  const NeedUnmet({
+    required this.requestedCategory,
+    required this.reason,
+    this.reserveSar,
+  });
 
-  /// نصّ المستخدم كما كتبه — هو البيانات المفيدة، لا فئة نحن اخترناها.
-  final String rawType;
+  /// فئة الطلب من مفردات مغلقة (`wire`) — أو `other` لِما يقع خارج فئاتنا.
+  /// ليست نصًّا حرًّا: يُطبَّع من طرف المُنتِج قبل الإطلاق (نداء يملكه المسار المعني).
+  final String requestedCategory;
 
   /// `out_of_scope` | `not_stocked` | `none_fit`
   final String reason;
 
+  /// مبلغ محجوز اختياري — قيمة مُجمَّعة غير معرِّفة، لا هوية.
   final double? reserveSar;
 
   @override
@@ -247,7 +258,7 @@ class NeedUnmet extends AnalyticsEvent {
 
   @override
   Map<String, Object?> get params => {
-        'raw_type': rawType,
+        'requested_category': requestedCategory,
         'reason': reason,
         if (reserveSar != null) 'reserve_sar': reserveSar,
       };
