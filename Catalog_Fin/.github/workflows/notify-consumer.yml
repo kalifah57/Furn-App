@@ -1,0 +1,52 @@
+# Tells Furn-App a new catalogue is published, so it syncs on push instead of
+# waiting for its next poll. The manifest still works on its own — this only
+# removes the polling delay, and a failure here must never fail the publish.
+name: Notify consumer
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - catalog.json
+      - catalog.manifest.json
+
+permissions: {}
+
+jobs:
+  dispatch:
+    runs-on: ubuntu-latest
+    # Inert until the secret exists. Without this guard every push to a fork or
+    # to a clone without the token would fail the workflow for no reason.
+    if: ${{ github.repository == 'abdulazizashy4/Catalog' }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Read the manifest
+        id: manifest
+        run: |
+          # Pass the manifest through to the consumer so it can decide whether
+          # to pull without fetching the catalogue first.
+          {
+            echo "sha256=$(jq -r .sha256 catalog.manifest.json)"
+            echo "record_count=$(jq -r .record_count catalog.manifest.json)"
+            echo "schema_version=$(jq -r .schema_version catalog.manifest.json)"
+          } >> "$GITHUB_OUTPUT"
+
+      - name: Send repository_dispatch to Furn-App
+        if: ${{ secrets.FURN_APP_DISPATCH_TOKEN != '' }}
+        env:
+          GH_TOKEN: ${{ secrets.FURN_APP_DISPATCH_TOKEN }}
+        run: |
+          gh api repos/kalifah57/Furn-App/dispatches \
+            --method POST \
+            --field event_type=catalog-updated \
+            --field "client_payload[sha256]=${{ steps.manifest.outputs.sha256 }}" \
+            --field "client_payload[record_count]=${{ steps.manifest.outputs.record_count }}" \
+            --field "client_payload[schema_version]=${{ steps.manifest.outputs.schema_version }}" \
+            --field "client_payload[commit]=${{ github.sha }}"
+
+      - name: Say why nothing was sent
+        if: ${{ secrets.FURN_APP_DISPATCH_TOKEN == '' }}
+        run: |
+          echo "::notice::FURN_APP_DISPATCH_TOKEN is not set — no dispatch sent."
+          echo "Furn-App will still pick this up on its next manifest poll."
