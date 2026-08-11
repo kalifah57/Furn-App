@@ -45,7 +45,15 @@ class _AssistantSheetState extends State<_AssistantSheet> {
 
   void _send(String text) {
     final t = text.trim();
-    if (t.isEmpty) return;
+    // ضغطةٌ لا تُنتج شيئًا ولا تشرح تُقرأ كعطل في الزرّ. نجيب بنفس قناة
+    // الإجابة المعتادة بدل الصمت.
+    if (t.isEmpty) {
+      setState(() => _last = const CommandResult(
+            understood: false,
+            message: 'اكتب ما تريد تغييره، أو اختر اقتراحًا من الأعلى.',
+          ));
+      return;
+    }
     final result = widget.controller.runCommand(t);
     setState(() {
       _last = result;
@@ -107,7 +115,12 @@ class _AssistantSheetState extends State<_AssistantSheet> {
             const SizedBox(width: 8),
             IconButton.filled(
               onPressed: () => _send(_text.text),
-              icon: const Icon(Icons.send),
+              // `Icons.send` سهمٌ يشير يمينًا ولا يعكسه Flutter تلقائيًّا، فيشير
+              // في واجهةٍ عربية إلى عكس اتجاه الإرسال. نعكسه بالاتجاه لا بثابت.
+              icon: Transform.flip(
+                flipX: Directionality.of(context) == TextDirection.rtl,
+                child: const Icon(Icons.send),
+              ),
             ),
           ]),
         ],

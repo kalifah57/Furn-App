@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 
 import '../../../analytics/analytics.dart';
 import '../../../core/di/providers.dart';
+import '../../../core/router/app_router.dart';
 import '../../../domain_engine/spatial/replacement_finder.dart';
 import '../../../shared/utils/formatters.dart';
+import '../../../shared/widgets/status_views.dart';
 import '../../ar/ar_button.dart';
 import '../../catalog/open_store.dart';
 import 'sandbox_controller.dart';
@@ -31,38 +34,42 @@ class SandboxScreen extends ConsumerWidget {
         ],
       ),
       body: async.when(
-        loading: () => const Center(child: CircularProgressIndicator()),
-        error: (e, _) => Center(
-          child: Padding(
-            padding: const EdgeInsets.all(24),
-            child: Text('تعذّر بناء المشهد: $e', textAlign: TextAlign.center),
-          ),
+        loading: () => const LoadingView(message: 'جاري وضع خطتك في غرفتك…'),
+        error: (_, __) => ErrorView(
+          message: 'تعذّر بناء المشهد. أعد المحاولة.',
+          onRetry: () => ref.invalidate(sandboxControllerProvider),
         ),
-        data: (s) => Column(
-          children: [
-            _BudgetBar(state: s),
-            if (s.plan.unplaced.isNotEmpty) _UnplacedNotice(count: s.plan.unplaced.length),
-            Expanded(
-              child: Padding(
-                padding: const EdgeInsets.all(12),
-                // تكبير/تحريك المشهد ليتفحّص المستخدم المطابقة عن قرب. النقر
-                // يبقى اختيارًا: الإزاحة تُحرّك، والنقرة تصل إلى مُحدِّد القطعة
-                // بإحداثيات القطعة نفسها (يُعيد Flutter موضع النقر إلى فضاء الطفل
-                // عبر التحويل)، فلا يفسد الاختيار مع التكبير.
-                child: InteractiveViewer(
-                  minScale: 1,
-                  maxScale: 4,
-                  child: SandboxSceneView(
-                    room: s.space,
-                    placements: s.items,
-                    selectedProductId: s.selectedProductId,
-                    onTapItem: (id) => _onTap(context, ref, id),
+        // مشهدٌ بلا قطع ليس خطأً بل خطةٌ لم تُشكَّل بعد — يُقال ذلك ويُقال معه
+        // الطريق إلى المكان الذي تُشكَّل فيه.
+        data: (s) => s.items.isEmpty
+            ? const _EmptyScene()
+            : Column(
+                children: [
+                  _BudgetBar(state: s),
+                  if (s.plan.unplaced.isNotEmpty)
+                    _UnplacedNotice(count: s.plan.unplaced.length),
+                  Expanded(
+                    child: Padding(
+                      padding: const EdgeInsets.all(12),
+                      // تكبير/تحريك المشهد ليتفحّص المستخدم المطابقة عن قرب.
+                      // النقر يبقى اختيارًا: الإزاحة تُحرّك، والنقرة تصل إلى
+                      // مُحدِّد القطعة بإحداثيات القطعة نفسها (يُعيد Flutter
+                      // موضع النقر إلى فضاء الطفل عبر التحويل)، فلا يفسد
+                      // الاختيار مع التكبير.
+                      child: InteractiveViewer(
+                        minScale: 1,
+                        maxScale: 4,
+                        child: SandboxSceneView(
+                          room: s.space,
+                          placements: s.items,
+                          selectedProductId: s.selectedProductId,
+                          onTapItem: (id) => _onTap(context, ref, id),
+                        ),
+                      ),
+                    ),
                   ),
-                ),
+                ],
               ),
-            ),
-          ],
-        ),
       ),
     );
   }
@@ -92,6 +99,44 @@ class SandboxScreen extends ConsumerWidget {
       isScrollControlled: true,
       builder: (_) => _ItemSheet(productId: productId),
     ).whenComplete(controller.clearSelection);
+  }
+}
+
+/// المعاينة هي «أن يرى» — وحين لا شيء ليُرى، الفعل الوحيد المفيد هو العودة إلى
+/// المكان الذي تُشكَّل فيه الخطة.
+class _EmptyScene extends StatelessWidget {
+  const _EmptyScene();
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    return Center(
+      child: Padding(
+        padding: const EdgeInsets.all(24),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Icon(Icons.grid_view_outlined,
+                size: 48, color: theme.colorScheme.outline),
+            const SizedBox(height: 12),
+            Text('لا شيء لنعرضه بعد.',
+                textAlign: TextAlign.center,
+                style: theme.textTheme.titleMedium
+                    ?.copyWith(fontWeight: FontWeight.bold)),
+            const SizedBox(height: 6),
+            Text('شكّل خطتك في غرفتي ثم عد لترى كيف تتوزّع في مساحتك.',
+                textAlign: TextAlign.center,
+                style: theme.textTheme.bodyMedium
+                    ?.copyWith(color: theme.colorScheme.onSurfaceVariant)),
+            const SizedBox(height: 16),
+            FilledButton.tonal(
+              onPressed: () => context.go(Routes.room),
+              child: const Text('إلى غرفتي'),
+            ),
+          ],
+        ),
+      ),
+    );
   }
 }
 
@@ -175,7 +220,14 @@ class _ItemSheet extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final s = ref.watch(sandboxControllerProvider).valueOrNull;
     final slot = s?.plan.byProductId(productId);
-    if (s == null || slot == null) return const SizedBox.shrink();
+    // ورقة تُفتح فارغة تمامًا تُقرأ كعطل. يحدث هذا حين تُزال القطعة من تحتها —
+    // فتُقال الحقيقة بدل أن يُترك المستخدم أمام مستطيل أبيض.
+    if (s == null || slot == null) {
+      return const Padding(
+        padding: EdgeInsets.all(24),
+        child: Text('لم تعد هذه القطعة في المشهد.', textAlign: TextAlign.center),
+      );
+    }
 
     final p = slot.product;
     final theme = Theme.of(context);

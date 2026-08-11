@@ -31,6 +31,9 @@ class _ManualInputScreenState extends ConsumerState<ManualInputScreen> {
   final _essential = <String>{};
   final _optional = <String>{};
 
+  String? _dimsError;
+  String? _itemsError;
+
   @override
   void dispose() {
     _width.dispose();
@@ -39,12 +42,28 @@ class _ManualInputScreenState extends ConsumerState<ManualInputScreen> {
     super.dispose();
   }
 
+  /// نموذجٌ فارغ كان يمرّ بعرض ٠ وطول ٠ ثم يعبر شاشتين ليعود المحرّك سائلًا عمّا
+  /// كان أمام المستخدم. التحقّق يقع هنا: عند الحقل، قبل الترحيل.
   void _submit() {
+    final w = double.tryParse(_width.text.trim()) ?? 0;
+    final l = double.tryParse(_length.text.trim()) ?? 0;
+    final dimsError = (w <= 0 || l <= 0)
+        ? 'أدخل مقاس الغرفة بالمتر — رقمًا أكبر من صفر.'
+        : null;
+    final itemsError =
+        _essential.isEmpty ? 'اختر قطعةً أساسية واحدة على الأقل.' : null;
+
+    setState(() {
+      _dimsError = dimsError;
+      _itemsError = itemsError;
+    });
+    if (dimsError != null || itemsError != null) return;
+
     final draft = FurnishingProject(
       projectId: ref.read(uuidProvider).v4(),
       room: Room(
-        widthM: double.tryParse(_width.text.trim()) ?? 0,
-        lengthM: double.tryParse(_length.text.trim()) ?? 0,
+        widthM: w,
+        lengthM: l,
         roomType: _roomType,
       ),
       budget: Budget(
@@ -65,6 +84,17 @@ class _ManualInputScreenState extends ConsumerState<ManualInputScreen> {
 
   void _toggle(Set<String> set, String value, bool isSelected) =>
       setState(() => isSelected ? set.add(value) : set.remove(value));
+
+  Widget _fieldError(String message) => Padding(
+        padding: const EdgeInsets.only(top: 6),
+        child: Text(
+          message,
+          style: Theme.of(context)
+              .textTheme
+              .bodySmall
+              ?.copyWith(color: Theme.of(context).colorScheme.error),
+        ),
+      );
 
   @override
   Widget build(BuildContext context) {
@@ -93,6 +123,7 @@ class _ManualInputScreenState extends ConsumerState<ManualInputScreen> {
                         AppNumberField(controller: _length, label: AppStrings.lengthM)),
               ],
             ),
+            if (_dimsError != null) _fieldError(_dimsError!),
             const SizedBox(height: 12),
             AppNumberField(controller: _budget, label: AppStrings.budgetMax),
             SwitchListTile(
@@ -113,6 +144,7 @@ class _ManualInputScreenState extends ConsumerState<ManualInputScreen> {
               selected: _essential,
               onToggle: (v, sel) => _toggle(_essential, v, sel),
             ),
+            if (_itemsError != null) _fieldError(_itemsError!),
             const SectionHeader(AppStrings.optionalItems),
             MultiSelectChips(
               options: itemTypeOptions,
