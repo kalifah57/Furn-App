@@ -1,12 +1,12 @@
-import 'color_system.dart';
-import 'style_taxonomy.dart';
-
 /// تناغم الغرفة — المُقيّم **v0** (docs/design/02 · docs/design/09).
 ///
 /// Dart صرف · بلا Flutter · بلا تتبّع. **v0 مقصود ناقص:** يستخدم البدائيّتين المنفَّذتين
 /// فقط — تقارب الستايل وحرارة اللون — فيقيس D4 خطَّ الأساس، ثم يضيف D5 قواعد الخامة
 /// والمقياس وعبر-المحاور تكرارًا حتى الإتقان. كل قاعدة تبقى مشروحة بجملة.
 library;
+
+import 'color_system.dart';
+import 'style_taxonomy.dart';
 
 /// حكم التناغم الثنائي (على غرار `ArFitVerdict`: قرار يُعرض لا درجة غامضة).
 enum HarmonyVerdict { harmonious, dissonant }
