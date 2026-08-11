@@ -1,0 +1,8 @@
+requests>=2.31
+beautifulsoup4>=4.12
+# Optional: only needed for --aesthetics vision
+anthropic>=0.69
+# Optional: only needed for --render browser, which opens IKEA's collapsible
+# measurement panels. Without it the pipeline stays on static fetches and says
+# so. After installing, run: playwright install chromium
+playwright>=1.44
