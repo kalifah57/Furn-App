@@ -74,6 +74,14 @@ void main() {
   });
 
   group('the contract, against the real catalogue', () {
+    // حُذف assets/catalog بأمر المؤسّس — هذه المجموعة وحدها تعتمد الملف، فتنام
+    // حتى الدفعة الجديدة بينما تبقى مجموعة الكتالوج المضبوط أعلاه حيّة.
+    if (!File('assets/catalog/catalog.json').existsSync()) {
+      test('نائم — كتالوج المحاكاة محذوف بانتظار الدفعة الجديدة', () {},
+          skip: 'assets/catalog حُذف بأمر المؤسّس؛ يعود مع الدفعة الجديدة');
+      return;
+    }
+
     late List<CatalogProduct> catalog;
     setUpAll(() {
       catalog =

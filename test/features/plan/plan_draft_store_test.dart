@@ -13,6 +13,14 @@ import 'package:furn_app/shared/models/models.dart';
 /// المُلخّص وقرارات المستخدم يكفي لإعادة إنتاج الخطة نفسها حرفيًا. أول اختبار في
 /// مجموعة «الاستعادة» يثبت ذلك؛ البقيّة تحرس ما يحدث حين يسوء التخزين.
 void main() {
+  // حُذف assets/catalog بأمر المؤسّس (تُعاد البيانات بدفعة جديدة) — الحزمة نائمة
+  // حتى عودتها لا حمراء، وتستيقظ تلقائيًّا بعودة الملف.
+  if (!File('assets/catalog/catalog.json').existsSync()) {
+    test('نائم — كتالوج المحاكاة محذوف بانتظار الدفعة الجديدة', () {},
+        skip: 'assets/catalog حُذف بأمر المؤسّس؛ يعود مع الدفعة الجديدة');
+    return;
+  }
+
   late Map<String, String> disk;
   late List<CatalogProduct> catalog;
 

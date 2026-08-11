@@ -241,6 +241,14 @@ void main() {
   });
 
   group('real catalog end to end', () {
+    // حُذف assets/catalog بأمر المؤسّس — هذه المجموعة وحدها تعتمد الملف، فتنام
+    // حتى الدفعة الجديدة بينما تبقى مجموعات الـfixtures أعلاه حيّة.
+    if (!File('assets/catalog/catalog.json').existsSync()) {
+      test('نائم — كتالوج المحاكاة محذوف بانتظار الدفعة الجديدة', () {},
+          skip: 'assets/catalog حُذف بأمر المؤسّس؛ يعود مع الدفعة الجديدة');
+      return;
+    }
+
     late List<CatalogProduct> catalog;
 
     setUpAll(() {

@@ -13,6 +13,14 @@ import 'package:furn_app/shared/models/models.dart';
 /// asking for a bed, a mattress, a fridge, a sofa bed and a TV stand — two of
 /// which the catalog cannot represent at all.
 void main() {
+  // حُذف assets/catalog بأمر المؤسّس (تُعاد البيانات بدفعة جديدة) — الحزمة نائمة
+  // حتى عودتها لا حمراء، وتستيقظ تلقائيًّا بعودة الملف.
+  if (!File('assets/catalog/catalog.json').existsSync()) {
+    test('نائم — كتالوج المحاكاة محذوف بانتظار الدفعة الجديدة', () {},
+        skip: 'assets/catalog حُذف بأمر المؤسّس؛ يعود مع الدفعة الجديدة');
+    return;
+  }
+
   late List<CatalogProduct> catalog;
 
   setUpAll(() {
