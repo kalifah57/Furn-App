@@ -1,0 +1,501 @@
+{
+  "_comment": [
+    "Candidate IKEA article numbers for the Furn-App catalogue.",
+    "",
+    "PROVENANCE: every article number here was observed in a live IKEA search",
+    "result during research. 'observed_on' names the market whose URL appeared",
+    "(sa = confirmed on the Saudi site). IKEA article numbers are global - the",
+    "MALM high bed frame is s09929373 on /sa/, /kw/ and /se/ alike - so an",
+    "article seen on another market is a valid CANDIDATE for KSA.",
+    "",
+    "THIS FILE ASSERTS NOTHING ABOUT KSA AVAILABILITY, PRICE, OR DIMENSIONS.",
+    "The pipeline resolves each URL against /sa/en/, follows redirects to the",
+    "canonical slug, and drops anything that 404s or lacks measurements.",
+    "",
+    "CORRECTION (after the first live run): slugs differ per market (US 'gray'",
+    "vs SA 'grey'), and IKEA KSA does NOT resolve by article number when the",
+    "slug disagrees - it returns 404. 47 of these seeds fell out that way.",
+    "Discovery therefore runs off IKEA's search backend, which answers with the",
+    "canonical /sa/en/ URL for this market; these seeds are now a fallback for",
+    "when that API is unreachable, and are resolved through the API index first.",
+    "",
+    "'dimensions_hint' is a cross-check only - never emitted into the catalogue."
+  ],
+  "count": 67,
+  "seeds": [
+    {
+      "retailer": "ikea",
+      "url": "https://www.ikea.com/sa/en/p/kivik-3-seat-sofa-tibbleby-beige-grey-s49440597/",
+      "article": "s49440597",
+      "expected_category": "sofa",
+      "observed_on": "sa"
+    },
+    {
+      "retailer": "ikea",
+      "url": "https://www.ikea.com/sa/en/p/kivik-3-seat-sofa-frame-00519361/",
+      "article": "00519361",
+      "expected_category": "sofa",
+      "observed_on": "sa",
+      "dimensions_hint": "W228 H83 D95"
+    },
+    {
+      "retailer": "ikea",
+      "url": "https://www.ikea.com/sa/en/p/kivik-3-seat-sofa-with-chaise-longue-kelinge-grey-turquoise-s39443054/",
+      "article": "s39443054",
+      "expected_category": "sofa",
+      "observed_on": "sa"
+    },
+    {
+      "retailer": "ikea",
+      "url": "https://www.ikea.com/sa/en/p/kivik-sofa-tibbleby-beige-gray-s39440593/",
+      "article": "s39440593",
+      "expected_category": "sofa",
+      "observed_on": "us"
+    },
+    {
+      "retailer": "ikea",
+      "url": "https://www.ikea.com/sa/en/p/kivik-sofa-with-chaise-tibbleby-beige-gray-s79440586/",
+      "article": "s79440586",
+      "expected_category": "sofa",
+      "observed_on": "us"
+    },
+    {
+      "retailer": "ikea",
+      "url": "https://www.ikea.com/sa/en/p/kivik-sofa-gunnared-beige-s89499703/",
+      "article": "s89499703",
+      "expected_category": "sofa",
+      "observed_on": "us"
+    },
+    {
+      "retailer": "ikea",
+      "url": "https://www.ikea.com/sa/en/p/kivik-sofa-with-chaise-gunnared-blue-s29499701/",
+      "article": "s29499701",
+      "expected_category": "sofa",
+      "observed_on": "us"
+    },
+    {
+      "retailer": "ikea",
+      "url": "https://www.ikea.com/sa/en/p/soederhamn-sofa-section-fridtuna-dark-gray-s89449572/",
+      "article": "s89449572",
+      "expected_category": "sofa",
+      "observed_on": "us"
+    },
+    {
+      "retailer": "ikea",
+      "url": "https://www.ikea.com/sa/en/p/soederhamn-sectional-3-seat-fridtuna-dark-gray-s59449620/",
+      "article": "s59449620",
+      "expected_category": "sofa",
+      "observed_on": "us"
+    },
+    {
+      "retailer": "ikea",
+      "url": "https://www.ikea.com/sa/en/p/soederhamn-sofa-section-viarp-beige-brown-s09305619/",
+      "article": "s09305619",
+      "expected_category": "sofa",
+      "observed_on": "us"
+    },
+    {
+      "retailer": "ikea",
+      "url": "https://www.ikea.com/sa/en/p/soederhamn-sofa-section-fridtuna-light-beige-s09449646/",
+      "article": "s09449646",
+      "expected_category": "sofa",
+      "observed_on": "us"
+    },
+    {
+      "retailer": "ikea",
+      "url": "https://www.ikea.com/sa/en/p/malm-bed-frame-high-white-s09929373/",
+      "article": "s09929373",
+      "expected_category": "bed",
+      "observed_on": "sa/kw/se"
+    },
+    {
+      "retailer": "ikea",
+      "url": "https://www.ikea.com/sa/en/p/malm-bed-frame-high-black-brown-s29929230/",
+      "article": "s29929230",
+      "expected_category": "bed",
+      "observed_on": "sa"
+    },
+    {
+      "retailer": "ikea",
+      "url": "https://www.ikea.com/sa/en/p/malm-bed-frame-high-w-4-storage-boxes-white-s99931611/",
+      "article": "s99931611",
+      "expected_category": "bed",
+      "observed_on": "sa"
+    },
+    {
+      "retailer": "ikea",
+      "url": "https://www.ikea.com/sa/en/p/malm-bed-frame-high-white-luroey-s79002435/",
+      "article": "s79002435",
+      "expected_category": "bed",
+      "observed_on": "ae"
+    },
+    {
+      "retailer": "ikea",
+      "url": "https://www.ikea.com/sa/en/p/malm-bed-frame-high-white-s79028628/",
+      "article": "s79028628",
+      "expected_category": "bed",
+      "observed_on": "in"
+    },
+    {
+      "retailer": "ikea",
+      "url": "https://www.ikea.com/sa/en/p/malm-bed-frame-with-mattress-black-brown-valevag-firm-s09544479/",
+      "article": "s09544479",
+      "expected_category": "bed",
+      "observed_on": "in"
+    },
+    {
+      "retailer": "ikea",
+      "url": "https://www.ikea.com/sa/en/p/songesand-bed-frame-brown-s89241044/",
+      "article": "s89241044",
+      "expected_category": "bed",
+      "observed_on": "us"
+    },
+    {
+      "retailer": "ikea",
+      "url": "https://www.ikea.com/sa/en/p/songesand-bed-frame-brown-luroey-s59241069/",
+      "article": "s59241069",
+      "expected_category": "bed",
+      "observed_on": "us"
+    },
+    {
+      "retailer": "ikea",
+      "url": "https://www.ikea.com/sa/en/p/songesand-bed-frame-brown-luroey-s19241066/",
+      "article": "s19241066",
+      "expected_category": "bed",
+      "observed_on": "us"
+    },
+    {
+      "retailer": "ikea",
+      "url": "https://www.ikea.com/sa/en/p/songesand-bed-frame-brown-s79241049/",
+      "article": "s79241049",
+      "expected_category": "bed",
+      "observed_on": "us"
+    },
+    {
+      "retailer": "ikea",
+      "url": "https://www.ikea.com/sa/en/p/songesand-bed-frame-with-4-storage-boxes-brown-s79241186/",
+      "article": "s79241186",
+      "expected_category": "bed",
+      "observed_on": "us"
+    },
+    {
+      "retailer": "ikea",
+      "url": "https://www.ikea.com/sa/en/p/songesand-bed-frame-with-4-storage-boxes-brown-luroey-s89241195/",
+      "article": "s89241195",
+      "expected_category": "bed",
+      "observed_on": "us"
+    },
+    {
+      "retailer": "ikea",
+      "url": "https://www.ikea.com/sa/en/p/songesand-bed-frame-with-2-storage-boxes-white-luroey-s99241265/",
+      "article": "s99241265",
+      "expected_category": "bed",
+      "observed_on": "us"
+    },
+    {
+      "retailer": "ikea",
+      "url": "https://www.ikea.com/sa/en/p/songesand-bed-frame-brown-10372561/",
+      "article": "10372561",
+      "expected_category": "bed",
+      "observed_on": "us"
+    },
+    {
+      "retailer": "ikea",
+      "url": "https://www.ikea.com/sa/en/p/songesand-bed-frame-brown-loenset-s49241084/",
+      "article": "s49241084",
+      "expected_category": "bed",
+      "observed_on": "us"
+    },
+    {
+      "retailer": "ikea",
+      "url": "https://www.ikea.com/sa/en/p/poaeng-armchair-birch-veneer-hillared-dark-blue-s99305926/",
+      "article": "s99305926",
+      "expected_category": "armchair",
+      "observed_on": "us"
+    },
+    {
+      "retailer": "ikea",
+      "url": "https://www.ikea.com/sa/en/p/poaeng-armchair-brown-knisa-black-s89336023/",
+      "article": "s89336023",
+      "expected_category": "armchair",
+      "observed_on": "us"
+    },
+    {
+      "retailer": "ikea",
+      "url": "https://www.ikea.com/sa/en/p/poaeng-armchair-brown-hillared-anthracite-s19336026/",
+      "article": "s19336026",
+      "expected_category": "armchair",
+      "observed_on": "us"
+    },
+    {
+      "retailer": "ikea",
+      "url": "https://www.ikea.com/sa/en/p/poaeng-armchair-birch-veneer-knisa-light-beige-s59305928/",
+      "article": "s59305928",
+      "expected_category": "armchair",
+      "observed_on": "us"
+    },
+    {
+      "retailer": "ikea",
+      "url": "https://www.ikea.com/sa/en/p/poaeng-armchair-and-ottoman-brown-gunnared-beige-s39502010/",
+      "article": "s39502010",
+      "expected_category": "armchair",
+      "observed_on": "us"
+    },
+    {
+      "retailer": "ikea",
+      "url": "https://www.ikea.com/sa/en/p/strandmon-armchair-and-ottoman-vibberbo-black-beige-s69487876/",
+      "article": "s69487876",
+      "expected_category": "armchair",
+      "observed_on": "us"
+    },
+    {
+      "retailer": "ikea",
+      "url": "https://www.ikea.com/sa/en/p/strandmon-armchair-and-ottoman-nordvalla-dark-gray-s19487874/",
+      "article": "s19487874",
+      "expected_category": "armchair",
+      "observed_on": "us"
+    },
+    {
+      "retailer": "ikea",
+      "url": "https://www.ikea.com/sa/en/p/strandmon-armchair-and-ottoman-kelinge-beige-s39487873/",
+      "article": "s39487873",
+      "expected_category": "armchair",
+      "observed_on": "us"
+    },
+    {
+      "retailer": "ikea",
+      "url": "https://www.ikea.com/sa/en/p/koppang-chest-of-5-drawers-white-50322847/",
+      "article": "50322847",
+      "expected_category": "dresser",
+      "observed_on": "ma",
+      "dimensions_hint": "90x44x114 cm"
+    },
+    {
+      "retailer": "ikea",
+      "url": "https://www.ikea.com/sa/en/p/koppang-chest-of-3-drawers-white-10385950/",
+      "article": "10385950",
+      "expected_category": "dresser",
+      "observed_on": "ma/se",
+      "dimensions_hint": "90x46x83 cm"
+    },
+    {
+      "retailer": "ikea",
+      "url": "https://www.ikea.com/sa/en/p/koppang-chest-of-6-drawers-white-10311308/",
+      "article": "10311308",
+      "expected_category": "dresser",
+      "observed_on": "kw",
+      "dimensions_hint": "172x44x83 cm"
+    },
+    {
+      "retailer": "ikea",
+      "url": "https://www.ikea.com/sa/en/p/hemnes-6-drawer-dresser-black-brown-60576198/",
+      "article": "60576198",
+      "expected_category": "dresser",
+      "observed_on": "us"
+    },
+    {
+      "retailer": "ikea",
+      "url": "https://www.ikea.com/sa/en/p/koppang-5-drawer-chest-black-brown-40484595/",
+      "article": "40484595",
+      "expected_category": "dresser",
+      "observed_on": "us"
+    },
+    {
+      "retailer": "ikea",
+      "url": "https://www.ikea.com/sa/en/p/koppang-6-drawer-dresser-black-brown-80584164/",
+      "article": "80584164",
+      "expected_category": "dresser",
+      "observed_on": "us"
+    },
+    {
+      "retailer": "ikea",
+      "url": "https://www.ikea.com/sa/en/p/lisabo-table-ash-veneer-10563773/",
+      "article": "10563773",
+      "expected_category": "dining_table",
+      "observed_on": "us"
+    },
+    {
+      "retailer": "ikea",
+      "url": "https://www.ikea.com/sa/en/p/lisabo-table-ash-veneer-40416498/",
+      "article": "40416498",
+      "expected_category": "dining_table",
+      "observed_on": "us"
+    },
+    {
+      "retailer": "ikea",
+      "url": "https://www.ikea.com/sa/en/p/ekedalen-extendable-table-dark-brown-40340804/",
+      "article": "40340804",
+      "expected_category": "dining_table",
+      "observed_on": "us"
+    },
+    {
+      "retailer": "ikea",
+      "url": "https://www.ikea.com/sa/en/p/lisabo-lisabo-table-and-4-chairs-ash-veneer-ash-s49385529/",
+      "article": "s49385529",
+      "expected_category": "dining_table",
+      "observed_on": "us"
+    },
+    {
+      "retailer": "ikea",
+      "url": "https://www.ikea.com/sa/en/p/lisabo-lisabo-table-and-6-chairs-ash-veneer-ash-veneer-s49545085/",
+      "article": "s49545085",
+      "expected_category": "dining_table",
+      "observed_on": "us"
+    },
+    {
+      "retailer": "ikea",
+      "url": "https://www.ikea.com/sa/en/p/lisabo-lisabo-table-and-2-chairs-black-black-s49545090/",
+      "article": "s49545090",
+      "expected_category": "dining_table",
+      "observed_on": "us"
+    },
+    {
+      "retailer": "ikea",
+      "url": "https://www.ikea.com/sa/en/p/lisabo-lisabo-table-and-4-chairs-ash-veneer-ash-s69554856/",
+      "article": "s69554856",
+      "expected_category": "dining_table",
+      "observed_on": "us"
+    },
+    {
+      "retailer": "ikea",
+      "url": "https://www.ikea.com/sa/en/p/lisabo-lisabo-table-and-2-chairs-black-tallmyra-black-gray-s29554924/",
+      "article": "s29554924",
+      "expected_category": "dining_table",
+      "observed_on": "us"
+    },
+    {
+      "retailer": "ikea",
+      "url": "https://www.ikea.com/sa/en/p/lisabo-lisabo-table-and-4-chairs-ash-veneer-black-s89385532/",
+      "article": "s89385532",
+      "expected_category": "dining_table",
+      "observed_on": "us"
+    },
+    {
+      "retailer": "ikea",
+      "url": "https://www.ikea.com/sa/en/p/micke-desk-white-80213074/",
+      "article": "80213074",
+      "expected_category": "desk",
+      "observed_on": "us"
+    },
+    {
+      "retailer": "ikea",
+      "url": "https://www.ikea.com/sa/en/p/micke-desk-white-90214308/",
+      "article": "90214308",
+      "expected_category": "desk",
+      "observed_on": "us"
+    },
+    {
+      "retailer": "ikea",
+      "url": "https://www.ikea.com/sa/en/p/micke-desk-black-brown-10244743/",
+      "article": "10244743",
+      "expected_category": "desk",
+      "observed_on": "us"
+    },
+    {
+      "retailer": "ikea",
+      "url": "https://www.ikea.com/sa/en/p/micke-desk-white-anthracite-10489839/",
+      "article": "10489839",
+      "expected_category": "desk",
+      "observed_on": "us"
+    },
+    {
+      "retailer": "ikea",
+      "url": "https://www.ikea.com/sa/en/p/kallax-desk-white-30582445/",
+      "article": "30582445",
+      "expected_category": "desk",
+      "observed_on": "us"
+    },
+    {
+      "retailer": "ikea",
+      "url": "https://www.ikea.com/sa/en/p/kallax-desk-black-brown-00582442/",
+      "article": "00582442",
+      "expected_category": "desk",
+      "observed_on": "us"
+    },
+    {
+      "retailer": "ikea",
+      "url": "https://www.ikea.com/sa/en/p/kallax-shelf-unit-white-20631663/",
+      "article": "20631663",
+      "expected_category": "shelving",
+      "observed_on": "us",
+      "dimensions_hint": "replaces 80275887"
+    },
+    {
+      "retailer": "ikea",
+      "url": "https://www.ikea.com/sa/en/p/kallax-shelf-unit-white-stained-oak-effect-90324509/",
+      "article": "90324509",
+      "expected_category": "shelving",
+      "observed_on": "us"
+    },
+    {
+      "retailer": "ikea",
+      "url": "https://www.ikea.com/sa/en/p/kallax-shelf-unit-black-brown-70301542/",
+      "article": "70301542",
+      "expected_category": "shelving",
+      "observed_on": "us"
+    },
+    {
+      "retailer": "ikea",
+      "url": "https://www.ikea.com/sa/en/p/billy-bookcase-white-20522046/",
+      "article": "20522046",
+      "expected_category": "bookcase",
+      "observed_on": "us"
+    },
+    {
+      "retailer": "ikea",
+      "url": "https://www.ikea.com/sa/en/p/billy-bookcase-white-90522043/",
+      "article": "90522043",
+      "expected_category": "bookcase",
+      "observed_on": "us"
+    },
+    {
+      "retailer": "ikea",
+      "url": "https://www.ikea.com/sa/en/p/billy-bookcase-black-oak-effect-40477340/",
+      "article": "40477340",
+      "expected_category": "bookcase",
+      "observed_on": "us"
+    },
+    {
+      "retailer": "ikea",
+      "url": "https://www.ikea.com/sa/en/p/billy-bookcase-with-glass-doors-dark-blue-20323805/",
+      "article": "20323805",
+      "expected_category": "bookcase",
+      "observed_on": "us"
+    },
+    {
+      "retailer": "ikea",
+      "url": "https://www.ikea.com/sa/en/p/billy-bookcase-white-s89581509/",
+      "article": "s89581509",
+      "expected_category": "bookcase",
+      "observed_on": "us"
+    },
+    {
+      "retailer": "ikea",
+      "url": "https://www.ikea.com/sa/en/p/billy-bookcase-white-s39581516/",
+      "article": "s39581516",
+      "expected_category": "bookcase",
+      "observed_on": "us"
+    },
+    {
+      "retailer": "ikea",
+      "url": "https://www.ikea.com/sa/en/p/billy-bookcase-brown-walnut-effect-50508652/",
+      "article": "50508652",
+      "expected_category": "bookcase",
+      "observed_on": "us"
+    },
+    {
+      "retailer": "ikea",
+      "url": "https://www.ikea.com/sa/en/p/billy-bookcase-oak-effect-10508932/",
+      "article": "10508932",
+      "expected_category": "bookcase",
+      "observed_on": "us"
+    },
+    {
+      "retailer": "ikea",
+      "url": "https://www.ikea.com/sa/en/p/billy-bookcase-with-desk-white-s39612669/",
+      "article": "s39612669",
+      "expected_category": "bookcase",
+      "observed_on": "us"
+    }
+  ]
+}
