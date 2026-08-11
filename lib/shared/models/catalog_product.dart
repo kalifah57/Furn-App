@@ -64,6 +64,13 @@ class CatalogProduct extends Equatable {
   /// جاهزية فعلية للـ AR: العلَم مرفوع ونموذج GLB موجود على الأقل.
   bool get hasArModel => arReady && modelGlbUrl.isNotEmpty;
 
+  /// مقاسات أرضية صالحة — شرط دخول **المعاينة** (مسقط علوي بمقياس حقيقي).
+  ///
+  /// المشهد ثنائي الأبعاد يحتاج أبعادًا لا نموذجًا ثلاثيًّا: اشتراط [hasArModel]
+  /// هنا كان سيُفرغ المعاينة بأكملها يوم يصل كتالوج حقيقي بلا نماذج (وهو ما
+  /// يفعله مُدخِل آيكيا: `arReady: false` صراحةً). الـ AR وحده يشترط النموذج.
+  bool get hasFootprint => widthCm > 0 && depthCm > 0;
+
   factory CatalogProduct.fromJson(Map<String, dynamic> json) => CatalogProduct(
         productId: asString(json['product_id']),
         title: asString(json['title']),

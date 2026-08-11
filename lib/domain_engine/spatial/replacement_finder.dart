@@ -64,7 +64,7 @@ class ReplacementFinder {
       if (p.productId == removed.productId) continue;
       if (p.category != removed.category) continue;
       if (!p.isAvailable) continue;
-      if (!p.hasArModel) continue; // المشهد ثلاثي الأبعاد يحتاج نموذجًا
+      if (!p.hasFootprint) continue; // المسقط يحتاج مقاسات، لا نموذجًا ثلاثيًّا
       if (p.price > ceiling) continue;
       if (!_fitsSlot(p, removed, slot, room, neighbours, toleranceCm)) continue;
 

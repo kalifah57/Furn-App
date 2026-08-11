@@ -101,6 +101,10 @@ class IkeaCatalogIngest {
     'desk': RecommendationCategory.table,
     'coffee_table': RecommendationCategory.table,
     'tv_unit': RecommendationCategory.table,
+    // كانتا ناقصتين فتسقط 9/50 من الكتالوج الحقيقي إلى «أخرى» — والمحرّك لا
+    // يرشّح «أخرى» لأي طلب، فتختفي القطع من كل خطة بصمت.
+    'side_table': RecommendationCategory.table,
+    'shelving': RecommendationCategory.storage,
   };
 
   IngestResult run(List<dynamic> records) {

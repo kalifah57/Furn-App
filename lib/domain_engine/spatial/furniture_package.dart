@@ -57,7 +57,9 @@ class PackageComposer {
           .where((p) =>
               p.category == category &&
               p.isAvailable &&
-              p.hasArModel && // المشهد ثلاثي الأبعاد يحتاج نموذجًا فعليًا
+              // المسقط العلوي يحتاج مقاسات لا نموذجًا — اشتراط النموذج كان
+              // سيُفرغ المعاينة على الكتالوج الحقيقي (arReady: false).
+              p.hasFootprint &&
               (budget <= 0 || spent + p.price <= budget))
           .toList()
         // ترتيب كلّي: السعر ثم المعرّف — فرز Dart غير مضمون الاستقرار.

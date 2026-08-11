@@ -129,10 +129,12 @@ void main() {
       expect(a.items.map((e) => e.productId), b.items.map((e) => e.productId));
     });
 
-    test('skips products without a 3D model', () {
+    test('a product without a 3D model still enters the 2D scene', () {
+      // المعاينة مسقط علوي: شرطها المقاسات لا النموذج. اشتراط النموذج كان
+      // سيُفرغها بالكامل على الكتالوج الحقيقي (arReady: false في مُدخِل آيكيا).
       const noModel = CatalogProduct(
-        productId: 'ghost',
-        title: 'ghost',
+        productId: 'real_no_model',
+        title: 'real_no_model',
         category: RecommendationCategory.bed,
         widthCm: 100,
         depthCm: 200,
@@ -141,7 +143,22 @@ void main() {
       );
       final pkg = composer.compose(
           catalog: [noModel, bed], roomType: RoomType.bedroom, budget: 5000);
-      expect(pkg.items.map((e) => e.productId), isNot(contains('ghost')));
+      expect(pkg.items.map((e) => e.productId), contains('real_no_model'));
+    });
+
+    test('a product without dimensions is skipped — nothing to draw', () {
+      const ghost = CatalogProduct(
+        productId: 'dimensionless',
+        title: 'dimensionless',
+        category: RecommendationCategory.bed,
+        widthCm: 0,
+        depthCm: 0,
+        heightCm: 0,
+        price: 1,
+      );
+      final pkg = composer.compose(
+          catalog: [ghost, bed], roomType: RoomType.bedroom, budget: 5000);
+      expect(pkg.items.map((e) => e.productId), isNot(contains('dimensionless')));
     });
   });
 

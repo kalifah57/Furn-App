@@ -12,6 +12,7 @@ import '../../ai/mock/mock_speech_to_text_service.dart';
 import '../../ai/mock/mock_vision_analysis_service.dart';
 import '../../features/auth/data/mock_auth_repository.dart';
 import '../../features/auth/domain/auth_repository.dart';
+import '../../features/catalog/data/ikea_catalog_repository.dart';
 import '../../features/consent/presentation/consent_controller.dart';
 import '../../features/recommendations/data/recommendation_repository_impl.dart';
 import '../../features/recommendations/domain/recommendation_repository.dart';
@@ -84,8 +85,10 @@ final llmExtractionServiceProvider = Provider<LlmExtractionService>(
 );
 
 // ---- الكتالوج (Static JSON — القرار G2) ----
+// المصدر الحيّ: كتالوج آيكيا السعودية الحقيقي عبر الابتلاع المتحقِّق (A7).
+// كتالوج المحاكاة باقٍ أصلًا للاختبارات ولـ`AssetCatalogRepository`.
 final catalogRepositoryProvider = Provider<CatalogRepository>(
-  (ref) => const AssetCatalogRepository(),
+  (ref) => const IkeaAssetCatalogRepository(),
 );
 
 // ---- المستودعات ----
