@@ -1,0 +1,41 @@
+{
+ "version": "v1",
+ "count": 60,
+ "categories": {
+  "color": 16,
+  "style": 12,
+  "material": 10,
+  "scale": 9,
+  "cross": 9,
+  "majlis": 4
+ },
+ "majlis_context": 14,
+ "verdicts": {
+  "dissonant": 26,
+  "harmonious": 34
+ },
+ "rules": {
+  "C2": 9,
+  "C1": 5,
+  "C6": 2,
+  "styleAffinity": 12,
+  "X3": 5,
+  "M1": 4,
+  "M2": 3,
+  "M3": 4,
+  "S3": 5,
+  "S2": 2,
+  "S1": 2,
+  "X1": 3,
+  "X2": 3,
+  "C3": 1
+ },
+ "files": [
+  "color.json",
+  "cross.json",
+  "majlis.json",
+  "material.json",
+  "scale.json",
+  "style.json"
+ ]
+}

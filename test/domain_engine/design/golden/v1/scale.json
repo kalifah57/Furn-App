@@ -1,0 +1,609 @@
+[
+ {
+  "id": "scl-01",
+  "category": "scale",
+  "rule": "S3",
+  "room": {
+   "type": "living_room",
+   "width_m": 3,
+   "length_m": 3
+  },
+  "pieces": [
+   {
+    "category": "sofa",
+    "style": [
+     "modern"
+    ],
+    "colors": [
+     "gray_warm"
+    ],
+    "materials": [
+     "fabric"
+    ],
+    "width_cm": 320,
+    "depth_cm": 160,
+    "height_cm": 85,
+    "subcategory": "sectional"
+   },
+   {
+    "category": "table",
+    "style": [
+     "modern"
+    ],
+    "colors": [
+     "brown"
+    ],
+    "materials": [
+     "wood"
+    ],
+    "width_cm": 120,
+    "depth_cm": 70,
+    "height_cm": 45,
+    "subcategory": "coffee_table",
+    "wood_tone": "medium"
+   }
+  ],
+  "expected": {
+   "verdict": "dissonant",
+   "band": "low"
+  },
+  "reason_ar": "السكشن يشغل أكثر من ثلثي أرضية الغرفة الصغيرة فيخنق الحركة.",
+  "authority": "حدّ الإشغال 0.25–0.65 — S3"
+ },
+ {
+  "id": "scl-02",
+  "category": "scale",
+  "rule": "S3",
+  "room": {
+   "type": "living_room",
+   "width_m": 5,
+   "length_m": 6
+  },
+  "pieces": [
+   {
+    "category": "sofa",
+    "style": [
+     "modern"
+    ],
+    "colors": [
+     "gray_warm"
+    ],
+    "materials": [
+     "fabric"
+    ],
+    "width_cm": 200,
+    "depth_cm": 90,
+    "height_cm": 85,
+    "subcategory": "loveseat"
+   },
+   {
+    "category": "table",
+    "style": [
+     "modern"
+    ],
+    "colors": [
+     "brown"
+    ],
+    "materials": [
+     "wood"
+    ],
+    "width_cm": 90,
+    "depth_cm": 50,
+    "height_cm": 45,
+    "subcategory": "coffee_table",
+    "wood_tone": "medium"
+   }
+  ],
+  "expected": {
+   "verdict": "dissonant",
+   "band": "medium"
+  },
+  "reason_ar": "قطعتان صغيرتان في غرفة واسعة تتركانها فارغة متوتّرة كالمزدحمة.",
+  "authority": "حدّ الإشغال الأدنى — S3"
+ },
+ {
+  "id": "scl-03",
+  "category": "scale",
+  "rule": "S3",
+  "room": {
+   "type": "living_room",
+   "width_m": 4,
+   "length_m": 5
+  },
+  "pieces": [
+   {
+    "category": "sofa",
+    "style": [
+     "modern"
+    ],
+    "colors": [
+     "gray_warm"
+    ],
+    "materials": [
+     "fabric"
+    ],
+    "width_cm": 220,
+    "depth_cm": 95,
+    "height_cm": 85,
+    "subcategory": "sofa"
+   },
+   {
+    "category": "storage",
+    "style": [
+     "modern"
+    ],
+    "colors": [
+     "brown"
+    ],
+    "materials": [
+     "wood"
+    ],
+    "width_cm": 180,
+    "depth_cm": 45,
+    "height_cm": 180,
+    "subcategory": "tv_unit",
+    "wood_tone": "medium"
+   },
+   {
+    "category": "table",
+    "style": [
+     "modern"
+    ],
+    "colors": [
+     "brown"
+    ],
+    "materials": [
+     "wood"
+    ],
+    "width_cm": 110,
+    "depth_cm": 60,
+    "height_cm": 45,
+    "subcategory": "coffee_table",
+    "wood_tone": "medium"
+   },
+   {
+    "category": "rug",
+    "style": [
+     "modern"
+    ],
+    "colors": [
+     "beige"
+    ],
+    "materials": [
+     "wool"
+    ],
+    "width_cm": 200,
+    "depth_cm": 300,
+    "height_cm": 1,
+    "subcategory": "area_rug"
+   }
+  ],
+  "expected": {
+   "verdict": "harmonious",
+   "band": "high"
+  },
+  "reason_ar": "إشغال معتدل يترك ممرّات الحركة فتبدو الغرفة مأهولة لا مكتظّة.",
+  "authority": "حدّ الإشغال — S3"
+ },
+ {
+  "id": "scl-04",
+  "category": "scale",
+  "rule": "S2",
+  "room": {
+   "type": "living_room",
+   "width_m": 4,
+   "length_m": 5
+  },
+  "pieces": [
+   {
+    "category": "sofa",
+    "style": [
+     "modern"
+    ],
+    "colors": [
+     "gray_warm"
+    ],
+    "materials": [
+     "fabric"
+    ],
+    "width_cm": 220,
+    "depth_cm": 95,
+    "height_cm": 85,
+    "subcategory": "sofa"
+   },
+   {
+    "category": "sofa",
+    "style": [
+     "modern"
+    ],
+    "colors": [
+     "gray_warm"
+    ],
+    "materials": [
+     "fabric"
+    ],
+    "width_cm": 90,
+    "depth_cm": 90,
+    "height_cm": 85,
+    "subcategory": "armchair"
+   },
+   {
+    "category": "storage",
+    "style": [
+     "modern"
+    ],
+    "colors": [
+     "brown"
+    ],
+    "materials": [
+     "wood"
+    ],
+    "width_cm": 120,
+    "depth_cm": 45,
+    "height_cm": 95,
+    "subcategory": "cabinet",
+    "wood_tone": "medium"
+   }
+  ],
+  "expected": {
+   "verdict": "dissonant",
+   "band": "medium"
+  },
+  "reason_ar": "كل القطع بمستوى ارتفاع واحد فتبدو الغرفة كمستودع مرتّب بلا إيقاع.",
+  "authority": "تنوّع نطاق الارتفاع — S2"
+ },
+ {
+  "id": "scl-05",
+  "category": "scale",
+  "rule": "S2",
+  "room": {
+   "type": "living_room",
+   "width_m": 4,
+   "length_m": 5
+  },
+  "pieces": [
+   {
+    "category": "sofa",
+    "style": [
+     "modern"
+    ],
+    "colors": [
+     "gray_warm"
+    ],
+    "materials": [
+     "fabric"
+    ],
+    "width_cm": 220,
+    "depth_cm": 95,
+    "height_cm": 85,
+    "subcategory": "sofa"
+   },
+   {
+    "category": "storage",
+    "style": [
+     "modern"
+    ],
+    "colors": [
+     "brown"
+    ],
+    "materials": [
+     "wood"
+    ],
+    "width_cm": 180,
+    "depth_cm": 45,
+    "height_cm": 190,
+    "subcategory": "wardrobe",
+    "wood_tone": "medium"
+   },
+   {
+    "category": "table",
+    "style": [
+     "modern"
+    ],
+    "colors": [
+     "brown"
+    ],
+    "materials": [
+     "wood"
+    ],
+    "width_cm": 110,
+    "depth_cm": 60,
+    "height_cm": 45,
+    "subcategory": "coffee_table",
+    "wood_tone": "medium"
+   }
+  ],
+  "expected": {
+   "verdict": "harmonious",
+   "band": "high"
+  },
+  "reason_ar": "طاولة منخفضة وكنب متوسط ودولاب عالٍ يعطي خطّ ارتفاع متدرّجًا مريحًا.",
+  "authority": "تنوّع نطاق الارتفاع — S2"
+ },
+ {
+  "id": "scl-06",
+  "category": "scale",
+  "rule": "S1",
+  "room": {
+   "type": "living_room",
+   "width_m": 4,
+   "length_m": 5
+  },
+  "pieces": [
+   {
+    "category": "sofa",
+    "style": [
+     "classic"
+    ],
+    "colors": [
+     "brown"
+    ],
+    "materials": [
+     "wood",
+     "fabric"
+    ],
+    "width_cm": 240,
+    "depth_cm": 100,
+    "height_cm": 95,
+    "subcategory": "sofa"
+   },
+   {
+    "category": "storage",
+    "style": [
+     "classic"
+    ],
+    "colors": [
+     "brown"
+    ],
+    "materials": [
+     "wood"
+    ],
+    "width_cm": 200,
+    "depth_cm": 55,
+    "height_cm": 200,
+    "subcategory": "wardrobe",
+    "wood_tone": "dark"
+   },
+   {
+    "category": "table",
+    "style": [
+     "classic"
+    ],
+    "colors": [
+     "brown"
+    ],
+    "materials": [
+     "wood"
+    ],
+    "width_cm": 120,
+    "depth_cm": 120,
+    "height_cm": 45,
+    "subcategory": "coffee_table",
+    "wood_tone": "dark"
+   }
+  ],
+  "expected": {
+   "verdict": "dissonant",
+   "band": "medium"
+  },
+  "reason_ar": "كل القطع ثقيلة وملامسة للأرض فتضيق الغرفة حتى وهي داخل المقاس.",
+  "authority": "حاجة قطعة خفيفة — S1"
+ },
+ {
+  "id": "scl-07",
+  "category": "scale",
+  "rule": "S1",
+  "room": {
+   "type": "living_room",
+   "width_m": 4,
+   "length_m": 5
+  },
+  "pieces": [
+   {
+    "category": "sofa",
+    "style": [
+     "modern"
+    ],
+    "colors": [
+     "gray_warm"
+    ],
+    "materials": [
+     "fabric"
+    ],
+    "width_cm": 220,
+    "depth_cm": 95,
+    "height_cm": 85,
+    "subcategory": "sofa"
+   },
+   {
+    "category": "table",
+    "style": [
+     "modern"
+    ],
+    "colors": [
+     "gold"
+    ],
+    "materials": [
+     "metal",
+     "glass"
+    ],
+    "width_cm": 90,
+    "depth_cm": 50,
+    "height_cm": 40,
+    "subcategory": "coffee_table"
+   },
+   {
+    "category": "lamp",
+    "style": [
+     "modern"
+    ],
+    "colors": [
+     "black"
+    ],
+    "materials": [
+     "metal"
+    ],
+    "width_cm": 25,
+    "depth_cm": 25,
+    "height_cm": 150,
+    "subcategory": "floor_lamp"
+   }
+  ],
+  "expected": {
+   "verdict": "harmonious",
+   "band": "high"
+  },
+  "reason_ar": "طاولة زجاجية مرفوعة على أرجل وأباجورة نحيلة تُخفّفان ثقل الكنب.",
+  "authority": "حاجة قطعة خفيفة — S1"
+ },
+ {
+  "id": "scl-08",
+  "category": "scale",
+  "rule": "S3",
+  "room": {
+   "type": "guest_room",
+   "width_m": 4,
+   "length_m": 6
+  },
+  "pieces": [
+   {
+    "category": "sofa",
+    "style": [
+     "majlis"
+    ],
+    "colors": [
+     "red"
+    ],
+    "materials": [
+     "fabric"
+    ],
+    "width_cm": 240,
+    "depth_cm": 80,
+    "height_cm": 40,
+    "subcategory": "floor_seating"
+   },
+   {
+    "category": "sofa",
+    "style": [
+     "majlis"
+    ],
+    "colors": [
+     "red"
+    ],
+    "materials": [
+     "fabric"
+    ],
+    "width_cm": 240,
+    "depth_cm": 80,
+    "height_cm": 40,
+    "subcategory": "floor_seating"
+   },
+   {
+    "category": "table",
+    "style": [
+     "majlis"
+    ],
+    "colors": [
+     "gold"
+    ],
+    "materials": [
+     "metal"
+    ],
+    "width_cm": 90,
+    "depth_cm": 90,
+    "height_cm": 40,
+    "subcategory": "coffee_table"
+   },
+   {
+    "category": "rug",
+    "style": [
+     "majlis"
+    ],
+    "colors": [
+     "red"
+    ],
+    "materials": [
+     "wool"
+    ],
+    "width_cm": 300,
+    "depth_cm": 400,
+    "height_cm": 1,
+    "subcategory": "area_rug"
+   }
+  ],
+  "expected": {
+   "verdict": "harmonious",
+   "band": "high"
+  },
+  "reason_ar": "الجلسات الأرضية المنخفضة الممتدّة على الجدران تترك وسط المجلس مفتوحًا للضيافة.",
+  "authority": "إشغال محيطي منخفض (عُرف المجلس) — S3"
+ },
+ {
+  "id": "scl-09",
+  "category": "scale",
+  "rule": "S3",
+  "room": {
+   "type": "bedroom",
+   "width_m": 3.5,
+   "length_m": 4
+  },
+  "pieces": [
+   {
+    "category": "bed",
+    "style": [
+     "minimal"
+    ],
+    "colors": [
+     "gray_warm"
+    ],
+    "materials": [
+     "fabric"
+    ],
+    "width_cm": 160,
+    "depth_cm": 200,
+    "height_cm": 100,
+    "subcategory": "double_bed"
+   },
+   {
+    "category": "storage",
+    "style": [
+     "minimal"
+    ],
+    "colors": [
+     "brown"
+    ],
+    "materials": [
+     "wood"
+    ],
+    "width_cm": 180,
+    "depth_cm": 45,
+    "height_cm": 190,
+    "subcategory": "wardrobe",
+    "wood_tone": "medium"
+   },
+   {
+    "category": "storage",
+    "style": [
+     "minimal"
+    ],
+    "colors": [
+     "brown"
+    ],
+    "materials": [
+     "wood"
+    ],
+    "width_cm": 45,
+    "depth_cm": 40,
+    "height_cm": 55,
+    "subcategory": "nightstand",
+    "wood_tone": "medium"
+   }
+  ],
+  "expected": {
+   "verdict": "harmonious",
+   "band": "high"
+  },
+  "reason_ar": "سرير ودولاب وكومودينو بإشغال ~٣٠٪ يتركان ممرّ حركة مريحًا.",
+  "authority": "حدّ الإشغال — S3"
+ }
+]
