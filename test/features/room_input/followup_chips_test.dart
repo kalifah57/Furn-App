@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:furn_app/ai/models/normalized_input.dart';
 import 'package:furn_app/analytics/analytics.dart';
+import 'package:furn_app/features/room_input/presentation/assistant_chat.dart';
 import 'package:furn_app/core/di/providers.dart';
 import 'package:furn_app/core/errors/result.dart';
 import 'package:furn_app/features/recommendations/domain/recommendation_repository.dart';
@@ -85,9 +86,8 @@ void main() {
     expect(find.text('سرير'), findsOneWidget); // قطعة أساسية
     expect(find.text('مودرن'), findsOneWidget); // نمط
     expect(find.text('تخطَّ'), findsOneWidget);
-    // والمحرّك خاطبنا في الشات بدل أن يدفع شاشة.
-    expect(find.text('أحتاج تفصيلًا بسيطًا لأكمل خطتك — اختر أو تخطَّ:'),
-        findsOneWidget);
+    // وهي داخل المحادثة الجارية لا نافذةً فوقها: التحية ما تزال ظاهرة معها.
+    expect(find.text(AssistantChat.greeting), findsOneWidget);
   });
 
   testWidgets('نقرة الخيار تُجيب وتُكمل التدفّق', (tester) async {
