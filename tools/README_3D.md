@@ -156,8 +156,11 @@ re-running it.
 ```bash
 pip install -r tools/requirements-3d.txt
 
-export CPPFLAGS="-I$(brew --prefix libomp)/include"
-export LDFLAGS="-L$(brew --prefix libomp)/lib"
+LIBOMP=$(brew --prefix libomp)
+echo "$LIBOMP"     # must print /opt/homebrew/opt/libomp — if it's empty, STOP
+export CPATH="$LIBOMP/include:$CPATH"
+export LIBRARY_PATH="$LIBOMP/lib:$LIBRARY_PATH"
+
 pip install --no-build-isolation vendor/stable-fast-3d/texture_baker/
 pip install --no-build-isolation vendor/stable-fast-3d/uv_unwrapper/
 ```
@@ -168,6 +171,22 @@ every shared library. `--no-build-isolation` makes the extension builds use
 the torch you just installed instead of an empty isolated build environment —
 skipping it is the classic cause of `ModuleNotFoundError: No module named
 'torch'` during install.
+
+Both extensions `#include <omp.h>` unconditionally, and Homebrew keeps
+`libomp` **keg-only** — its headers live under `$(brew --prefix libomp)`
+rather than on the compiler's default search path, so without those two
+exports the build dies with `fatal error: 'omp.h' file not found`. `CPATH`
+and `LIBRARY_PATH` are read by clang itself, which is why they're used here
+in preference to `CPPFLAGS`/`LDFLAGS` — setuptools does not reliably
+forward those to the C++ compile line under torch's `BuildExtension`.
+
+Check the `echo` output rather than trusting the command substitution: if
+`brew` isn't on your `PATH`, `$(brew --prefix libomp)` silently expands to
+an empty string and the exports become useless `/include` and `/lib` paths.
+
+(Upstream's documented alternative is the OpenMP runtime from
+<https://mac.r-project.org/openmp/>, which installs into `/usr/local` —
+already on clang's default search path, so it needs no exports at all.)
 
 ### 5. Hugging Face access (the model is gated)
 
@@ -248,7 +267,8 @@ Behaviour worth knowing:
 | `command not found: python` or `pip` | The venv isn't active — `source .venv-3d/bin/activate` (step 1). macOS ships neither name |
 | `command not found: huggingface-cli` | It arrives with `huggingface-hub` in step 4; run steps in order, with the venv active |
 | `401`/`403` or "gated" while loading the model | Accept the license on the model page, then `huggingface-cli login` with a read token |
-| `'omp.h' file not found` / `-lomp` link error building extensions | `brew install libomp` and re-export the `CPPFLAGS`/`LDFLAGS` from step 4 |
+| `'omp.h' file not found` / `-lomp` link error building extensions | `brew install libomp`, then set the `CPATH`/`LIBRARY_PATH` exports from step 4 — and check `echo $(brew --prefix libomp)` is not empty |
+| `Could not open requirements file: tools/requirements-3d.txt` | The pipeline lives on the `claude/local-3d-furniture-pipeline-k2fvp1` branch — `git fetch origin <branch> && git checkout <branch>` |
 | `ModuleNotFoundError: No module named 'torch'` during step 4 | You skipped `--no-build-isolation`, or torch isn't installed in this venv |
 | `ImportError: texture_baker not found` at run time | The two `pip install --no-build-isolation ...` commands in step 4 didn't complete |
 | MPS out-of-memory / machine swapping hard | Run with `SF3D_USE_CPU=1`, or lower `--texture-resolution` to 512 |
