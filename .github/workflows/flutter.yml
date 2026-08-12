@@ -44,7 +44,9 @@ jobs:
   # Publish the web build to GitHub Pages so it can be opened on a phone.
   deploy-web:
     needs: verify
-    if: github.ref == 'refs/heads/claude/docs-review-architecture-plan-zwhmcg'
+    # النشر من main حصرًا: الموقع الحي يعكس الفرع الحاكم، لا فرع عمل شخصيًا —
+    # (كان مربوطًا بفرع المعماري؛ اكتشفته دورية الصحة الأولى.)
+    if: github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
     permissions:
       contents: write
