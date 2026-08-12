@@ -1,0 +1,42 @@
+# Dependencies for tools/generate_3d.py on an Apple Silicon Mac (arm64).
+#
+# Install into a fresh Python 3.11 virtualenv — see tools/README_3D.md for the
+# full sequence (torch first, then this file, then the two SF3D native
+# extensions). The pins below mirror stable-fast-3d's own requirements.txt so
+# the vendored checkout and this pipeline agree on every shared library.
+#
+# torch/torchvision: the plain PyPI wheels for macOS arm64 ship with MPS
+# support built in — there is no special index URL needed (that is a
+# CUDA/Linux concern). torch >= 2.4 is required for the MPS ops SF3D uses.
+torch==2.4.1
+torchvision==0.19.1
+
+# Build tooling the SF3D native extensions expect in the environment
+# (their setup.py files are legacy setuptools builds that import torch):
+setuptools==69.5.1
+wheel
+
+# --- stable-fast-3d's own dependency pins (its requirements.txt, verbatim,
+#     minus the two local-path native extensions listed at the bottom) ---
+einops==0.7.0
+jaxtyping==0.2.31
+omegaconf==2.3.0
+transformers==4.42.3
+open_clip_torch==2.24.0
+trimesh==4.4.1
+numpy==1.26.4
+huggingface-hub==0.23.4
+rembg==2.0.57                 # upstream marks [gpu] for non-darwin only; plain on macOS
+pynanoinstantmeshes==0.0.3    # quad remesher backend
+gpytoolbox==0.2.0             # triangle remesher backend
+
+# --- this pipeline's own additions ---
+requests>=2.31
+tqdm>=4.66
+Pillow>=10.3
+
+# NOT in this file on purpose:
+#   texture_baker / uv_unwrapper — native extensions that live inside the SF3D
+#   checkout and must be compiled from there AFTER torch is installed:
+#       pip install vendor/stable-fast-3d/texture_baker/
+#       pip install vendor/stable-fast-3d/uv_unwrapper/

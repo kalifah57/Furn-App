@@ -43,3 +43,7 @@ ios/Runner/GeneratedPluginRegistrant.*
 ios/ServiceDefinitions.json
 **/xcuserdata/
 **/*.xcuserdatad
+
+# 3D generation pipeline (tools/generate_3d.py) — local-only artifacts
+vendor/
+.venv-3d/
