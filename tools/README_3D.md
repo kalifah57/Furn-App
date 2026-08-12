@@ -46,23 +46,63 @@ per image. Expect roughly a minute per product on MPS, several on CPU.
 
 Everything below happens once, from the repository root on your Mac.
 
-### 0. Native build prerequisites
+> **Run the steps one at a time and check each one.** Later steps depend on
+> tools that earlier steps put on your `PATH`. Pasting the whole block at
+> once on a machine that is missing one of them produces a cascade of
+> `command not found` errors that all trace back to the first failure.
 
-The SF3D repo ships two small C++/Metal extensions (`texture_baker`,
-`uv_unwrapper`) that compile locally and need clang plus an OpenMP runtime.
-[Homebrew](https://brew.sh) is assumed throughout — install it first if
-`brew` isn't on your PATH:
+### 0. System prerequisites
+
+A stock macOS install has none of these. Each is genuinely required: clang
+and an OpenMP runtime to compile SF3D's two native extensions
+(`texture_baker`, `uv_unwrapper`), and a Python 3.11 interpreter, which
+macOS does not ship.
+
+**0a. Xcode Command Line Tools** — provides clang:
 
 ```bash
-xcode-select --install          # Apple's clang toolchain (skip if present)
-brew install libomp             # OpenMP runtime for -fopenmp
-brew install python@3.11        # macOS ships no python3.11 of its own
+xcode-select --install
+```
+
+This opens a GUI dialog; click **Install** and wait for it to finish (a few
+minutes). It's already installed if this prints a path:
+
+```bash
+xcode-select -p          # expect: /Library/Developer/CommandLineTools
+```
+
+**0b. Homebrew** — macOS has no package manager of its own. Skip if
+`brew --version` already works:
+
+```bash
+/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+```
+
+The installer finishes by printing a **"Next steps"** section telling you to
+add `brew` to your `PATH`. That step is not optional — without it every
+later `brew` command fails with `command not found`. On Apple Silicon:
+
+```bash
+echo 'eval "$(/opt/homebrew/bin/brew shellenv)"' >> ~/.zprofile
+eval "$(/opt/homebrew/bin/brew shellenv)"
+brew --version           # confirm before continuing
+```
+
+(On an Intel Mac, Homebrew lives in `/usr/local` and is on the default
+`PATH` already.)
+
+**0c. The two packages:**
+
+```bash
+brew install libomp python@3.11    # OpenMP runtime for -fopenmp; the interpreter
+python3.11 --version               # confirm before continuing
 ```
 
 (Stability's README documents the alternative of installing the OpenMP
-runtime from <https://mac.r-project.org/openmp/> into `/usr/local`; either
-works. With Homebrew, the `CPPFLAGS`/`LDFLAGS` exports in step 4 tell clang
-where it lives.)
+runtime from <https://mac.r-project.org/openmp/> into `/usr/local`, and
+python.org publishes a 3.11 installer `.pkg` if you'd rather not use
+Homebrew; either works. With Homebrew, the `CPPFLAGS`/`LDFLAGS` exports in
+step 4 tell clang where `libomp` lives.)
 
 ### 1. Python environment
 
@@ -77,6 +117,11 @@ python3.11 -m venv .venv-3d
 source .venv-3d/bin/activate
 python -m pip install --upgrade pip
 ```
+
+Activating the venv is what puts bare `python` and `pip` on your `PATH` —
+macOS itself provides neither (only `python3`). Every command from here on
+assumes the venv is active; your prompt shows `(.venv-3d)` when it is. In a
+new terminal, re-run `source .venv-3d/bin/activate` before anything else.
 
 ### 2. PyTorch first (MPS comes built in)
 
@@ -101,6 +146,10 @@ overridable with `--sf3d-dir` or `SF3D_DIR`):
 ```bash
 git clone https://github.com/Stability-AI/stable-fast-3d vendor/stable-fast-3d
 ```
+
+`vendor/` is git-ignored, so this checkout stays out of the Furn-App repo. If
+the directory already exists, the clone is done — skip this step rather than
+re-running it.
 
 ### 4. Python dependencies + native extensions
 
@@ -194,6 +243,10 @@ Behaviour worth knowing:
 
 | Symptom | Fix |
 | --- | --- |
+| `command not found: brew` | Homebrew isn't installed, or its "Next steps" `PATH` line was skipped — see step 0b |
+| `command not found: python3.11` | `brew install python@3.11` (step 0c) hasn't run, usually because `brew` itself was missing |
+| `command not found: python` or `pip` | The venv isn't active — `source .venv-3d/bin/activate` (step 1). macOS ships neither name |
+| `command not found: huggingface-cli` | It arrives with `huggingface-hub` in step 4; run steps in order, with the venv active |
 | `401`/`403` or "gated" while loading the model | Accept the license on the model page, then `huggingface-cli login` with a read token |
 | `'omp.h' file not found` / `-lomp` link error building extensions | `brew install libomp` and re-export the `CPPFLAGS`/`LDFLAGS` from step 4 |
 | `ModuleNotFoundError: No module named 'torch'` during step 4 | You skipped `--no-build-isolation`, or torch isn't installed in this venv |
