@@ -3,7 +3,9 @@ import 'package:flutter/services.dart' show Clipboard;
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
+import '../../../core/constants/input_options.dart';
 import '../../../core/router/app_router.dart';
+import '../../../shared/models/models.dart';
 import '../../consent/presentation/consent_banner.dart';
 import 'assistant_chat.dart';
 import 'flow_controller.dart';
@@ -96,8 +98,9 @@ class _AssistantScreenState extends ConsumerState<AssistantScreen> {
         _chat.assistant('خطتك الأولى جاهزة — أفتح لك غرفتك الآن.');
         context.go(Routes.room);
       case FlowStatus.needsFollowUp:
-        _chat.assistant('أحتاج تفاصيل قصيرة لأكمل خطتك.');
-        context.push(Routes.assistantThinking);
+        // X8: السؤال يعيش فقاعةً في الشات بخياراتٍ قابلة للنقر (`_FollowUpBubble`)،
+        // لا شاشةً تُدفَع. الشات سطح الإدخال الوحيد.
+        _chat.assistant('أحتاج تفصيلًا بسيطًا لأكمل خطتك — اختر أو تخطَّ:');
       case FlowStatus.error:
         _chat.assistant(after.failure?.message ??
             'تعذّر تحليل طلبك. جرّب أن تصفه بكلماتٍ أخرى.');
@@ -114,7 +117,13 @@ class _AssistantScreenState extends ConsumerState<AssistantScreen> {
         furnishingFlowControllerProvider, _onFlowChanged);
 
     final messages = ref.watch(assistantChatProvider);
-    final busy = ref.watch(furnishingFlowControllerProvider).isBusy;
+    final flow = ref.watch(furnishingFlowControllerProvider);
+    final busy = flow.isBusy;
+    // فقاعة المتابعة تظهر بدل مؤشّر الكتابة حين ينتظر المحرّك تفصيلًا — واحدةٌ
+    // منهما فقط في المقدّمة، فكلاهما «عنصرٌ قائد» في القائمة المقلوبة.
+    final followUp =
+        flow.status == FlowStatus.needsFollowUp && flow.project != null;
+    final hasLeading = busy || followUp;
 
     return Scaffold(
       appBar: AppBar(title: const Text('المساعد')),
@@ -130,10 +139,15 @@ class _AssistantScreenState extends ConsumerState<AssistantScreen> {
                 // الأحدث أسفل بلا متحكّم تمرير: القائمة مقلوبة، فالفهرس ٠ آخر سطر.
                 reverse: true,
                 padding: const EdgeInsets.fromLTRB(16, 12, 16, 12),
-                itemCount: messages.length + (busy ? 1 : 0),
+                itemCount: messages.length + (hasLeading ? 1 : 0),
                 itemBuilder: (context, i) {
-                  if (busy && i == 0) return const _TypingBubble();
-                  final m = messages[messages.length - 1 - (busy ? i - 1 : i)];
+                  if (hasLeading && i == 0) {
+                    return busy
+                        ? const _TypingBubble()
+                        : _FollowUpBubble(project: flow.project!);
+                  }
+                  final m =
+                      messages[messages.length - 1 - (hasLeading ? i - 1 : i)];
                   return _Bubble(message: m);
                 },
               ),
@@ -265,6 +279,116 @@ class _TypingBubble extends StatelessWidget {
             Text('أفكّر في خطتك…',
                 style: theme.textTheme.bodyMedium
                     ?.copyWith(color: theme.colorScheme.onSurfaceVariant)),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+/// **سؤال المتابعة داخل المحادثة (X8)** — فقاعةٌ بخياراتٍ قابلة للنقر بدل نافذة.
+///
+/// النقرة الواحدة تُجيب وتُكمل التدفّق تلقائيًّا: تُضيف القطعة أو تضبط النمط ثم
+/// `proceedAfterFollowUp`، فتتحوّل الحالة إلى «يفكّر» ثم إلى غرفتي. «تخطَّ» يمضي
+/// على المتوفّر. القرار كلّه للمحرّك؛ هذه الفقاعة تجمع الإجابة فحسب.
+///
+/// الأرقام (المقاس، مبلغ الميزانية) لا تُختصر في نقرة، فتُترك لغرفتي (المؤشّر
+/// والفجوات) — وعقد الخيارات المنظّم لكل سؤال يُنسَّق مع مسار ٣ حين يلزم.
+class _FollowUpBubble extends ConsumerWidget {
+  const _FollowUpBubble({required this.project});
+
+  final FurnishingProject project;
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final theme = Theme.of(context);
+    final flow = ref.read(furnishingFlowControllerProvider.notifier);
+
+    // نقرأ الحاجة من الحقول لا من مطابقة نصّ المحرّك — أصدق وأمتن.
+    final needItems = project.items.essential.isEmpty;
+    final needStyle =
+        project.style.preferred.isEmpty && project.style.colors.isEmpty;
+
+    void addItem(String value) => flow.proceedAfterFollowUp(
+          project.copyWith(
+            items: project.items.copyWith(
+              essential: [
+                ...project.items.essential,
+                RequestedItem(type: value),
+              ],
+            ),
+          ),
+        );
+
+    void setStyle(String value) => flow.proceedAfterFollowUp(
+          project.copyWith(style: project.style.copyWith(preferred: [value])),
+        );
+
+    return Align(
+      alignment: AlignmentDirectional.centerStart,
+      child: Container(
+        margin: const EdgeInsets.symmetric(vertical: 4),
+        padding: const EdgeInsets.fromLTRB(14, 12, 14, 8),
+        constraints:
+            BoxConstraints(maxWidth: MediaQuery.of(context).size.width * 0.9),
+        decoration: BoxDecoration(
+          color: theme.colorScheme.surfaceContainerHighest,
+          borderRadius: BorderRadius.circular(16),
+        ),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            if (needItems) ...[
+              Text('أيّ قطعة أساسية أبدأ بها؟',
+                  style: theme.textTheme.bodyMedium
+                      ?.copyWith(fontWeight: FontWeight.w600)),
+              const SizedBox(height: 8),
+              Wrap(
+                spacing: 8,
+                runSpacing: 8,
+                children: [
+                  for (final e in itemTypeOptions.entries)
+                    ActionChip(
+                      label: Text(e.key),
+                      onPressed: () => addItem(e.value),
+                    ),
+                ],
+              ),
+              const SizedBox(height: 10),
+            ],
+            if (needStyle) ...[
+              Text(needItems ? 'أو نمطٌ يعجبك؟' : 'أيّ نمطٍ يعجبك؟',
+                  style: theme.textTheme.bodyMedium
+                      ?.copyWith(fontWeight: FontWeight.w600)),
+              const SizedBox(height: 8),
+              Wrap(
+                spacing: 8,
+                runSpacing: 8,
+                children: [
+                  for (final e in styleOptions.entries)
+                    ActionChip(
+                      label: Text(e.key),
+                      onPressed: () => setStyle(e.value),
+                    ),
+                ],
+              ),
+              const SizedBox(height: 10),
+            ],
+            if (!needItems && !needStyle)
+              Padding(
+                padding: const EdgeInsets.only(bottom: 4),
+                child: Text('يمكنك ضبط الميزانية داخل غرفتك.',
+                    style: theme.textTheme.bodySmall
+                        ?.copyWith(color: theme.colorScheme.onSurfaceVariant)),
+              ),
+            Align(
+              alignment: AlignmentDirectional.centerEnd,
+              child: TextButton(
+                onPressed: () => flow.skipFollowUp(),
+                child: const Text('تخطَّ'),
+              ),
+            ),
           ],
         ),
       ),
