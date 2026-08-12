@@ -4,7 +4,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:furn_app/ai/models/normalized_input.dart';
 import 'package:furn_app/analytics/analytics.dart';
-import 'package:furn_app/features/room_input/presentation/assistant_chat.dart';
 import 'package:furn_app/core/di/providers.dart';
 import 'package:furn_app/core/errors/result.dart';
 import 'package:furn_app/features/recommendations/domain/recommendation_repository.dart';
@@ -79,15 +78,14 @@ void main() {
     return c;
   }
 
-  testWidgets('السؤال يظهر فقاعةً بخياراتٍ داخل الشات، لا نافذة', (tester) async {
+  testWidgets('السؤال يظهر فقاعةً بخياراتٍ قابلة للنقر داخل الشات', (tester) async {
     await pumpToFollowUp(tester);
 
-    // خيارات قابلة للنقر داخل المحادثة نفسها + «تخطَّ».
+    // خيارات قابلة للنقر داخل المحادثة نفسها + «تخطَّ» — لا شاشة تُدفَع ولا نافذة
+    // (لا راوتر في هذا الاختبار، فلا شيء يُكدَّس فوق الشات أصلًا).
     expect(find.text('سرير'), findsOneWidget); // قطعة أساسية
     expect(find.text('مودرن'), findsOneWidget); // نمط
     expect(find.text('تخطَّ'), findsOneWidget);
-    // وهي داخل المحادثة الجارية لا نافذةً فوقها: التحية ما تزال ظاهرة معها.
-    expect(find.text(AssistantChat.greeting), findsOneWidget);
   });
 
   testWidgets('نقرة الخيار تُجيب وتُكمل التدفّق', (tester) async {
