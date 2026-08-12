@@ -7,6 +7,7 @@ import '../../../analytics/analytics.dart';
 import '../../../core/di/providers.dart';
 import '../../../domain_engine/plan/plan.dart';
 import '../../../domain_engine/plan/plan_workspace.dart';
+import '../../../domain_engine/recommendation/category_mapper.dart';
 import '../../../shared/models/models.dart';
 import '../../../shared/utils/formatters.dart';
 import '../../room_input/presentation/flow_controller.dart';
@@ -99,6 +100,20 @@ class PlanController extends ChangeNotifier {
       // نحفظ البذرة فورًا: من أكمل التدفّق ثم أغلق المتصفّح دون أن يعدّل شيئًا
       // كان سيعود إلى المشروع التجريبي، أي يفقد غرفته لأنه لم يضغط زرًّا.
       _persist();
+    }
+    // GAP-1: الطلب غير الملبّى يُعلَن قياسًا لا واجهةً فقط — هو ما يقرّر التوريد
+    // القادم. عند البذر فقط (لا الاستعادة): الحاجة نفسها لا تُعدّ مرتين لمن عاد.
+    // بالصيغة المغلقة الآمنة (بلا نصّ مستخدم): الفئة تبقى `other` حتى يُعتمد
+    // spec «مفاتيح جدول النطاق» عند مسار النموّ، فيغتني الحقل لا الحدث.
+    if (!restored) {
+      for (final need in plan.unmetNeeds) {
+        _analytics.track(NeedUnmet(
+          requestedCategory:
+              mapTypeToCategoryOrNull(need.rawType)?.wire ?? 'other',
+          reason: need.reason.wire,
+          reserveSar: need.reserveSar > 0 ? need.reserveSar : null,
+        ));
+      }
     }
   }
 

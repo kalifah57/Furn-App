@@ -17,7 +17,15 @@ enum UnmetReason {
   notStocked,
 
   /// الفئة موجودة لكن لا شيء منها يدخل الغرفة أو الميزانية.
-  noneFit,
+  noneFit;
+
+  /// الاسم السلكي (snake_case) — عقد القياس في `analytics_events.md`:
+  /// `out_of_scope` | `not_stocked` | `none_fit`.
+  String get wire => switch (this) {
+        UnmetReason.outOfScope => 'out_of_scope',
+        UnmetReason.notStocked => 'not_stocked',
+        UnmetReason.noneFit => 'none_fit',
+      };
 }
 
 /// شريحة تقدير — «صغيرة 6–7 قدم» مقابل «متوسطة 9–13 قدم».

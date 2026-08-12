@@ -52,11 +52,15 @@ final analyticsConsentProvider =
 /// لا يحلّ محلّ الإرسال الحقيقي بل يُضاف إليه.
 final analyticsProvider = Provider<Analytics>((ref) {
   final sinks = <Analytics>[
-    if (kDebugMode) DebugAnalytics(log: true),
+    // GAP-4: حتى sink التطوير يحترم الموافقة — «لا جمع بلا إذن» تشمل الطباعة
+    // في الـ console، فهي تسجيل للسلوك وإن لم تغادر الجهاز.
+    if (kDebugMode)
+      DebugAnalytics(log: true, consent: ref.watch(analyticsConsentProvider)),
   ];
 
   final uri = Uri.tryParse(kAnalyticsEndpoint);
-  if (kAnalyticsEndpoint.isNotEmpty && uri != null && uri.hasScheme) {
+  // GAP-5: أحداث المستخدمين لا تُرسل إلا مشفّرة — http صريح يُرفض لا يُجامَل.
+  if (kAnalyticsEndpoint.isNotEmpty && uri != null && uri.scheme == 'https') {
     final remote = HttpAnalytics(
       endpoint: uri,
       post: httpPostJson,
