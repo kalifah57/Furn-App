@@ -283,13 +283,24 @@ class _AnalysisScreenState extends ConsumerState<AnalysisScreen> {
         ],
       );
 
+  // صفّ حقلٍ مرن: المفتاح والقيمة كلاهما يتقلّص بدل أن يفيض الصفّ مع خطٍّ بديل
+  // أعرض (حادثة X9 — «حقول تفاصيل الغرفة»).
   Widget _row(String k, String v) => Padding(
         padding: const EdgeInsets.symmetric(vertical: 4),
         child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(k, style: TextStyle(color: Theme.of(context).colorScheme.onSurfaceVariant)),
-            Text(v, style: const TextStyle(fontWeight: FontWeight.w600)),
+            Expanded(
+              child: Text(k,
+                  style: TextStyle(
+                      color: Theme.of(context).colorScheme.onSurfaceVariant)),
+            ),
+            const SizedBox(width: 12),
+            Flexible(
+              child: Text(v,
+                  textAlign: TextAlign.end,
+                  style: const TextStyle(fontWeight: FontWeight.w600)),
+            ),
           ],
         ),
       );
