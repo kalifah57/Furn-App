@@ -1,5 +1,23 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:go_router/go_router.dart';
+
+const _arabicLocales = [Locale('ar'), Locale('en')];
+
+const _delegates = <LocalizationsDelegate<Object>>[
+  GlobalMaterialLocalizations.delegate,
+  GlobalWidgetsLocalizations.delegate,
+  GlobalCupertinoLocalizations.delegate,
+];
+
+/// نفس شروط [arabicApp] لكن على راوتر حقيقي — لاختبار الروابط العميقة والهيكل
+/// الذي يستدعي `context.go` عند استقرار الصفحة.
+Widget arabicRouterApp(GoRouter router) => MaterialApp.router(
+      routerConfig: router,
+      locale: const Locale('ar'),
+      supportedLocales: _arabicLocales,
+      localizationsDelegates: _delegates,
+    );
 
 /// The app shell **as the app actually runs**: Arabic locale, therefore RTL.
 ///
@@ -14,11 +32,7 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 /// narrow surface should say so with `tester.view.physicalSize`.
 Widget arabicApp(Widget home) => MaterialApp(
       locale: const Locale('ar'),
-      supportedLocales: const [Locale('ar'), Locale('en')],
-      localizationsDelegates: const [
-        GlobalMaterialLocalizations.delegate,
-        GlobalWidgetsLocalizations.delegate,
-        GlobalCupertinoLocalizations.delegate,
-      ],
+      supportedLocales: _arabicLocales,
+      localizationsDelegates: _delegates,
       home: home,
     );

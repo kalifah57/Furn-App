@@ -1,12 +1,10 @@
+import 'package:flutter/widgets.dart';
 import 'package:go_router/go_router.dart';
 
-import '../../features/interactive_sandbox/presentation/sandbox_screen.dart';
-import '../../features/onboarding/presentation/onboarding_screen.dart';
-import '../../features/plan/presentation/plan_screen.dart';
 import '../../features/room_analysis/presentation/analysis_screen.dart';
-import '../../features/room_input/presentation/assistant_screen.dart';
 import '../../features/room_input/presentation/manual_input_screen.dart';
 import '../../features/saved_projects/presentation/saved_projects_screen.dart';
+import '../../features/shell/presentation/experience_shell.dart';
 
 /// مسارات التطبيق (ADR-0001 §3 — GoRouter).
 ///
@@ -47,17 +45,45 @@ abstract class Routes {
 /// `PlanScreen` تحته ويُطلق `plan_seeded` **قبل** أن يصل المستخدم إلى الخطة — أي
 /// يزيّف القِمع الذي نقيس به التفعيل. الهرمية هنا في العنوان لا في المكدّس؛
 /// المكدّس يبقى كما كان تمامًا.
+/// التجارب الثلاث **صفحةٌ واحدة تُحدَّث، لا ثلاث تُستبدل.**
+///
+/// المفتاح مشترك عمدًا: `Page.canUpdate` تقارن النوع والمفتاح، فيرى الـ`Navigator`
+/// المسارات الثلاثة صفحةً واحدة ويُحدّثها في مكانها بدل أن يهدم ويبني. أثره أن
+/// حالة الهيكل — موضع السحب وسجلّ المحادثة — تبقى حيّة عبر التنقّل بالعنوان،
+/// بينما يبقى كل مسارٍ رابطًا عميقًا صادقًا.
+NoTransitionPage<void> _experiencePage(int page) => NoTransitionPage<void>(
+      key: const ValueKey('experience-shell'),
+      child: ExperienceShell(page: page),
+    );
+
 final List<GoRoute> appRoutes = [
+  // الباب لم يعد وجهة: فتح التطبيق يهبط على المساعد مباشرة (بانر الموافقة فوقه).
+  // يبقى مسارًا مُحوِّلًا كي لا يسقط رابطٌ قديم في صفحة خطأ.
   GoRoute(
     path: Routes.onboarding,
-    builder: (context, state) => const OnboardingScreen(),
+    redirect: (context, state) => Routes.assistant,
   ),
 
-  // ١. المساعد — مدخل واحد يفهم اللغة والصور ويستخرج المعلومات، ولا يتّخذ قرارًا.
+  // ١. المساعد — سطح محادثة واحد يفهم اللغة والصوت والصورة، ولا يتّخذ قرارًا.
   GoRoute(
     path: Routes.assistant,
-    builder: (context, state) => const AssistantScreen(),
+    pageBuilder: (context, state) => _experiencePage(0),
   ),
+
+  // ٢. غرفتي — القلب: هنا تُبنى الثقة، وكل قرار فيها من محرّك المجال.
+  GoRoute(
+    path: Routes.room,
+    pageBuilder: (context, state) => _experiencePage(1),
+  ),
+
+  // ٣. المعاينة — الخطة موضوعة في مساحة الغرفة الحقيقية، بمقاسها.
+  GoRoute(
+    path: Routes.preview,
+    pageBuilder: (context, state) => _experiencePage(2),
+  ),
+
+  // ما يُدفع **فوق** الهيكل: نوافذ عمل يعود منها المستخدم إلى مكانه، ولها زرّ
+  // رجوع تلقائي لأنها تُكدَّس فوق صفحة حيّة لا تحلّ محلّها.
   GoRoute(
     path: Routes.assistantManual,
     builder: (context, state) => const ManualInputScreen(),
@@ -66,21 +92,9 @@ final List<GoRoute> appRoutes = [
     path: Routes.assistantThinking,
     builder: (context, state) => const AnalysisScreen(),
   ),
-
-  // ٢. غرفتي — القلب: هنا تُبنى الثقة، وكل قرار فيها من محرّك المجال.
-  GoRoute(
-    path: Routes.room,
-    builder: (context, state) => const PlanScreen(),
-  ),
   GoRoute(
     path: Routes.roomSaved,
     builder: (context, state) => const SavedProjectsScreen(),
-  ),
-
-  // ٣. المعاينة — الخطة موضوعة في مساحة الغرفة الحقيقية، بمقاسها.
-  GoRoute(
-    path: Routes.preview,
-    builder: (context, state) => const SandboxScreen(),
   ),
 ];
 

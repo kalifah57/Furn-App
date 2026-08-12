@@ -3,14 +3,20 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../../core/router/app_router.dart';
+import '../../consent/presentation/consent_banner.dart';
+import 'assistant_chat.dart';
 import 'flow_controller.dart';
+import 'flow_state.dart';
 
-/// **المساعد** — مدخلٌ واحد يحلّ محلّ مُنتقي الطريقة وشاشتَي الصوت والصورة.
+/// **المساعد** — سطح محادثة واحد، وهو أوّل ما يُفتح عليه التطبيق.
 ///
-/// النصّ هو الطريق الأساسي: يصف المستخدم غرفته بكلماته، فيستخرج المحرّك الوهمي
-/// (لاحقًا مزوّد حقيقي) البيانات المنظّمة. الصوت والصورة والإدخال المفصّل بدائل،
-/// لا شاشات. بعد الإرسال ينتقل إلى خطوة «التفكير» ثم إلى «غرفتي» — والمساعد بعدها
-/// يعيش كورقة داخل الغرفة، لا كوجهة يُعاد إليها.
+/// النصّ هو الطريق الأساسي؛ الصوت والصورة زرّان في شريط الإدخال لا شاشتان.
+/// «التفكير» حالةٌ داخل المحادثة (مؤشّر كتابة) لا وجهة تُغادَر إليها، وبعد أن
+/// يبني المحرّك أوّل خطة ينتقل المستخدم تلقائيًّا إلى «غرفتي» — والمساعد بعدها
+/// يعيش كورقة داخل الغرفة.
+///
+/// تحويلٌ لا بناء: نداءات التدفّق (`runText`/`runVoice`/`runImages`) وحارس «لا
+/// إرسال بلا وصف» كما كانت؛ العرض وحده تغيّر.
 class AssistantScreen extends ConsumerStatefulWidget {
   const AssistantScreen({super.key});
 
@@ -37,101 +43,212 @@ class _AssistantScreenState extends ConsumerState<AssistantScreen> {
     super.dispose();
   }
 
-  void _run(Future<void> Function() start) {
-    start();
-    context.go(Routes.assistantThinking);
+  AssistantChat get _chat => ref.read(assistantChatProvider.notifier);
+  FurnishingFlowController get _flow =>
+      ref.read(furnishingFlowControllerProvider.notifier);
+
+  void _sendText() {
+    final t = _text.text.trim();
+    if (t.isEmpty) return;
+    _chat.user(t);
+    _text.clear();
+    _flow.runText(t);
+  }
+
+  void _sendVoice() {
+    _chat.user('🎙 رسالة صوتية');
+    _flow.runVoice();
+  }
+
+  void _sendImage() {
+    _chat.user('📷 صورة الغرفة');
+    _flow.runImages(const ['room_photo']);
+  }
+
+  /// نتيجة المحرّك تُقال في المحادثة، ثم تُحرّك المستخدم إلى حيث يكمل عمله.
+  void _onFlowChanged(FurnishingFlowState? before, FurnishingFlowState after) {
+    if (before?.status == after.status) return;
+    switch (after.status) {
+      case FlowStatus.ready:
+        _chat.assistant('خطتك الأولى جاهزة — أفتح لك غرفتك الآن.');
+        context.go(Routes.room);
+      case FlowStatus.needsFollowUp:
+        _chat.assistant('أحتاج تفاصيل قصيرة لأكمل خطتك.');
+        context.push(Routes.assistantThinking);
+      case FlowStatus.error:
+        _chat.assistant(after.failure?.message ??
+            'تعذّر تحليل طلبك. جرّب أن تصفه بكلماتٍ أخرى.');
+      case FlowStatus.idle:
+      case FlowStatus.extracting:
+      case FlowStatus.recommending:
+        break;
+    }
   }
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-    final flow = ref.read(furnishingFlowControllerProvider.notifier);
+    ref.listen<FurnishingFlowState>(
+        furnishingFlowControllerProvider, _onFlowChanged);
+
+    final messages = ref.watch(assistantChatProvider);
+    final busy = ref.watch(furnishingFlowControllerProvider).isBusy;
 
     return Scaffold(
       appBar: AppBar(title: const Text('المساعد')),
       body: SafeArea(
-        child: ListView(
-          padding: const EdgeInsets.all(20),
+        child: Column(
           children: [
-            Text('صف غرفتك وميزانيتك',
-                style: theme.textTheme.headlineSmall
-                    ?.copyWith(fontWeight: FontWeight.bold)),
-            const SizedBox(height: 6),
-            Text('بكلماتك — وأبني لك أوّل خطة تشكّلها حتى تثق بها.',
-                style: theme.textTheme.bodyLarge
-                    ?.copyWith(color: theme.colorScheme.onSurfaceVariant)),
-            const SizedBox(height: 20),
-            TextField(
-              controller: _text,
-              minLines: 3,
-              maxLines: 6,
-              textInputAction: TextInputAction.newline,
-              decoration: InputDecoration(
-                hintText:
-                    'مثال: غرفة نوم ٤×٣٫٧، ميزانيتي ٣٠٠٠، أبي سرير وكنب صغير وطاولة تلفزيون.',
-                filled: true,
-                fillColor: theme.colorScheme.surfaceContainerHighest,
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(14),
-                  borderSide: BorderSide.none,
+            const Padding(
+              padding: EdgeInsets.symmetric(horizontal: 16),
+              child: ConsentBanner(),
+            ),
+            Expanded(
+              child: ListView.builder(
+                // الأحدث أسفل بلا متحكّم تمرير: القائمة مقلوبة، فالفهرس ٠ آخر سطر.
+                reverse: true,
+                padding: const EdgeInsets.fromLTRB(16, 12, 16, 12),
+                itemCount: messages.length + (busy ? 1 : 0),
+                itemBuilder: (context, i) {
+                  if (busy && i == 0) return const _TypingBubble();
+                  final m = messages[messages.length - 1 - (busy ? i - 1 : i)];
+                  return _Bubble(message: m);
+                },
+              ),
+            ),
+            _composer(context),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _composer(BuildContext context) {
+    final theme = Theme.of(context);
+    return Padding(
+      padding: const EdgeInsets.fromLTRB(12, 4, 12, 8),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Row(
+            crossAxisAlignment: CrossAxisAlignment.end,
+            children: [
+              IconButton(
+                tooltip: 'أضِف صورة الغرفة (تجريبي)',
+                onPressed: _sendImage,
+                icon: const Icon(Icons.photo_camera_outlined),
+              ),
+              IconButton(
+                tooltip: 'سجّل صوتك (تجريبي)',
+                onPressed: _sendVoice,
+                icon: const Icon(Icons.mic_none),
+              ),
+              Expanded(
+                child: TextField(
+                  controller: _text,
+                  minLines: 1,
+                  maxLines: 5,
+                  textInputAction: TextInputAction.send,
+                  onSubmitted: (_) => _sendText(),
+                  decoration: InputDecoration(
+                    hintText: 'صف غرفتك وميزانيتك…',
+                    filled: true,
+                    fillColor: theme.colorScheme.surfaceContainerHighest,
+                    contentPadding:
+                        const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(22),
+                      borderSide: BorderSide.none,
+                    ),
+                  ),
                 ),
               ),
-            ),
-            const SizedBox(height: 14),
-            FilledButton.icon(
-              onPressed: _canSend
-                  ? () => _run(() => flow.runText(_text.text.trim()))
-                  : null,
-              icon: const Icon(Icons.auto_awesome),
-              label: const Text('ابنِ خطتي'),
-              style: FilledButton.styleFrom(
-                minimumSize: const Size.fromHeight(50),
+              const SizedBox(width: 6),
+              IconButton.filled(
+                tooltip: 'أرسل',
+                onPressed: _canSend ? _sendText : null,
+                // سهم الإرسال لا يعكسه Flutter تلقائيًّا، فيشير في واجهة عربية
+                // إلى عكس اتجاه الإرسال.
+                icon: Transform.flip(
+                  flipX: Directionality.of(context) == TextDirection.rtl,
+                  child: const Icon(Icons.send),
+                ),
               ),
-            ),
-            // الفراغ هو حالة الافتتاح، فأوّل ما يراه المستخدم كان فعلًا معطّلًا
-            // بلا سبب. السطر يقول السبب، ويختفي فور أن يزول.
-            if (!_canSend) ...[
-              const SizedBox(height: 8),
-              Text('اكتب وصفًا لغرفتك ليبدأ.',
-                  textAlign: TextAlign.center,
-                  style: theme.textTheme.bodySmall
-                      ?.copyWith(color: theme.colorScheme.onSurfaceVariant)),
             ],
-            const SizedBox(height: 22),
-            Row(children: [
-              Expanded(child: Divider(color: theme.colorScheme.outlineVariant)),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 12),
-                child: Text('أو',
-                    style: theme.textTheme.bodySmall
-                        ?.copyWith(color: theme.colorScheme.onSurfaceVariant)),
-              ),
-              Expanded(child: Divider(color: theme.colorScheme.outlineVariant)),
-            ]),
-            const SizedBox(height: 14),
-            Row(children: [
-              Expanded(
-                child: OutlinedButton.icon(
-                  onPressed: () => _run(flow.runVoice),
-                  icon: const Icon(Icons.mic_none),
-                  label: const Text('بالصوت'),
-                ),
-              ),
-              const SizedBox(width: 12),
-              Expanded(
-                child: OutlinedButton.icon(
-                  onPressed: () => _run(() => flow.runImages(const ['room_photo'])),
-                  icon: const Icon(Icons.add_a_photo_outlined),
-                  label: const Text('بصورة'),
-                ),
-              ),
-            ]),
-            const SizedBox(height: 8),
-            TextButton.icon(
-              onPressed: () => context.go(Routes.assistantManual),
-              icon: const Icon(Icons.tune),
-              label: const Text('إدخال مفصّل بالحقول'),
+          ),
+          TextButton.icon(
+            onPressed: () => context.push(Routes.assistantManual),
+            icon: const Icon(Icons.tune, size: 18),
+            label: const Text('إدخال مفصّل بالحقول'),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class _Bubble extends StatelessWidget {
+  const _Bubble({required this.message});
+  final ChatMessage message;
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final isUser = message.author == ChatAuthor.user;
+    return Align(
+      alignment:
+          isUser ? AlignmentDirectional.centerEnd : AlignmentDirectional.centerStart,
+      child: Container(
+        margin: const EdgeInsets.symmetric(vertical: 4),
+        padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 10),
+        constraints: BoxConstraints(
+            maxWidth: MediaQuery.of(context).size.width * 0.82),
+        decoration: BoxDecoration(
+          color: isUser
+              ? theme.colorScheme.primaryContainer
+              : theme.colorScheme.surfaceContainerHighest,
+          borderRadius: BorderRadius.circular(16),
+        ),
+        child: Text(
+          message.text,
+          style: theme.textTheme.bodyLarge?.copyWith(
+            color: isUser
+                ? theme.colorScheme.onPrimaryContainer
+                : theme.colorScheme.onSurface,
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+/// «التفكير» — حالةٌ داخل المحادثة لا شاشة تُغادَر إليها.
+class _TypingBubble extends StatelessWidget {
+  const _TypingBubble();
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    return Align(
+      alignment: AlignmentDirectional.centerStart,
+      child: Container(
+        margin: const EdgeInsets.symmetric(vertical: 4),
+        padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 12),
+        decoration: BoxDecoration(
+          color: theme.colorScheme.surfaceContainerHighest,
+          borderRadius: BorderRadius.circular(16),
+        ),
+        child: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            const SizedBox(
+              width: 14,
+              height: 14,
+              child: CircularProgressIndicator(strokeWidth: 2),
             ),
+            const SizedBox(width: 10),
+            Text('أفكّر في خطتك…',
+                style: theme.textTheme.bodyMedium
+                    ?.copyWith(color: theme.colorScheme.onSurfaceVariant)),
           ],
         ),
       ),
