@@ -8,6 +8,7 @@ import '../../consent/presentation/consent_banner.dart';
 import 'assistant_chat.dart';
 import 'flow_controller.dart';
 import 'flow_state.dart';
+import 'native_text_field.dart';
 
 /// **المساعد** — سطح محادثة واحد، وهو أوّل ما يُفتح عليه التطبيق.
 ///
@@ -145,7 +146,6 @@ class _AssistantScreenState extends ConsumerState<AssistantScreen> {
   }
 
   Widget _composer(BuildContext context) {
-    final theme = Theme.of(context);
     return Padding(
       padding: const EdgeInsets.fromLTRB(12, 4, 12, 8),
       child: Column(
@@ -170,23 +170,12 @@ class _AssistantScreenState extends ConsumerState<AssistantScreen> {
                 icon: const Icon(Icons.content_paste_outlined),
               ),
               Expanded(
-                child: TextField(
+                // عنصر DOM أصلي على الويب (لصق/تحديد/لوحة مفاتيح المتصفح
+                // نفسها)، وTextField في بيئة الاختبار — درس خمس محاولات لصق.
+                child: NativeChatInput(
                   controller: _text,
-                  minLines: 1,
-                  maxLines: 5,
-                  textInputAction: TextInputAction.send,
-                  onSubmitted: (_) => _sendText(),
-                  decoration: InputDecoration(
-                    hintText: 'صف غرفتك وميزانيتك…',
-                    filled: true,
-                    fillColor: theme.colorScheme.surfaceContainerHighest,
-                    contentPadding:
-                        const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(22),
-                      borderSide: BorderSide.none,
-                    ),
-                  ),
+                  hint: 'صف غرفتك وميزانيتك…',
+                  onSubmitted: _sendText,
                 ),
               ),
               const SizedBox(width: 6),
