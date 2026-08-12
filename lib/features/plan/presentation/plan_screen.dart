@@ -491,9 +491,12 @@ class _PlanViewState extends State<_PlanView> {
             Row(children: [
               Icon(Icons.view_in_ar, color: theme.colorScheme.primary),
               const SizedBox(width: 8),
-              Text('شاهدها في غرفتك',
-                  style: theme.textTheme.titleMedium
-                      ?.copyWith(fontWeight: FontWeight.bold)),
+              // مرنٌ كي لا يفيض العنوان مع خطٍّ بديل أعرض (حادثة X9).
+              Expanded(
+                child: Text('شاهدها في غرفتك',
+                    style: theme.textTheme.titleMedium
+                        ?.copyWith(fontWeight: FontWeight.bold)),
+              ),
             ]),
             const SizedBox(height: 6),
             Text(
@@ -504,7 +507,15 @@ class _PlanViewState extends State<_PlanView> {
                   ?.copyWith(color: theme.colorScheme.onSurfaceVariant),
             ),
             const SizedBox(height: 12),
-            const ArDemoButton(label: 'شاهد الطاولة في غرفتك'),
+            // FittedBox يقلّص الزرّ ليتّسع حين يكون خطٌّ بديل أعرض من المتوقّع،
+            // فلا تفيض عنونته الطويلة (حادثة X9) — بلا لمس مكوّن مسار آخر.
+            const Align(
+              alignment: AlignmentDirectional.centerStart,
+              child: FittedBox(
+                fit: BoxFit.scaleDown,
+                child: ArDemoButton(label: 'شاهد الطاولة في غرفتك'),
+              ),
+            ),
             const SizedBox(height: 6),
             Text('نموذج ثلاثي الأبعاد حقيقي مُولّد بمقاسه الفعلي — نُلحق نماذج '
                 'بقية المنتجات تباعًا.',

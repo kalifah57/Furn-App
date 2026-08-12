@@ -11,16 +11,17 @@ import 'package:furn_app/shared/services/catalog_repository.dart';
 import '../../support/arabic_app.dart';
 
 /// X9 بند ٣: بلا الخطّ المتوقّع تنهار الصفوف غير المرنة (بطاقة الثقة، صفوف
-/// غرفتي). التخطيط يجب أن يتحمّل أيّ خطٍّ بديل بلا فيضان — نُثبته على عرضٍ ضيّق:
-/// أيّ صفٍّ ذي عرضٍ ثابت يتجاوز المساحة يرمي استثناء overflow نلتقطه هنا.
+/// غرفتي). نُثبت أن غرفتي لا تفيض على **عرض جوال المؤسّس نفسه** (٣٩٠ — محاكاة
+/// المعماري ٣٩٠×٨٤٤)، بارتفاعٍ كافٍ لبناء الشاشة كاملةً فيُلتقَط فيضان أيّ صفّ
+/// (لا الظاهر منها فقط)، وتُوجَد كلّ بطاقة يبحث عنها الاختبار.
 class _Noop implements Analytics {
   @override
   void track(AnalyticsEvent event) {}
 }
 
 void main() {
-  testWidgets('غرفتي لا تفيض على عرضٍ ضيّق (٣٢٠)', (tester) async {
-    tester.view.physicalSize = const Size(320, 900);
+  testWidgets('غرفتي لا تفيض على عرض جوال المؤسّس (٣٩٠)', (tester) async {
+    tester.view.physicalSize = const Size(390, 4000);
     tester.view.devicePixelRatio = 1.0;
     addTearDown(tester.view.resetPhysicalSize);
     addTearDown(tester.view.resetDevicePixelRatio);
