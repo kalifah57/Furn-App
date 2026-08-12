@@ -19,7 +19,7 @@ enum UnmetReason {
   /// الفئة موجودة لكن لا شيء منها يدخل الغرفة أو الميزانية.
   noneFit;
 
-  /// الاسم السلكي (snake_case) — عقد القياس في `analytics_events.md`:
+  /// الاسم السلكي (snake_case) — عقد القياس (كتالوج الأحداث في docs):
   /// `out_of_scope` | `not_stocked` | `none_fit`.
   String get wire => switch (this) {
         UnmetReason.outOfScope => 'out_of_scope',
