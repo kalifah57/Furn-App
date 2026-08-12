@@ -910,23 +910,28 @@ class _PlanViewState extends State<_PlanView> {
   // ---- versions: save · compare · revert (build-sequence step 9) ----------
 
   Widget _versionsBar(BuildContext context) {
-    return Row(children: [
-      OutlinedButton.icon(
-        onPressed: () {
-          c.saveSnapshot();
-          ScaffoldMessenger.of(context).showSnackBar(
-              const SnackBar(content: Text('حُفظت نسخة من خطتك')));
-        },
-        icon: const Icon(Icons.save_outlined, size: 18),
-        label: const Text('احفظ نسخة'),
-      ),
-      const SizedBox(width: 8),
-      OutlinedButton.icon(
-        onPressed: c.snapshots.isEmpty ? null : () => _openVersions(context),
-        icon: const Icon(Icons.history, size: 18),
-        label: Text('النسخ (${c.snapshots.length})'),
-      ),
-    ]);
+    // Wrap لا Row: زرّان معنونان قد يتجاوزان عرض شاشةٍ ضيّقة مع خطٍّ بديل أعرض
+    // (حادثة X9)، فينتقل الثاني سطرًا بدل أن يفيض الصفّ.
+    return Wrap(
+      spacing: 8,
+      runSpacing: 8,
+      children: [
+        OutlinedButton.icon(
+          onPressed: () {
+            c.saveSnapshot();
+            ScaffoldMessenger.of(context).showSnackBar(
+                const SnackBar(content: Text('حُفظت نسخة من خطتك')));
+          },
+          icon: const Icon(Icons.save_outlined, size: 18),
+          label: const Text('احفظ نسخة'),
+        ),
+        OutlinedButton.icon(
+          onPressed: c.snapshots.isEmpty ? null : () => _openVersions(context),
+          icon: const Icon(Icons.history, size: 18),
+          label: Text('النسخ (${c.snapshots.length})'),
+        ),
+      ],
+    );
   }
 
   void _openVersions(BuildContext context) {
