@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart' show SystemChannels;
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:furn_app/features/room_input/presentation/assistant_chat.dart';
@@ -64,5 +65,26 @@ void main() {
     await pump(tester);
     expect(Directionality.of(tester.element(find.byType(TextField))),
         TextDirection.rtl);
+  });
+
+  testWidgets('زرّ اللصق يُدرج نصّ الحافظة في الحقل', (tester) async {
+    // قائمة الضغط المطوّل لا تظهر على متصفحات الجوال فوق حقلٍ مرسوم (حادثة
+    // dogfood حقيقية) — الزرّ هو طريق اللصق المضمون، فيُثبَّت بعقده: ما في
+    // الحافظة يظهر في الحقل ويُفعِّل الإرسال.
+    tester.binding.defaultBinaryMessenger.setMockMethodCallHandler(
+      SystemChannels.platform,
+      (call) async => call.method == 'Clipboard.getData'
+          ? <String, dynamic>{'text': 'غرفة نوم ٤×٣٫٧ وميزانيتي ٣٠٠٠'}
+          : null,
+    );
+    addTearDown(() => tester.binding.defaultBinaryMessenger
+        .setMockMethodCallHandler(SystemChannels.platform, null));
+
+    await pump(tester);
+    await tester.tap(find.byIcon(Icons.content_paste_outlined));
+    await tester.pump();
+
+    expect(find.text('غرفة نوم ٤×٣٫٧ وميزانيتي ٣٠٠٠'), findsOneWidget);
+    expect(tester.widget<IconButton>(sendButton()).onPressed, isNotNull);
   });
 }

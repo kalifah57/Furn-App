@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart' show Clipboard;
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
@@ -46,6 +47,27 @@ class _AssistantScreenState extends ConsumerState<AssistantScreen> {
   AssistantChat get _chat => ref.read(assistantChatProvider.notifier);
   FurnishingFlowController get _flow =>
       ref.read(furnishingFlowControllerProvider.notifier);
+
+  /// لصقٌ صريح بزرّ — لا يعتمد على قائمة ضغطٍ مطوّل قد لا يظهرها متصفح الجوال
+  /// فوق حقلٍ مرسوم (حادثة dogfood). يُدرج عند المؤشّر ويستبدل التحديد إن وُجد.
+  Future<void> _pasteFromClipboard() async {
+    final data = await Clipboard.getData('text/plain');
+    final pasted = data?.text;
+    if (!mounted) return;
+    if (pasted == null || pasted.isEmpty) {
+      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+          content: Text('الحافظة فارغة — أو رفض المتصفح الإذن بقراءتها.')));
+      return;
+    }
+    final v = _text.value;
+    final sel = v.selection.isValid
+        ? v.selection
+        : TextSelection.collapsed(offset: v.text.length);
+    _text.value = TextEditingValue(
+      text: v.text.replaceRange(sel.start, sel.end, pasted),
+      selection: TextSelection.collapsed(offset: sel.start + pasted.length),
+    );
+  }
 
   void _sendText() {
     final t = _text.text.trim();
@@ -141,6 +163,11 @@ class _AssistantScreenState extends ConsumerState<AssistantScreen> {
                 tooltip: 'سجّل صوتك (تجريبي)',
                 onPressed: _sendVoice,
                 icon: const Icon(Icons.mic_none),
+              ),
+              IconButton(
+                tooltip: 'ألصق من الحافظة',
+                onPressed: _pasteFromClipboard,
+                icon: const Icon(Icons.content_paste_outlined),
               ),
               Expanded(
                 child: TextField(

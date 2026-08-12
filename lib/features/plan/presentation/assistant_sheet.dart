@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart' show Clipboard;
 
 import 'plan_controller.dart';
 
@@ -41,6 +42,29 @@ class _AssistantSheetState extends State<_AssistantSheet> {
   void dispose() {
     _text.dispose();
     super.dispose();
+  }
+
+  /// لصقٌ صريح بزرّ — قائمة الضغط المطوّل قد لا تظهر على متصفح الجوال فوق
+  /// حقلٍ مرسوم (حادثة dogfood). يُدرج عند المؤشّر ويستبدل التحديد إن وُجد.
+  Future<void> _pasteFromClipboard() async {
+    final data = await Clipboard.getData('text/plain');
+    final pasted = data?.text;
+    if (!mounted) return;
+    if (pasted == null || pasted.isEmpty) {
+      setState(() => _last = const CommandResult(
+            understood: false,
+            message: 'الحافظة فارغة — أو رفض المتصفح الإذن بقراءتها.',
+          ));
+      return;
+    }
+    final v = _text.value;
+    final sel = v.selection.isValid
+        ? v.selection
+        : TextSelection.collapsed(offset: v.text.length);
+    _text.value = TextEditingValue(
+      text: v.text.replaceRange(sel.start, sel.end, pasted),
+      selection: TextSelection.collapsed(offset: sel.start + pasted.length),
+    );
   }
 
   void _send(String text) {
@@ -94,6 +118,11 @@ class _AssistantSheetState extends State<_AssistantSheet> {
           ),
           const SizedBox(height: 12),
           Row(children: [
+            IconButton(
+              tooltip: 'ألصق من الحافظة',
+              onPressed: _pasteFromClipboard,
+              icon: const Icon(Icons.content_paste_outlined),
+            ),
             Expanded(
               child: TextField(
                 controller: _text,
