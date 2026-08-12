@@ -145,8 +145,10 @@ def build_groups(p):
     return BUILDERS.get(p["category"], shape_storage)(W, D, H, c)
 
 
-def usda_for(p):
-    groups, materials = build_groups(p)
+def usda_for(p, groups_materials=None):
+    # Callers with a different product schema (e.g. the Catalog_Fin IKEA
+    # pipeline) inject their own geometry; the default is this catalog's.
+    groups, materials = groups_materials or build_groups(p)
     root = _ident(p["product_id"])
     out = [
         "#usda 1.0",

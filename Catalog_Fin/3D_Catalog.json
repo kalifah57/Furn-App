@@ -1,0 +1,722 @@
+[
+  {
+    "internal_id": 1,
+    "id": "50613163",
+    "product_name": "STRANDMON Wing chair - Tommaboda deep beige",
+    "generated_3d_object": "models/usdz/strandmon_wing_chair_tommaboda_deep_beige_50613163.usdz",
+    "format": "usdz",
+    "cdn_target_url": "https://api.furn-app.com/assets/models/strandmon_wing_chair_tommaboda_deep_beige_50613163.usdz",
+    "dimensions_cm": {
+      "length": 96.0,
+      "width": 82.0,
+      "height": 101.0
+    },
+    "sha256": "fea83d2ed4680a9f1b214966a60e60925fa35190a01b1ac3586bdd240f24d875",
+    "size_bytes": 28940
+  },
+  {
+    "internal_id": 2,
+    "id": "40395245",
+    "product_name": "NEIDEN Bed frame - pine 90x200 cm",
+    "generated_3d_object": "models/usdz/neiden_bed_frame_pine_90x200_cm_40395245.usdz",
+    "format": "usdz",
+    "cdn_target_url": "https://api.furn-app.com/assets/models/neiden_bed_frame_pine_90x200_cm_40395245.usdz",
+    "dimensions_cm": {
+      "length": 205.0,
+      "width": 94.0,
+      "height": 8.0
+    },
+    "sha256": "e14d430b12f6e2546f1c5ad9fa76d58a09eab74d41a632ddb14c76f51bc49ac9",
+    "size_bytes": 5746
+  },
+  {
+    "internal_id": 3,
+    "id": "30403571",
+    "product_name": "MALM Chest of 4 drawers - white 80x100 cm",
+    "generated_3d_object": "models/usdz/malm_chest_of_4_drawers_white_80x100_cm_30403571.usdz",
+    "format": "usdz",
+    "cdn_target_url": "https://api.furn-app.com/assets/models/malm_chest_of_4_drawers_white_80x100_cm_30403571.usdz",
+    "dimensions_cm": {
+      "length": 48.0,
+      "width": 80.0,
+      "height": 100.0
+    },
+    "sha256": "66f09635fd5dfeceee8eec66f54f9312df05174327834004a73b40567b599e49",
+    "size_bytes": 5643
+  },
+  {
+    "internal_id": 4,
+    "id": "00441758",
+    "product_name": "KLEPPSTAD Wardrobe with 3 doors - white 117x55x176 cm",
+    "generated_3d_object": "models/usdz/kleppstad_wardrobe_with_3_doors_white_117x55x176_cm_00441758.usdz",
+    "format": "usdz",
+    "cdn_target_url": "https://api.furn-app.com/assets/models/kleppstad_wardrobe_with_3_doors_white_117x55x176_cm_00441758.usdz",
+    "dimensions_cm": {
+      "length": 55.0,
+      "width": 117.0,
+      "height": 176.0
+    },
+    "sha256": "7277bc562cebbc89d2a5ab67e9b2c13a3bb112e3f6a093de6e17254f8dad15dc",
+    "size_bytes": 5918
+  },
+  {
+    "internal_id": 5,
+    "id": "30528458",
+    "product_name": "TONSTAD Bookcase - brown stained oak veneer 82x37x201 cm",
+    "generated_3d_object": "models/usdz/tonstad_bookcase_brown_stained_oak_veneer_82x37x201_cm_30528458.usdz",
+    "format": "usdz",
+    "cdn_target_url": "https://api.furn-app.com/assets/models/tonstad_bookcase_brown_stained_oak_veneer_82x37x201_cm_30528458.usdz",
+    "dimensions_cm": {
+      "length": 37.0,
+      "width": 82.0,
+      "height": 201.0
+    },
+    "sha256": "c578d99d8865f1ef5880d9f9eda1cc231592a7a9e628d7e90ae268c2c38ea882",
+    "size_bytes": 5910
+  },
+  {
+    "internal_id": 6,
+    "id": "00278578",
+    "product_name": "HYLLIS Shelving unit - in/outdoor 60x27x140 cm",
+    "generated_3d_object": "models/usdz/hyllis_shelving_unit_in_outdoor_60x27x140_cm_00278578.usdz",
+    "format": "usdz",
+    "cdn_target_url": "https://api.furn-app.com/assets/models/hyllis_shelving_unit_in_outdoor_60x27x140_cm_00278578.usdz",
+    "dimensions_cm": {
+      "length": 27.0,
+      "width": 60.0,
+      "height": 140.0
+    },
+    "sha256": "f366e3e7ddefe40bc27ba8c4eae6c1effb3364635cbf55365f986ebcc2e7a244",
+    "size_bytes": 5779
+  },
+  {
+    "internal_id": 7,
+    "id": "s29420393",
+    "product_name": "SANDSBERG Table - black 110x67 cm",
+    "generated_3d_object": "models/usdz/sandsberg_table_black_110x67_cm_s29420393.usdz",
+    "format": "usdz",
+    "cdn_target_url": "https://api.furn-app.com/assets/models/sandsberg_table_black_110x67_cm_s29420393.usdz",
+    "dimensions_cm": {
+      "length": 110.0,
+      "width": 67.0,
+      "height": 75.0
+    },
+    "sha256": "50cd9e3c1b93a49a22b5515c2ef0e4b6e3ad994f25c429739030303eb8a95c0b",
+    "size_bytes": 25264
+  },
+  {
+    "internal_id": 8,
+    "id": "50319029",
+    "product_name": "LACK Coffee table - white stained oak effect 90x55 cm",
+    "generated_3d_object": "models/usdz/lack_coffee_table_white_stained_oak_effect_90x55_cm_50319029.usdz",
+    "format": "usdz",
+    "cdn_target_url": "https://api.furn-app.com/assets/models/lack_coffee_table_white_stained_oak_effect_90x55_cm_50319029.usdz",
+    "dimensions_cm": {
+      "length": 90.0,
+      "width": 55.0,
+      "height": 45.0
+    },
+    "sha256": "97fe2b14263bc4e452686073537bf1d0d1c6f2f408d4df5f6a7a81a92b7b4ee4",
+    "size_bytes": 25380
+  },
+  {
+    "internal_id": 9,
+    "id": "90388978",
+    "product_name": "VIKHAMMER Bedside table - black 60x39 cm",
+    "generated_3d_object": "models/usdz/vikhammer_bedside_table_black_60x39_cm_90388978.usdz",
+    "format": "usdz",
+    "cdn_target_url": "https://api.furn-app.com/assets/models/vikhammer_bedside_table_black_60x39_cm_90388978.usdz",
+    "dimensions_cm": {
+      "length": 39.0,
+      "width": 60.0,
+      "height": 65.0
+    },
+    "sha256": "c37cd04d8fe614721bf7aa3e8c801a1f3fd6eeeab484a19c3d3f2c26c6f10e15",
+    "size_bytes": 5818
+  },
+  {
+    "internal_id": 10,
+    "id": "s09903014",
+    "product_name": "MICKE Desk - white 105x50 cm",
+    "generated_3d_object": "models/usdz/micke_desk_white_105x50_cm_s09903014.usdz",
+    "format": "usdz",
+    "cdn_target_url": "https://api.furn-app.com/assets/models/micke_desk_white_105x50_cm_s09903014.usdz",
+    "dimensions_cm": {
+      "length": 50.0,
+      "width": 105.0,
+      "height": 140.0
+    },
+    "sha256": "0b9a176082b3ed9b91a3c949ce9040ccd89d734be1e2fe47f8b527fc9422a2e4",
+    "size_bytes": 25289
+  },
+  {
+    "internal_id": 11,
+    "id": "70474062",
+    "product_name": "BESTÅ TV bench - black-brown 180x40x38 cm",
+    "generated_3d_object": "models/usdz/besta_tv_bench_black_brown_180x40x38_cm_70474062.usdz",
+    "format": "usdz",
+    "cdn_target_url": "https://api.furn-app.com/assets/models/besta_tv_bench_black_brown_180x40x38_cm_70474062.usdz",
+    "dimensions_cm": {
+      "length": 40.0,
+      "width": 180.0,
+      "height": 38.0
+    },
+    "sha256": "65671f9e7ae26592cf5435d42acb161c68ca4f8855207a32049e0bff6595a2c1",
+    "size_bytes": 5728
+  },
+  {
+    "internal_id": 12,
+    "id": "60566745",
+    "product_name": "KRYLBO Chair - Tonerud dark beige",
+    "generated_3d_object": "models/usdz/krylbo_chair_tonerud_dark_beige_60566745.usdz",
+    "format": "usdz",
+    "cdn_target_url": "https://api.furn-app.com/assets/models/krylbo_chair_tonerud_dark_beige_60566745.usdz",
+    "dimensions_cm": {
+      "length": 51.0,
+      "width": 55.0,
+      "height": 75.0
+    },
+    "sha256": "d81a934a280f78fb631080c0097fee4e998e8632c927e6cec23041b2665b0360",
+    "size_bytes": 27186
+  },
+  {
+    "internal_id": 13,
+    "id": "10596995",
+    "product_name": "SALTMYRAN 2-seat sofa - Öreryd grey-beige",
+    "generated_3d_object": "models/usdz/saltmyran_2_seat_sofa_oreryd_grey_beige_10596995.usdz",
+    "format": "usdz",
+    "cdn_target_url": "https://api.furn-app.com/assets/models/saltmyran_2_seat_sofa_oreryd_grey_beige_10596995.usdz",
+    "dimensions_cm": {
+      "length": 79.0,
+      "width": 147.0,
+      "height": 77.0
+    },
+    "sha256": "5bd32198c1fe66214ead3956f152573866c2c3f63ec495f817dee09fbefbf570",
+    "size_bytes": 29164
+  },
+  {
+    "internal_id": 14,
+    "id": "20343224",
+    "product_name": "STRANDMON Wing chair - Nordvalla dark grey",
+    "generated_3d_object": "models/usdz/strandmon_wing_chair_nordvalla_dark_grey_20343224.usdz",
+    "format": "usdz",
+    "cdn_target_url": "https://api.furn-app.com/assets/models/strandmon_wing_chair_nordvalla_dark_grey_20343224.usdz",
+    "dimensions_cm": {
+      "length": 96.0,
+      "width": 82.0,
+      "height": 101.0
+    },
+    "sha256": "f41f62830ae7231c0a3bca185bfe8ff0cdde21a349197d34a19166639b54d39b",
+    "size_bytes": 28938
+  },
+  {
+    "internal_id": 15,
+    "id": "30403566",
+    "product_name": "MALM Chest of 4 drawers - black-brown 80x100 cm",
+    "generated_3d_object": "models/usdz/malm_chest_of_4_drawers_black_brown_80x100_cm_30403566.usdz",
+    "format": "usdz",
+    "cdn_target_url": "https://api.furn-app.com/assets/models/malm_chest_of_4_drawers_black_brown_80x100_cm_30403566.usdz",
+    "dimensions_cm": {
+      "length": 48.0,
+      "width": 80.0,
+      "height": 100.0
+    },
+    "sha256": "5d9ad2a5725403e3da36323fa87752444d8efc8a5a6f609943aa86a5b5954704",
+    "size_bytes": 5689
+  },
+  {
+    "internal_id": 16,
+    "id": "70602804",
+    "product_name": "BRIMNES Wardrobe with 3 doors - grey 117x50x190 cm",
+    "generated_3d_object": "models/usdz/brimnes_wardrobe_with_3_doors_grey_117x50x190_cm_70602804.usdz",
+    "format": "usdz",
+    "cdn_target_url": "https://api.furn-app.com/assets/models/brimnes_wardrobe_with_3_doors_grey_117x50x190_cm_70602804.usdz",
+    "dimensions_cm": {
+      "length": 50.0,
+      "width": 117.0,
+      "height": 190.0
+    },
+    "sha256": "0cadd091bb329becaaf4a37f7739bc57bff82a440fd3214ebc0254366557cdaa",
+    "size_bytes": 5805
+  },
+  {
+    "internal_id": 17,
+    "id": "20436713",
+    "product_name": "BAGGEBO Bookcase - white 50x25x160 cm",
+    "generated_3d_object": "models/usdz/baggebo_bookcase_white_50x25x160_cm_20436713.usdz",
+    "format": "usdz",
+    "cdn_target_url": "https://api.furn-app.com/assets/models/baggebo_bookcase_white_50x25x160_cm_20436713.usdz",
+    "dimensions_cm": {
+      "length": 25.0,
+      "width": 50.0,
+      "height": 160.0
+    },
+    "sha256": "e30ee2db6d4633999a502cf53875c6254b80ec652af38f38b692d1d0317401f9",
+    "size_bytes": 5745
+  },
+  {
+    "internal_id": 18,
+    "id": "50214678",
+    "product_name": "VITTSJÖ Shelving unit - black-brown/glass 51x175 cm",
+    "generated_3d_object": "models/usdz/vittsjo_shelving_unit_black_brown_glass_51x175_cm_50214678.usdz",
+    "format": "usdz",
+    "cdn_target_url": "https://api.furn-app.com/assets/models/vittsjo_shelving_unit_black_brown_glass_51x175_cm_50214678.usdz",
+    "dimensions_cm": {
+      "length": 36.0,
+      "width": 51.0,
+      "height": 175.0
+    },
+    "sha256": "8506b5b4940c0f5fce62eb309c4b6a9e990d9d2e87de4be4b5cfdf5c182d7a04",
+    "size_bytes": 5866
+  },
+  {
+    "internal_id": 19,
+    "id": "s59420400",
+    "product_name": "SANDSBERG Table - black 67x67 cm",
+    "generated_3d_object": "models/usdz/sandsberg_table_black_67x67_cm_s59420400.usdz",
+    "format": "usdz",
+    "cdn_target_url": "https://api.furn-app.com/assets/models/sandsberg_table_black_67x67_cm_s59420400.usdz",
+    "dimensions_cm": {
+      "length": 67.0,
+      "width": 67.0,
+      "height": 73.0
+    },
+    "sha256": "f28aa27b79a0cc38f4fe31fb47495df5f1f76b3cc607bcc9d5cd082d0018e69f",
+    "size_bytes": 25486
+  },
+  {
+    "internal_id": 20,
+    "id": "90449905",
+    "product_name": "LACK Coffee table - white 90x55 cm",
+    "generated_3d_object": "models/usdz/lack_coffee_table_white_90x55_cm_90449905.usdz",
+    "format": "usdz",
+    "cdn_target_url": "https://api.furn-app.com/assets/models/lack_coffee_table_white_90x55_cm_90449905.usdz",
+    "dimensions_cm": {
+      "length": 90.0,
+      "width": 55.0,
+      "height": 45.0
+    },
+    "sha256": "ba4428c58d9cea82b3eda4d208329a38c78905c63f442d66f549734f147c1511",
+    "size_bytes": 25262
+  },
+  {
+    "internal_id": 21,
+    "id": "20570221",
+    "product_name": "GRÅFJÄLLET Bedside table - anthracite 45x36x59 cm",
+    "generated_3d_object": "models/usdz/grafjallet_bedside_table_anthracite_45x36x59_cm_20570221.usdz",
+    "format": "usdz",
+    "cdn_target_url": "https://api.furn-app.com/assets/models/grafjallet_bedside_table_anthracite_45x36x59_cm_20570221.usdz",
+    "dimensions_cm": {
+      "length": 36.0,
+      "width": 45.0,
+      "height": 59.0
+    },
+    "sha256": "9fc96dfe0351b54edc6eb04211b764b2dd25377362eca434ca53988885c008bc",
+    "size_bytes": 5926
+  },
+  {
+    "internal_id": 22,
+    "id": "00474070",
+    "product_name": "BESTÅ TV bench - white 180x40x38 cm",
+    "generated_3d_object": "models/usdz/besta_tv_bench_white_180x40x38_cm_00474070.usdz",
+    "format": "usdz",
+    "cdn_target_url": "https://api.furn-app.com/assets/models/besta_tv_bench_white_180x40x38_cm_00474070.usdz",
+    "dimensions_cm": {
+      "length": 40.0,
+      "width": 180.0,
+      "height": 38.0
+    },
+    "sha256": "f092c4f697a19d772839cd6cc123df448ce5d0ab4f25d59bc73e0982857a36da",
+    "size_bytes": 5682
+  },
+  {
+    "internal_id": 23,
+    "id": "90566744",
+    "product_name": "KRYLBO Chair - Tonerud blue",
+    "generated_3d_object": "models/usdz/krylbo_chair_tonerud_blue_90566744.usdz",
+    "format": "usdz",
+    "cdn_target_url": "https://api.furn-app.com/assets/models/krylbo_chair_tonerud_blue_90566744.usdz",
+    "dimensions_cm": {
+      "length": 51.0,
+      "width": 55.0,
+      "height": 75.0
+    },
+    "sha256": "66e884dae8a3b93b505f75297fe99c1ffd35d4674ca730cccdc1cf966183b4d2",
+    "size_bytes": 27148
+  },
+  {
+    "internal_id": 24,
+    "id": "40618533",
+    "product_name": "SALTMYRAN 2-seat sofa - Öreryd blue",
+    "generated_3d_object": "models/usdz/saltmyran_2_seat_sofa_oreryd_blue_40618533.usdz",
+    "format": "usdz",
+    "cdn_target_url": "https://api.furn-app.com/assets/models/saltmyran_2_seat_sofa_oreryd_blue_40618533.usdz",
+    "dimensions_cm": {
+      "length": 79.0,
+      "width": 147.0,
+      "height": 77.0
+    },
+    "sha256": "a3cf7ce46baeb0765712dddfca0570601de714ef9ed7d11ae69e59e4a8325d55",
+    "size_bytes": 29126
+  },
+  {
+    "internal_id": 25,
+    "id": "10239280",
+    "product_name": "HEMNES Chest of 8 drawers - white stain 160x96 cm",
+    "generated_3d_object": "models/usdz/hemnes_chest_of_8_drawers_white_stain_160x96_cm_10239280.usdz",
+    "format": "usdz",
+    "cdn_target_url": "https://api.furn-app.com/assets/models/hemnes_chest_of_8_drawers_white_stain_160x96_cm_10239280.usdz",
+    "dimensions_cm": {
+      "length": 50.0,
+      "width": 160.0,
+      "height": 96.0
+    },
+    "sha256": "e545048c8896c6d2ad88b43c4c65c464eb23a2fa6d07903e9c0b587f775e9fec",
+    "size_bytes": 5816
+  },
+  {
+    "internal_id": 26,
+    "id": "40407922",
+    "product_name": "BRIMNES Wardrobe with 3 doors - white 117x50x190 cm",
+    "generated_3d_object": "models/usdz/brimnes_wardrobe_with_3_doors_white_117x50x190_cm_40407922.usdz",
+    "format": "usdz",
+    "cdn_target_url": "https://api.furn-app.com/assets/models/brimnes_wardrobe_with_3_doors_white_117x50x190_cm_40407922.usdz",
+    "dimensions_cm": {
+      "length": 50.0,
+      "width": 117.0,
+      "height": 190.0
+    },
+    "sha256": "f8b97f5c8e185f7db7ecca854890d64d8fbbdcaee7128a498a45fcdd7a64baa2",
+    "size_bytes": 5805
+  },
+  {
+    "internal_id": 27,
+    "id": "70477334",
+    "product_name": "BILLY Bookcase - black oak effect 40x28x202 cm",
+    "generated_3d_object": "models/usdz/billy_bookcase_black_oak_effect_40x28x202_cm_70477334.usdz",
+    "format": "usdz",
+    "cdn_target_url": "https://api.furn-app.com/assets/models/billy_bookcase_black_oak_effect_40x28x202_cm_70477334.usdz",
+    "dimensions_cm": {
+      "length": 28.0,
+      "width": 40.0,
+      "height": 202.0
+    },
+    "sha256": "63df66da1ab5191cce9469ee7072639a66f8c295d101f95609ca357099459027",
+    "size_bytes": 5766
+  },
+  {
+    "internal_id": 28,
+    "id": "50616816",
+    "product_name": "IKEA PS 2026 Shelving unit - pine 160x35x161 cm",
+    "generated_3d_object": "models/usdz/ikea_ps_2026_shelving_unit_pine_160x35x161_cm_50616816.usdz",
+    "format": "usdz",
+    "cdn_target_url": "https://api.furn-app.com/assets/models/ikea_ps_2026_shelving_unit_pine_160x35x161_cm_50616816.usdz",
+    "dimensions_cm": {
+      "length": 35.0,
+      "width": 160.0,
+      "height": 161.0
+    },
+    "sha256": "e41835809f9533c27d76e12ad9fe03bcae7917d50ed72fb99ecfd598ccbbcff8",
+    "size_bytes": 5804
+  },
+  {
+    "internal_id": 30,
+    "id": "00583106",
+    "product_name": "GRÅFJÄLLET Bedside table - white 45x36x59 cm",
+    "generated_3d_object": "models/usdz/grafjallet_bedside_table_white_45x36x59_cm_00583106.usdz",
+    "format": "usdz",
+    "cdn_target_url": "https://api.furn-app.com/assets/models/grafjallet_bedside_table_white_45x36x59_cm_00583106.usdz",
+    "dimensions_cm": {
+      "length": 36.0,
+      "width": 45.0,
+      "height": 59.0
+    },
+    "sha256": "3ec701a6a02ce8363ba2790fdfc6d2271d893842e56487691a40073877a3c2bd",
+    "size_bytes": 5890
+  },
+  {
+    "internal_id": 31,
+    "id": "10571532",
+    "product_name": "UTESPELARE Gaming desk - ash effect/grey 160x80 cm",
+    "generated_3d_object": "models/usdz/utespelare_gaming_desk_ash_effect_grey_160x80_cm_10571532.usdz",
+    "format": "usdz",
+    "cdn_target_url": "https://api.furn-app.com/assets/models/utespelare_gaming_desk_ash_effect_grey_160x80_cm_10571532.usdz",
+    "dimensions_cm": {
+      "length": 74.0,
+      "width": 185.0,
+      "height": 146.0
+    },
+    "sha256": "0a05abf08a5f049f033492b04272eb07a13de7ed832189459850d2866d207490",
+    "size_bytes": 25396
+  },
+  {
+    "internal_id": 32,
+    "id": "90532589",
+    "product_name": "TOBIAS Chair - brown-red/chrome-plated",
+    "generated_3d_object": "models/usdz/tobias_chair_brown_red_chrome_plated_90532589.usdz",
+    "format": "usdz",
+    "cdn_target_url": "https://api.furn-app.com/assets/models/tobias_chair_brown_red_chrome_plated_90532589.usdz",
+    "dimensions_cm": {
+      "length": 56.0,
+      "width": 55.0,
+      "height": 82.0
+    },
+    "sha256": "2af4638756ecda5a8c9f60a11360c077f97e9734659339e7213829f6eca6e72e",
+    "size_bytes": 27360
+  },
+  {
+    "internal_id": 33,
+    "id": "s09440599",
+    "product_name": "KIVIK 2-seat sofa - Tibbleby beige/grey",
+    "generated_3d_object": "models/usdz/kivik_2_seat_sofa_tibbleby_beige_grey_s09440599.usdz",
+    "format": "usdz",
+    "cdn_target_url": "https://api.furn-app.com/assets/models/kivik_2_seat_sofa_tibbleby_beige_grey_s09440599.usdz",
+    "dimensions_cm": {
+      "length": 95.0,
+      "width": 190.0,
+      "height": 83.0
+    },
+    "sha256": "9d1cbad4ca04c65f08e960e069a51652a92e3ff176c997ba83a730223b98cee0",
+    "size_bytes": 28876
+  },
+  {
+    "internal_id": 34,
+    "id": "90309245",
+    "product_name": "KULLEN Chest of 6 drawers - white 140x40x72 cm",
+    "generated_3d_object": "models/usdz/kullen_chest_of_6_drawers_white_140x40x72_cm_90309245.usdz",
+    "format": "usdz",
+    "cdn_target_url": "https://api.furn-app.com/assets/models/kullen_chest_of_6_drawers_white_140x40x72_cm_90309245.usdz",
+    "dimensions_cm": {
+      "length": 40.0,
+      "width": 140.0,
+      "height": 72.0
+    },
+    "sha256": "70fa297f08b423c0df51f06e0958bdd1651bf3a3dec2ee3a49e0447227bfb785",
+    "size_bytes": 5748
+  },
+  {
+    "internal_id": 35,
+    "id": "80437234",
+    "product_name": "KLEPPSTAD Wardrobe with 2 doors - white 79x55x176 cm",
+    "generated_3d_object": "models/usdz/kleppstad_wardrobe_with_2_doors_white_79x55x176_cm_80437234.usdz",
+    "format": "usdz",
+    "cdn_target_url": "https://api.furn-app.com/assets/models/kleppstad_wardrobe_with_2_doors_white_79x55x176_cm_80437234.usdz",
+    "dimensions_cm": {
+      "length": 55.0,
+      "width": 79.0,
+      "height": 176.0
+    },
+    "sha256": "24eac0caa2fb3b124fbd016ccbaa20db0e8735e49c94fa2bebc0d963e142ef33",
+    "size_bytes": 5912
+  },
+  {
+    "internal_id": 36,
+    "id": "80508641",
+    "product_name": "BILLY Bookcase - brown walnut effect 40x28x202 cm",
+    "generated_3d_object": "models/usdz/billy_bookcase_brown_walnut_effect_40x28x202_cm_80508641.usdz",
+    "format": "usdz",
+    "cdn_target_url": "https://api.furn-app.com/assets/models/billy_bookcase_brown_walnut_effect_40x28x202_cm_80508641.usdz",
+    "dimensions_cm": {
+      "length": 28.0,
+      "width": 40.0,
+      "height": 202.0
+    },
+    "sha256": "d604cd219053d2ce20e5c58d19988a4df45a66030452ce4d00b2ff0eeef80536",
+    "size_bytes": 5776
+  },
+  {
+    "internal_id": 38,
+    "id": "00103343",
+    "product_name": "MALM Chest of 2 drawers - black-brown 40x55 cm",
+    "generated_3d_object": "models/usdz/malm_chest_of_2_drawers_black_brown_40x55_cm_00103343.usdz",
+    "format": "usdz",
+    "cdn_target_url": "https://api.furn-app.com/assets/models/malm_chest_of_2_drawers_black_brown_40x55_cm_00103343.usdz",
+    "dimensions_cm": {
+      "length": 48.0,
+      "width": 40.0,
+      "height": 55.0
+    },
+    "sha256": "c5a9a0fc02c88dc1b86fd1dd33233937987785eab255bce5368a5428a4b4110f",
+    "size_bytes": 5796
+  },
+  {
+    "internal_id": 39,
+    "id": "60214159",
+    "product_name": "MALM Desk - white 140x65 cm",
+    "generated_3d_object": "models/usdz/malm_desk_white_140x65_cm_60214159.usdz",
+    "format": "usdz",
+    "cdn_target_url": "https://api.furn-app.com/assets/models/malm_desk_white_140x65_cm_60214159.usdz",
+    "dimensions_cm": {
+      "length": 65.0,
+      "width": 140.0,
+      "height": 73.0
+    },
+    "sha256": "f715667238a5b9c1856425f0e45af759fcada84b940db1e45d67c7d748c64b56",
+    "size_bytes": 25328
+  },
+  {
+    "internal_id": 40,
+    "id": "80349671",
+    "product_name": "TOBIAS Chair - transparent/chrome-plated",
+    "generated_3d_object": "models/usdz/tobias_chair_transparent_chrome_plated_80349671.usdz",
+    "format": "usdz",
+    "cdn_target_url": "https://api.furn-app.com/assets/models/tobias_chair_transparent_chrome_plated_80349671.usdz",
+    "dimensions_cm": {
+      "length": 56.0,
+      "width": 55.0,
+      "height": 82.0
+    },
+    "sha256": "78dc7b9f2b31d5951c17a8407ef69c4e3ecb28d397e5c3ab15b2ebb11839db77",
+    "size_bytes": 27376
+  },
+  {
+    "internal_id": 41,
+    "id": "s49443044",
+    "product_name": "KIVIK 2-seat sofa - Kelinge grey-turquoise",
+    "generated_3d_object": "models/usdz/kivik_2_seat_sofa_kelinge_grey_turquoise_s49443044.usdz",
+    "format": "usdz",
+    "cdn_target_url": "https://api.furn-app.com/assets/models/kivik_2_seat_sofa_kelinge_grey_turquoise_s49443044.usdz",
+    "dimensions_cm": {
+      "length": 95.0,
+      "width": 190.0,
+      "height": 83.0
+    },
+    "sha256": "b4b76cab0a179d3f3152dd1edc2cb349e46151a302b1cd7deb934014273aef70",
+    "size_bytes": 28910
+  },
+  {
+    "internal_id": 42,
+    "id": "40459666",
+    "product_name": "IDANÄS Bed frame with storage - dark brown stained 90x200 cm",
+    "generated_3d_object": "models/usdz/idanas_bed_frame_with_storage_dark_brown_stained_90x200_cm_40459666.usdz",
+    "format": "usdz",
+    "cdn_target_url": "https://api.furn-app.com/assets/models/idanas_bed_frame_with_storage_dark_brown_stained_90x200_cm_40459666.usdz",
+    "dimensions_cm": {
+      "length": 207.0,
+      "width": 101.0,
+      "height": 24.0
+    },
+    "sha256": "e591dcc9adcbd394f6fdd9593463a088730a9aba69c49064228f3eb5f92f3f0c",
+    "size_bytes": 5991
+  },
+  {
+    "internal_id": 43,
+    "id": "20403562",
+    "product_name": "MALM Chest of 3 drawers - white 80x78 cm",
+    "generated_3d_object": "models/usdz/malm_chest_of_3_drawers_white_80x78_cm_20403562.usdz",
+    "format": "usdz",
+    "cdn_target_url": "https://api.furn-app.com/assets/models/malm_chest_of_3_drawers_white_80x78_cm_20403562.usdz",
+    "dimensions_cm": {
+      "length": 48.0,
+      "width": 80.0,
+      "height": 78.0
+    },
+    "sha256": "48831ea4ef51823899c1fd9ce1585798fb537343b5233dd6398049a1a8f9e0ee",
+    "size_bytes": 5788
+  },
+  {
+    "internal_id": 44,
+    "id": "80487813",
+    "product_name": "EKENABBEN Open shelving unit - aspen/white 70x34x154 cm",
+    "generated_3d_object": "models/usdz/ekenabben_open_shelving_unit_aspen_white_70x34x154_cm_80487813.usdz",
+    "format": "usdz",
+    "cdn_target_url": "https://api.furn-app.com/assets/models/ekenabben_open_shelving_unit_aspen_white_70x34x154_cm_80487813.usdz",
+    "dimensions_cm": {
+      "length": 34.0,
+      "width": 70.0,
+      "height": 154.0
+    },
+    "sha256": "7820f98ac7af84687792c6b17d5645d91586d167f2067e9f96a4627d82c2d286",
+    "size_bytes": 5828
+  },
+  {
+    "internal_id": 45,
+    "id": "s09608386",
+    "product_name": "SANDSBERG Table and 4 chairs - black black/black 110x67 cm",
+    "generated_3d_object": "models/usdz/sandsberg_table_and_4_chairs_black_black_black_110x67_cm_s09608386.usdz",
+    "format": "usdz",
+    "cdn_target_url": "https://api.furn-app.com/assets/models/sandsberg_table_and_4_chairs_black_black_black_110x67_cm_s09608386.usdz",
+    "dimensions_cm": {
+      "length": 110.0,
+      "width": 67.0,
+      "height": 75.0
+    },
+    "sha256": "6b58ec910f84afcb5817d9a40fe8c99e034caaac31910164cd3226c3a499891b",
+    "size_bytes": 25414
+  },
+  {
+    "internal_id": 46,
+    "id": "90625319",
+    "product_name": "MALM Chest of 2 drawers - white 40x55 cm",
+    "generated_3d_object": "models/usdz/malm_chest_of_2_drawers_white_40x55_cm_90625319.usdz",
+    "format": "usdz",
+    "cdn_target_url": "https://api.furn-app.com/assets/models/malm_chest_of_2_drawers_white_40x55_cm_90625319.usdz",
+    "dimensions_cm": {
+      "length": 48.0,
+      "width": 40.0,
+      "height": 55.0
+    },
+    "sha256": "e43f8a5b634e3c45ebc628e3517f3e5938be72c3284792e8fbd58ae8a78b01c5",
+    "size_bytes": 5750
+  },
+  {
+    "internal_id": 47,
+    "id": "30213076",
+    "product_name": "MICKE Desk - white 73x50 cm",
+    "generated_3d_object": "models/usdz/micke_desk_white_73x50_cm_30213076.usdz",
+    "format": "usdz",
+    "cdn_target_url": "https://api.furn-app.com/assets/models/micke_desk_white_73x50_cm_30213076.usdz",
+    "dimensions_cm": {
+      "length": 50.0,
+      "width": 73.0,
+      "height": 75.0
+    },
+    "sha256": "c5d43c41c3bd626408cda804d6d9af05c7aec0f497cd3d3f0d4c45992db81ea0",
+    "size_bytes": 25210
+  },
+  {
+    "internal_id": 48,
+    "id": "10605424",
+    "product_name": "SANDSBERG Chair - white",
+    "generated_3d_object": "models/usdz/sandsberg_chair_white_10605424.usdz",
+    "format": "usdz",
+    "cdn_target_url": "https://api.furn-app.com/assets/models/sandsberg_chair_white_10605424.usdz",
+    "dimensions_cm": {
+      "length": 47.0,
+      "width": 39.0,
+      "height": 77.0
+    },
+    "sha256": "2638794844c5e1110d26e211a0c1ca1b0006fc63123f4ce9eb1dff1e5c841dae",
+    "size_bytes": 27764
+  },
+  {
+    "internal_id": 49,
+    "id": "s49440597",
+    "product_name": "KIVIK 3-seat sofa - Tibbleby beige/grey",
+    "generated_3d_object": "models/usdz/kivik_3_seat_sofa_tibbleby_beige_grey_s49440597.usdz",
+    "format": "usdz",
+    "cdn_target_url": "https://api.furn-app.com/assets/models/kivik_3_seat_sofa_tibbleby_beige_grey_s49440597.usdz",
+    "dimensions_cm": {
+      "length": 95.0,
+      "width": 228.0,
+      "height": 83.0
+    },
+    "sha256": "681faa478a0b19634871bf9afd1aca1eb39b4651c22ac4645058ab92894d6149",
+    "size_bytes": 28876
+  },
+  {
+    "internal_id": 50,
+    "id": "20535548",
+    "product_name": "HERRÅKRA Armchair - Skulsta black",
+    "generated_3d_object": "models/usdz/herrakra_armchair_skulsta_black_20535548.usdz",
+    "format": "usdz",
+    "cdn_target_url": "https://api.furn-app.com/assets/models/herrakra_armchair_skulsta_black_20535548.usdz",
+    "dimensions_cm": {
+      "length": 66.0,
+      "width": 71.0,
+      "height": 73.0
+    },
+    "sha256": "d403493314446002f74730191b4405150e99f5af2b5b2f13dd686e2f2b5dd24e",
+    "size_bytes": 29652
+  }
+]
