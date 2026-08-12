@@ -35,6 +35,15 @@
   </style>
 </head>
 <body>
-  <script src="flutter_bootstrap.js" async></script>
+  <!-- محرك HTML قسرًا: اكتشفت دورية الصحة أن canvaskit يُجلب من CDN غوغل وقت
+       التشغيل، فأي تعثر في gstatic = صفحة فارغة ميتة. محرك HTML مكتفٍ بذاته
+       (لا CDN)، وحقل النص فيه DOM حقيقي — اللصق والتحديد يعملان على الجوال. -->
+  <script>
+    {{flutter_js}}
+    {{flutter_build_config}}
+    _flutter.loader.load({
+      config: { renderer: "html" }
+    });
+  </script>
 </body>
 </html>
