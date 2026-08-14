@@ -68,7 +68,7 @@ This opens a GUI dialog; click **Install** and wait for it to finish (a few
 minutes). It's already installed if this prints a path:
 
 ```bash
-xcode-select -p          # expect: /Library/Developer/CommandLineTools
+xcode-select -p
 ```
 
 **0b. Homebrew** — macOS has no package manager of its own. Skip if
@@ -85,7 +85,7 @@ later `brew` command fails with `command not found`. On Apple Silicon:
 ```bash
 echo 'eval "$(/opt/homebrew/bin/brew shellenv)"' >> ~/.zprofile
 eval "$(/opt/homebrew/bin/brew shellenv)"
-brew --version           # confirm before continuing
+brew --version
 ```
 
 (On an Intel Mac, Homebrew lives in `/usr/local` and is on the default
@@ -94,14 +94,14 @@ brew --version           # confirm before continuing
 **0c. The two packages:**
 
 ```bash
-brew install libomp python@3.11    # OpenMP runtime for -fopenmp; the interpreter
-python3.11 --version               # confirm before continuing
+brew install libomp python@3.11
+python3.11 --version
 ```
 
 (Stability's README documents the alternative of installing the OpenMP
 runtime from <https://mac.r-project.org/openmp/> into `/usr/local`, and
 python.org publishes a 3.11 installer `.pkg` if you'd rather not use
-Homebrew; either works. With Homebrew, the `CPPFLAGS`/`LDFLAGS` exports in
+Homebrew; either works. With Homebrew, the `CPATH`/`LIBRARY_PATH` exports in
 step 4 tell clang where `libomp` lives.)
 
 ### 1. Python environment
@@ -157,13 +157,18 @@ re-running it.
 pip install -r tools/requirements-3d.txt
 
 LIBOMP=$(brew --prefix libomp)
-echo "$LIBOMP"     # must print /opt/homebrew/opt/libomp — if it's empty, STOP
+echo "$LIBOMP"
 export CPATH="$LIBOMP/include:$CPATH"
 export LIBRARY_PATH="$LIBOMP/lib:$LIBRARY_PATH"
+export CPPFLAGS="-Wno-invalid-specialization $CPPFLAGS"
+export CXXFLAGS="-Wno-invalid-specialization $CXXFLAGS"
 
 pip install --no-build-isolation vendor/stable-fast-3d/texture_baker/
 pip install --no-build-isolation vendor/stable-fast-3d/uv_unwrapper/
 ```
+
+The `echo` must print `/opt/homebrew/opt/libomp` before you go on — see the
+note on empty command substitutions below.
 
 `tools/requirements-3d.txt` mirrors SF3D's own pins (plus this pipeline's
 `requests`/`tqdm`/`Pillow`), so the vendored code and the script agree on
@@ -171,6 +176,15 @@ every shared library. `--no-build-isolation` makes the extension builds use
 the torch you just installed instead of an empty isolated build environment —
 skipping it is the classic cause of `ModuleNotFoundError: No module named
 'torch'` during install.
+
+`-Wno-invalid-specialization` is required on Xcode 16.3 and newer. PyTorch's
+vendored `c10/util/strong_type.h` specializes `std::is_arithmetic`, which the
+C++ standard forbids; older Apple clang tolerated it, current clang makes it
+a hard error. It fires on the first torch header, so **every** extension
+built against torch 2.4.1 fails on a modern toolchain until the diagnostic is
+switched off. The alternative root-cause fix is `pip install --upgrade torch
+torchvision`, whose newer headers no longer violate the rule — SF3D's README
+endorses running the latest PyTorch, so either path is supported.
 
 Both extensions `#include <omp.h>` unconditionally, and Homebrew keeps
 `libomp` **keg-only** — its headers live under `$(brew --prefix libomp)`
@@ -199,7 +213,7 @@ already on clang's default search path, so it needs no exports at all.)
 3. Authenticate the environment:
 
 ```bash
-huggingface-cli login        # or: export HF_TOKEN=hf_...
+huggingface-cli login
 ```
 
 The weights (`model.safetensors`, ~4 GB) download automatically on the first
@@ -226,8 +240,8 @@ nothing for IKEA.
 
 ```bash
 source .venv-3d/bin/activate
-python tools/generate_3d.py --limit 2     # smoke test on two products first
-python tools/generate_3d.py               # full run, with progress bar
+python tools/generate_3d.py --limit 2
+python tools/generate_3d.py
 ```
 
 The script sets `PYTORCH_ENABLE_MPS_FALLBACK=1` itself before importing
@@ -267,6 +281,7 @@ Behaviour worth knowing:
 | `command not found: python` or `pip` | The venv isn't active — `source .venv-3d/bin/activate` (step 1). macOS ships neither name |
 | `command not found: huggingface-cli` | It arrives with `huggingface-hub` in step 4; run steps in order, with the venv active |
 | `401`/`403` or "gated" while loading the model | Accept the license on the model page, then `huggingface-cli login` with a read token |
+| `'is_arithmetic' cannot be specialized` building either extension | Xcode 16.3+ vs torch 2.4.1 — set the `CPPFLAGS`/`CXXFLAGS` exports from step 4, or `pip install --upgrade torch torchvision` |
 | `'omp.h' file not found` / `-lomp` link error building extensions | `brew install libomp`, then set the `CPATH`/`LIBRARY_PATH` exports from step 4 — and check `echo $(brew --prefix libomp)` is not empty |
 | `Could not open requirements file: tools/requirements-3d.txt` | The pipeline lives on the `claude/local-3d-furniture-pipeline-k2fvp1` branch — `git fetch origin <branch> && git checkout <branch>` |
 | `ModuleNotFoundError: No module named 'torch'` during step 4 | You skipped `--no-build-isolation`, or torch isn't installed in this venv |
