@@ -1,0 +1,193 @@
+<!doctype html>
+<meta charset="utf-8">
+<title>Furn-App — generated 3D models</title>
+<!--
+  Local inspector for the meshes tools/generate_3d.py produces.
+
+  Serve it from the repository root so it can read the registry and the
+  meshes as ordinary URLs:
+
+      python -m http.server 8000
+      open http://localhost:8000/tools/view_3d.html
+
+  Opening the file directly with file:// will not work — the browser blocks
+  the fetch of the registry JSON.
+
+  Uses the same @google/model-viewer build as web/ar.html, and reports the
+  model's real-world size straight from the GLB, so it doubles as a check
+  that the true-scale conversion actually landed.
+-->
+<script type="module"
+  src="https://unpkg.com/@google/model-viewer@3/dist/model-viewer.min.js"></script>
+<style>
+  :root { color-scheme: dark; }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    font: 15px/1.5 ui-sans-serif, -apple-system, "SF Pro Text", system-ui, sans-serif;
+    background: #16181c;
+    color: #e7e9ee;
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+  }
+  header {
+    padding: 14px 20px;
+    border-bottom: 1px solid #2a2e36;
+    display: flex;
+    gap: 16px;
+    align-items: center;
+    flex-wrap: wrap;
+  }
+  h1 { font-size: 15px; font-weight: 600; margin: 0; letter-spacing: .01em; }
+  select {
+    background: #22262e;
+    color: #e7e9ee;
+    border: 1px solid #363b45;
+    border-radius: 6px;
+    padding: 7px 10px;
+    font: inherit;
+    min-width: min(420px, 60vw);
+  }
+  model-viewer {
+    flex: 1;
+    width: 100%;
+    background: #16181c;
+    --poster-color: transparent;
+  }
+  footer {
+    padding: 10px 20px;
+    border-top: 1px solid #2a2e36;
+    display: flex;
+    gap: 22px;
+    flex-wrap: wrap;
+    font-variant-numeric: tabular-nums;
+    color: #aab1bf;
+  }
+  footer b { color: #e7e9ee; font-weight: 600; }
+  .warn { color: #ffb454; }
+  .err {
+    margin: 40px auto;
+    max-width: 640px;
+    padding: 20px 24px;
+    border: 1px solid #4a3324;
+    background: #241b14;
+    border-radius: 10px;
+    color: #ffcf99;
+  }
+  code {
+    font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+    background: #2a2e36;
+    padding: 1px 6px;
+    border-radius: 4px;
+    color: #e7e9ee;
+  }
+</style>
+
+<header>
+  <h1>Generated 3D models</h1>
+  <select id="picker" aria-label="Product"></select>
+</header>
+
+<model-viewer id="viewer"
+  camera-controls
+  auto-rotate
+  auto-rotate-delay="1500"
+  rotation-per-second="18deg"
+  interaction-prompt="none"
+  shadow-intensity="1"
+  shadow-softness="1"
+  tone-mapping="neutral"
+  environment-image="neutral"
+  exposure="1.05"
+  alt="Generated furniture mesh"></model-viewer>
+
+<footer>
+  <span>Size <b id="size">—</b></span>
+  <span>Floor <b id="floor">—</b></span>
+  <span>Store id <b id="sku">—</b></span>
+  <span id="note"></span>
+</footer>
+
+<script type="module">
+  const picker = document.getElementById("picker");
+  const viewer = document.getElementById("viewer");
+  const sizeEl = document.getElementById("size");
+  const floorEl = document.getElementById("floor");
+  const skuEl = document.getElementById("sku");
+  const noteEl = document.getElementById("note");
+
+  const fail = (html) => {
+    document.body.innerHTML = `<div class="err">${html}</div>`;
+  };
+
+  let registry;
+  try {
+    const response = await fetch("../Catalog_Fin/3D_Catalog_new.json", { cache: "no-store" });
+    if (!response.ok) throw new Error(`HTTP ${response.status}`);
+    registry = await response.json();
+  } catch (error) {
+    fail(`
+      <p><b>Could not read <code>Catalog_Fin/3D_Catalog_new.json</code></b> (${error.message}).</p>
+      <p>Serve the repository over HTTP rather than opening this file directly:</p>
+      <p><code>python -m http.server 8000</code><br>
+      then open <code>http://localhost:8000/tools/view_3d.html</code></p>
+      <p>If the registry genuinely does not exist yet, run
+      <code>python tools/generate_3d.py</code> first.</p>`);
+    throw error;
+  }
+
+  if (!Array.isArray(registry) || registry.length === 0) {
+    fail(`<p><b>The registry is empty.</b> Run <code>python tools/generate_3d.py</code>
+          to generate some meshes, then reload.</p>`);
+    throw new Error("empty registry");
+  }
+
+  for (const entry of registry) {
+    const option = document.createElement("option");
+    option.value = entry.local_3d_path;
+    option.dataset.sku = entry.store_id;
+    // The filename carries the product name; nicer to read than the id alone.
+    const name = entry.local_3d_path.split("/").pop().replace(/\.glb$/, "");
+    option.textContent = `${entry.internal_id}. ${name}`;
+    picker.append(option);
+  }
+
+  const show = () => {
+    const option = picker.selectedOptions[0];
+    // Registry paths are repository-root relative; this page lives in tools/.
+    viewer.src = "../" + option.value;
+    skuEl.textContent = option.dataset.sku;
+    sizeEl.textContent = floorEl.textContent = "…";
+    noteEl.textContent = "";
+  };
+
+  viewer.addEventListener("load", () => {
+    // getDimensions() reports the model's own bounding box in metres, so this
+    // reads the GLB rather than trusting what the pipeline claimed.
+    const d = viewer.getDimensions();
+    const cm = (v) => (v * 100).toFixed(1);
+    sizeEl.textContent = `${cm(d.x)} × ${cm(d.y)} × ${cm(d.z)} cm  (W × H × D)`;
+
+    const box = viewer.getBoundingBoxCenter();
+    const floorOffset = (box.y - d.y / 2) * 100;
+    floorEl.textContent = `${floorOffset.toFixed(2)} cm`;
+    if (Math.abs(floorOffset) > 0.5) {
+      floorEl.className = "warn";
+      noteEl.className = "warn";
+      noteEl.textContent = "⚠ not resting on y=0 — this mesh is not AR-placeable";
+    } else {
+      floorEl.className = "";
+      noteEl.textContent = "";
+    }
+  });
+
+  viewer.addEventListener("error", () => {
+    sizeEl.textContent = floorEl.textContent = "—";
+    noteEl.className = "warn";
+    noteEl.textContent = "⚠ failed to load this .glb";
+  });
+
+  picker.addEventListener("change", show);
+  show();
+</script>
