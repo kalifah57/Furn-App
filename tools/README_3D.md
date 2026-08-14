@@ -34,6 +34,43 @@ previously-failed product is recovered on a later run, entries after it shift
 down by one — treat `store_id` as the durable key, `internal_id` as a
 per-file sequence number.
 
+## The meshes are true-scale
+
+SF3D reconstructs into a normalised ±1 unit cube — no real-world size, no
+floor. That is invisible in a model viewer and wrong in AR, where a 228 cm
+sofa and a 55 cm side table would arrive the same size. So every mesh is
+resized to the product's own `spatial_attributes` and seated on the ground,
+to the contract `tools/generate_furniture_glb.py` already self-checks:
+
+| Guarantee | Value |
+| --- | --- |
+| Units | metres |
+| Axes | `x` = `width_cm`, `y` = `height_cm`, `z` = `length_cm` (front-to-back depth) |
+| Floor | lowest vertex at `y = 0`, within 5 mm |
+| Footprint | centred on the origin in `x`/`z` |
+| Tolerance | each axis within 1 cm of the catalogue, verified after export |
+
+Two details worth knowing:
+
+- **Which way the mesh faces depends on the source photo.** The reconstruction
+  can come back with its long side on either horizontal axis, so the mesh is
+  turned a quarter turn when that would otherwise put depth on `x`. The turn
+  is a real rotation about Y, never an axis swap — swapping is a reflection,
+  and a reflected mesh renders inside out. The choice is made by which
+  assignment needs the least stretching, not by which extent is larger:
+  a 90×200 cm bed frame is deeper than it is wide, so "the bigger number is
+  the width" is false exactly where it does damage.
+- **A product with no usable dimensions is failed, not guessed at.** It lands
+  in `3D_Catalog_failures.json` rather than entering the registry at an
+  invented size. `--no-scale` opts out and emits SF3D's raw normalised mesh —
+  fine for inspecting reconstruction quality, not placeable in AR.
+
+When a mesh needs markedly uneven correction to reach its catalogued size
+(more than 1.25× between the largest and smallest axis factor), the run
+reports it. The catalogue dimension still wins — it is the authoritative
+number — but a product that shows up here usually has a bad measurement
+upstream rather than a bad reconstruction.
+
 ## Hardware expectations
 
 SF3D's MPS support is officially **experimental**. Stability tested it on an
@@ -275,6 +312,9 @@ Useful flags:
 | `--force` | off | Regenerate meshes that already exist |
 | `--texture-resolution N` | 1024 | Baked texture atlas size (2048 = slower, heavier) |
 | `--remesh {none,triangle,quad}` | none | SF3D remeshing mode |
+| `--target-vertex-count N` | -1 | Reduce the mesh to roughly N vertices; needs `--remesh` |
+| `--no-scale` | off | Emit SF3D's raw normalised mesh — **not AR-placeable** |
+| `--no-image-upscale` | off | Download `image_url` verbatim instead of asking the CDN for a larger size |
 | `--catalog / --output-dir / --registry` | repo paths | Override any location |
 | `--sf3d-dir PATH` | `vendor/stable-fast-3d` | Where the SF3D checkout lives |
 
@@ -289,6 +329,14 @@ Behaviour worth knowing:
   registered.
 - **Memory-constrained Mac?** Force the CPU backend:
   `SF3D_USE_CPU=1 python tools/generate_3d.py`
+- **Input images are upgraded where possible.** IKEA's CDN serves the same
+  asset at several sizes behind an `f=` parameter, and the catalogue keeps
+  whatever the search API returned — often a thumbnail. A larger variant is
+  requested first, with the catalogued URL as fallback, so a CDN that rejects
+  the parameter costs one wasted request and nothing else. SF3D squares every
+  input to its own `cond_image_size` (printed at startup), and the run reports
+  any product whose image came in below that — those reconstructions are
+  detail-capped no matter what else you tune.
 
 ## Troubleshooting
 
