@@ -77,21 +77,29 @@ SF3D's MPS support is officially **experimental**. Stability tested it on an
 M1 Max with 64 GB; they recommend the CPU backend (`SF3D_USE_CPU=1`) on
 machines with **less than 32 GB of unified memory**, because MPS currently
 uses more memory than CUDA. Default settings need roughly 6 GB of GPU memory
-per image. Expect roughly a minute per product on MPS, several on CPU.
+per image.
 
-Measured on a 16 GB Apple Silicon MacBook Pro: MPS at the default
-`--texture-resolution 1024` exceeded five minutes for a single product and
-made the machine noticeably sluggish — the memory pressure sends it into
-swap. On 16 GB, run the pipeline like this instead:
+**Below 32 GB, use the CPU backend — it is the fast path, not a compromise.**
+Measured on a 16 GB Apple Silicon MacBook Pro, at the default
+`--texture-resolution 1024`:
+
+| Backend | Time per product |
+| --- | --- |
+| MPS | over 5 minutes, machine noticeably sluggish |
+| CPU (`SF3D_USE_CPU=1`) | ~31 seconds |
+
+The MPS run was never compute-bound; it was swapping. MPS keeps a second
+fp32 copy of the working set in unified memory, and on 16 GB that does not
+fit. Forcing CPU sidesteps it entirely:
 
 ```bash
-SF3D_USE_CPU=1 python tools/generate_3d.py --texture-resolution 512
+SF3D_USE_CPU=1 python tools/generate_3d.py
 ```
 
-CPU avoids the second fp32 copy MPS keeps in unified memory, and halving the
-texture atlas cuts the largest remaining allocation. Slower per product on
-paper, but it does not contend with the rest of the system, which is the
-difference that matters on a 16 GB machine.
+At that rate a 50-product catalogue is about 25 minutes. There is no need to
+drop the texture resolution on a 16 GB machine — `--texture-resolution 512`
+is available if memory is tight for other reasons, but it is not the default
+advice.
 
 First run also downloads about 6 GB of model weights in total — SF3D itself
 (4.02 GB), a transformers image encoder (1.22 GB), OpenCLIP (605 MB) and
