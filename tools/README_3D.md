@@ -42,6 +42,24 @@ machines with **less than 32 GB of unified memory**, because MPS currently
 uses more memory than CUDA. Default settings need roughly 6 GB of GPU memory
 per image. Expect roughly a minute per product on MPS, several on CPU.
 
+Measured on a 16 GB Apple Silicon MacBook Pro: MPS at the default
+`--texture-resolution 1024` exceeded five minutes for a single product and
+made the machine noticeably sluggish — the memory pressure sends it into
+swap. On 16 GB, run the pipeline like this instead:
+
+```bash
+SF3D_USE_CPU=1 python tools/generate_3d.py --texture-resolution 512
+```
+
+CPU avoids the second fp32 copy MPS keeps in unified memory, and halving the
+texture atlas cuts the largest remaining allocation. Slower per product on
+paper, but it does not contend with the rest of the system, which is the
+difference that matters on a 16 GB machine.
+
+First run also downloads about 6 GB of model weights in total — SF3D itself
+(4.02 GB), a transformers image encoder (1.22 GB), OpenCLIP (605 MB) and
+rembg's u2net (176 MB). All are cached afterwards.
+
 ## One-time setup
 
 Everything below happens once, from the repository root on your Mac.
