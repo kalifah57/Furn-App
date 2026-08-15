@@ -4,6 +4,7 @@ import 'package:go_router/go_router.dart';
 
 import '../../../analytics/analytics.dart';
 import '../../../core/di/providers.dart';
+import '../../../core/errors/failure.dart';
 import '../../../core/router/app_router.dart';
 import '../../../domain_engine/spatial/replacement_finder.dart';
 import '../../../shared/utils/formatters.dart';
@@ -12,6 +13,11 @@ import '../../ar/ar_button.dart';
 import '../../catalog/open_store.dart';
 import 'sandbox_controller.dart';
 import 'sandbox_scene_view.dart';
+
+/// رسالةُ خطأ صادقة: سبب الطبقة السفلى (`Failure`) إن وُجد، وإلّا عبارةٌ محايدة
+/// لا تدّعي سببًا لم يقع.
+String _errorMessage(Object error, {required String fallback}) =>
+    error is Failure ? error.message : fallback;
 
 /// **الصندوق المكاني التفاعلي** — الغرفة الممسوحة مفروشة بباقة كاملة، يمكن نقر
 /// أي قطعة لرؤية تفاصيلها واستبدالها، مع تحديث السعر الإجمالي في نفس اللحظة.
@@ -33,10 +39,14 @@ class SandboxScreen extends ConsumerWidget {
           ),
         ],
       ),
-      body: async.when(
+      // SafeArea كي لا يُقصّ زر «إلى غرفتي» ولا أوّل السطر عند حواف الجوال
+      // (حادثة X9 — قصّ حوافّ المعاينة).
+      body: SafeArea(
+        child: async.when(
         loading: () => const LoadingView(message: 'جاري وضع خطتك في غرفتك…'),
-        error: (_, __) => ErrorView(
-          message: 'تعذّر بناء المشهد. أعد المحاولة.',
+        // السبب الحقيقي من الطبقة السفلى لا تخمينٌ عنه.
+        error: (e, _) => ErrorView(
+          message: _errorMessage(e, fallback: 'تعذّر بناء المشهد. أعد المحاولة.'),
           onRetry: () => ref.invalidate(sandboxControllerProvider),
         ),
         // مشهدٌ بلا قطع ليس خطأً بل خطةٌ لم تُشكَّل بعد — يُقال ذلك ويُقال معه
@@ -70,6 +80,7 @@ class SandboxScreen extends ConsumerWidget {
                   ),
                 ],
               ),
+        ),
       ),
     );
   }

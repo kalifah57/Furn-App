@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
+import '../../../core/errors/failure.dart';
 import '../../../core/router/app_router.dart';
 import '../../../domain_engine/plan/plan.dart';
 import '../../../domain_engine/plan/unmet_need.dart';
@@ -11,6 +12,11 @@ import '../../../shared/widgets/status_views.dart';
 import '../../ar/ar_button.dart';
 import 'assistant_sheet.dart';
 import 'plan_controller.dart';
+
+/// رسالةُ خطأ صادقة: إن حملت الطبقة السفلى سببًا معروفًا (`Failure`) عُرِض كما هو،
+/// وإلّا عبارةٌ محايدة لا تدّعي سببًا لم يقع (لا «تحقّق من اتصالك» لعطبٍ ليس شبكة).
+String _errorMessage(Object error, {required String fallback}) =>
+    error is Failure ? error.message : fallback;
 
 /// شاشة الخطة — قلب التطبيق (product_thesis.md): «الخطة» التي يشكّلها المستخدم
 /// حتى يثق بها. تعرض حلقة الثقة: ثبّت/ارفض/بدّل/اضبط الميزانية → إعادة توازن فورية
@@ -46,10 +52,10 @@ class PlanScreen extends ConsumerWidget {
       ),
       body: async.when(
         loading: () => const LoadingView(message: 'جاري بناء خطتك…'),
-        // الاستثناء الخام ليس رسالة: المستخدم لا يملك ما يفعله بـ`e`، ويملك أن
-        // يعيد المحاولة. النصّ التقني يبقى في السجلّ لا على الشاشة.
-        error: (_, __) => ErrorView(
-          message: 'تعذّر تحميل قائمة الأثاث. تحقّق من اتصالك وأعد المحاولة.',
+        // رسالة الخطأ تنقل سبب الطبقة السفلى الحقيقي ولا تخمّن: «تحقّق من اتصالك»
+        // كانت تُقال حتى حين كان السبب أصلًا مفقودًا لا انقطاع شبكة (حادثة X9).
+        error: (e, _) => ErrorView(
+          message: _errorMessage(e, fallback: 'تعذّر تحميل خطتك. أعد المحاولة.'),
           onRetry: () => ref.invalidate(planControllerProvider),
         ),
         data: (controller) => _PlanView(controller: controller),
@@ -395,7 +401,15 @@ class _PlanViewState extends State<_PlanView> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Row(children: [
-              Text('الميزانية', style: theme.textTheme.titleMedium),
+              // مرنٌ كي لا يفيض الصفّ مع خطٍّ بديل أعرض (حادثة X9): العنوان
+              // يتقلّص بنقاط، والقيمة تبقى كاملة.
+              Flexible(
+                child: Text('الميزانية',
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                    style: theme.textTheme.titleMedium),
+              ),
+              const SizedBox(width: 8),
               const Spacer(),
               Text(formatSar(value),
                   style: theme.textTheme.titleMedium
@@ -477,9 +491,12 @@ class _PlanViewState extends State<_PlanView> {
             Row(children: [
               Icon(Icons.view_in_ar, color: theme.colorScheme.primary),
               const SizedBox(width: 8),
-              Text('شاهدها في غرفتك',
-                  style: theme.textTheme.titleMedium
-                      ?.copyWith(fontWeight: FontWeight.bold)),
+              // مرنٌ كي لا يفيض العنوان مع خطٍّ بديل أعرض (حادثة X9).
+              Expanded(
+                child: Text('شاهدها في غرفتك',
+                    style: theme.textTheme.titleMedium
+                        ?.copyWith(fontWeight: FontWeight.bold)),
+              ),
             ]),
             const SizedBox(height: 6),
             Text(
@@ -490,7 +507,15 @@ class _PlanViewState extends State<_PlanView> {
                   ?.copyWith(color: theme.colorScheme.onSurfaceVariant),
             ),
             const SizedBox(height: 12),
-            const ArDemoButton(label: 'شاهد الطاولة في غرفتك'),
+            // FittedBox يقلّص الزرّ ليتّسع حين يكون خطٌّ بديل أعرض من المتوقّع،
+            // فلا تفيض عنونته الطويلة (حادثة X9) — بلا لمس مكوّن مسار آخر.
+            const Align(
+              alignment: AlignmentDirectional.centerStart,
+              child: FittedBox(
+                fit: BoxFit.scaleDown,
+                child: ArDemoButton(label: 'شاهد الطاولة في غرفتك'),
+              ),
+            ),
             const SizedBox(height: 6),
             Text('نموذج ثلاثي الأبعاد حقيقي مُولّد بمقاسه الفعلي — نُلحق نماذج '
                 'بقية المنتجات تباعًا.',
@@ -518,9 +543,12 @@ class _PlanViewState extends State<_PlanView> {
             Row(children: [
               Expanded(
                 child: Text(item.name,
+                    maxLines: 2,
+                    overflow: TextOverflow.ellipsis,
                     style: theme.textTheme.titleMedium
                         ?.copyWith(fontWeight: FontWeight.bold)),
               ),
+              const SizedBox(width: 8),
               Text(formatSar(item.price),
                   style: theme.textTheme.titleMedium
                       ?.copyWith(color: theme.colorScheme.primary)),
@@ -893,23 +921,28 @@ class _PlanViewState extends State<_PlanView> {
   // ---- versions: save · compare · revert (build-sequence step 9) ----------
 
   Widget _versionsBar(BuildContext context) {
-    return Row(children: [
-      OutlinedButton.icon(
-        onPressed: () {
-          c.saveSnapshot();
-          ScaffoldMessenger.of(context).showSnackBar(
-              const SnackBar(content: Text('حُفظت نسخة من خطتك')));
-        },
-        icon: const Icon(Icons.save_outlined, size: 18),
-        label: const Text('احفظ نسخة'),
-      ),
-      const SizedBox(width: 8),
-      OutlinedButton.icon(
-        onPressed: c.snapshots.isEmpty ? null : () => _openVersions(context),
-        icon: const Icon(Icons.history, size: 18),
-        label: Text('النسخ (${c.snapshots.length})'),
-      ),
-    ]);
+    // Wrap لا Row: زرّان معنونان قد يتجاوزان عرض شاشةٍ ضيّقة مع خطٍّ بديل أعرض
+    // (حادثة X9)، فينتقل الثاني سطرًا بدل أن يفيض الصفّ.
+    return Wrap(
+      spacing: 8,
+      runSpacing: 8,
+      children: [
+        OutlinedButton.icon(
+          onPressed: () {
+            c.saveSnapshot();
+            ScaffoldMessenger.of(context).showSnackBar(
+                const SnackBar(content: Text('حُفظت نسخة من خطتك')));
+          },
+          icon: const Icon(Icons.save_outlined, size: 18),
+          label: const Text('احفظ نسخة'),
+        ),
+        OutlinedButton.icon(
+          onPressed: c.snapshots.isEmpty ? null : () => _openVersions(context),
+          icon: const Icon(Icons.history, size: 18),
+          label: Text('النسخ (${c.snapshots.length})'),
+        ),
+      ],
+    );
   }
 
   void _openVersions(BuildContext context) {

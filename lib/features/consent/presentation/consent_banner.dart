@@ -33,22 +33,74 @@ class ConsentBanner extends ConsumerWidget {
               style: theme.textTheme.bodySmall
                   ?.copyWith(color: theme.colorScheme.onSurfaceVariant),
             ),
-            const SizedBox(height: 8),
+            const SizedBox(height: 12),
+            // زرّان مبنيّان من عناصر أوّلية مضمونة الرسم على محرّك HTML: حاوية
+            // بلونٍ صريح ونصّ فوقها — لا طبقات Material قد لا تُطلى. حادثة X9:
+            // «أوافق/لا شكرًا» كانا يحجزان المساحة ولا يظهران، فيبقى بانر PDPL
+            // أبديًّا ويموت القياس. عريضان بارتفاع ٤٨ (هدف لمسٍ آمن).
             Row(
-              mainAxisAlignment: MainAxisAlignment.end,
               children: [
-                TextButton(
-                  onPressed: () => controller.decide(granted: false),
-                  child: const Text('لا، شكرًا'),
+                Expanded(
+                  child: _ConsentAction(
+                    label: 'لا، شكرًا',
+                    filled: false,
+                    onTap: () => controller.decide(granted: false),
+                  ),
                 ),
-                const SizedBox(width: 8),
-                FilledButton(
-                  onPressed: () => controller.decide(granted: true),
-                  child: const Text('أوافق'),
+                const SizedBox(width: 12),
+                Expanded(
+                  child: _ConsentAction(
+                    label: 'أوافق',
+                    filled: true,
+                    onTap: () => controller.decide(granted: true),
+                  ),
                 ),
               ],
             ),
           ],
+        ),
+      ),
+    );
+  }
+}
+
+/// فعلُ موافقةٍ مرسومٌ بعناصر أوّلية: `GestureDetector` فوق حاوية ملوّنة صريحة
+/// ونصّ صريح اللون. يتجاوز أي عطبٍ في طلاء أزرار Material على محرّك HTML، ويبقى
+/// زرًّا دلاليًّا لقارئ الشاشة وهدف لمسٍ لا يقلّ عن ٤٨ بكسل.
+class _ConsentAction extends StatelessWidget {
+  const _ConsentAction({
+    required this.label,
+    required this.filled,
+    required this.onTap,
+  });
+
+  final String label;
+  final bool filled;
+  final VoidCallback onTap;
+
+  @override
+  Widget build(BuildContext context) {
+    final cs = Theme.of(context).colorScheme;
+    final bg = filled ? cs.primary : cs.surface;
+    final fg = filled ? cs.onPrimary : cs.primary;
+    return Semantics(
+      button: true,
+      label: label,
+      child: GestureDetector(
+        behavior: HitTestBehavior.opaque,
+        onTap: onTap,
+        child: Container(
+          height: 48,
+          alignment: Alignment.center,
+          decoration: BoxDecoration(
+            color: bg,
+            borderRadius: BorderRadius.circular(12),
+            border: filled ? null : Border.all(color: cs.outline),
+          ),
+          child: Text(
+            label,
+            style: TextStyle(color: fg, fontWeight: FontWeight.bold, fontSize: 15),
+          ),
         ),
       ),
     );
