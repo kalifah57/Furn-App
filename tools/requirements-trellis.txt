@@ -1,0 +1,31 @@
+# Python dependencies for tools/generate_3d_trellis.py on an Ubuntu/CUDA box.
+#
+# Install order matters — see tools/README_TRELLIS.md. torch is NOT in this
+# file: install the cu124 wheels first (the extension builds import torch),
+#     pip install torch==2.6.0 torchvision==0.21.0 --index-url https://download.pytorch.org/whl/cu124
+# then this file, then the three CUDA extensions (CuMesh, FlexGEMM, o-voxel).
+#
+# Deliberately NOT here: nvdiffrast and nvdiffrec (NVIDIA Source Code
+# License, research/evaluation only — the MIT rasteriser in
+# tools/trellis_mit_rasterizer.py replaces the one call site that needs
+# rasterisation), and the render/demo extras (imageio, gradio, utils3d,
+# lpips, tensorboard) that only TRELLIS.2's preview tooling uses.
+
+# --- TRELLIS.2 inference path ---
+transformers>=4.46        # BiRefNet background matting via trust_remote_code
+timm>=1.0                 # BiRefNet backbone
+kornia>=0.7               # BiRefNet remote code dependency
+easydict>=1.11            # o_voxel.rasterize
+opencv-python-headless>=4.9   # o_voxel.postprocess (inpainting, channel packing)
+zstandard>=0.22           # o_voxel.serialize
+trimesh>=4.4              # GLB assembly and export
+numpy>=1.26
+ninja>=1.11               # builds the CUDA extensions
+
+# --- this pipeline's own additions ---
+requests>=2.31
+tqdm>=4.66
+Pillow>=10.3
+
+# Optional but recommended on A100/H100 (falls back to sdpa without it):
+#   pip install flash-attn==2.7.3 --no-build-isolation

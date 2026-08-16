@@ -47,3 +47,4 @@ ios/ServiceDefinitions.json
 # 3D generation pipeline (tools/generate_3d.py) — local-only artifacts
 vendor/
 .venv-3d/
+.venv-trellis/

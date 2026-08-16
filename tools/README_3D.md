@@ -2,7 +2,9 @@
 
 `tools/generate_3d.py` turns every product in `Catalog_Fin/catalog.json` into a
 textured 3D mesh with [Stability AI's Stable Fast 3D](https://github.com/Stability-AI/stable-fast-3d)
-(SF3D), running entirely on your Mac. The GPU is used through PyTorch's `mps`
+(SF3D), running entirely on your Mac. (For the higher-fidelity TRELLIS.2
+pipeline on a rented CUDA GPU — same catalogue, same registry contract — see
+`tools/README_TRELLIS.md`.) The GPU is used through PyTorch's `mps`
 backend (Metal); the script falls back to `cpu` only when MPS is genuinely
 unavailable, and never selects CUDA.
 
