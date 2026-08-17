@@ -2,7 +2,7 @@
   "_": "مجموعة اختبار الفهم — U2. تقرؤها منصّة الاختبار (Dart) وتقرير خط الأساس معًا.",
   "_ملاحظة": "expect = نتيجة واحدة صحيحة. accept = أكثر من نتيجة مقبولة (غموض مشروع يُحسم لاحقًا).",
   "_مصدر": "docs/ai_command_corpus.md",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "commands": [
     {
       "id": "C-01",
@@ -14,7 +14,8 @@
       "tags": [
         "existing",
         "msa"
-      ]
+      ],
+      "assert": "strict"
     },
     {
       "id": "C-02",
@@ -26,7 +27,8 @@
       "tags": [
         "existing",
         "msa"
-      ]
+      ],
+      "assert": "strict"
     },
     {
       "id": "C-03",
@@ -38,7 +40,8 @@
       "tags": [
         "existing",
         "digits_ar"
-      ]
+      ],
+      "assert": "strict"
     },
     {
       "id": "C-04",
@@ -50,7 +53,8 @@
       "tags": [
         "existing",
         "bare_number"
-      ]
+      ],
+      "assert": "strict"
     },
     {
       "id": "C-05",
@@ -61,7 +65,8 @@
       },
       "tags": [
         "existing"
-      ]
+      ],
+      "assert": "strict"
     },
     {
       "id": "C-06",
@@ -73,7 +78,8 @@
       "tags": [
         "existing",
         "msa"
-      ]
+      ],
+      "assert": "strict"
     },
     {
       "id": "C-07",
@@ -85,7 +91,8 @@
       "tags": [
         "existing",
         "msa"
-      ]
+      ],
+      "assert": "strict"
     },
     {
       "id": "C-08",
@@ -97,7 +104,8 @@
       "tags": [
         "existing",
         "gulf"
-      ]
+      ],
+      "assert": "strict"
     },
     {
       "id": "C-09",
@@ -109,7 +117,8 @@
       "tags": [
         "existing",
         "msa"
-      ]
+      ],
+      "assert": "strict"
     },
     {
       "id": "C-10",
@@ -121,7 +130,8 @@
       "tags": [
         "existing",
         "msa"
-      ]
+      ],
+      "assert": "strict"
     },
     {
       "id": "C-11",
@@ -133,7 +143,8 @@
       "tags": [
         "existing",
         "precedence"
-      ]
+      ],
+      "assert": "strict"
     },
     {
       "id": "C-12",
@@ -143,7 +154,8 @@
       },
       "tags": [
         "existing"
-      ]
+      ],
+      "assert": "strict"
     },
     {
       "id": "C-13",
@@ -154,7 +166,8 @@
       "tags": [
         "existing",
         "msa"
-      ]
+      ],
+      "assert": "strict"
     },
     {
       "id": "C-14",
@@ -165,7 +178,8 @@
       "tags": [
         "existing",
         "honest_unknown"
-      ]
+      ],
+      "assert": "strict"
     },
     {
       "id": "C-15",
@@ -176,7 +190,8 @@
       "tags": [
         "existing",
         "empty"
-      ]
+      ],
+      "assert": "strict"
     },
     {
       "id": "C-16",
@@ -187,7 +202,8 @@
       "tags": [
         "existing",
         "dimensions_not_budget"
-      ]
+      ],
+      "assert": "strict"
     },
     {
       "id": "C-17",
@@ -199,7 +215,8 @@
       "tags": [
         "gulf",
         "synonym_add"
-      ]
+      ],
+      "assert": "baseline"
     },
     {
       "id": "C-18",
@@ -211,7 +228,8 @@
       "tags": [
         "gulf",
         "synonym_add"
-      ]
+      ],
+      "assert": "baseline"
     },
     {
       "id": "C-19",
@@ -223,7 +241,8 @@
       "tags": [
         "gulf",
         "synonym_add"
-      ]
+      ],
+      "assert": "baseline"
     },
     {
       "id": "C-20",
@@ -236,7 +255,8 @@
         "gulf",
         "synonym_add",
         "missing_vocab"
-      ]
+      ],
+      "assert": "baseline"
     },
     {
       "id": "C-21",
@@ -249,7 +269,8 @@
         "gulf",
         "synonym_add",
         "missing_vocab"
-      ]
+      ],
+      "assert": "baseline"
     },
     {
       "id": "C-22",
@@ -262,7 +283,8 @@
         "gulf",
         "synonym_add",
         "missing_vocab"
-      ]
+      ],
+      "assert": "baseline"
     },
     {
       "id": "C-23",
@@ -275,7 +297,8 @@
         "msa",
         "synonym_add",
         "missing_vocab"
-      ]
+      ],
+      "assert": "baseline"
     },
     {
       "id": "C-24",
@@ -287,7 +310,8 @@
       "tags": [
         "msa",
         "synonym_add"
-      ]
+      ],
+      "assert": "baseline"
     },
     {
       "id": "C-25",
@@ -299,7 +323,8 @@
       "tags": [
         "gulf",
         "synonym_remove"
-      ]
+      ],
+      "assert": "baseline"
     },
     {
       "id": "C-26",
@@ -311,7 +336,8 @@
       "tags": [
         "gulf",
         "negation"
-      ]
+      ],
+      "assert": "baseline"
     },
     {
       "id": "C-27",
@@ -323,7 +349,8 @@
       "tags": [
         "gulf",
         "negation"
-      ]
+      ],
+      "assert": "baseline"
     },
     {
       "id": "C-28",
@@ -336,7 +363,8 @@
         "gulf",
         "synonym_remove",
         "missing_vocab"
-      ]
+      ],
+      "assert": "baseline"
     },
     {
       "id": "C-29",
@@ -349,7 +377,8 @@
         "gulf",
         "synonym_remove",
         "missing_vocab"
-      ]
+      ],
+      "assert": "baseline"
     },
     {
       "id": "C-30",
@@ -362,7 +391,8 @@
         "msa",
         "synonym_remove",
         "missing_vocab"
-      ]
+      ],
+      "assert": "baseline"
     },
     {
       "id": "C-31",
@@ -375,7 +405,8 @@
         "msa",
         "synonym_remove",
         "missing_vocab"
-      ]
+      ],
+      "assert": "baseline"
     },
     {
       "id": "C-32",
@@ -387,7 +418,8 @@
       "tags": [
         "spelling",
         "ta_marbuta"
-      ]
+      ],
+      "assert": "baseline"
     },
     {
       "id": "C-33",
@@ -399,7 +431,8 @@
       "tags": [
         "spelling",
         "ta_marbuta"
-      ]
+      ],
+      "assert": "baseline"
     },
     {
       "id": "C-34",
@@ -411,7 +444,8 @@
       "tags": [
         "spelling",
         "hamza"
-      ]
+      ],
+      "assert": "baseline"
     },
     {
       "id": "C-35",
@@ -423,7 +457,8 @@
       "tags": [
         "spelling",
         "hamza"
-      ]
+      ],
+      "assert": "baseline"
     },
     {
       "id": "C-36",
@@ -435,7 +470,8 @@
       "tags": [
         "spelling",
         "ta_marbuta"
-      ]
+      ],
+      "assert": "baseline"
     },
     {
       "id": "C-37",
@@ -447,7 +483,8 @@
       "tags": [
         "spelling",
         "alef_maqsura"
-      ]
+      ],
+      "assert": "baseline"
     },
     {
       "id": "C-38",
@@ -459,7 +496,8 @@
       "tags": [
         "spelling",
         "diacritics"
-      ]
+      ],
+      "assert": "baseline"
     },
     {
       "id": "C-39",
@@ -471,7 +509,8 @@
       "tags": [
         "spelling",
         "whitespace"
-      ]
+      ],
+      "assert": "baseline"
     },
     {
       "id": "C-40",
@@ -483,7 +522,8 @@
       "tags": [
         "numbers",
         "ar_thousands_sep"
-      ]
+      ],
+      "assert": "baseline"
     },
     {
       "id": "C-41",
@@ -495,7 +535,8 @@
       "tags": [
         "numbers",
         "latin_thousands_sep"
-      ]
+      ],
+      "assert": "baseline"
     },
     {
       "id": "C-42",
@@ -508,7 +549,8 @@
         "numbers",
         "word_thousands",
         "missing_vocab"
-      ]
+      ],
+      "assert": "baseline"
     },
     {
       "id": "C-43",
@@ -521,7 +563,8 @@
         "numbers",
         "spelled_out",
         "missing_vocab"
-      ]
+      ],
+      "assert": "baseline"
     },
     {
       "id": "C-44",
@@ -534,7 +577,8 @@
         "numbers",
         "word_thousands",
         "missing_vocab"
-      ]
+      ],
+      "assert": "baseline"
     },
     {
       "id": "C-45",
@@ -547,7 +591,8 @@
         "numbers",
         "decimal_thousands",
         "missing_vocab"
-      ]
+      ],
+      "assert": "baseline"
     },
     {
       "id": "C-46",
@@ -559,7 +604,8 @@
       "tags": [
         "numbers",
         "currency_abbrev"
-      ]
+      ],
+      "assert": "baseline"
     },
     {
       "id": "C-47",
@@ -571,7 +617,8 @@
       "tags": [
         "numbers",
         "msa"
-      ]
+      ],
+      "assert": "baseline"
     },
     {
       "id": "C-48",
@@ -583,7 +630,8 @@
       "tags": [
         "gulf",
         "nudge"
-      ]
+      ],
+      "assert": "baseline"
     },
     {
       "id": "C-49",
@@ -595,7 +643,8 @@
       "tags": [
         "gulf",
         "nudge"
-      ]
+      ],
+      "assert": "baseline"
     },
     {
       "id": "C-50",
@@ -608,7 +657,8 @@
         "msa",
         "nudge",
         "known_gap"
-      ]
+      ],
+      "assert": "baseline"
     },
     {
       "id": "C-51",
@@ -621,7 +671,8 @@
         "msa",
         "nudge",
         "missing_vocab"
-      ]
+      ],
+      "assert": "baseline"
     },
     {
       "id": "C-52",
@@ -632,7 +683,8 @@
       "tags": [
         "gulf",
         "finalize"
-      ]
+      ],
+      "assert": "baseline"
     },
     {
       "id": "C-53",
@@ -643,7 +695,8 @@
       "tags": [
         "msa",
         "finalize"
-      ]
+      ],
+      "assert": "baseline"
     },
     {
       "id": "C-54",
@@ -660,7 +713,8 @@
       "tags": [
         "compound"
       ],
-      "note": "أمران متعارضان — يُحسم مع مسار ٤ (U-4). الممنوع: تنفيذ الحذف وحده"
+      "note": "أمران متعارضان — يُحسم مع مسار ٤ (U-4). الممنوع: تنفيذ الحذف وحده",
+      "assert": "baseline"
     },
     {
       "id": "C-55",
@@ -676,7 +730,8 @@
       ],
       "tags": [
         "compound"
-      ]
+      ],
+      "assert": "baseline"
     },
     {
       "id": "C-56",
@@ -697,7 +752,8 @@
       "tags": [
         "compound",
         "same_intent"
-      ]
+      ],
+      "assert": "baseline"
     },
     {
       "id": "C-57",
@@ -709,7 +765,8 @@
         "false_positive",
         "A-12"
       ],
-      "note": "جملة وصفية — يُمنع أن تتحوّل إلى حذف"
+      "note": "جملة وصفية — يُمنع أن تتحوّل إلى حذف",
+      "assert": "baseline"
     },
     {
       "id": "C-58",
@@ -720,7 +777,8 @@
       "tags": [
         "false_positive",
         "A-12"
-      ]
+      ],
+      "assert": "baseline"
     },
     {
       "id": "C-59",
@@ -731,7 +789,8 @@
       "tags": [
         "false_positive",
         "A-12"
-      ]
+      ],
+      "assert": "baseline"
     },
     {
       "id": "C-60",
@@ -743,7 +802,8 @@
         "negation",
         "false_positive"
       ],
-      "note": "نفي — لا يُقرأ طلبَ تخفيض"
+      "note": "نفي — لا يُقرأ طلبَ تخفيض",
+      "assert": "baseline"
     },
     {
       "id": "C-61",
@@ -754,7 +814,8 @@
       "tags": [
         "honest_unknown",
         "gulf"
-      ]
+      ],
+      "assert": "baseline"
     },
     {
       "id": "C-62",
@@ -765,7 +826,8 @@
       "tags": [
         "honest_unknown",
         "gibberish"
-      ]
+      ],
+      "assert": "baseline"
     },
     {
       "id": "C-63",
@@ -777,7 +839,8 @@
       "tags": [
         "english",
         "missing_vocab"
-      ]
+      ],
+      "assert": "baseline"
     },
     {
       "id": "C-64",
@@ -788,7 +851,8 @@
       "tags": [
         "dimensions_not_budget"
       ],
-      "note": "مقاسات لا ميزانية"
+      "note": "مقاسات لا ميزانية",
+      "assert": "baseline"
     },
     {
       "id": "C-65",
@@ -802,7 +866,8 @@
         "synonym_remove",
         "word_boundary"
       ],
-      "note": "«ألغِ» المطبَّعة = «الغ» — يجب أن تعمل بحدّ كلمة دون أن تطابق «الغرفة»"
+      "note": "«ألغِ» المطبَّعة = «الغ» — يجب أن تعمل بحدّ كلمة دون أن تطابق «الغرفة»",
+      "assert": "baseline"
     }
   ],
   "extraction": [
@@ -826,7 +891,8 @@
       "tags": [
         "existing",
         "prd"
-      ]
+      ],
+      "assert": "strict"
     },
     {
       "id": "E-02",
@@ -839,7 +905,8 @@
       "tags": [
         "existing",
         "digits_ar"
-      ]
+      ],
+      "assert": "strict"
     },
     {
       "id": "E-03",
@@ -855,7 +922,8 @@
       "tags": [
         "existing",
         "constraint"
-      ]
+      ],
+      "assert": "strict"
     },
     {
       "id": "E-04",
@@ -874,7 +942,8 @@
         "x0",
         "gulf",
         "word_thousands"
-      ]
+      ],
+      "assert": "strict"
     },
     {
       "id": "E-05",
@@ -891,7 +960,8 @@
       "tags": [
         "x0",
         "x_separator"
-      ]
+      ],
+      "assert": "strict"
     },
     {
       "id": "E-06",
@@ -910,7 +980,8 @@
         "x0",
         "quantity"
       ],
-      "note": "«سريرين» مثنّى — الكمّية ٢ لا ١"
+      "note": "«سريرين» مثنّى — الكمّية ٢ لا ١",
+      "assert": "strict"
     },
     {
       "id": "E-07",
@@ -929,7 +1000,8 @@
         "style",
         "budget_no_currency"
       ],
-      "note": "ميزانية بلا كلمة عملة — لا تُلتقط اليوم"
+      "note": "ميزانية بلا كلمة عملة — لا تُلتقط اليوم",
+      "assert": "strict"
     },
     {
       "id": "E-08",
@@ -947,7 +1019,8 @@
         "x0",
         "underspecified"
       ],
-      "note": "لا مقاس ولا ميزانية — يجب أن يُعلَن ناقصًا لا أن تُخترع ثقة"
+      "note": "لا مقاس ولا ميزانية — يجب أن يُعلَن ناقصًا لا أن تُخترع ثقة",
+      "assert": "strict"
     },
     {
       "id": "E-09",
@@ -964,7 +1037,8 @@
         "x0",
         "vague"
       ],
-      "note": "طلب عام جدًا — الفهم هنا كاذب اليوم"
+      "note": "طلب عام جدًا — الفهم هنا كاذب اليوم",
+      "assert": "strict"
     },
     {
       "id": "E-10",
@@ -980,7 +1054,8 @@
         "x0",
         "unit_error"
       ],
-      "note": "سنتيمترات — 240,000م² اليوم"
+      "note": "سنتيمترات — 240,000م² اليوم",
+      "assert": "strict"
     },
     {
       "id": "E-11",
@@ -1002,7 +1077,8 @@
         "x0",
         "ksa",
         "word_thousands"
-      ]
+      ],
+      "assert": "strict"
     },
     {
       "id": "E-12",
@@ -1013,7 +1089,8 @@
       "tags": [
         "x0",
         "empty"
-      ]
+      ],
+      "assert": "strict"
     },
     {
       "id": "E-13",
@@ -1024,7 +1101,8 @@
       "tags": [
         "x0",
         "gibberish"
-      ]
+      ],
+      "assert": "strict"
     },
     {
       "id": "E-14",
@@ -1048,7 +1126,8 @@
       "tags": [
         "x0",
         "currency_abbrev"
-      ]
+      ],
+      "assert": "strict"
     },
     {
       "id": "E-15",
@@ -1060,7 +1139,212 @@
         "x0",
         "injection"
       ],
-      "note": "حقن — يجب ألّا يخرج قرار مهما كان"
+      "note": "حقن — يجب ألّا يخرج قرار مهما كان",
+      "assert": "strict"
+    },
+    {
+      "id": "E-16",
+      "in": "غرفة نوم ٤×٣٫٥، أبي سرير معدني أسود ١٢٠×٢٠٠ ومرتبة، كومدينو خشب جوز، علاقة ملابس، سجادة بيج وستائر تعتيم، وأبي ثلاجة صغيرة — ميزانيتي ٣٠٠٠",
+      "expect": {
+        "room_type": "bedroom",
+        "width_m": 4,
+        "length_m": 3.5,
+        "budget": 3000,
+        "essential": [
+          "bed",
+          "storage",
+          "rug"
+        ],
+        "colors": [
+          "black",
+          "walnut",
+          "beige"
+        ],
+        "out_of_scope": [
+          "مرتبة",
+          "ستائر",
+          "ثلاجة"
+        ],
+        "no_recommendations": true
+      },
+      "assert": "strict",
+      "tags": [
+        "founder",
+        "sacred",
+        "x0"
+      ],
+      "note": "جملة المؤسّس الحرفية — معيار إغلاق الدورة، انحدار مقدّس"
+    },
+    {
+      "id": "E-17",
+      "in": "غرفة نوم ٤×٣٫٥",
+      "expect": {
+        "width_m": 4,
+        "length_m": 3.5
+      },
+      "assert": "strict",
+      "tags": [
+        "G-03",
+        "decimal_ar"
+      ]
+    },
+    {
+      "id": "E-18",
+      "in": "غرفة نوم ٤×٣,٥",
+      "expect": {
+        "width_m": 4,
+        "length_m": 3.5
+      },
+      "assert": "strict",
+      "tags": [
+        "G-03",
+        "decimal_comma"
+      ]
+    },
+    {
+      "id": "E-19",
+      "in": "ميزانيتي ٣٠٠٠",
+      "expect": {
+        "budget": 3000
+      },
+      "assert": "strict",
+      "tags": [
+        "G-01",
+        "budget_no_currency"
+      ]
+    },
+    {
+      "id": "E-20",
+      "in": "ميزانيتي ٣ آلاف ريال",
+      "expect": {
+        "budget": 3000
+      },
+      "assert": "strict",
+      "tags": [
+        "G-01",
+        "word_thousands"
+      ]
+    },
+    {
+      "id": "E-21",
+      "in": "ميزانيتي ١٢ ألف",
+      "expect": {
+        "budget": 12000
+      },
+      "assert": "strict",
+      "tags": [
+        "G-01",
+        "word_thousands"
+      ]
+    },
+    {
+      "id": "E-22",
+      "in": "الغرفة ٤٠٠ في ٣٥٠",
+      "expect": {
+        "width_m": 0,
+        "length_m": 0
+      },
+      "assert": "strict",
+      "tags": [
+        "G-06",
+        "cm_error"
+      ],
+      "note": "سنتيمترات — لا تُقرأ أمتارًا للغرفة"
+    },
+    {
+      "id": "E-23",
+      "in": "أبي سرير ١٢٠×٢٠٠",
+      "expect": {
+        "width_m": 0,
+        "length_m": 0,
+        "essential": [
+          "bed"
+        ]
+      },
+      "assert": "strict",
+      "tags": [
+        "G-06",
+        "piece_size"
+      ],
+      "note": "مقاس قطعة — لا يُقرأ أبعاد غرفة"
+    },
+    {
+      "id": "E-24",
+      "in": "أبي كومدينو خشب جوز",
+      "expect": {
+        "essential": [
+          "storage"
+        ],
+        "colors": [
+          "walnut"
+        ]
+      },
+      "assert": "strict",
+      "tags": [
+        "G-04",
+        "G-02",
+        "vocab"
+      ]
+    },
+    {
+      "id": "E-25",
+      "in": "أبي علاقة ملابس",
+      "expect": {
+        "essential": [
+          "storage"
+        ]
+      },
+      "assert": "strict",
+      "tags": [
+        "G-04",
+        "vocab"
+      ]
+    },
+    {
+      "id": "E-26",
+      "in": "ناقصني نجفة",
+      "expect": {
+        "essential": [
+          "lamp"
+        ]
+      },
+      "assert": "strict",
+      "tags": [
+        "G-04",
+        "vocab"
+      ]
+    },
+    {
+      "id": "E-27",
+      "in": "أبي ثلاجة وغسالة",
+      "expect": {
+        "essential": [],
+        "out_of_scope": [
+          "ثلاجة",
+          "غسالة"
+        ]
+      },
+      "assert": "strict",
+      "tags": [
+        "G-05",
+        "out_of_scope"
+      ],
+      "note": "أجهزة خارج النطاق — تصل التحذيرات لا تختفي"
+    },
+    {
+      "id": "E-28",
+      "in": "سجادة بيج ورمادي",
+      "expect": {
+        "colors": [
+          "beige",
+          "gray"
+        ]
+      },
+      "assert": "strict",
+      "tags": [
+        "G-02",
+        "colors"
+      ]
     }
   ]
 }
