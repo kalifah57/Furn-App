@@ -51,7 +51,7 @@ void main() {
 
   test('golden corpus v1 loads its 60 cases', () {
     expect(dir.existsSync(), isTrue, reason: 'run from package root');
-    expect(cases.length, 60);
+    expect(cases.length, 70);
   });
 
   test('evaluateHarmony is deterministic across runs', () {
@@ -64,8 +64,8 @@ void main() {
     }
   });
 
-  test('v0 baseline accuracy with classified failures', () {
-    var correct = 0;
+  test('accuracy on fixed v1 — three gates: total, detection, acceptance', () {
+    var correct = 0, harmTotal = 0, harmOk = 0, dissTotal = 0, dissOk = 0;
     final totalByCat = <String, int>{};
     final failByCat = <String, int>{};
     final failByRule = <String, int>{};
@@ -77,19 +77,28 @@ void main() {
       totalByCat[cat] = (totalByCat[cat] ?? 0) + 1;
       final expected = (c['expected'] as Map)['verdict'] as String;
       final got = evaluateHarmony(_scene(c)).isHarmonious ? 'harmonious' : 'dissonant';
-      if (got == expected) {
-        correct++;
+      final ok = got == expected;
+      if (ok) correct++;
+      if (expected == 'harmonious') {
+        harmTotal++;
+        if (ok) harmOk++;
       } else {
+        dissTotal++;
+        if (ok) dissOk++;
+      }
+      if (!ok) {
         failByCat[cat] = (failByCat[cat] ?? 0) + 1;
         failByRule[rule] = (failByRule[rule] ?? 0) + 1;
         misses.add('${c['id']} [$cat/$rule] expected=$expected got=$got');
       }
     }
 
-    final acc = correct / cases.length * 100;
     final report = StringBuffer()
-      ..writeln('\n=== Harmony v0 baseline (D4) ===')
-      ..writeln('accuracy: $correct/${cases.length} = ${acc.toStringAsFixed(1)}%');
+      ..writeln('\n=== Harmony v0 on fixed v1 ===')
+      ..writeln('TOTAL:  $correct/${cases.length} = '
+          '${(correct / cases.length * 100).toStringAsFixed(1)}%')
+      ..writeln('ACCEPT harmonious: $harmOk/$harmTotal  (must stay 100%)')
+      ..writeln('DETECT dissonant:  $dissOk/$dissTotal');
     for (final k in totalByCat.keys.toList()..sort()) {
       report.writeln('  $k: ${totalByCat[k]! - (failByCat[k] ?? 0)}/${totalByCat[k]} correct');
     }
@@ -101,9 +110,11 @@ void main() {
     // ignore: avoid_print
     print(report.toString());
 
-    // Baseline ratchet — D5 raises this as rules are added; never lowered.
-    const kBaselineCorrect = 50;
-    expect(correct, greaterThanOrEqualTo(kBaselineCorrect),
-        reason: 'v0 baseline is 50/60; a drop is a regression');
+    // Architect's invariant: rejecting the beautiful is the worst error, so
+    // acceptance of harmonious rooms must never drop below 100%.
+    expect(harmOk, harmTotal, reason: 'a false positive rejects a harmonious room');
+    // Total-accuracy ratchet — D5 raises this as rules are added; never lowered.
+    const kBaselineCorrect = 60;
+    expect(correct, greaterThanOrEqualTo(kBaselineCorrect));
   });
 }

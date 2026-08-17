@@ -1,38 +1,30 @@
 {
  "version": "v1",
- "count": 60,
+ "count": 70,
  "categories": {
-  "color": 16,
-  "style": 12,
   "material": 10,
-  "scale": 9,
   "cross": 9,
-  "majlis": 4
+  "color": 16,
+  "scale": 9,
+  "majlis": 4,
+  "style": 16,
+  "founder": 3,
+  "borderline": 3
  },
- "majlis_context": 14,
  "verdicts": {
-  "dissonant": 26,
-  "harmonious": 34
+  "dissonant": 28,
+  "harmonious": 42
  },
- "rules": {
-  "C2": 9,
-  "C1": 5,
-  "C6": 2,
-  "styleAffinity": 12,
-  "X3": 5,
-  "M1": 4,
-  "M2": 3,
-  "M3": 4,
-  "S3": 5,
-  "S2": 2,
-  "S1": 2,
-  "X1": 3,
-  "X2": 3,
-  "C3": 1
+ "baseline_v0": {
+  "total": 60,
+  "harmonious_accept": "42/42",
+  "dissonant_detect": "18/28"
  },
  "files": [
+  "borderline.json",
   "color.json",
   "cross.json",
+  "founder.json",
   "majlis.json",
   "material.json",
   "scale.json",
