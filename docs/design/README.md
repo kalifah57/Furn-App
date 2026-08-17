@@ -16,6 +16,7 @@
 | ٧ | [`07-charter-reconciliation.md`](07-charter-reconciliation.md) | توفيق مع ميثاق المسارات: الحدود · مطابقة `ConfidenceGap` · دفتر Train & Test | ✅ للمراجعة |
 | ٨ | [`08-golden-set-v1.md`](08-golden-set-v1.md) | **D1** — بنية الحالة الذهبية + العيّنة (٦٠ حالة مكتوبة fixtures) | ✅ مكتملة |
 | ٩ | [`09-baseline-report.md`](09-baseline-report.md) | **D4** — تقرير خطّ الأساس v0 (83.3%) + خريطة D5 | ✅ للمراجعة |
+| ١٠ | [`10-review-report.md`](10-review-report.md) | **مراجعة شاملة** (٦ محاور بالأرقام) + الفجوات مرتّبة بالضرر | 🚪 بوابة — للمؤسّس والمعماري |
 
 **منفَّذ (أخضر على CI):** `lib/domain_engine/design/` — محورا الستايل واللون (دفعة ١).
 
